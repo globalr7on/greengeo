@@ -36,9 +36,8 @@
                   <th>
                     Cargo
                   </th>
-                
                 </thead>
-                <tbody>
+                <!-- <tbody>
                   <tr>
                     <td>
                       709.413.992-65
@@ -73,7 +72,7 @@
                       Financiero
                     </td>
                   </tr>
-                </tbody>
+                </tbody> -->
               </table>
             </div>
           </div>
@@ -239,10 +238,22 @@
 @endsection
 
 @push('js')
-    <script src="//cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <script>
-      $(document).ready( function () {
-         $('#pessoaTbl').DataTable();
-      } );
-    </script>
+  <!-- <script src="//cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script> -->
+  <script>
+    $(document).ready(function () {
+      $('#pessoaTbl').DataTable({
+        ajax: {
+          url: '/api/acessantes',
+          dataSrc: 'data'
+        },
+        columns: [
+          { "data": "cpf" },
+          { "data": "rg" },
+          { "data": "nome" },
+          { "data": "email" },
+          { "data": "cargo" }
+        ]
+      });
+    });
+  </script>
 @endpush

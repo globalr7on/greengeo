@@ -8,6 +8,7 @@ use App\Http\Resources\AcessanteResource;
 use App\Models\Acessante;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Validator;
 
 class AcessanteController extends Controller
 {
@@ -18,21 +19,9 @@ class AcessanteController extends Controller
      */
     public function index(Request $request)
     {
-           
-        // $acessante = Acessante::all();
-        // return AcessanteResource::collection($acessante);
-        return view('cadastros.acessante');
-       
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Request $request)
-    {
-
+        $acessante = Acessante::all();
+        return AcessanteResource::collection($acessante);
+        // return $acessante;
     }
 
      /**
@@ -41,59 +30,101 @@ class AcessanteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreAcessanteRequest $request)
+    public function store(Request $request)
     {
-       
-            // $acessante = Acessante::create($request->all());
-            return json_decode('{"hugo":"portu"}');
-       
+        $validator = Validator::make($request->all(), [
+            'cpf' => 'required|string|max:14',
+            'rg' => 'required|string|max:15',
+            'nome' => 'required|string|max:50',
+            'email' => 'required|string|max:40',
+            'cargo' => 'required|string|max:40',
+            'celular' => 'required|string|max:15',
+            'fixo' => 'required|string|max:15',
+            'whats' => 'required|string|max:15',
+            'endereco' => 'required|string|max:15',
+            'numero' => 'required|string|max:4',
+            'complemento' => 'required|string|max:30',
+            'cep' => 'required|string|max:10',
+            'bairro' => 'required|string|max:20',
+            'cidade' => 'required|string|max:45',
+            'estado' => 'required|string|max:2',
+            'registro_carteira' => 'required|string|max:30',
+            'validade_carteira' => 'required|date|date_format:Y-m-d',
+            'tipo_carteira' => 'required|string|max:1',
+            'identificador_celular' => 'required|string|max:20',
+            'senha_acesso' => 'required|string|max:10'
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors());       
+        }
+
+        $acessante = Acessante::create($request->all());
+        return new AcessanteResource($acessante);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Acessante  $acessante
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Acessante $acessante)
+    public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Acessante  $acessante
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Acessante $acessante)
-    {
-        //
+        // $acessante = Acessante::findOrFail($id);
+        return new AcessanteResource(Acessante::find($id));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Acessante  $acessante
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreAcessanteRequest $request, Acessante $acessante)
+    public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'cpf' => 'required|string|max:14',
+            'rg' => 'required|string|max:15',
+            'nome' => 'required|string|max:50',
+            'email' => 'required|string|max:40',
+            'cargo' => 'required|string|max:40',
+            'celular' => 'required|string|max:15',
+            'fixo' => 'required|string|max:15',
+            'whats' => 'required|string|max:15',
+            'endereco' => 'required|string|max:15',
+            'numero' => 'required|string|max:4',
+            'complemento' => 'required|string|max:30',
+            'cep' => 'required|string|max:10',
+            'bairro' => 'required|string|max:20',
+            'cidade' => 'required|string|max:45',
+            'estado' => 'required|string|max:2',
+            'registro_carteira' => 'required|string|max:30',
+            'validade_carteira' => 'required|date|date_format:Y-m-d',
+            'tipo_carteira' => 'required|string|max:1',
+            'identificador_celular' => 'required|string|max:20',
+            'senha_acesso' => 'required|string|max:10'
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors());       
+        }
         
+        $acessante = Acessante::find($id);
         $acessante->update($request->all());
-        
-        return $acessante;
+        return new AcessanteResource($acessante);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Acessante  $acessante
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Acessante $acessante)
+    public function destroy($id)
     {
+        $acessante = Acessante::findOrFail($id);
         $acessante->delete();
         return response(null, 204);
     }
