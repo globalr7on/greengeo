@@ -1,12 +1,12 @@
-<div class="sidebar" data-color="orange" data-background-color="white" data-image="{{ asset('material') }}/img/sidebar-1.jpg">
+<div class="sidebar" data-color="green" data-background-color="black" >
   <!--
       Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
 
       Tip 2: you can also add an image using data-image tag
   -->
   <div class="logo">
-    <a href="https://creative-tim.com/" class="simple-text logo-normal">
-      {{ __('Creative Tim') }}
+    <a href="#" class="simple-text logo-normal">
+      {{ __('GreenBeat') }}
     </a>
   </div>
   <div class="sidebar-wrapper">
@@ -17,72 +17,115 @@
             <p>{{ __('Dashboard') }}</p>
         </a>
       </li>
-      <li class="nav-item {{ ($activePage == 'profile' || $activePage == 'user-management') ? ' active' : '' }}">
-        <a class="nav-link" data-toggle="collapse" href="#laravelExample" aria-expanded="true">
-          <i><img style="width:25px" src="{{ asset('material') }}/img/laravel.svg"></i>
-          <p>{{ __('Laravel Examples') }}
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="collapse" href="#registerTab" aria-expanded="false">
+          <i class="fa-solid fa-address-card"></i>
+          <p>{{ __('Cadastros') }}
             <b class="caret"></b>
           </p>
         </a>
-        <div class="collapse show" id="laravelExample">
+        <div class="collapse show" id="registerTab">
           <ul class="nav">
-            <li class="nav-item{{ $activePage == 'profile' ? ' active' : '' }}">
-              <a class="nav-link" href="{{ route('profile.edit') }}">
-                <span class="sidebar-mini"> UP </span>
-                <span class="sidebar-normal">{{ __('User profile') }} </span>
+            <li class="nav-item {{ $activePage == 'Pessoas' ? ' active' : '' }}">
+              <a class="nav-link" href="/acessantes">
+                <i class="fa-solid fa-users"></i>
+                <span class="sidebar-normal">{{ __('Pessoas') }} </span>
               </a>
             </li>
-            <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
-              <a class="nav-link" href="{{ route('user.index') }}">
-                <span class="sidebar-mini"> UM </span>
-                <span class="sidebar-normal"> {{ __('User Management') }} </span>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+              <i class="fa-solid fa-building"></i>
+                <span class="sidebar-normal">{{ __('Empresas') }} </span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+              <i class="fa-solid fa-users"></i>
+                <span class="sidebar-normal">{{ __('Motoristas') }} </span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <i class="fa-solid fa-truck"></i>
+                <span class="sidebar-normal">{{ __('Veiculo') }} </span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+              <i class="fa-solid fa-boxes-stacked"></i>
+                <span class="sidebar-normal">{{ __('Itens de Estoque') }} </span>
               </a>
             </li>
           </ul>
         </div>
       </li>
-      <li class="nav-item{{ $activePage == 'table' ? ' active' : '' }}">
-        <a class="nav-link" href="{{ route('table') }}">
-          <i class="material-icons">content_paste</i>
-            <p>{{ __('Table List') }}</p>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="collapse" href="#l2" aria-expanded="true">
+          <i class="fa-solid fa-folder-tree"></i>
+          <p>{{ __('Administrativo') }}
+            <b class="caret"></b>
+          </p>
+        </a>  
+        <div class="collapse show" id="l2">
+          <ul class="nav">
+          <li class="nav-item">
+              <a class="nav-link" href="/acessantes">
+                <i class="fa-solid fa-users"></i>
+                <span class="sidebar-normal">{{ __('Pessoas') }} </span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+              <i class="fa-solid fa-building"></i>
+                <span class="sidebar-normal">{{ __('Empresas') }} </span>
+              </a>
+            </li>
+          </ul>
+      </div>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="collapse" href="#rasTab" aria-expanded="true">
+        <i class="fa-solid fa-satellite-dish"></i>
+          <p>{{ __('OS e Rastreamento') }}
+            <b class="caret"></b>
+          </p>
         </a>
+        <div class="collapse show" id="rasTab">
+          <ul class="nav">
+            <li class="nav-item">
+            <a class="nav-link" href="{{ route('map') }}">
+              <i class="material-icons">location_ons</i>
+                <p>{{ __('Rastreamento') }}</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+             <i class="fa-solid fa-file-lines"></i>
+                <p>{{ __('OS') }}</p>
+            </a>
+          </li>
+        </ul>
+
       </li>
-      <li class="nav-item{{ $activePage == 'typography' ? ' active' : '' }}">
-        <a class="nav-link" href="{{ route('typography') }}">
-          <i class="material-icons">library_books</i>
-            <p>{{ __('Typography') }}</p>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="collapse" href="#settingTab" aria-expanded="true">
+          <i class="fa-solid fa-gear"></i>
+          <p>{{ __('Configurações') }}
+            <b class="caret"></b>
+          </p>
         </a>
-      </li>
-      <li class="nav-item{{ $activePage == 'icons' ? ' active' : '' }}">
-        <a class="nav-link" href="{{ route('icons') }}">
-          <i class="material-icons">bubble_chart</i>
-          <p>{{ __('Icons') }}</p>
-        </a>
-      </li>
-      <li class="nav-item{{ $activePage == 'map' ? ' active' : '' }}">
-        <a class="nav-link" href="{{ route('map') }}">
-          <i class="material-icons">location_ons</i>
-            <p>{{ __('Maps') }}</p>
-        </a>
-      </li>
-      <li class="nav-item{{ $activePage == 'notifications' ? ' active' : '' }}">
-        <a class="nav-link" href="{{ route('notifications') }}">
-          <i class="material-icons">notifications</i>
-          <p>{{ __('Notifications') }}</p>
-        </a>
-      </li>
-      <li class="nav-item{{ $activePage == 'language' ? ' active' : '' }}">
-        <a class="nav-link" href="{{ route('language') }}">
-          <i class="material-icons">language</i>
-          <p>{{ __('RTL Support') }}</p>
-        </a>
-      </li>
-      <li class="nav-item active-pro{{ $activePage == 'upgrade' ? ' active' : '' }}">
-        <a class="nav-link text-white bg-danger" href="{{ route('upgrade') }}">
-          <i class="material-icons text-white">unarchive</i>
-          <p>{{ __('Upgrade to PRO') }}</p>
-        </a>
+        <div class="collapse show" id="settingTab">
+          <ul class="nav">
+          <li class="nav-item">
+              <a class="nav-link" href="{{ route('profile.edit') }}">
+                <i class="fa-solid fa-user"></i>
+                <span class="sidebar-normal">{{ __('Perfil de Usuario') }} </span>
+              </a>
+            </li>
+          </ul>
+        </div>
       </li>
     </ul>
   </div>
+  
+        
 </div>
