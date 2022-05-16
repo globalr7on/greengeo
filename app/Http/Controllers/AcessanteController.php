@@ -18,6 +18,8 @@ class AcessanteController extends Controller
      */
     public function index(Request $request)
     {
+        $name = Acessante::find(1)->name;
+        dd($name);
         return view('cadastros.acessante');
        
     }

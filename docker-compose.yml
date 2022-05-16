@@ -1,0 +1,51 @@
+version: '3.7'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: app.dockerfile
+    working_dir: /var/www
+    volumes:
+       - ./:/var/www
+  web:
+    build:
+       context: .
+       dockerfile: web.dockerfile
+    working_dir: /var/www
+    volumes:
+       - ./:/var/www
+    depends_on:
+       - "app"
+    ports:
+       - 8080:80
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: 'laravel_db'
+      MYSQL_USER: 'laravel_user'
+      MYSQL_PASSWORD: 'Laravel'
+      MYSQL_ROOT_PASSWORD: 'Laravel'
+    ports:
+      - "3307:3306"
+    expose:
+      - "3307"
+    volumes:
+      - ./my-db:/var/lib/mysql
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    links:
+      - db
+    environment:
+      PMA_ARBITRARY: 1
+    volumes:
+      - ./php-make/upload.ini:/usr/local/etc/php/php.ini
+    ports:
+      - 10000:80
+volumes:
+  my-db:
+networks:
+  default:
+    external:
+      name: localdev
+

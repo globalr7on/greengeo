@@ -1,4 +1,4 @@
-<div class="sidebar" data-color="green" data-background-color="black" >
+<div class="sidebar" data-color="orange" data-background-color="white" >
   <!--
       Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
 
@@ -26,16 +26,10 @@
         </a>
         <div class="collapse show" id="registerTab">
           <ul class="nav">
-            <li class="nav-item {{ $activePage == 'Pessoas' ? ' active' : '' }}">
-              <a class="nav-link" href="/acessantes">
-                <i class="fa-solid fa-users"></i>
-                <span class="sidebar-normal">{{ __('Pessoas') }} </span>
-              </a>
-            </li>
             <li class="nav-item">
               <a class="nav-link" href="#">
               <i class="fa-solid fa-building"></i>
-                <span class="sidebar-normal">{{ __('Empresas') }} </span>
+                <span class="sidebar-normal text-left" >{{ __('Empresas') }} </span>
               </a>
             </li>
             <li class="nav-item">
@@ -46,7 +40,7 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">
-                <i class="fa-solid fa-truck"></i>
+               <i class="fa-solid fa-truck"></i>
                 <span class="sidebar-normal">{{ __('Veiculo') }} </span>
               </a>
             </li>
@@ -69,15 +63,52 @@
         <div class="collapse show" id="l2">
           <ul class="nav">
           <li class="nav-item">
-              <a class="nav-link" href="/acessantes">
-                <i class="fa-solid fa-users"></i>
-                <span class="sidebar-normal">{{ __('Pessoas') }} </span>
+              <a class="nav-link" href="{{ route('administrativo.acondicionamento') }}">
+              <!-- <i class="fa-solid fa-truck"></i> -->
+              <i class="fa-solid fa-dumpster"></i>
+                <span class="sidebar-normal">{{ __('Tipos de Acondicionamiento') }} </span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/tratamento">
+              <i class="fa-solid fa-radiation"></i>
+                <span class="sidebar-normal">{{ __('Tratamientos') }} </span>
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">
-              <i class="fa-solid fa-building"></i>
-                <span class="sidebar-normal">{{ __('Empresas') }} </span>
+              <i class="fa-solid fa-recycle"></i>
+                <span class="sidebar-normal">{{ __('Classes de Sucata') }} </span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/unidad">
+              <i class="fa-solid fa-weight-scale"></i>
+                <span class="sidebar-normal">{{ __('Unidades') }} </span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+              <i class="fa-solid fa-shuffle"></i>
+                <span class="sidebar-normal">{{ __('Modelo de Veiculos') }} </span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/marca">
+              <i class="fa-solid fa-shuffle"></i>
+                <span class="sidebar-normal">{{ __('Marcas de Veiculos') }} </span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+              <i class="fa-regular fa-clipboard"></i>
+                <span class="sidebar-normal">{{ __('Estágios de OS') }} </span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/acessantes">
+              <i class="fa-solid fa-users"></i>
+                <span class="sidebar-normal">{{ __('Accesantes') }} </span>
               </a>
             </li>
           </ul>
@@ -121,11 +152,14 @@
                 <span class="sidebar-normal">{{ __('Perfil de Usuario') }} </span>
               </a>
             </li>
+            <li class="nav-item{{ $activePage == 'register' ? ' active' : '' }}">
+          <a href="{{ route('register') }}" class="nav-link">
+            <i class="material-icons">person_add</i> {{ __('Novo Cadastro') }}
+          </a>
+        </li>
           </ul>
         </div>
       </li>
     </ul>
   </div>
-  
-        
 </div>

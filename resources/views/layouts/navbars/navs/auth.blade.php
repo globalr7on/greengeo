@@ -1,5 +1,5 @@
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+<nav class="navbar navbar-expand-lg navbar-transparent navbar-color navbar-absolute fixed-top nav-front">
   <div class="container-fluid">
     <div class="navbar-wrapper">
       <a class="navbar-brand" href="#">{{ $titlePage ?? '' }}</a>
@@ -59,3 +59,13 @@
     </div>
   </div>
 </nav>
+<div class="header bg-primary py-5" style="position: relative;background-color: #363f95 !important;margin-top: 70px;">
+  <div class="container my-4 mx-4 px-0" style="/* display: inline; */">
+     <div class="header-body" style="">
+       <div class="row align-items-center py-0">
+          <h3 class="col col-12 text-white m-0 mx-4"><strong>Confira seu desempenho nos graficos abaixo</strong>
+          </h3>
+      </div>
+     </div>
+  </div>
+</div>

@@ -13029,7 +13029,8 @@ fieldset[disabled] .form-group .form-control {
   border-radius: 3px;
   padding: 0.625rem 0;
   margin-bottom: 20px;
-  height: auto !important;
+  height: auto !important; 
+  position:absolute  !important; 
   color: #555;
   background-color: #fff !important;
   box-shadow: 0 4px 18px 0px rgba(0, 0, 0, 0.12), 0 7px 10px -5px rgba(0, 0, 0, 0.15);
@@ -13283,6 +13284,12 @@ fieldset[disabled] .form-group .form-control {
 
 .navbar.navbar-transparent {
   background-color: transparent !important;
+  box-shadow: none;
+}
+.navbar.navbar-color {
+  background-color: #363f95 !important;
+  color:white;
+  height: 50vh;
   box-shadow: none;
 }
 
@@ -18857,6 +18864,6 @@ Copyright (c) 2015 Daniel Eden
     margin-bottom: 0;
     list-style: none;
 }
-
+ 
 
 /*# sourceMappingURL=dashboard-free.css.map */

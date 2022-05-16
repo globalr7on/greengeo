@@ -1,8 +1,8 @@
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top text-white">
+<!-- <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top text-white">
   <div class="container">
     <div class="navbar-wrapper">
-      <a class="navbar-brand" href="{{ route('home') }}">{{ $title }}</a>
+      <a class="navbar-brand" href="{{ route('home') }}">{{ $title }}</a> 
     </div>
     <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
       <span class="sr-only">Toggle navigation</span>
@@ -12,7 +12,7 @@
     </button>
     <div class="collapse navbar-collapse justify-content-end">
       <ul class="navbar-nav">
-        <li class="nav-item">
+         <li class="nav-item">
           <a href="{{ route('home') }}" class="nav-link">
             <i class="material-icons">dashboard</i> {{ __('Paneil') }}
           </a>
@@ -31,9 +31,8 @@
           <a href="{{ route('profile.edit') }}" class="nav-link">
             <i class="material-icons">face</i> {{ __('Perfil') }}
           </a>
-        </li>
+        </li> 
       </ul>
     </div>
   </div>
-</nav>
-<!-- End Navbar -->
+</nav> -->

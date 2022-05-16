@@ -3,8 +3,8 @@
 @section('content')
 <div class="container" style="height: auto;">
   <div class="row align-items-center">
-    <div class="col-md-9 ml-auto mr-auto mb-3 text-center">
-      <h3>{{ __('GreenBeat.') }} </h3>
+    <div class="col-md-6 ml-auto mr-auto mb-3 text-center">
+      <h1 class ="text-left">{{ __('Bem-vindo ao sistema de descarte de produtos Electrolux.') }} </h1>
     </div>
     <div class="col-lg-4 col-md-6 col-sm-8 ml-auto mr-auto">
       <form class="form" method="POST" action="{{ route('login') }}">
@@ -56,7 +56,7 @@
             </div>
           </div>
           <div class="card-footer justify-content-center">
-            <button type="submit" class="btn btn-primary btn-link btn-lg">{{ __('Lets Go') }}</button>
+            <button type="submit" class="btn btn-primary btn-link btn-lg">{{ __('Entrar') }}</button>
           </div>
         </div>
       </form>
@@ -67,11 +67,6 @@
                     <small>{{ __('Esqueceu sua senha?') }}</small>
                 </a>
             @endif
-        </div>
-        <div class="col-6 text-right">
-            <a href="{{ route('register') }}" class="text-light">
-                <small>{{ __('Criar nova conta') }}</small>
-            </a>
         </div>
       </div>
     </div>

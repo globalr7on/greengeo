@@ -6,9 +6,14 @@
   <div class="content">
     <div class="container-fluid">
     <div class="col-12 text-right">
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalExemplo">
-          Criar Novo Pessoa
-      </button>
+    <div class="form-group col-md-6">
+        <input type="text" class="form-control" id="inputCpf" placeholder="Nome ou CPF">
+    </div>
+
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalExemplo">
+              Criar Novo Pessoa
+        </button>
+
     </div>
       <div class="row">
       <div class="col-md-12">
@@ -33,8 +38,11 @@
                   <th>
                     email
                   </th>
-                  <th>
+                  <th> 
                     Cargo
+                  </th>
+                  <th>
+                    Ação
                   </th>
                 </thead>
                 <!-- <tbody>

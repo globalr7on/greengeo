@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 Auth::routes();
 
@@ -52,9 +52,25 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
+
+	Route::get('register', ['as' => 'auth.register', 'uses' => 'App\Http\Controllers\RegisterController@index']);
+
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
+
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
+
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
+
 	Route::get('acessantes', ['as' => 'cadastro.acessante', 'uses' => 'App\Http\Controllers\AcessanteController@index']);
+
+	Route::get('acondicionamento', ['as' => 'administrativo.acondicionamento', 'uses' => 'App\Http\Controllers\AcondicionamentoController@index']);
+
+	Route::get('atividade', ['as' => 'administrativo.atividade', 'uses' => 'App\Http\Controllers\AtividadeController@index']);
+
+	Route::get('tratamento', ['as' => 'administrativo.tratamento', 'uses' => 'App\Http\Controllers\TratamentoController@index']);
+
+	Route::get('unidad', ['as' => 'administrativo.unidad', 'uses' => 'App\Http\Controllers\UnidadController@index']);
+
+	Route::get('marca', ['as' => 'administrativo.marca', 'uses' => 'App\Http\Controllers\MarcaController@index']);
 });
 

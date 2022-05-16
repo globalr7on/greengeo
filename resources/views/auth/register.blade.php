@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="container" style="height: auto;">
-  <div class="row align-items-center">
-    <div class="col-lg-4 col-md-6 col-sm-8 ml-auto mr-auto">
+  <div class="row ">
+    <div class="col-lg-12 col-md-12 col-sm-8 ml-auto mr-auto">
       <form class="form" method="POST" action="{{ route('register') }}">
         @csrf
 
@@ -14,7 +14,7 @@
             </div>
           </div>
           <div class="card-body ">
-            <p class="card-description text-center">{{ __('Prenche seus dados') }}</p>
+            <p class="card-description text-center">{{ __('Novo Cadastro ') }}</p>
             <div class="bmd-form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
               <div class="input-group">
                 <div class="input-group-prepend">
