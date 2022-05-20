@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('auth.login');
 });
+Route::get('register', ['as' => 'auth.register', 'uses' => 'App\Http\Controllers\Auth\RegisterController@index']);
+
 Auth::routes();
 
 Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home')->middleware('auth');
@@ -53,7 +55,7 @@ Route::group(['middleware' => 'auth'], function () {
 Route::group(['middleware' => 'auth'], function () {
 	Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
 
-	Route::get('register', ['as' => 'auth.register', 'uses' => 'App\Http\Controllers\RegisterController@index']);
+	
 
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
 
@@ -72,5 +74,13 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('unidad', ['as' => 'administrativo.unidad', 'uses' => 'App\Http\Controllers\UnidadController@index']);
 
 	Route::get('marca', ['as' => 'administrativo.marca', 'uses' => 'App\Http\Controllers\MarcaController@index']);
+
+	Route::get('modelo', ['as' => 'administrativo.modelo', 'uses' => 'App\Http\Controllers\ModeloController@index']);
+
+	Route::get('nota_fiscal', ['as' => 'cadastros.notaFiscal', 'uses' => 'App\Http\Controllers\NotaFiscalController@index']);
+
+	Route::get('empresa', ['as' => 'cadastros.empresa', 'uses' => 'App\Http\Controllers\PessoaJuridicaController@index']);
+
+	Route::get('veiculo', ['as' => 'cadastros.veiculo', 'uses' => 'App\Http\Controllers\VeiculoController@index']);
 });
 

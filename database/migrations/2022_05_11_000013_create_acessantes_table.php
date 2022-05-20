@@ -40,8 +40,8 @@ class CreateAcessantesTable extends Migration
             $table->unsignedBigInteger('usuario_responsavel_cadastro_id');
             $table->foreign('usuario_responsavel_cadastro_id')->references('id')->on('users');
 
-            $table->unsignedBigInteger('pessoa_juridicas_id');
-            $table->foreign('pessoa_juridicas_id')->references('id')->on('pessoa_juridicas');
+            // $table->unsignedBigInteger('pessoa_juridicas_id');
+            // $table->foreign('pessoa_juridicas_id')->references('id')->on('pessoa_juridicas');
 
             $table->timestamps();
         });

@@ -13,7 +13,7 @@ class VeiculoController extends Controller
      */
     public function index()
     {
-        //
+        return view('cadastros.veiculo');
     }
 
     /**

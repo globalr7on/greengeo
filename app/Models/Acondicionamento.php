@@ -20,4 +20,9 @@ class Acondicionamento extends Model
   
     protected $guardaded=['id'];
 
+
+    public function veiculo()
+    {
+        return $this->belongsTo('App\Models\Veiculo' , 'acondicionamento_id', 'id');
+    }
 }

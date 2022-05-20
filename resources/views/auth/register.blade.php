@@ -4,7 +4,7 @@
 <div class="container" style="height: auto;">
   <div class="row ">
     <div class="col-lg-12 col-md-12 col-sm-8 ml-auto mr-auto">
-      <form class="form" method="POST" action="{{ route('register') }}">
+      <form class="form" method="POST" action="/register">
         @csrf
 
         <div class="card card-login card-hidden mb-3">

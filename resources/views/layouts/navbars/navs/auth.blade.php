@@ -2,7 +2,10 @@
 <nav class="navbar navbar-expand-lg navbar-transparent navbar-color navbar-absolute fixed-top nav-front">
   <div class="container-fluid">
     <div class="navbar-wrapper">
-      <a class="navbar-brand" href="#">{{ $titlePage ?? '' }}</a>
+      <!--a class="navbar-brand" href="#">{{ $titlePage ?? '' }}</a-->
+      <a class="navbar-brand py-0" href="#">
+        <img src="{{ asset('material') }}/img/electrolux.png" style="width: 225px;height: 50px;" />
+      </a>
     </div>
     <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
     <span class="sr-only">Toggle navigation</span>
@@ -59,12 +62,14 @@
     </div>
   </div>
 </nav>
-<div class="header bg-primary py-5" style="position: relative;background-color: #363f95 !important;margin-top: 70px;">
-  <div class="container my-4 mx-4 px-0" style="/* display: inline; */">
+<div class="header bg-primary py-5 position-relative" style="margin-top: 70px;">
+  <div class="container my-4 mx-4 px-0">
      <div class="header-body" style="">
        <div class="row align-items-center py-0">
-          <h3 class="col col-12 text-white m-0 mx-4"><strong>Confira seu desempenho nos graficos abaixo</strong>
-          </h3>
+        <h3 class="col col-12 text-white m-0 mx-2">
+          <strong>@yield('subheaderTitle', 'Confira seu desempenho nos graficos abaixo')</strong>
+        </h3>
+        <!--@yield('subheaderSubTitle')-->
       </div>
      </div>
   </div>

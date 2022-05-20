@@ -2,6 +2,9 @@
 @section('css')
     <link rel="stylesheet" href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
 @endsection
+@section('subheaderTitle')
+  Unidade
+@endsection
 @section('content')
     <div class="content">
       <div class="container-fluid">
@@ -82,20 +85,6 @@
            </div>
           </div>
         </div>
-        <div class="text-center">
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalExemplo">
-          <i class="fa-solid fa-file-pdf"></i>
-          </button>
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalExemplo">
-          <i class="fa-solid fa-file-excel"></i>
-          </button>
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalExemplo">
-          <i class="fa-solid fa-file-csv"></i>
-          </button>
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalExemplo">
-          <i class="fa-solid fa-print"></i>
-          </button>
-        </div>
       </div>
 
   @endsection
@@ -105,6 +94,10 @@
     <script>
       $(document).ready(function () {
         $('#unidadTbl').DataTable({
+          dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ],
           ajax: {
             url: '/api/unidad',
             dataSrc: 'data'

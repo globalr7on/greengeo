@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\VeiculoRequest;
+use App\Http\Resources\VeiculoResource;
+use App\Models\Veiculo;
 use Illuminate\Http\Request;
+use Validator;
 
 class VeiculoController extends Controller
 {
@@ -14,7 +18,8 @@ class VeiculoController extends Controller
      */
     public function index()
     {
-        //
+        $veiculo = Veiculo::all();
+        return VeiculoResource::collection($veiculo);
     }
 
     /**
@@ -35,7 +40,25 @@ class VeiculoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            
+            'chassis' => 'required|string|max:14',
+            'placa' => 'required|string|max:18',
+            'capacidade_media_carga' => 'required|string|max:50',
+            'renavam' => 'required|string|max:50',
+            'combustivel' => 'required|string|max:40',
+            'modelos_id' => 'required|string|max:1',
+            'marcas_id' => 'required|string|max:1',
+            'acondicionamento_id' => 'required|string|max:1',
+            
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors());       
+        }
+
+        $veiculo = Veiculo::create($request->all());
+        return new VeiculoResource($veiculo);
     }
 
     /**
@@ -46,7 +69,7 @@ class VeiculoController extends Controller
      */
     public function show($id)
     {
-        //
+        return new VeiculoResource(Veiculo::find($id));
     }
 
     /**
@@ -69,7 +92,26 @@ class VeiculoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            
+            'chassis' => 'required|string|max:14',
+            'placa' => 'required|string|max:18',
+            'capacidade_media_carga' => 'required|string|max:50',
+            'renavam' => 'required|string|max:50',
+            'combustivel' => 'required|string|max:40',
+            'modelos_id' => 'required|string|max:1',
+            'marcas_id' => 'required|string|max:1',
+            'acondicionamento_id' => 'required|string|max:1',
+            
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors());       
+        }
+
+        $veiculo = Veiculo::find($id);
+        $veiculo->update($request->all());
+        return new VeiculoResource($pessoa_juridica);
     }
 
     /**
@@ -80,6 +122,8 @@ class VeiculoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $veiculo = Veiculo::findOrFail($id);
+        $veiculo->delete();
+        return response(null, 204);
     }
 }

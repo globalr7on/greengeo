@@ -41,7 +41,7 @@ class CreatePessoaJuridicasTable extends Migration
             $table->boolean('ativo')->default(true);
             $table->string('identificador_celular', 20);
             $table->string('senha_acesso', 10);
-            $table->decimal('capacidade_media_carga', $precision = 6, $scale = 2);
+            $table->decimal('capacidade_media_carga', 6,2)->default(0);
             $table->unsignedBigInteger('usuario_responsavel_cadastro_id');
             $table->foreign('usuario_responsavel_cadastro_id')->references('id')->on('users');
             $table->timestamps();

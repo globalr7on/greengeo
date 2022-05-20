@@ -20,4 +20,8 @@ class Modelo extends Model
   
     protected $guardaded=['id'];
 
+    public function veiculo()
+    {
+        return $this->belongsTo('App\Models\Veiculo', 'modelos_id', 'id');
+    }
 }

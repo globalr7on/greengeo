@@ -2,6 +2,9 @@
 @section('css')
     <link rel="stylesheet" href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
 @endsection
+@section('subheaderTitle')
+  Atividades
+@endsection
 @section('content')
     <div class="content">
       <div class="container-fluid">
@@ -74,20 +77,6 @@
            </div>
           </div>
         </div>
-        <div class="text-center">
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalExemplo">
-          <i class="fa-solid fa-file-pdf"></i>
-          </button>
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalExemplo">
-          <i class="fa-solid fa-file-excel"></i>
-          </button>
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalExemplo">
-          <i class="fa-solid fa-file-csv"></i>
-          </button>
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalExemplo">
-          <i class="fa-solid fa-print"></i>
-          </button>
-        </div>
       </div>
 
   @endsection
@@ -97,6 +86,10 @@
     <script>
       $(document).ready(function () {
         $('#atividadeTbl').DataTable({
+          dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ],
           ajax: {
             url: '/api/atividade',
             dataSrc: 'data'
@@ -121,6 +114,7 @@
               }
            ],
         });
+        //Salvar
         $('body').on('click', '#salvarAtividade', function(){
           const JSONRequest = {
             descricao: $("#inputDescricao").val(),
@@ -143,12 +137,30 @@
             }
           });
         });
+        //Editar
+         $('body').on('click', '.editarAtividade',  function(){
+          const atividade_id = $(this).attr('data-id');
+          $.ajax({
+            type: "GET",
+            url: `/api/atividade/${atividade_id}`,
+          }).done(function (response) {
+            console.log(response);
+            if (response && response.data) {
+                console.log(response.data)
+                $("#modalExemplo").modal("show");
+                $('#inputId').val(response.data.id);
+                $("#inputDescricao").val(response.data.descricao);
+                $("#checkAtivo").prop("checked", response.data.ativo)
+            }
+          });
+         });
+        //Excluir 
         $('body').on('click', '.excluirAtividade',  function(){
-          const acond_id = $(this).attr('data-id');
+          const atividade_id = $(this).attr('data-id');
             if (confirm('Aviso!,Deseja realmente excluir o device?')) {
               $.ajax({
                 type: "DELETE",
-                url:  `/api/atividade/${acond_id}`,
+                url:  `/api/atividade/${atividade_id}`,
               }).done(function (response) {
                 console.log(response);
                   $('#atividadeTbl').DataTable().ajax.reload();

@@ -83,3 +83,44 @@ Route::put('marca/{id}', 'App\Http\Controllers\Api\MarcaController@update');
 Route::delete('marca/{id}', 'App\Http\Controllers\Api\MarcaController@destroy');
 
 // 
+
+// API Modelo 
+Route::get('modelo', 'App\Http\Controllers\Api\ModeloController@index');
+
+Route::get('modelo/{id}', 'App\Http\Controllers\Api\ModeloController@show');
+
+Route::post('modelo', 'App\Http\Controllers\Api\ModeloController@store');
+
+Route::put('modelo/{id}', 'App\Http\Controllers\Api\ModeloController@update');
+
+Route::delete('modelo/{id}', 'App\Http\Controllers\Api\ModeloController@destroy');
+
+// 
+
+
+
+// API PESSOAS 
+Route::get('pessoa_juridica', 'App\Http\Controllers\Api\PessoaJuridicaController@index');
+
+Route::get('pessoa_juridica/{id}', 'App\Http\Controllers\Api\PessoaJuridicaController@show');
+
+Route::post('pessoa_juridica', 'App\Http\Controllers\Api\PessoaJuridicaController@store');
+
+Route::put('pessoa_juridica/{id}', 'App\Http\Controllers\Api\PessoaJuridicaController@update');
+
+Route::delete('pessoa_juridica/{id}', 'App\Http\Controllers\Api\PessoaJuridicaController@destroy');
+
+// 
+
+// API VEICULOS 
+Route::get('veiculo', 'App\Http\Controllers\Api\VeiculoController@index');
+
+Route::get('veiculo/{id}', 'App\Http\Controllers\Api\VeiculoController@show');
+
+Route::post('veiculo', 'App\Http\Controllers\Api\VeiculoController@store');
+
+Route::put('veiculo/{id}', 'App\Http\Controllers\Api\VeiculoController@update');
+
+Route::delete('veiculo/{id}', 'App\Http\Controllers\Api\VeiculoController@destroy');
+
+// 

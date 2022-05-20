@@ -20,4 +20,8 @@ class Marca extends Model
   
     protected $guardaded=['id'];
 
+    public function veiculo()
+    {
+        return $this->belongsTo('App\Models\Veiculo',  'marcas_id', 'id');
+    }
 }

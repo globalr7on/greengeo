@@ -5,8 +5,9 @@
       Tip 2: you can also add an image using data-image tag
   -->
   <div class="logo">
-    <a href="#" class="simple-text logo-normal">
-      {{ __('GreenBeat') }}
+    <a href="/" class="text-center logo-normal">
+      <!-- {{ __('GreenBeat') }} -->
+      <img src="{{ asset('material') }}/img/greenbeat.png" style="width: 150px;height: 40px;" />
     </a>
   </div>
   <div class="sidebar-wrapper">
@@ -14,7 +15,7 @@
       <li class="nav-item{{ $activePage == 'dashboard' ? ' active' : '' }}">
         <a class="nav-link" href="{{ route('home') }}">
           <i class="material-icons">dashboard</i>
-            <p>{{ __('Dashboard') }}</p>
+          <p>{{ __('Dashboard') }}</p>
         </a>
       </li>
       <li class="nav-item">
@@ -26,25 +27,25 @@
         </a>
         <div class="collapse show" id="registerTab">
           <ul class="nav">
-            <li class="nav-item">
-              <a class="nav-link" href="#">
+            <li class="nav-item ml-4">
+              <a class="nav-link" href="/empresa">
               <i class="fa-solid fa-building"></i>
                 <span class="sidebar-normal text-left" >{{ __('Empresas') }} </span>
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item ml-4">
               <a class="nav-link" href="#">
               <i class="fa-solid fa-users"></i>
                 <span class="sidebar-normal">{{ __('Motoristas') }} </span>
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item ml-4">
               <a class="nav-link" href="#">
                <i class="fa-solid fa-truck"></i>
                 <span class="sidebar-normal">{{ __('Veiculo') }} </span>
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item ml-4">
               <a class="nav-link" href="#">
               <i class="fa-solid fa-boxes-stacked"></i>
                 <span class="sidebar-normal">{{ __('Itens de Estoque') }} </span>
@@ -62,57 +63,57 @@
         </a>  
         <div class="collapse show" id="l2">
           <ul class="nav">
-          <li class="nav-item">
+            <li class="nav-item ml-4">
               <a class="nav-link" href="{{ route('administrativo.acondicionamento') }}">
-              <!-- <i class="fa-solid fa-truck"></i> -->
               <i class="fa-solid fa-dumpster"></i>
                 <span class="sidebar-normal">{{ __('Tipos de Acondicionamiento') }} </span>
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item ml-4">
               <a class="nav-link" href="/tratamento">
               <i class="fa-solid fa-radiation"></i>
                 <span class="sidebar-normal">{{ __('Tratamientos') }} </span>
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item ml-4">
               <a class="nav-link" href="#">
               <i class="fa-solid fa-recycle"></i>
                 <span class="sidebar-normal">{{ __('Classes de Sucata') }} </span>
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item ml-4">
               <a class="nav-link" href="/unidad">
               <i class="fa-solid fa-weight-scale"></i>
                 <span class="sidebar-normal">{{ __('Unidades') }} </span>
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
+            <li class="nav-item ml-4">
+              <a class="nav-link" href="/modelo">
               <i class="fa-solid fa-shuffle"></i>
                 <span class="sidebar-normal">{{ __('Modelo de Veiculos') }} </span>
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item ml-4">
               <a class="nav-link" href="/marca">
               <i class="fa-solid fa-shuffle"></i>
                 <span class="sidebar-normal">{{ __('Marcas de Veiculos') }} </span>
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item ml-4">
               <a class="nav-link" href="#">
               <i class="fa-regular fa-clipboard"></i>
                 <span class="sidebar-normal">{{ __('Estágios de OS') }} </span>
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item ml-4">
               <a class="nav-link" href="/acessantes">
               <i class="fa-solid fa-users"></i>
                 <span class="sidebar-normal">{{ __('Accesantes') }} </span>
               </a>
             </li>
           </ul>
-      </div>
+        </div>
+      </li>
       <li class="nav-item">
         <a class="nav-link" data-toggle="collapse" href="#rasTab" aria-expanded="true">
         <i class="fa-solid fa-satellite-dish"></i>
@@ -122,20 +123,20 @@
         </a>
         <div class="collapse show" id="rasTab">
           <ul class="nav">
-            <li class="nav-item">
-            <a class="nav-link" href="{{ route('map') }}">
-              <i class="material-icons">location_ons</i>
-                <p>{{ __('Rastreamento') }}</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-             <i class="fa-solid fa-file-lines"></i>
-                <p>{{ __('OS') }}</p>
-            </a>
-          </li>
-        </ul>
-
+            <li class="nav-item ml-4">
+              <a class="nav-link" href="{{ route('map') }}">
+                <i class="material-icons">location_ons</i>
+                  <p>{{ __('Rastreamento') }}</p>
+              </a>
+            </li>
+            <li class="nav-item ml-4">
+              <a class="nav-link" href="#">
+              <i class="fa-solid fa-file-lines"></i>
+                  <p>{{ __('OS') }}</p>
+              </a>
+            </li>
+          </ul>
+        </div>
       </li>
       <li class="nav-item">
         <a class="nav-link" data-toggle="collapse" href="#settingTab" aria-expanded="true">
@@ -146,17 +147,12 @@
         </a>
         <div class="collapse show" id="settingTab">
           <ul class="nav">
-          <li class="nav-item">
+            <li class="nav-item ml-4">
               <a class="nav-link" href="{{ route('profile.edit') }}">
                 <i class="fa-solid fa-user"></i>
                 <span class="sidebar-normal">{{ __('Perfil de Usuario') }} </span>
               </a>
             </li>
-            <li class="nav-item{{ $activePage == 'register' ? ' active' : '' }}">
-          <a href="{{ route('register') }}" class="nav-link">
-            <i class="material-icons">person_add</i> {{ __('Novo Cadastro') }}
-          </a>
-        </li>
           </ul>
         </div>
       </li>

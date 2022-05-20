@@ -1,34 +1,56 @@
-@extends('layouts.app', ['activePage' => 'acessante', 'titlePage' => __('Perfil Pessoas')])
+@extends('layouts.app', ['activePage' => 'empresa', 'titlePage' => __('Empresa')])
 @section('css')
     <link rel="stylesheet" href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
 @endsection
 @section('subheaderTitle')
-  Acessantes
+  Empresa
 @endsection
 @section('content')
   <div class="content mt-0">
     <div class="container-fluid">
       <div class="col-12 text-right">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalExemplo">
-          Criar Novo Pessoa
+          Criar Novo Empresa
         </button>
       </div>
       <div class="row">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header card-header-primary">
-              <h4 class="card-title ">Pessoas</h4>
-              <p class="card-category"> Listado de Pessoas</p>
+              <h4 class="card-title">Empresas</h4>
+              <p class="card-category"> Listado de Empresas</p>
             </div>
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table" id="pessoaTbl">
-                  <thead class=" text-primary">
-                    <th>CPF</th>
-                    <th>Rg</th>
-                    <th>Nome</th>
-                    <th>email</th>
-                    <th>Cargo</th>
+                <table class="table" id="empresaTbl">
+                  <thead class="text-primary">
+                    <th>Tipo</th>
+                    <th>CNPJ</th>
+                    <th>Fantasia</th>
+                    <th>Razao Social</th>
+                    <th>Email</th>
+                    <th>Contato1</th>
+                    <th>Cargo Contato1</th>
+                    <th>Celular Contato1</th>
+                    <th>Contato2</th>
+                    <th>Cargo Contato2</th>
+                    <th>Celular Contato2</th>
+                    <th>Fixo</th>
+                    <th>Whatsapp</th>
+                    <th>Endereço</th>
+                    <th>Número</th>
+                    <th>Complemento</th>
+                    <th>Cep</th>
+                    <th>Bairro</th>
+                    <th>Cidade</th>
+                    <th>Estado</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
+                    <th>Contrato</th>
+                    <th>Identificador</th>
+                    <th>Senha Acesso</th>
+                    <th>Capacidade Media Carga</th>
+                    <th>Ativo</th>
                     <th>Ação</th>
                   </thead>
                 </table>
@@ -198,25 +220,58 @@
 @push('js')
   <script>
     $(document).ready(function () {
-      $('#pessoaTbl').DataTable({
-        dom: 'Bfrtip',
+      console.log('empresaTbl', $('#empresaTbl'))
+      $('#empresaTbl').DataTable({
+        scrollX: '500px',
+        // dom: 'Bfrtip',
         buttons: [
           'copy', 'csv', 'excel', 'pdf', 'print'
         ],
         ajax: {
-          url: '/api/acessantes',
+          url: '/api/pessoa_juridica',
           dataSrc: 'data'
         },
         columns: [
-          { "data": "cpf" },
-          { "data": "rg" },
-          { "data": "nome" },
-          { "data": "email" },
-          { "data": "cargo" }
+          { data: "tipo" },
+          { data: "cnpj" },
+          { data: "nome_fantasia" },
+          { data: "razao_social" },
+          { data: "email" },
+          { data: "contato_1" },
+          { data: "cargo_contato_1" },
+          { data: "celular_contato_1" },
+          { data: "contato_2" },
+          { data: "cargo_contato_2" },
+          { data: "celular_contato_2" },
+          { data: "fixo" },
+          { data: "whatsapp" },
+          { data: "endereco" },
+          { data: "numero" },
+          { data: "complemento" },
+          { data: "cep" },
+          { data: "bairro" },
+          { data: "cidade" },
+          { data: "estado" },
+          { data: "latitude" },
+          { data: "longitude" },
+          { data: "contrato" },
+          { data: "identificador_celular" },
+          { data: "senha_acesso" },
+          { data: "capacidade_media_carga" },
+          { 
+            data: "ativo",
+            render: function (data, type) {
+              return data ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>'
+            }
+          }
         ],
         columnDefs : [
+          { width: "70px", targets: [0,19,26] },
+          { width: "200px", targets: [2,3,4,5,6,7,8,9,10,11,12,13,24,25] },
+          { width: "100px", targets: [14,15,16,17,18,20,21,22,23] },
           { 
-            targets : [5],
+            targets : 27,
+            width: "70px",
             render : function (data, type, row) {
               return `
                 <i class="fa fa-trash excluirAcond" data-id="${row.id}" title="Excluir" ></i>
@@ -226,6 +281,7 @@
             }
           }
         ],
+        // fixedColumns: true
       });
     });
   </script>
