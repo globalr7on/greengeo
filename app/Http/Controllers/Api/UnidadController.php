@@ -43,8 +43,8 @@ class UnidadController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'descricao' => 'required|string|max:15',
-            'simbolo' => 'required|string|max:5',
+            'descricao' => 'required|string|max:45',
+            'simbolo' => 'required|string|max:15',
             // 'ativo' => 'required|string|max:15',
             
         ]);
@@ -90,8 +90,8 @@ class UnidadController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'descricao' => 'required|string|max:15',
-            'simbolo' => 'required|string|max:5',
+            'descricao' => 'required|string|max:45',
+            'simbolo' => 'required|string|max:10',
             
         ]);
 

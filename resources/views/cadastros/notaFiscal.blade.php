@@ -264,6 +264,9 @@
             },
           ],
           columnDefs : [
+            { width: "70px", targets: [0,1,2,3,4,5] },
+            // { width: "200px", targets: [2,3,4,5,6,7,8,9,10,11,12,13,24,25] },
+            // { width: "100px", targets: [14,15,16,17,18,20,21,22,23] },
             { 
               targets : [5],
               render : function (data, type, row) {

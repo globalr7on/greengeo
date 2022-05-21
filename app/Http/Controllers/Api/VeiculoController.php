@@ -92,6 +92,8 @@ class VeiculoController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        // dd($request->all());
         $validator = Validator::make($request->all(), [
             
             'chassis' => 'required|string|max:14',
@@ -111,7 +113,7 @@ class VeiculoController extends Controller
 
         $veiculo = Veiculo::find($id);
         $veiculo->update($request->all());
-        return new VeiculoResource($pessoa_juridica);
+        return new VeiculoResource($veiculo);
     }
 
     /**

@@ -122,10 +122,10 @@
 
   <!-- Modal -->
   <div class="modal fade" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-xl" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Criar Novo Pessoas</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Criar Nova Empresa</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -135,78 +135,122 @@
             <div class="col-md-12">
               <form>
                 <div class="form-row">
-                  <div class="form-group col-md-6">
-                    <input type="text" class="form-control" id="inputCpf" placeholder="CPF">
+                  <div class="form-group col-md-4 text-center">
+                    <select class="selectpicker" data-style="btn btn-primary btn-square" title="Single Select" name="tipo">
+                      <option value="" disabled selected>Tipo</option>
+                      <option value="fisica">Fisica</option>
+                      <option value="juridica">Juridica</option>
+                    </select>
                   </div>
-                  <div class="form-group col-md-6">
-                    <input type="text" class="form-control" id="inputRg" placeholder="RG">
+                  <div class="form-group col-md-4">
+                    <input type="text" class="form-control" id="inputCnpj" placeholder="CNPJ">
                   </div>
-                  <div class="form-group col-md-6">
-                    <input type="text" class="form-control" id="inputNome" placeholder="Nome">
+                  <div class="form-group col-md-4">
+                    <input type="text" class="form-control" id="inputNomeFantasia" placeholder="Nome Fantasia">
                   </div>
-                  <div class="form-group col-md-6">
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <input type="text" class="form-control" id="inputRazaoSocial" placeholder="Razão Social">
+                  </div>
+                  <div class="form-group col-md-4">
                     <input type="text" class="form-control" id="inputEmail" placeholder="Email">
                   </div>
-                  <div class="form-group col-md-6">
-                    <input type="text" class="form-control" id="inputCargo" placeholder="Cargo">
+                  <div class="form-group col-md-4">
+                    <input type="text" class="form-control" id="inputContato1" placeholder="Contato 1">
                   </div>
-                  <div class="form-group col-md-6">
-                    <input type="text" class="form-control" id="inputCelular" placeholder="Celular">
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <input type="text" class="form-control" id="inputCargoContato1" placeholder="Cargo Contato 1">
                   </div>
-                  <div class="form-group col-md-6">
-                    <input type="text" class="form-control" id="inputFixo" placeholder="fixo">
+                  <div class="form-group col-md-4">
+                    <input type="text" class="form-control" id="inputContato2" placeholder="Contato 2">
                   </div>
-                  <div class="form-group col-md-6">
-                    <input type="text" class="form-control" id="inputWhats" placeholder="Whats">
+                  <div class="form-group col-md-4">
+                    <input type="text" class="form-control" id="inputCargoContato2" placeholder="Cargo Contato 2">
                   </div>
-                  <div class="form-group col-md-6">
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <input type="text" class="form-control" id="inputCelularContato1" placeholder="Celular Contato 1">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <input type="text" class="form-control" id="inputCelularContato2" placeholder="Celular Contato 2">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <input type="text" class="form-control" id="inputFixo" placeholder="Fixo">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <input type="text" class="form-control" id="inputWhats" placeholder="Whatsapp">
+                  </div>
+                  <div class="form-group col-md-4">
                     <input type="text" class="form-control" id="inputEndereco" placeholder="Endereço">
                   </div>
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-4">
                     <input type="text" class="form-control" id="inputNumero" placeholder="Número">
                   </div>
-                  <div class="form-group col-md-6">
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-4">
                     <input type="text" class="form-control" id="inputComplemento" placeholder="Complemento">
                   </div>
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-4">
                     <input type="text" class="form-control" id="inputCep" placeholder="CEP">
                   </div>
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-4">
                     <input type="text" class="form-control" id="inputBairro" placeholder="Bairro">
                   </div>
-                  <div class="form-group col-md-6">
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-4">
                     <input type="text" class="form-control" id="inputCidade" placeholder="Cidade">
                   </div>
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-4">
                     <input type="text" class="form-control" id="inputEstado" placeholder="Estado">
                   </div>
-                  <div class="form-group col-md-6">
-                    <input type="text" class="form-control" id="inputRcarteira" placeholder="Registros Carteira">
+                  <div class="form-group col-md-4">
+                    <input type="text" class="form-control" id="inputLatitude" placeholder="Latitude">
                   </div>
-                  <div class="form-group col-md-6">
-                    <input type="text" class="form-control" id="inputTcarteira" placeholder="Tipo de Carteira">
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <input type="text" class="form-control" id="inputLogitude" placeholder="Longitude">
                   </div>
-                  <div class="form-group col-md-6">
-                    <input type="text" class="form-control" id="inputVcarteira" placeholder="Validade de Carteira">
+                  <div class="form-group col-md-4">
+                    <input type="text" class="form-control" id="inputContrato" placeholder="Contrato">
                   </div>
-                  <div class="form-group col-md-6">
-                    <input type="text" class="form-control" id="inputUsuarioResponsable" placeholder="Usuario responsable del cadastro">
+                  <div class="form-group col-md-4">
+                    <input type="text" class="form-control" id="inputIdentidicadorCelular" placeholder="Identidicador Celular">
                   </div>
-                  <div class="form-group col-md-6">
-                    <input type="text" class="form-control" id="inputAtivo" placeholder="Ativo">
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <input type="text" class="form-control" id="inputSenhaAcesso" placeholder="Senha Acesso">
                   </div>
-                  <div class="form-group col-md-6">
-                    <input type="text" class="form-control" id="inputIdenticadorCelular" placeholder="Identificador de Celular">
+                  <div class="form-group col-md-4">
+                    <input type="text" class="form-control" id="inputCapacidadeMediaCarga" placeholder="Capacidade">
                   </div>
-                  <div class="form-group col-md-6">
-                    <input type="text" class="form-control" id="inputSenha" placeholder="Senha Acesso">
+                  <div class="form-group col-md-4">
+                    <input type="text" class="form-control" id="inputUsuarioResponsable" placeholder="Usuario Responsable">
                   </div>
+                </div>
                   <div class="form-group">
                     <div class="form-check">
-                      <input class="form-check-input" type="checkbox" id="gridCheck">
-                    </div>
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox"  id="checkAtivo" value="">
+                          Ativo?
+                          <span class="form-check-sign">
+                          <span class="check"></span>
+                          </span>
+                          </label>
+                        </div>
+                      </div>
+                  <div class="form-group col-md-6">
+                     <button type="submit" class="btn btn-primary">Salvar</button>
                   </div>
-                  <button type="submit" class="btn btn-primary">Salvar</button>
                 </form>
               </div>
             </div>

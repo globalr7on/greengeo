@@ -1,6 +1,10 @@
 @extends('layouts.app', ['activePage' => 'map', 'titlePage' => __('Rastreamento')])
 
+@section('subheaderTitle')
+  Rastreamento
+@endsection
 @section('content')
+
 <div class="content">
     <div class="container-fluid">
     <form>
@@ -34,7 +38,9 @@
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#">
          Pesquisar
       </button>
-      <div id="map"></div>
+      <div class="col-12">
+        <iframe src="http://localhost:3650/api/maps/streets" width=1500 height=800 />
+      </div>
     </div>
   </div>
 </div>

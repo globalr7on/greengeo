@@ -33,15 +33,15 @@ class AcessanteController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'cpf' => 'required|string|max:14',
-            'rg' => 'required|string|max:15',
+            'cpf' => 'required|string|max:50',
+            'rg' => 'required|string|max:50',
             'nome' => 'required|string|max:50',
             'email' => 'required|string|max:40',
             'cargo' => 'required|string|max:40',
             'celular' => 'required|string|max:15',
             'fixo' => 'required|string|max:15',
             'whats' => 'required|string|max:15',
-            'endereco' => 'required|string|max:15',
+            'endereco' => 'required|string|max:50',
             'numero' => 'required|string|max:4',
             'complemento' => 'required|string|max:30',
             'cep' => 'required|string|max:10',
@@ -50,7 +50,7 @@ class AcessanteController extends Controller
             'estado' => 'required|string|max:2',
             'registro_carteira' => 'required|string|max:30',
             'validade_carteira' => 'required|date|date_format:Y-m-d',
-            'tipo_carteira' => 'required|string|max:1',
+            'tipo_carteira' => 'required|string|max:50',
             'identificador_celular' => 'required|string|max:20',
             'senha_acesso' => 'required|string|max:10'
         ]);
@@ -85,15 +85,15 @@ class AcessanteController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'cpf' => 'required|string|max:14',
-            'rg' => 'required|string|max:15',
+            'cpf' => 'required|string|max:50',
+            'rg' => 'required|string|max:50',
             'nome' => 'required|string|max:50',
             'email' => 'required|string|max:40',
             'cargo' => 'required|string|max:40',
             'celular' => 'required|string|max:15',
             'fixo' => 'required|string|max:15',
             'whats' => 'required|string|max:15',
-            'endereco' => 'required|string|max:15',
+            'endereco' => 'required|string|max:50',
             'numero' => 'required|string|max:4',
             'complemento' => 'required|string|max:30',
             'cep' => 'required|string|max:10',
@@ -102,7 +102,7 @@ class AcessanteController extends Controller
             'estado' => 'required|string|max:2',
             'registro_carteira' => 'required|string|max:30',
             'validade_carteira' => 'required|date|date_format:Y-m-d',
-            'tipo_carteira' => 'required|string|max:1',
+            'tipo_carteira' => 'required|string|max:50',
             'identificador_celular' => 'required|string|max:20',
             'senha_acesso' => 'required|string|max:10'
         ]);

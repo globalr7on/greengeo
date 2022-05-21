@@ -9,8 +9,8 @@
     <div class="content">
       <div class="container-fluid">
         <div class="col-12 text-right">
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalExemplo">
-            Criar Novo Modelo
+          <button type="button" class="btn btn-primary" id="novaModelo">
+            + Novo Modelo
           </button>
         </div>
         <div class="row">
@@ -40,11 +40,11 @@
             </div>
           </div>
         </div>
-      <div class="modal fade" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal fade" id="modalModelo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Criar Novo Modelo</h5>
+              <h5 class="modal-title" id="tituloModal">Novo Modelo</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -54,6 +54,7 @@
               <div class="col-md-12">
                 <form>
                   <div class="form-row">
+                  <input type="hidden" class="form-control" id="inputId">
                     <div class="form-group col-md-12">
                         <input type="text" class="form-control" id="inputDescricao" placeholder="Descrição">
                     </div>
@@ -89,7 +90,44 @@
         $('#modeloTbl').DataTable({
           dom: 'Bfrtip',
                 buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
+                  {
+                              extend: 'copy',
+                              text: 'COPIAR',
+                              text: '<i class="fa fa-copy fa-2x"></i>',
+                              titleAttr: 'Copiar para Área de Transferência',
+                              charset: 'UTF-8',
+                            },
+                            {
+                              extend: 'pdf',
+                              text: 'PDF',
+                              text: '<i class="fa fa-file-pdf fa-2x"></i>',
+                              titleAttr: 'Exportar em formato PDF',
+                              charset: 'UTF-8',
+                              footer: false,
+                              pageSize: 'A4'
+                            },
+                            {
+                              extend: 'excel',
+                              text: 'EXCEL',
+                              text: '<i class="fa fa-file-excel fa-2x"></i>',
+                              titleAttr: 'Exportar em formato Excel',
+                              charset: 'UTF-8',
+                            },
+                            {
+                              extend: 'csv',
+                              text: 'CSV',
+                              text: '<i class="fa fa-file-csv fa-2x"></i>',
+                              titleAttr: 'Exportar em formato CSV',
+                              charset: 'UTF-8',
+                            },
+                            {
+                              extend: 'print',
+                              text: 'IMPRIMIR',
+                              text: '<i id="nova-pesquisa" class="fa fa-print fa-2x"></i>',
+                              titleAttr: 'Imprimir',
+                              charset: 'UTF-8',
+                              footer: false,
+                            },
                 ],
           ajax: {
             url: '/api/modelo',
@@ -109,7 +147,7 @@
                     return `
                       <i class="fa fa-trash excluirModelo" data-id="${row.id}" title="Excluir" ></i>
                       &nbsp;
-                      <i class="fa fa-pen editarModelo" data-id="${row.id}" data-toggle="modal" data-target="#devicesModal" title="Editar"></i>
+                      <i class="fa fa-pen editarModelo" data-id="${row.id}"  title="Editar"></i>
                     `
                   }
               }
@@ -122,21 +160,31 @@
             ativo: $("#checkAtivo").prop("checked") ? 1 : 0,
           }
           console.log(JSONRequest)
+          const id = $('#inputId').val();
+          const method = id ? "PUT" : "POST";
+          const urlP= id ? `/api/modelo/${id}` : "/api/modelo";
+         
           $.ajax({
-            type: "POST",
-            url: "/api/modelo",
+            type: method,
+            url: urlP,
             data: JSONRequest,
             dataType: "json",
             encode: true,
           }).done(function (response) {
             console.log(response);
             if (response && response.data) {
-              $("#modalExemplo").modal("hide");
+              $("#modalModelo").modal("hide");
+              $('#inputId').val("");
               $('#modeloTbl').DataTable().ajax.reload();
               $("#inputDescricao").val(""),
               $("#checkAtivo").prop("checked", false)
             }
           });
+        });
+        $('body').on('click', '#novaModelo',  function(){
+          $("#modalModelo").modal("show");
+          $('#tituloModal').text("Novo Modelo");
+          $("#inputDescricao").val("");
         });
          //Editar
          $('body').on('click', '.editarModelo',  function(){
@@ -148,11 +196,13 @@
             console.log(response);
             if (response && response.data) {
                 console.log(response.data)
-                $("#modalExemplo").modal("show");
+                $("#modalModelo").modal("show");
+                $('#tituloModal').text("Editar Modelo")
                 $('#inputId').val(response.data.id);
                 $("#inputDescricao").val(response.data.descricao);
                 $("#checkAtivo").prop("checked", response.data.ativo)
-            }
+                $('#modeloTbl').DataTable().ajax.reload();
+           }
           });
          });
          //Excluir

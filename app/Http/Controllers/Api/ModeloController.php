@@ -99,7 +99,7 @@ class ModeloController extends Controller
         }
         
         $modelo = Modelo::find($id);
-        $Modelo->update($request->all());
+        $modelo->update($request->all());
         return new ModeloResource($modelo);
   
     }

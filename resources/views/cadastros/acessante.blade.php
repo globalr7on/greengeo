@@ -24,11 +24,29 @@
               <div class="table-responsive">
                 <table class="table" id="pessoaTbl">
                   <thead class=" text-primary">
+                    <th>Tipo</th>
                     <th>CPF</th>
                     <th>Rg</th>
                     <th>Nome</th>
                     <th>email</th>
                     <th>Cargo</th>
+                    <th>Celular</th>
+                    <th>Fixo</th>
+                    <th>Whatsapp</th>
+                    <th>Endereço</th>
+                    <th>Número</th>
+                    <th>Complemento</th>
+                    <th>CEP</th>
+                    <th>Bairro</th>
+                    <th>Cidade</th>
+                    <th>Estado</th>
+                    <th>Registro de Carteira</th>
+                    <th>Tipo de Carteira</th>
+                    <th>Validade de Carteira</th>
+                    <th>Ativo</th>
+                    <th>Identificador Celular</th>
+                    <th>Senha de Acesso</th>
+                    <th>Usuario Responsavel</th>
                     <th>Ação</th>
                   </thead>
                 </table>
@@ -100,7 +118,7 @@
 
   <!-- Modal -->
   <div class="modal fade" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-xl" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Criar Novo Pessoas</h5>
@@ -113,77 +131,105 @@
             <div class="col-md-12">
               <form>
                 <div class="form-row">
-                  <div class="form-group col-md-6">
-                    <input type="text" class="form-control" id="inputCpf" placeholder="CPF">
-                  </div>
-                  <div class="form-group col-md-6">
-                    <input type="text" class="form-control" id="inputRg" placeholder="RG">
-                  </div>
-                  <div class="form-group col-md-6">
+                    <div class="form-group col-md-4 text-center">
+                      <select class="selectpicker" data-style="btn btn-primary btn-square" title="Single Select" name="tipo">
+                        <option value="" disabled selected>Tipo</option>
+                        <option value="fisica">Fisica</option>
+                        <option value="juridica">Juridica</option>
+                      </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                      <input type="text" class="form-control" id="inputCpf" placeholder="CPF">
+                    </div>
+                    <div class="form-group col-md-4">
+                      <input type="text" class="form-control" id="inputRg" placeholder="RG">
+                    </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-4">
                     <input type="text" class="form-control" id="inputNome" placeholder="Nome">
                   </div>
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-4">
                     <input type="text" class="form-control" id="inputEmail" placeholder="Email">
                   </div>
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-4">
                     <input type="text" class="form-control" id="inputCargo" placeholder="Cargo">
                   </div>
-                  <div class="form-group col-md-6">
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-4">
                     <input type="text" class="form-control" id="inputCelular" placeholder="Celular">
                   </div>
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-4">
                     <input type="text" class="form-control" id="inputFixo" placeholder="fixo">
                   </div>
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-4">
                     <input type="text" class="form-control" id="inputWhats" placeholder="Whats">
                   </div>
-                  <div class="form-group col-md-6">
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-4">
                     <input type="text" class="form-control" id="inputEndereco" placeholder="Endereço">
                   </div>
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-4">
                     <input type="text" class="form-control" id="inputNumero" placeholder="Número">
                   </div>
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-4">
                     <input type="text" class="form-control" id="inputComplemento" placeholder="Complemento">
                   </div>
-                  <div class="form-group col-md-6">
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-4">
                     <input type="text" class="form-control" id="inputCep" placeholder="CEP">
                   </div>
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-4">
                     <input type="text" class="form-control" id="inputBairro" placeholder="Bairro">
                   </div>
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-4">
                     <input type="text" class="form-control" id="inputCidade" placeholder="Cidade">
                   </div>
-                  <div class="form-group col-md-6">
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-4">
                     <input type="text" class="form-control" id="inputEstado" placeholder="Estado">
                   </div>
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-4">
                     <input type="text" class="form-control" id="inputRcarteira" placeholder="Registros Carteira">
                   </div>
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-4">
                     <input type="text" class="form-control" id="inputTcarteira" placeholder="Tipo de Carteira">
                   </div>
-                  <div class="form-group col-md-6">
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-4">
                     <input type="text" class="form-control" id="inputVcarteira" placeholder="Validade de Carteira">
                   </div>
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-4">
                     <input type="text" class="form-control" id="inputUsuarioResponsable" placeholder="Usuario responsable del cadastro">
                   </div>
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-4">
                     <input type="text" class="form-control" id="inputAtivo" placeholder="Ativo">
                   </div>
-                  <div class="form-group col-md-6">
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-4">
                     <input type="text" class="form-control" id="inputIdenticadorCelular" placeholder="Identificador de Celular">
                   </div>
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-4">
                     <input type="text" class="form-control" id="inputSenha" placeholder="Senha Acesso">
                   </div>
-                  <div class="form-group">
+                <div class="form-group">
                     <div class="form-check">
-                      <input class="form-check-input" type="checkbox" id="gridCheck">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox"  id="checkAtivo" value="">
+                          Ativo?
+                          <span class="form-check-sign">
+                          <span class="check"></span>
+                          </span>
+                          </label>
+                        </div>
+                      </div>
                     </div>
-                  </div>
                   <button type="submit" class="btn btn-primary">Salvar</button>
                 </form>
               </div>
@@ -199,6 +245,7 @@
   <script>
     $(document).ready(function () {
       $('#pessoaTbl').DataTable({
+        scrollX: '500px',
         dom: 'Bfrtip',
         buttons: [
           'copy', 'csv', 'excel', 'pdf', 'print'
@@ -208,15 +255,38 @@
           dataSrc: 'data'
         },
         columns: [
+          { "data": "tipo" },
           { "data": "cpf" },
           { "data": "rg" },
           { "data": "nome" },
           { "data": "email" },
-          { "data": "cargo" }
+          { "data": "cargo" },
+          { "data": "celular" },
+          { "data": "fixo" },
+          { "data": "whats" },
+          { "data": "endereco" },
+          { "data": "numero" },
+          { "data": "complemento" },
+          { "data": "cep" },
+          { "data": "bairro" },
+          { "data": "cidade" },
+          { "data": "estado" },
+          { "data": "registro_carteira" },
+          { "data": "tipo_carteira" },
+          { "data": "validade_carteira" },
+          { "data": "ativo" },
+          { "data": "identificador_celular" },
+          { "data": "senha_acesso" },
+          { "data": "usuario_responsavel_cadastro_id" }
+ 
         ],
         columnDefs : [
+          // { width: "70px", targets: [19] },
+          { width: "90", targets: [0,1,2,5,6,7,8,10,15,14] },
+          { width: "200px", targets: [9,11,16,17,18,19,20,21,22] },
+          { width: "110px", targets: [3,4,12,13] },
           { 
-            targets : [5],
+            targets : [23],
             render : function (data, type, row) {
               return `
                 <i class="fa fa-trash excluirAcond" data-id="${row.id}" title="Excluir" ></i>

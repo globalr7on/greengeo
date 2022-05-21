@@ -40,15 +40,21 @@
               </a>
             </li>
             <li class="nav-item ml-4">
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="/veiculo">
                <i class="fa-solid fa-truck"></i>
                 <span class="sidebar-normal">{{ __('Veiculo') }} </span>
               </a>
             </li>
-            <li class="nav-item ml-4">
+            <!-- <li class="nav-item ml-4">
               <a class="nav-link" href="#">
               <i class="fa-solid fa-boxes-stacked"></i>
                 <span class="sidebar-normal">{{ __('Itens de Estoque') }} </span>
+              </a>
+            </li> -->
+            <li class="nav-item ml-4">
+              <a class="nav-link" href="/nota_fiscal">
+              <i class="fa-solid fa-file-circle-check"></i>
+                <span class="sidebar-normal">{{ __('Nota Fiscal') }} </span>
               </a>
             </li>
           </ul>
@@ -103,6 +109,12 @@
               <a class="nav-link" href="#">
               <i class="fa-regular fa-clipboard"></i>
                 <span class="sidebar-normal">{{ __('Estágios de OS') }} </span>
+              </a>
+            </li>
+            <li class="nav-item ml-4">
+              <a class="nav-link" href="/atividade">
+              <i class="fa-solid fa-square-caret-right"></i>
+                <span class="sidebar-normal">{{ __('Atividade') }} </span>
               </a>
             </li>
             <li class="nav-item ml-4">

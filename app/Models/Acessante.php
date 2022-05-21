@@ -16,7 +16,7 @@ class Acessante extends Model
     
     
     protected $table = 'acessantes';
-    protected $fillable = ['tipo','cpf', 'rg', 'nome', 'email', 'cargo', 'celular', 'fixo', 'whats', 'endereco', 'numero', 'complemento', 'cep', 'bairro', 'cidade', 'estado', 'registro_carteira', 'tipo_carteira', 'validade_carteira', 'ativo',  'identificador_celular', 'senha_acesso', 'usuario_responsavel_cadastro_id', 'pessoa_juridicas_id'];
+    protected $fillable = ['tipo','cpf', 'rg', 'nome', 'email', 'cargo', 'celular', 'fixo', 'whats', 'endereco', 'numero', 'complemento', 'cep', 'bairro', 'cidade', 'estado', 'registro_carteira', 'tipo_carteira', 'validade_carteira', 'ativo',  'identificador_celular', 'senha_acesso', 'usuario_responsavel_cadastro_id'];
   
 
     protected $guardaded=['id'];
@@ -24,12 +24,7 @@ class Acessante extends Model
 
     public function usuario_responsavel_cadastro()
     {
-        // return $this->hasOne('App\Models\User');
         return $this->belongsTo('App\Models\User');
     }
 
-    // public function pessoa_juridicas_id()
-    // {
-    //     return $this->hasOne('App\Models\PessoaJuridica', 'pessoa_juridicas_id', 'id');
-    // }
 }

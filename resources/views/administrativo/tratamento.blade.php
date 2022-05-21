@@ -9,7 +9,7 @@
     <div class="content">
       <div class="container-fluid">
         <div class="col-12 text-right">
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalExemplo">
+          <button type="button" class="btn btn-primary" id="novoTratamento">
             Criar Novo Tratamento
           </button>
         </div>
@@ -40,11 +40,11 @@
             </div>
           </div>
         </div>
-      <div class="modal fade" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal fade" id="modalTratamento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Criar Novo Tratamento</h5>
+              <h5 class="modal-title" id="tituloModal">Criar Novo Tratamento</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -54,6 +54,7 @@
               <div class="col-md-12">
                 <form>
                   <div class="form-row">
+                    <input type="hidden" class="form-control" id="inputId">
                     <div class="form-group col-md-12">
                         <input type="text" class="form-control" id="inputDescricao" placeholder="Descrição">
                     </div>
@@ -88,7 +89,44 @@
         $('#tratamentoTbl').DataTable({
           dom: 'Bfrtip',
                 buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
+                  {
+                              extend: 'copy',
+                              text: 'COPIAR',
+                              text: '<i class="fa fa-copy fa-2x"></i>',
+                              titleAttr: 'Copiar para Área de Transferência',
+                              charset: 'UTF-8',
+                            },
+                            {
+                              extend: 'pdf',
+                              text: 'PDF',
+                              text: '<i class="fa fa-file-pdf fa-2x"></i>',
+                              titleAttr: 'Exportar em formato PDF',
+                              charset: 'UTF-8',
+                              footer: false,
+                              pageSize: 'A4'
+                            },
+                            {
+                              extend: 'excel',
+                              text: 'EXCEL',
+                              text: '<i class="fa fa-file-excel fa-2x"></i>',
+                              titleAttr: 'Exportar em formato Excel',
+                              charset: 'UTF-8',
+                            },
+                            {
+                              extend: 'csv',
+                              text: 'CSV',
+                              text: '<i class="fa fa-file-csv fa-2x"></i>',
+                              titleAttr: 'Exportar em formato CSV',
+                              charset: 'UTF-8',
+                            },
+                            {
+                              extend: 'print',
+                              text: 'IMPRIMIR',
+                              text: '<i id="nova-pesquisa" class="fa fa-print fa-2x"></i>',
+                              titleAttr: 'Imprimir',
+                              charset: 'UTF-8',
+                              footer: false,
+                            },
                 ],
           ajax: {
             url: '/api/tratamento',
@@ -108,7 +146,7 @@
                     return `
                       <i class="fa fa-trash excluirTratamento" data-id="${row.id}" title="Excluir" ></i>
                       &nbsp;
-                      <i class="fa fa-pen excluirTratamento" data-id="${row.id}" data-toggle="modal" data-target="#devicesModal" title="Editar"></i>
+                      <i class="fa fa-pen editarTratamento" data-id="${row.id}" title="Editar"></i>
                     `
                   }
               }
@@ -120,25 +158,54 @@
             ativo: $("#checkAtivo").prop("checked") ? 1 : 0,
           }
           console.log(JSONRequest)
+          const id = $('#inputId').val();
+          const method = id ? "PUT" : "POST";
+          const urlP= id ? `/api/tratamento/${id}` : "/api/tratamento";
           $.ajax({
-            type: "POST",
-            url: "/api/tratamento",
+            type: method,
+            url: urlP,
             data: JSONRequest,
             dataType: "json",
             encode: true,
           }).done(function (response) {
             console.log(response);
             if (response && response.data) {
-              $("#modalExemplo").modal("hide");
+              $("#modalTratamento").modal("hide");
+              // $('#inputId').val(response.data.id);
               $('#tratamentoTbl').DataTable().ajax.reload();
-              $("#inputDescricao").val(""),
+              $("#inputDescricao").val("");
               $("#checkAtivo").prop("checked", false)
             }
           });
         });
+        $('body').on('click', '#novoTratamento',  function(){
+          $("#modalTratamento").modal("show");
+          $('#tituloModal').text("Novo Tratamento");
+          $("#inputDescricao").val("");
+        });
+        //Editar
+         $('body').on('click', '.editarTratamento',  function(){
+          const tratamento_id = $(this).attr('data-id');
+          $.ajax({
+            type: "GET",
+            url: `/api/tratamento/${tratamento_id}`,
+          }).done(function (response) {
+            console.log(response);
+            if (response && response.data) {
+                console.log(response.data)
+                $("#modalTratamento").modal("show");
+                $('#tituloModal').text("Editar Tratamento")
+                $('#inputId').val(response.data.id);
+                $("#inputDescricao").val(response.data.descricao);
+                $("#checkAtivo").prop("checked", response.data.ativo)
+                $('#atividadeTbl').DataTable().ajax.reload();
+            }
+          });
+         });
+        //Excluir
         $('body').on('click', '.excluirTratamento',  function(){
           const tratamento_id = $(this).attr('data-id');
-            if (confirm('Aviso!,Deseja realmente excluir o device?')) {
+            if (confirm('Aviso!,Deseja realmente excluir o Tratamento?')) {
               $.ajax({
                 type: "DELETE",
                 url:  `/api/tratamento/${tratamento_id}`,

@@ -9,7 +9,7 @@
     <div class="content">
       <div class="container-fluid">
         <div class="col-12 text-right">
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalExemplo">
+          <button type="button" class="btn btn-primary" id="novoVeiculo" >
             Criar Novo Veiculo
           </button>
         </div>
@@ -61,11 +61,11 @@
             </div>
           </div>
         </div>
-      <div class="modal fade" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal fade" id="modalVeiculo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Criar Novo Veiculo</h5>
+                 <h5 class="modal-title" id="tituloModal">Criar Novo Veiculo</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -75,81 +75,46 @@
               <div class="col-md-12">
                 <form>
                     <div class="form-row">
+                        <input type="hidden" class="form-control" id="inputId">
                         <div class="form-group col-md-4">
                             <div class="col-lg-5 col-md-4 col-sm-3">
-                                <select class="selectpicker" data-style="btn btn-primary btn-square" title="Single Select" name="unidad">
+                                <select  id="iMarca" data-style="btn btn-primary btn-square" title="Single Select" name="marca">
                                     <option value="" disabled selected>Marca</option>
-                                    <!-- <option value="2">Exempleo 1</option>
-                                    <option value="3">Exempleo 2</option>
-                                    <option value="4">Exempleo 3</option>
-                                    <option value="5">Exempleo 4</option>
-                                    <option value="6">Exempleo 5</option> -->
                                 </select>
                             </div>
                         </div>
                         <div class="form-group col-md-4">
                             <div class="col-lg-5 col-md-6 col-sm-3">
-                                <select class="selectpicker" data-style="btn btn-primary btn-square" title="Single Select" name="unidad">
+                                <select  id="iModelo" data-style="btn btn-primary btn-square" title="Single Select" name="modelo">
                                     <option value="" disabled selected>Modelo</option>
-                                    <!-- <option value="2">Exempleo 1</option>
-                                    <option value="3">Exempleo 2</option>
-                                    <option value="4">Exempleo 3</option>
-                                    <option value="5">Exempleo 4</option>
-                                    <option value="6">Exempleo 5</option> -->
                                 </select>
                             </div>
                         </div>
                         <div class="form-group col-md-4">
                             <div class="col-lg-5 col-md-6 col-sm-3">
-                                <select class="selectpicker" data-style="btn btn-primary btn-square" title="Single Select" name="usuario">
+                                <select  id="iAcondicionamento" data-style="btn btn-primary btn-square" title="Single Select" name="acondicionamento">
                                     <option value="" disabled selected>Acondicionamento</option>
-                                    <!-- <option value="2">Hugo Ramirez</option>
-                                    <option value="3">User 1</option>
-                                    <option value="4">User 2</option>
-                                    <option value="5">User 3</option>
-                                    <option value="6">User 4</option> -->
                                 </select>
                             </div>
                         </div>
                     </div>
                   <div class="form-row">
-                    <div class="form-group col-md-12">
+                    <div class="form-group col-md-4">
                         <input type="text" class="form-control" id="inputChassis" placeholder="Chassis">
                     </div>
-                  </div>
-                  <div class="form-row">
-                    <div class="form-group col-md-12">
+                    <div class="form-group col-md-4">
                         <input type="text" class="form-control" id="inputPlaca" placeholder="Placa">
                     </div>
-                  </div>
-                  <div class="form-row">
-                    <div class="form-group col-md-12">
+                    <div class="form-group col-md-4">
                         <input type="text" class="form-control" id="inputCapacidade" placeholder="Capacidade">
                     </div>
                   </div>
                   <div class="form-row">
-                    <div class="form-group col-md-12">
+                    <div class="form-group col-md-6">
                         <input type="text" class="form-control" id="inputRenavam" placeholder="Renavam">
                     </div>
-                  </div>
-                  <div class="form-row">
-                    <div class="form-group col-md-12">
+                    <div class="form-group col-md-6">
                         <input type="text" class="form-control" id="inputCombustivel" placeholder="Combustivel">
-                    </div>
-                  </div>
-                  <div class="form-row">
-                    <div class="form-group col-md-12">
-                        <input type="text" class="form-control" id="inputDescricao" placeholder="Descrição">
-                    </div>
-                  </div>
-                  <div class="form-row">
-                    <div class="form-group col-md-12">
-                        <input type="text" class="form-control" id="inputDescricao" placeholder="Descrição">
-                    </div>
-                  </div>
-                  <div class="form-row">
-                    <div class="form-group col-md-12">
-                        <input type="text" class="form-control" id="inputDescricao" placeholder="Descrição">
                     </div>
                   </div>
                   <div class="form-group">
@@ -163,7 +128,7 @@
                           </label>
                         </div>
                       </div>
-                    <button type="button" class="btn btn-primary" id="salvarMarca">Salvar</button>
+                    <button type="button" class="btn btn-primary" id="salvarVeiculo">Salvar</button>
                   </form>
                 </div>
               </div>
@@ -203,13 +168,16 @@
 
           ],
           columnDefs : [
+              // { width: "110px", targets: [4,5] },
+              { width: "180px", targets: [0,1,2,3,4,5,6,7,8,9] },
+            // { width: "100px", targets: [14,15,16,17,18,20,21,22,23] },
               { 
                   targets : [9],
                   render : function (data, type, row) {
                     return `
-                      <i class="fa fa-trash excluirMarca" data-id="${row.id}" title="Excluir" ></i>
+                      <i class="fa fa-trash excluirVeiculo" data-id="${row.id}" title="Excluir" ></i>
                       &nbsp;
-                      <i class="fa fa-pen editarDevice" data-id="${row.id}" data-toggle="modal" data-target="#devicesModal" title="Editar"></i>
+                      <i class="fa fa-pen editarVeiculo" data-id="${row.id}" title="Editar"></i>
                     `
                   }
               }
@@ -217,27 +185,75 @@
         });
         $('body').on('click', '#salvarVeiculo', function(){
           const JSONRequest = {
-            descricao: $("#inputDescricao").val(),
+            pessoa_juridicas_id: 1,
+            placa: $("#inputPlaca").val(),
+            chassis: $("#inputChassis").val(),
+            capacidade_media_carga: $("#inputCapacidade").val(),
+            renavam: $("#inputRenavam").val(),
+            combustivel: $("#inputCombustivel").val(),
+            modelos_id: $("#iModelo").val(),
+            marcas_id: $("#iMarca").val(),
+            acondicionamento_id: $("#iAcondicionamento").val(),
             ativo: $("#checkAtivo").prop("checked") ? 1 : 0,
           }
           console.log(JSONRequest)
+          const id = $('#inputId').val();
+          const method = id ? "PUT" : "POST";
+          const urlP= id ? `/api/veiculo/${id}` : "/api/veiculo";
           $.ajax({
-            type: "POST",
-            url: "/api/veiculo",
+            type: method,
+            url: urlP,
             data: JSONRequest,
             dataType: "json",
             encode: true,
           }).done(function (response) {
             console.log(response);
             if (response && response.data) {
-              $("#modalExemplo").modal("hide");
-              $('#marcaTbl').DataTable().ajax.reload();
-              $("#inputDescricao").val(""),
+              $("#modalVeiculo").modal("hide");
+              $('#veiculoTbl').DataTable().ajax.reload();
+              $("#inputPlaca").val(""),
+              $("#inputChassis").val(""),
+              $("#inputCapacidadeMediaCarga").val(""),
+              $("#inputRenavam").val(""),
+              $("#inputCombustivel").val(""),
+              $("#inputModelo").val(""),
+              $("#inputMarca").val(""),
+              $("#inputAcondicionamento").val(""),
               $("#checkAtivo").prop("checked", false)
             }
           });
         });
-        $('body').on('click', '.excluirMarca',  function(){
+
+        $('body').on('click', '#novoVeiculo',  function(){
+          $("#modalVeiculo").modal("show");
+          $('#tituloModal').text("Novo Veiculo")
+        });
+         //Editar
+        $('body').on('click', '.editarVeiculo',  function(){
+          const veiculo_id = $(this).attr('data-id');
+          $.ajax({
+            type: "GET",
+            url: `/api/veiculo/${veiculo_id}`,
+          }).done(function (response) {
+            console.log(response);
+            if (response && response.data) {
+              $("#modalVeiculo").modal("show");
+              $('#tituloModal').text("Editar Veiculo")
+              $('#inputId').val(response.data.id);
+              $("#inputPlaca").val(response.data.placa),
+              $("#inputChassis").val(response.data.chassis),
+              $("#inputCapacidade").val(response.data.capacidade_media_carga),
+              $("#inputRenavam").val(response.data.renavam),
+              $("#inputCombustivel").val(response.data.combustivel),
+              $("#iModelo").val(response.data.modelos_id).selectpicker('refresh'),
+              $("#iMarca").val(response.data.marcas_id).selectpicker('refresh'),
+              $("#iAcondicionamento").val(response.data.acondicionamento_id).selectpicker('refresh'),
+              $("#checkAtivo").prop("checked", response.data.ativo)
+              $('#veiculoTbl').DataTable().ajax.reload();
+            }
+          });
+        });
+        $('body').on('click', '.excluirVeiculo',  function(){
           const veiculo_id = $(this).attr('data-id');
             if (confirm('Aviso!,Deseja realmente excluir o device?')) {
               $.ajax({
@@ -249,6 +265,42 @@
               });
             }
          });
+         $.ajax({
+          type: "GET",
+          url: "/api/marca",
+        }).done(function (response) {
+          if (response && response.data) {
+            loadSelect('#iMarca', response.data)
+          }
+        });
+        $.ajax({
+          type: "GET",
+          url: "/api/modelo",
+        }).done(function (response) {
+          if (response && response.data) {
+            loadSelect('#iModelo', response.data)
+          }
+        });
+        $.ajax({
+          type: "GET",
+          url: "/api/acondicionamento",
+        }).done(function (response) {
+          if (response && response.data) {
+            loadSelect('#iAcondicionamento', response.data)
+          }
+        });
       });
+      function loadSelect(selector, data) {
+        console.log('loadSelect', selector, data)
+        $.each(data, function(index, value) {
+          console.log('loadSelect each', index, value)
+          $(selector).append(new Option(value.descricao, value.id));
+          // $(selector).append($('<option>', {
+          //   value: value.id,
+          //   text: value.descricao
+          // }))
+        });
+        $(selector).selectpicker()
+      }
     </script>
   @endpush

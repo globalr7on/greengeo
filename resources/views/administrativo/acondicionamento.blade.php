@@ -9,8 +9,8 @@
     <div class="content">
       <div class="container-fluid">
         <div class="col-12 text-right">
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalExemplo">
-            Criar Novo Acondicinamento
+          <button type="button" class="btn btn-primary" id="novoAcondicionamento">
+            + Novo Acondicinamento
           </button>
         </div>
         <div class="row">
@@ -41,11 +41,11 @@
             </div>
           </div>
         </div>
-      <div class="modal fade" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal fade" id="modalAcondicionamento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Criar Novo Acondicionamento</h5>
+              <h5 class="modal-title" id="tituloModal">Criar Novo Acondicionamento</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -56,7 +56,7 @@
                 <form>
                   <div class="form-row">
                     <div class="form-group col-md-12">
-                        <input type="hidden" class="form-control" id="inputId" placeholder="Descrição">
+                        <input type="hidden" class="form-control" id="inputId">
                         <input type="text" class="form-control" id="inputDescricao" placeholder="Descrição">
                     </div>
                   </div>
@@ -90,7 +90,44 @@
         $('#acondTbl').DataTable({
           dom: 'Bfrtip',
                 buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
+                  {
+                              extend: 'copy',
+                              text: 'COPIAR',
+                              text: '<i class="fa fa-copy fa-2x"></i>',
+                              titleAttr: 'Copiar para Área de Transferência',
+                              charset: 'UTF-8',
+                            },
+                            {
+                              extend: 'pdf',
+                              text: 'PDF',
+                              text: '<i class="fa fa-file-pdf fa-2x"></i>',
+                              titleAttr: 'Exportar em formato PDF',
+                              charset: 'UTF-8',
+                              footer: false,
+                              pageSize: 'A4'
+                            },
+                            {
+                              extend: 'excel',
+                              text: 'EXCEL',
+                              text: '<i class="fa fa-file-excel fa-2x"></i>',
+                              titleAttr: 'Exportar em formato Excel',
+                              charset: 'UTF-8',
+                            },
+                            {
+                              extend: 'csv',
+                              text: 'CSV',
+                              text: '<i class="fa fa-file-csv fa-2x"></i>',
+                              titleAttr: 'Exportar em formato CSV',
+                              charset: 'UTF-8',
+                            },
+                            {
+                              extend: 'print',
+                              text: 'IMPRIMIR',
+                              text: '<i id="nova-pesquisa" class="fa fa-print fa-2x"></i>',
+                              titleAttr: 'Imprimir',
+                              charset: 'UTF-8',
+                              footer: false,
+                            },
                 ],
           ajax: {
             url: '/api/acondicionamento',
@@ -110,7 +147,7 @@
                     return `
                       <i class="fa fa-trash excluirAcond" data-id="${row.id}" title="Excluir" ></i>
                       &nbsp;
-                      <i class="fa fa-pen editarAcond" data-id="${row.id}" data-toggle="modal" data-target="#modalExemplo" title="Editar"></i>
+                      <i class="fa fa-pen editarAcond" data-id="${row.id}" data-toggle="modal" data-target="#modalAcondicionamento" title="Editar"></i>
                     `
                   }
               }
@@ -135,12 +172,18 @@
           }).done(function (response) {
             console.log(response);
             if (response && response.data) {
-              $("#modalExemplo").modal("hide");
+              $("#modalAcondicionamento").modal("hide");
+              $('#inputId').val(response.data.id);
               $('#acondTbl').DataTable().ajax.reload();
-              $("#inputDescricao").val(""),
+              $("#inputDescricao").val("");
               $("#checkAtivo").prop("checked", false)
             }
           });
+        });
+        $('body').on('click', '#novoAcondicionamento',  function(){
+          $("#modalAcondicionamento").modal("show");
+          $('#tituloModal').text("Nova Acondicionamento");
+          $("#inputDescricao").val("");
         });
         //Editar
         $('body').on('click', '.editarAcond',  function(){
@@ -152,17 +195,19 @@
             console.log(response);
             if (response && response.data) {
                 console.log(response.data)
-                $("#modalExemplo").modal("show");
+                $("#modalAcondicionamento").modal("show");
+                $('#tituloModal').text("Editar Acondicionamento")
                 $('#inputId').val(response.data.id);
                 $("#inputDescricao").val(response.data.descricao);
                 $("#checkAtivo").prop("checked", response.data.ativo)
+                $('#atividadeTbl').DataTable().ajax.reload();
             }
           });
          });
         //Excluir
         $('body').on('click', '.excluirAcond',  function(){
           const acond_id = $(this).attr('data-id');
-            if (confirm('Aviso!,Deseja realmente excluir o device?')) {
+            if (confirm('Aviso!,Deseja realmente excluir o acondicionamento?')) {
               $.ajax({
                 type: "DELETE",
                 url:  `/api/acondicionamento/${acond_id}`,
