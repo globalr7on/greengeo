@@ -6,6 +6,12 @@
 =========================================================
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.*/
 
+/* CUSTOM */
+.cursor-pointer {
+    cursor: pointer;
+}
+/* CUSTOM */
+
 .card {
     font-size: .875rem;
 }
@@ -12112,7 +12118,7 @@ to {
     transition: .33s, cubic-bezier(.685, .0473, .346, 1);
 }
 .main-panel>.content {
-    margin-top: 70px;
+    /* margin-top: 70px; */
     padding: 30px 15px;
     min-height: calc(100vh - 123px);
 }

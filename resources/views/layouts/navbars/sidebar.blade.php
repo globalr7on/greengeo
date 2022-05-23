@@ -1,4 +1,4 @@
-<div class="sidebar" data-color="orange" data-background-color="white" >
+<div class="sidebar" data-color="orange" data-background-color="white">
   <!--
       Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
 
@@ -29,31 +29,31 @@
           <ul class="nav">
             <li class="nav-item ml-4">
               <a class="nav-link" href="/empresa">
-              <i class="fa-solid fa-building"></i>
+                <i class="fa-solid fa-building"></i>
                 <span class="sidebar-normal text-left" >{{ __('Empresas') }} </span>
               </a>
             </li>
             <li class="nav-item ml-4">
               <a class="nav-link" href="#">
-              <i class="fa-solid fa-users"></i>
+                <i class="fa-solid fa-users"></i>
                 <span class="sidebar-normal">{{ __('Motoristas') }} </span>
               </a>
             </li>
             <li class="nav-item ml-4">
               <a class="nav-link" href="/veiculo">
-               <i class="fa-solid fa-truck"></i>
+                <i class="fa-solid fa-truck"></i>
                 <span class="sidebar-normal">{{ __('Veiculo') }} </span>
               </a>
             </li>
             <!-- <li class="nav-item ml-4">
               <a class="nav-link" href="#">
-              <i class="fa-solid fa-boxes-stacked"></i>
+                <i class="fa-solid fa-boxes-stacked"></i>
                 <span class="sidebar-normal">{{ __('Itens de Estoque') }} </span>
               </a>
             </li> -->
             <li class="nav-item ml-4">
               <a class="nav-link" href="/nota_fiscal">
-              <i class="fa-solid fa-file-circle-check"></i>
+                <i class="fa-solid fa-file-circle-check"></i>
                 <span class="sidebar-normal">{{ __('Nota Fiscal') }} </span>
               </a>
             </li>
@@ -71,56 +71,56 @@
           <ul class="nav">
             <li class="nav-item ml-4">
               <a class="nav-link" href="{{ route('administrativo.acondicionamento') }}">
-              <i class="fa-solid fa-dumpster"></i>
-                <span class="sidebar-normal">{{ __('Tipos de Acondicionamiento') }} </span>
+                <i class="fa-solid fa-dumpster"></i>
+                <span class="sidebar-normal">{{ __('Tipos de Acondicionamento') }}</span>
               </a>
             </li>
             <li class="nav-item ml-4">
               <a class="nav-link" href="/tratamento">
-              <i class="fa-solid fa-radiation"></i>
-                <span class="sidebar-normal">{{ __('Tratamientos') }} </span>
+                <i class="fa-solid fa-radiation"></i>
+                <span class="sidebar-normal">{{ __('Tratamientos') }}</span>
               </a>
             </li>
             <li class="nav-item ml-4">
               <a class="nav-link" href="#">
-              <i class="fa-solid fa-recycle"></i>
-                <span class="sidebar-normal">{{ __('Classes de Sucata') }} </span>
+                <i class="fa-solid fa-recycle"></i>
+                <span class="sidebar-normal">{{ __('Classes de Sucata') }}</span>
               </a>
             </li>
             <li class="nav-item ml-4">
               <a class="nav-link" href="/unidad">
-              <i class="fa-solid fa-weight-scale"></i>
-                <span class="sidebar-normal">{{ __('Unidades') }} </span>
+                <i class="fa-solid fa-weight-scale"></i>
+                <span class="sidebar-normal">{{ __('Unidades') }}</span>
               </a>
             </li>
             <li class="nav-item ml-4">
               <a class="nav-link" href="/modelo">
-              <i class="fa-solid fa-shuffle"></i>
-                <span class="sidebar-normal">{{ __('Modelo de Veiculos') }} </span>
+                <i class="fa-solid fa-shuffle"></i>
+                <span class="sidebar-normal">{{ __('Modelo de Veiculos') }}</span>
               </a>
             </li>
             <li class="nav-item ml-4">
               <a class="nav-link" href="/marca">
-              <i class="fa-solid fa-shuffle"></i>
-                <span class="sidebar-normal">{{ __('Marcas de Veiculos') }} </span>
+                <i class="fa-solid fa-shuffle"></i>
+                <span class="sidebar-normal">{{ __('Marcas de Veiculos') }}</span>
               </a>
             </li>
             <li class="nav-item ml-4">
               <a class="nav-link" href="#">
-              <i class="fa-regular fa-clipboard"></i>
-                <span class="sidebar-normal">{{ __('Estágios de OS') }} </span>
+                <i class="fa-regular fa-clipboard"></i>
+                <span class="sidebar-normal">{{ __('Estágios de OS') }}</span>
               </a>
             </li>
             <li class="nav-item ml-4">
               <a class="nav-link" href="/atividade">
-              <i class="fa-solid fa-square-caret-right"></i>
-                <span class="sidebar-normal">{{ __('Atividade') }} </span>
+                <i class="fa-solid fa-square-caret-right"></i>
+                <span class="sidebar-normal">{{ __('Atividade') }}</span>
               </a>
             </li>
             <li class="nav-item ml-4">
               <a class="nav-link" href="/acessantes">
-              <i class="fa-solid fa-users"></i>
-                <span class="sidebar-normal">{{ __('Accesantes') }} </span>
+                <i class="fa-solid fa-users"></i>
+                <span class="sidebar-normal">{{ __('Accesantes') }}</span>
               </a>
             </li>
           </ul>
@@ -128,7 +128,7 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" data-toggle="collapse" href="#rasTab" aria-expanded="true">
-        <i class="fa-solid fa-satellite-dish"></i>
+          <i class="fa-solid fa-satellite-dish"></i>
           <p>{{ __('OS e Rastreamento') }}
             <b class="caret"></b>
           </p>
@@ -137,14 +137,14 @@
           <ul class="nav">
             <li class="nav-item ml-4">
               <a class="nav-link" href="{{ route('map') }}">
-                <i class="material-icons">location_ons</i>
-                  <p>{{ __('Rastreamento') }}</p>
+                <i class="fas fa-map-marker-alt"></i>
+                <span class="sidebar-normal">{{ __('Rastreamento') }}</span>
               </a>
             </li>
             <li class="nav-item ml-4">
               <a class="nav-link" href="#">
-              <i class="fa-solid fa-file-lines"></i>
-                  <p>{{ __('OS') }}</p>
+                <i class="fa-solid fa-file-lines"></i>
+                <span class="sidebar-normal">{{ __('OS') }}</span>
               </a>
             </li>
           </ul>

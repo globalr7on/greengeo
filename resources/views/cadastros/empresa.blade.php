@@ -264,7 +264,6 @@
 @push('js')
   <script>
     $(document).ready(function () {
-      console.log('empresaTbl', $('#empresaTbl'))
       $('#empresaTbl').DataTable({
         scrollX: '500px',
         // dom: 'Bfrtip',
