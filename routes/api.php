@@ -124,3 +124,16 @@ Route::put('veiculo/{id}', 'App\Http\Controllers\Api\VeiculoController@update');
 Route::delete('veiculo/{id}', 'App\Http\Controllers\Api\VeiculoController@destroy');
 
 // 
+
+// API ESTAGIOS OS 
+Route::get('estagio_os', 'App\Http\Controllers\Api\EstagiosOsController@index');
+
+Route::get('estagio_os/{id}', 'App\Http\Controllers\Api\EstagiosOsController@show');
+
+Route::post('estagio_os', 'App\Http\Controllers\Api\EstagiosOsController@store');
+
+Route::put('estagio_os/{id}', 'App\Http\Controllers\Api\EstagiosOsController@update');
+
+Route::delete('estagio_os/{id}', 'App\Http\Controllers\Api\EstagiosOsController@destroy');
+
+// 

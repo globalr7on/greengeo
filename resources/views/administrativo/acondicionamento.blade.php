@@ -51,18 +51,18 @@
             <div class="col-md-12">
               <form>
                 <div class="form-row">
+                <div class="form-group col-md-12">
+                  <div class="togglebutton">
+                    <label>
+                      <input type="checkbox" checked="" id="checkAtivo">
+                        <span class="toggle"></span>
+                        Ativo?
+                    </label>
+                  </div>
+                </div>
                   <div class="form-group col-md-12">
                     <input type="hidden" class="form-control" id="inputId">
                     <input type="text" class="form-control" id="inputDescricao" placeholder="Descrição">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input class="form-check-input" type="checkbox"  id="checkAtivo" value="">
-                        Ativo?
-                        <span class="form-check-sign"><span class="check"></span></span>
-                    </label>
                   </div>
                 </div>
                 <button type="button" class="btn btn-primary" id="salvarAcond">Salvar</button>
@@ -82,44 +82,42 @@
     $('#acondTbl').DataTable({
       dom: 'Bfrtip',
       buttons: [
-        {
-          extend: 'copy',
-          text: '<i class="fa fa-copy fa-2x"></i>',
-          titleAttr: 'Copiar para Área de Transferência',
-          className: 'btn-default',
-          charset: 'UTF-8',
-        },
-        {
-          extend: 'pdf',
-          text: '<i class="fa fa-file-pdf fa-2x"></i>',
-          titleAttr: 'Exportar em formato PDF',
-          className: 'btn-default',
-          charset: 'UTF-8',
-          footer: false,
-          pageSize: 'A4'
-        },
-        {
-          extend: 'excel',
-          text: '<i class="fa fa-file-excel fa-2x"></i>',
-          titleAttr: 'Exportar em formato Excel',
-          className: 'btn-default',
-          charset: 'UTF-8',
-        },
-        {
-          extend: 'csv',
-          text: '<i class="fa fa-file-csv fa-2x"></i>',
-          titleAttr: 'Exportar em formato CSV',
-          className: 'btn-default',
-          charset: 'UTF-8',
-        },
-        {
-          extend: 'print',
-          text: '<i id="nova-pesquisa" class="fa fa-print fa-2x"></i>',
-          titleAttr: 'Imprimir',
-          className: 'btn-default',
-          charset: 'UTF-8',
-          footer: false,
-        }
+                  {
+                    extend: 'copy',
+                    text: 'Copiar',
+                    titleAttr: 'Copiar para Área de Transferência',
+                    className: 'btn-secondary',
+                    charset: 'UTF-8',
+                  },
+                  {
+                    extend: 'csv',
+                    text: 'CSV',
+                    titleAttr: 'Exportar a CSV',
+                    className: 'btn-secondary',
+                    charset: 'UTF-8',
+                  },
+                  {
+                    extend: 'excel',
+                    text: 'Excel',
+                    titleAttr: 'Exportar a Excel',
+                    className: 'btn-secondary',
+                    charset: 'UTF-8',
+                  },
+                  {
+                    extend: 'pdf',
+                    text: 'PDF',
+                    titleAttr: 'Exportar a PDF',
+                    className: 'btn-secondary',
+                    charset: 'UTF-8',
+                  },
+                  {
+                    extend: 'print',
+                    text: 'Imprimir',
+                    titleAttr: 'Imprimir Documento',
+                    className: 'btn-secondary',
+                    charset: 'UTF-8',
+                    color: 'black'
+                  },
       ],
       ajax: {
         url: '/api/acondicionamento',

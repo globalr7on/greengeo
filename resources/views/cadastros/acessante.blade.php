@@ -129,6 +129,7 @@
         <div class="modal-body">
           <div class="row">
             <div class="col-md-12">
+            <div class="wizard">
               <form>
                 <div class="form-row">
                     <div class="form-group col-md-4 text-center">
@@ -234,6 +235,7 @@
                 </form>
               </div>
             </div>
+            </div>
           </div>
         </div>
       </div>
@@ -248,7 +250,42 @@
         scrollX: '500px',
         dom: 'Bfrtip',
         buttons: [
-          'copy', 'csv', 'excel', 'pdf', 'print'
+                  {
+                    extend: 'copy',
+                    text: 'Copiar',
+                    titleAttr: 'Copiar para Área de Transferência',
+                    className: 'btn-secondary',
+                    charset: 'UTF-8',
+                  },
+                  {
+                    extend: 'csv',
+                    text: 'CSV',
+                    titleAttr: 'Exportar a CSV',
+                    className: 'btn-secondary',
+                    charset: 'UTF-8',
+                  },
+                  {
+                    extend: 'excel',
+                    text: 'Excel',
+                    titleAttr: 'Exportar a Excel',
+                    className: 'btn-secondary',
+                    charset: 'UTF-8',
+                  },
+                  {
+                    extend: 'pdf',
+                    text: 'PDF',
+                    titleAttr: 'Exportar a PDF',
+                    className: 'btn-secondary',
+                    charset: 'UTF-8',
+                  },
+                  {
+                    extend: 'print',
+                    text: 'Imprimir',
+                    titleAttr: 'Imprimir Documento',
+                    className: 'btn-secondary',
+                    charset: 'UTF-8',
+                    color: 'black'
+                  },
         ],
         ajax: {
           url: '/api/acessantes',

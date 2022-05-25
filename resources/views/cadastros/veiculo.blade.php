@@ -18,7 +18,7 @@
             <div class="card">
               <div class="card-header card-header-primary">
                 <h4 class="card-title ">Veiculo</h4>
-                <p class="card-category"> Listado de Veiculo</p>
+                <p class="card-category">Veiculos Cadastrados</p>
               </div>
               <div class="card-body">
                 <div class="table-responsive">
@@ -147,7 +147,44 @@
         $('#veiculoTbl').DataTable({
           dom: 'Bfrtip',
                 buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
+                            {
+                              // extend: 'copyHtml5',
+                              extend: 'copyHtml5',
+                              text: 'Copiar',
+                              titleAttr: 'Copiar para Área de Transferência',
+                              className: 'btn-secondary',
+                              charset: 'UTF-8',
+                            },
+                            {
+                              extend: 'csv',
+                              text: 'CSV',
+                              titleAttr: 'Exportar a CSV',
+                              className: 'btn-secondary',
+                              charset: 'UTF-8',
+                            },
+                            {
+                              extend: 'excel',
+                              text: 'Excel',
+                              titleAttr: 'Exportar a Excel',
+                              className: 'btn-secondary',
+                              charset: 'UTF-8',
+                            },
+                            {
+                              extend: 'pdf',
+                              text: 'PDF',
+                              titleAttr: 'Exportar a PDF',
+                              className: 'btn-secondary',
+                              charset: 'UTF-8',
+                            },
+                            {
+                              extend: 'print',
+                              text: 'Imprimir',
+                              titleAttr: 'Imprimir Documento',
+                              className: 'btn-secondary',
+                              charset: 'UTF-8',
+                              color: 'black'
+                            },
+
                 ],
           ajax: {
             url: '/api/veiculo',

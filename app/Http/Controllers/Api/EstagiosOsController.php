@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\EstagiosOsRequest;
+use App\Http\Resources\EstagiosOsResource;
+use App\Models\EstagiosOs;
 use Illuminate\Http\Request;
+use Validator;
 
 class EstagiosOsController extends Controller
 {
@@ -14,7 +18,10 @@ class EstagiosOsController extends Controller
      */
     public function index()
     {
-        //
+        $estagios_os = EstagiosOs::all();
+        // dd($acondicionamento);
+        return EstagiosOsResource::collection($estagios_os);
+        // return $acessante;
     }
 
     /**
@@ -35,7 +42,19 @@ class EstagiosOsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'descricao' => 'required|string|max:45',
+          
+            
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors());       
+        }
+
+        $estagios_os = EstagiosOs::create($request->all());
+        // dd($acondicionamento);
+        return new EstagiosOsResource($estagios_os);
     }
 
     /**
@@ -46,7 +65,7 @@ class EstagiosOsController extends Controller
      */
     public function show($id)
     {
-        //
+        return new EstagiosOsResource(EstagiosOs::find($id));
     }
 
     /**
@@ -69,7 +88,18 @@ class EstagiosOsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'descricao' => 'required|string|max:45',
+            
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors());       
+        }
+        
+        $estagios_os = EstagiosOs::find($id);
+        $estagios_os->update($request->all());
+        return new EstagiosOsResource($estagios_os);
     }
 
     /**
@@ -80,6 +110,8 @@ class EstagiosOsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $estagios_os = EstagiosOs::findOrFail($id);
+        $estagios_os->delete();
+        return response(null, 204);
     }
 }

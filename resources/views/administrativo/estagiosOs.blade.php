@@ -1,30 +1,30 @@
-@extends('layouts.app', ['activePage' => 'tratamentos', 'titlePage' => __('Tratamentos')])
+@extends('layouts.app', ['activePage' => 'estagios', 'titlePage' => __('Estagios OS')])
 @section('css')
   <!-- <link rel="stylesheet" href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"> -->
 @endsection
 @section('subheaderTitle')
-  Tratamento
+  Estagio OS
 @endsection
 @section('content')
   <div class="content">
     <div class="container-fluid">
       <div class="col-12 text-right">
-        <button type="button" class="btn btn-primary" id="novoTratamento">+ Novo Tratamento</button>
+        <button type="button" class="btn btn-primary" id="novoEstagioOs">+ Novo Estagio</button>
       </div>
       <div class="row">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header card-header-primary">
-              <!-- <h4 class="card-title ">Tratamento</h4> -->
-              <!-- <p class="card-category"> Listado de Tratamentos</p> -->
+              <!-- <h4 class="card-title">Acondicionamento</h4> -->
+              <!-- <p class="card-category">Listado de Acondicionamento</p> -->
               <span class="card-title">&nbsp;</span>
             </div>
             <div class="card-body">
+              <!-- <div class="table-responsive"> -->
               <div>
-                <table class="table" id="tratamentoTbl">
+                <table class="table" id="estagioOsTbl">
                   <thead>
                     <th class="text-primary font-weight-bold">Descrição</th>
-                    <th class="text-primary font-weight-bold text-center">Ativo</th>
                     <th class="text-primary font-weight-bold text-center">Ação</th>
                   </thead>
                 </table>
@@ -36,11 +36,11 @@
     </div>
   </div>
 
-  <div class="modal fade" id="modalTratamento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="modalEstagioOs" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-md" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="tituloModal">Criar Novo Tratamento</h5>
+          <h5 class="modal-title" id="tituloModal">Criar Novo Estagio Os</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -50,23 +50,25 @@
             <div class="col-md-12">
               <form>
                 <div class="form-row">
-                  <input type="hidden" class="form-control" id="inputId">
-                  <div class="form-group col-md-12">
-                    <input type="text" class="form-control" id="inputDescricao" placeholder="Descrição">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input class="form-check-input" type="checkbox"  id="checkAtivo" value="">
-                      Ativo? <span class="form-check-sign"><span class="check"></span></span>
+                <div class="form-group col-md-6">
+                  <div class="togglebutton">
+                    <label>
+                      <input type="checkbox" checked="" id="checkAtivo">
+                        <span class="toggle"></span>
+                        Ativo?
                     </label>
                   </div>
                 </div>
-                <button type="button" class="btn btn-primary" id="salvarTratamento">Salvar</button>
+                  <div class="form-group col-md-6">
+                    <input type="hidden" class="form-control" id="inputId">
+                    <input type="text" class="form-control" id="inputDescricao" placeholder="Descrição">
+                  </div>
+                </div>
+                <button type="button" class="btn btn-primary" id="salvarAcond">Salvar</button>
               </form>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </div>
@@ -76,7 +78,7 @@
 @push('js')
 <script>
   $(document).ready(function () {
-    $('#tratamentoTbl').DataTable({
+    $('#estagioOsTbl').DataTable({
       dom: 'Bfrtip',
       buttons: [
                 {
@@ -117,7 +119,7 @@
                 },
       ],
       ajax: {
-        url: '/api/tratamento',
+        url: '/api/estagio_os',
         dataSrc: 'data'
       },
       columns: [
@@ -133,24 +135,24 @@
           className: "text-center",
           render: function (data, type, row) {
             return `
-              <i class="fa fa-trash excluirTratamento cursor-pointer" data-id="${row.id}" title="Excluir" ></i>
+              <i class="fa fa-trash cursor-pointer excluirEstagioOs" data-id="${row.id}" title="Excluir" ></i>
               &nbsp;
-              <i class="fa fa-pen editarTratamento cursor-pointer" data-id="${row.id}" title="Editar"></i>
+              <i class="fa fa-pen cursor-pointer editarEstagioOs" data-id="${row.id}" title="Editar"></i>
             `
           }
         }
       ],
     });
 
-    // Salvar
-    $('body').on('click', '#salvarTratamento', function() {
+    // Salvar 
+    $('body').on('click', '#salvarEstagioOs', function(){
       const JSONRequest = {
         descricao: $("#inputDescricao").val(),
-        ativo: $("#checkAtivo").prop("checked") ? 1 : 0,
+        ativo: $("#checkAtivo").prop("checked") ? 1 : 0
       }
       const id = $('#inputId').val();
       const method = id ? "PUT" : "POST";
-      const urlP= id ? `/api/tratamento/${id}` : "/api/tratamento";
+      const urlP= id ? `/api/estagio_os/${id}` : "/api/estagio_os";
       $.ajax({
         type: method,
         url: urlP,
@@ -159,47 +161,46 @@
         encode: true,
       }).done(function (response) {
         if (response && response.data) {
-          $("#modalTratamento").modal("hide");
-          $('#tratamentoTbl').DataTable().ajax.reload();
+          $("#modalEstagioOs").modal("hide");
+          $('#estagioOsTbl').DataTable().ajax.reload();
         }
       });
     });
 
     // Open Modal New
-    $('body').on('click', '#novoTratamento', function() {
-      $("#modalTratamento").modal("show");
-      $('#tituloModal').text("Novo Tratamento");
+    $('body').on('click', '#novoEstagioOs', function() {
+      $("#modalEstagioOs").modal("show");
+      $('#tituloModal').text("Nova Estagio OS");
       $('#inputId').val("");
       $("#inputDescricao").val("");
       $("#checkAtivo").prop("checked", false)
     });
 
     // Editar
-    $('body').on('click', '.editarTratamento', function() {
-      const tratamento_id = $(this).attr('data-id');
+    $('body').on('click', '.editarEstagioOs', function() {
+      const estagios_id = $(this).attr('data-id');
       $.ajax({
         type: "GET",
-        url: `/api/tratamento/${tratamento_id}`,
+        url: `/api/estagio_os/${estagios_id}`,
       }).done(function (response) {
         if (response && response.data) {
-          $("#modalTratamento").modal("show");
-          $('#tituloModal').text("Editar Tratamento")
+          $("#modalEstagioOs").modal("show");
+          $('#tituloModal').text("Editar Estagio Os")
           $('#inputId').val(response.data.id);
           $("#inputDescricao").val(response.data.descricao);
-          $("#checkAtivo").prop("checked", response.data.ativo)
         }
       });
     });
 
     // Excluir
-    $('body').on('click', '.excluirTratamento', function() {
-      const tratamento_id = $(this).attr('data-id');
-      if (confirm('Aviso! Deseja realmente excluir o tratamento?')) {
+    $('body').on('click', '.excluirEstagioOs',  function() {
+      const estagios_id = $(this).attr('data-id');
+      if (confirm('Aviso! Deseja realmente excluir o Estagios OS?')) {
         $.ajax({
           type: "DELETE",
-          url:  `/api/tratamento/${tratamento_id}`,
+          url:  `/api/estagio_os/${estagios_id}`,
         }).done(function (response) {
-          $('#tratamentoTbl').DataTable().ajax.reload();
+          $('#estagioOsTbl').DataTable().ajax.reload();
         });
       }
     });

@@ -85,44 +85,42 @@
     $('#unidadTbl').DataTable({
       dom: 'Bfrtip',
       buttons: [
-        {
-          extend: 'copy',
-          text: '<i class="fa fa-copy fa-2x"></i>',
-          titleAttr: 'Copiar para Área de Transferência',
-          className: 'btn-default',
-          charset: 'UTF-8',
-        },
-        {
-          extend: 'pdf',
-          text: '<i class="fa fa-file-pdf fa-2x"></i>',
-          titleAttr: 'Exportar em formato PDF',
-          className: 'btn-default',
-          charset: 'UTF-8',
-          footer: false,
-          pageSize: 'A4'
-        },
-        {
-          extend: 'excel',
-          text: '<i class="fa fa-file-excel fa-2x"></i>',
-          titleAttr: 'Exportar em formato Excel',
-          className: 'btn-default',
-          charset: 'UTF-8',
-        },
-        {
-          extend: 'csv',
-          text: '<i class="fa fa-file-csv fa-2x"></i>',
-          titleAttr: 'Exportar em formato CSV',
-          className: 'btn-default',
-          charset: 'UTF-8',
-        },
-        {
-          extend: 'print',
-          text: '<i id="nova-pesquisa" class="fa fa-print fa-2x"></i>',
-          titleAttr: 'Imprimir',
-          className: 'btn-default',
-          charset: 'UTF-8',
-          footer: false,
-        }
+                {
+                  extend: 'copy',
+                  text: 'Copiar',
+                  titleAttr: 'Copiar para Área de Transferência',
+                  className: 'btn-secondary',
+                  charset: 'UTF-8',
+                },
+                {
+                  extend: 'csv',
+                  text: 'CSV',
+                  titleAttr: 'Exportar a CSV',
+                  className: 'btn-secondary',
+                  charset: 'UTF-8',
+                },
+                {
+                  extend: 'excel',
+                  text: 'Excel',
+                  titleAttr: 'Exportar a Excel',
+                  className: 'btn-secondary',
+                  charset: 'UTF-8',
+                },
+                {
+                  extend: 'pdf',
+                  text: 'PDF',
+                  titleAttr: 'Exportar a PDF',
+                  className: 'btn-secondary',
+                  charset: 'UTF-8',
+                },
+                {
+                  extend: 'print',
+                  text: 'Imprimir',
+                  titleAttr: 'Imprimir Documento',
+                  className: 'btn-secondary',
+                  charset: 'UTF-8',
+                  color: 'black'
+                },
       ],
       ajax: {
         url: '/api/unidad',
