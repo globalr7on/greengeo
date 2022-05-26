@@ -79,42 +79,42 @@
     $('#tratamentoTbl').DataTable({
       dom: 'Bfrtip',
       buttons: [
-                {
-                  extend: 'copy',
-                  text: 'Copiar',
-                  titleAttr: 'Copiar para Área de Transferência',
-                  className: 'btn-secondary',
-                  charset: 'UTF-8',
-                },
-                {
-                  extend: 'csv',
-                  text: 'CSV',
-                  titleAttr: 'Exportar a CSV',
-                  className: 'btn-secondary',
-                  charset: 'UTF-8',
-                },
-                {
-                  extend: 'excel',
-                  text: 'Excel',
-                  titleAttr: 'Exportar a Excel',
-                  className: 'btn-secondary',
-                  charset: 'UTF-8',
-                },
-                {
-                  extend: 'pdf',
-                  text: 'PDF',
-                  titleAttr: 'Exportar a PDF',
-                  className: 'btn-secondary',
-                  charset: 'UTF-8',
-                },
-                {
-                  extend: 'print',
-                  text: 'Imprimir',
-                  titleAttr: 'Imprimir Documento',
-                  className: 'btn-secondary',
-                  charset: 'UTF-8',
-                  color: 'black'
-                },
+        {
+          extend: 'copyHtml5',
+          text: 'Copiar',
+          titleAttr: 'Copiar para Área de Transferência',
+          className: 'btn-default-light rounded-0 mr-1 py-2 font-weight-bold',
+          charset: 'UTF-8',
+        },
+        {
+          extend: 'csv',
+          text: 'CSV',
+          titleAttr: 'Exportar a CSV',
+          className: 'btn-default-light rounded-0 mr-1 py-2 font-weight-bold',
+          charset: 'UTF-8',
+        },
+        {
+          extend: 'excel',
+          text: 'Excel',
+          titleAttr: 'Exportar a Excel',
+          className: 'btn-default-light rounded-0 mr-1 py-2 font-weight-bold',
+          charset: 'UTF-8',
+        },
+        {
+          extend: 'pdf',
+          text: 'PDF',
+          titleAttr: 'Exportar a PDF',
+          className: 'btn-default-light rounded-0 mr-1 py-2 font-weight-bold',
+          charset: 'UTF-8',
+        },
+        {
+          extend: 'print',
+          text: 'Imprimir',
+          titleAttr: 'Imprimir Documento',
+          className: 'btn-default-light rounded-0 mr-1 py-2 font-weight-bold',
+          charset: 'UTF-8',
+          color: 'black'
+        },
       ],
       ajax: {
         url: '/api/tratamento',
