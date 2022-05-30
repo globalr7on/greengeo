@@ -68,11 +68,8 @@
           </div>
         </div>
       </div>
-      
-
-
-        <div id="map"></div>
-      </div>
+      <div id="map"></div>
+    </div>
   </div>
 </div>
 @endsection
@@ -80,28 +77,93 @@
 @push('js')
 <script>
   $(document).ready(function() {
-    var map = L.map('map').setView([51.505, -0.09], 13);
+    var santaFelicidade = L.marker([-25.3954825,-49.3466]).bindPopup('Santa Felicidade');
+    var novoMundo = L.marker([-25.4877125,-49.3042128]).bindPopup('Novo Mundo');
+    var uberaba = L.marker([-25.4900417,-49.2332382]).bindPopup('Uberaba');
+    var colombo = L.marker([-25.3127019,-49.2596]).bindPopup('Colombo');
+    var curitiba = L.marker([-25.4476186,-49.3026774]).bindPopup('Colombo');
+    // var sanJose = L.marker([-25.5863324,-49.295225]).bindPopup('San Jose');
+    // var piraquara = L.marker([-25.4674252,-49.1429172]).bindPopup('Piraquara');
+    
+    var cities1 = L.layerGroup([
+      santaFelicidade,
+      novoMundo,
+      uberaba
+    ]);
+    var cities2 = L.layerGroup([
+      colombo,
+      curitiba
+    ]);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    
+    var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    });
+    var map = L.map('map', {
+      center: [-25.4476186,-49.3026774],
+      zoom: 10,
+      layers: [osm, cities1, cities2]
+    })
+    // .setView([51.505, -0.09], 13);
+
+    var overlayMaps = {
+      "Empresa1": cities1,
+      "Empresa2": cities2
+      // {"<img src='my-layer-icon' /> <span class='my-layer-item'>My Layer</span>": myLayer}
+    };
+
+    var layerControl = L.control.layers(null, overlayMaps).addTo(map);
+
+    var route1 = [
+      L.latLng(-25.4124496,-49.2267533),
+      L.latLng(-25.4245853,-49.1955658)
+    ]
+    var route2 = [
+      L.latLng(-25.5863324,-49.295225),
+      L.latLng(-25.4674252,-49.1429172)
+    ]
+
+    // Add route
+    L.Routing.control({
+      waypoints: route1,
+      lineOptions: {
+        styles: [{color: 'red', opacity: 1, weight: 5}]
+      },
+      addWaypoints: false,
+      routeWhileDragging: false,
+      show: false,
     }).addTo(map);
 
-    L.marker([51.5, -0.09]).addTo(map)
-    .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-    .openPopup();
+    L.Routing.control({
+      waypoints: route2,
+      lineOptions: {
+        styles: [{color: 'blue', opacity: 1, weight: 5}]
+      },
+      show: false
+    }).addTo(map);
+
+    // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    //   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    // }).addTo(map);
+
+    // L.marker([-25.4476186,-49.3026774]).addTo(map)
+    //   .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+    //   .openPopup();
+
+
 
     if(!navigator.geolocation){
       console.log("Your Browser doesn't support geolocation feature!")
     } else {
       setInterval(() => {
         navigator.geolocation.getCurrentPosition(getPosition)
-      },5000);
-      
+      }, 5000);
     }
 
     var marker, circle;
 
-    function getPosition(position){
+    function getPosition(position) {
       // console.log(position)
       var lat = position.coords.latitude
       var long = position.coords.longitude
@@ -115,31 +177,25 @@
         map.removeLayer(circle)
       }
 
-
-
       marker = L.marker([lat, long])
-      .bindPopup('Eu estou aqui.<br> Teste.')
-      .openPopup();
+        .bindPopup('Eu estou aqui.<br> Teste.')
+        .openPopup();
       circle = L.circle([lat, long],{radius:accuracy})
 
       var featureGroup = L.featureGroup([marker, circle]).addTo(map)
 
       map.fitBounds(featureGroup.getBounds())
-
-
-
       console.log("sua coordenada é: Lat: "+ lat+" Long: "+ long+ " Accuracy:"+ accuracy)
     }
-    // Javascript method's body can be found in assets/js/demos.js
-    // demo.initGoogleMaps();
-  });
-  // Open Modal New
-  $('body').on('click', '#novoSearch', function() {
+    
+    // Open Modal New
+    $('body').on('click', '#novoSearch', function() {
       $("#modalMapaSearch").modal("show");
       $('#tituloModal').text("Nova Pesquisa");
       // $('#inputId').val("");
       // $("#inputDescricao").val("");
       // $("#checkAtivo").prop("checked", false)
     });
+  });
 </script>
 @endpush
