@@ -11,13 +11,12 @@ use Laravel\Sanctum\HasApiTokens;
 
 class Tratamento extends Model
 {
-    // use HasFactory;
     use HasApiTokens, HasFactory, Notifiable;
-    
-    
     protected $table = 'tratamentos';
-    protected $fillable = ['descricao','ativo'];
-  
-    protected $guardaded=['id'];
+    protected $fillable = [
+        'descricao',
+        'ativo'
+    ];
+    protected $guardaded = ['id'];
 
 }

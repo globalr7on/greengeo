@@ -15,26 +15,6 @@ class CreateMateriaisTable extends Migration
     {
         Schema::create('materiais', function (Blueprint $table) {
             $table->id();
-
-            $table->unsignedBigInteger('gerador_id');
-            $table->foreign('gerador_id')->references('id')->on('pessoa_juridicas');
-
-            $table->unsignedBigInteger('tipo_materials_id');
-
-            $table->foreign('tipo_materials_id')->references('id')->on('tipo_materials');
-            
-            $table->unsignedBigInteger('classe_materials_id');
-
-            $table->foreign('classe_materials_id')->references('id')->on('classe_materials');
-            
-            $table->unsignedBigInteger('unidades_id');
-
-            $table->foreign('unidades_id')->references('id')->on('unidades');
-
-            $table->unsignedBigInteger('itens_fiscais_id');
-
-            $table->foreign('itens_fiscais_id')->references('id')->on('itens_fiscais');
-
             $table->string('ean', 20 );
             $table->integer('ibama');
             $table->string('denominacao_ibama', 45);
@@ -50,6 +30,16 @@ class CreateMateriaisTable extends Migration
             $table->string('nome_no_fabricante', 45);
             $table->string('especie', 45);
             $table->string('marca', 45);
+            $table->unsignedBigInteger('gerador_id');
+            $table->foreign('gerador_id')->references('id')->on('pessoas_juridicas');
+            $table->unsignedBigInteger('tipo_material_id');
+            $table->foreign('tipo_material_id')->references('id')->on('tipo_materiais');
+            $table->unsignedBigInteger('classe_material_id');
+            $table->foreign('classe_material_id')->references('id')->on('classe_materiais');
+            $table->unsignedBigInteger('unidade_id');
+            $table->foreign('unidade_id')->references('id')->on('unidades');
+            $table->unsignedBigInteger('nota_fiscal_iten_id');
+            $table->foreign('nota_fiscal_iten_id')->references('id')->on('nota_fiscal_itens');
             $table->timestamps();
         });
     }

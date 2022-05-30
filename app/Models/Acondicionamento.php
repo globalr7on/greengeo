@@ -11,18 +11,16 @@ use Laravel\Sanctum\HasApiTokens;
 
 class Acondicionamento extends Model
 {
-    // use HasFactory;
-    use HasApiTokens, HasFactory, Notifiable;
-    
-    
+    use HasApiTokens, HasFactory, Notifiable;   
     protected $table = 'acondicionamentos';
-    protected $fillable = ['descricao','ativo'];
-  
-    protected $guardaded=['id'];
-
+    protected $fillable = [
+        'descricao',
+        'ativo'
+    ];
+    protected $guardaded = ['id'];
 
     public function veiculo()
     {
-        return $this->belongsTo('App\Models\Veiculo' , 'acondicionamento_id', 'id');
+        return $this->belongsTo('App\Models\Veiculo');
     }
 }

@@ -14,7 +14,10 @@ class TipoMaterialController extends Controller
      */
     public function index()
     {
-        //
+        $tipo_material = TipoMaterial::all();
+        // dd($acondicionamento);
+        return TipoMaterialResource::collection($tipo_material);
+        // return $acessante;
     }
 
     /**

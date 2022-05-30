@@ -14,7 +14,7 @@
         <div class="col-md-12">
           <div class="card">
             <div class="card-header card-header-primary">
-              <h4 class="card-title ">Fiscal</h4>
+              <h4 class="card-title ">Cadastros</h4>
               <p class="card-category"> Notas Fiscais</p>
             </div>
             <div class="card-body">
@@ -22,38 +22,44 @@
                 <table class="table" id="nfiscalTbl">
                   <thead>
                     <tr>
-                      <th class="text-primary font-weight-bold">#</th>
-                      <th class="text-primary font-weight-bold">Numero</th>
-                      <th class="text-primary font-weight-bold">Serie</th>
+                      <th class="text-primary font-weight-bold">Tipo</th>
+                      <th class="text-primary font-weight-bold">CNPJ</th>
+                      <th class="text-primary font-weight-bold">Número</th>
+                      <th class="text-primary font-weight-bold">Série</th>
                       <th class="text-primary font-weight-bold">Folha</th>
-                      <th class="text-primary font-weight-bold"> Chave de Acesso</th>
-                      <th class="text-primary font-weight-bold">Actions</th>
+                      <th class="text-primary font-weight-bold text-center">Chave de Acesso</th>
+                      <th class="text-primary font-weight-bold">Ação</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td class="text-center">1</td>
-                      <td>Andrew Mike</td>
-                      <td>Develop</td>
-                      <td>2013</td>
-                      <td> 99,225</td>
+                      <td class="text-center">P.J</td>
+                      <td>38.156.898/0001-13</td>
+                      <td>000.001.249</td>
+                      <td>002</td>
+                      <td> 1/1</td>
+                      <td class="text-center">4220 1009 3789 2500 0145 5500 2000 0010 4910 0001 0554</td>
                       <td></td>
                     </tr>
                     <tr>
-                      <td class="text-center">2</td>
-                      <td>John Doe</td>
-                      <td>Design</td>
-                      <td>2012</td>
-                      <td> 89,241</td>
+                      <td class="text-center">P.J</td>
+                      <td>27.333.579/0001-11</td>
+                      <td>000.053.838</td>
+                      <td>003</td>
+                      <td> 1/1</td>
+                      <td class="text-center">4120 1101 7957 5100 0104 5500 3000 0833 3815 9465 4388</td>
                       <td></td>
                     </tr>
                     <tr>
-                      <td class="text-center">3</td>
-                      <td>Alex Mike</td>
-                      <td>Design</td>
-                      <td>2010</td>
-                      <td> 89,241</td>
+                      <td class="text-center">P.J</td>
+                      <td>12.403.752/0001-54</td>
+                      <td>000.356.985</td>
+                      <td>001</td>
+                      <td> 1/2</td>
+                      <td class="text-center">4220 1179 3636 7200 1098 5500 1000 3459 6910 0069 1940</td>
                       <td></td>
+                    </tr>
+                    <tr>
                     </tr>
                   </tbody>
                 </table>
@@ -122,7 +128,7 @@
                 <table class="table" id="itemTbl" >
                   <thead>
                     <tr>
-                      <th>Unidad</th>
+                      <th>Unidade</th>
                       <th>Usuario</th>
                       <th>EAN</th>
                       <th>Descrição</th>
@@ -131,7 +137,7 @@
                       <th>Profundidade</th>
                       <th>Comprimento</th>
                       <th>Quantidade</th>
-                      <th>Especie</th>
+                      <th>Espécie</th>
                       <th>Marca</th>
                       <th>C/Fabricante</th>
                       <th>N/S</th>
@@ -247,6 +253,9 @@
   <script>
     $(document).ready(function () {
       $('#nfiscalTbl').DataTable({
+        language: {
+            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Portuguese-Brasil.json"
+        },
         dom: 'Bfrtip',
         buttons: [
           {
@@ -291,17 +300,22 @@
         //   dataSrc: 'data'
         // },
         columns: [
-          { data: "descricao" },
-          { data: "ativo" , render: function (data, type) {
-            return data ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>'
-          } },
+         
+          { data: "numero_total" },
+          { data: "serie" },
+          { data: "folha" },
+          { data: "chave_de_acesso" },
+
+          // { data: "ativo" , render: function (data, type) {
+          //   return data ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>'
+          // } },
         ],
         columnDefs: [
           { width: "70px", targets: [0,1,2,3,4,5] },
           // { width: "200px", targets: [2,3,4,5,6,7,8,9,10,11,12,13,24,25] },
           // { width: "100px", targets: [14,15,16,17,18,20,21,22,23] },
           { 
-            targets: 5,
+            targets: 6,
             render: function (data, type, row) {
               return `
                 <i class="fa fa-trash excluirNfiscal" data-id="${row.id}" title="Excluir" ></i>

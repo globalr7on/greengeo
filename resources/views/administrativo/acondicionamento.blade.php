@@ -3,7 +3,7 @@
   <!-- <link rel="stylesheet" href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"> -->
 @endsection
 @section('subheaderTitle')
-  Acondicionamento
+Acondicionamento
 @endsection
 @section('content')
   <div class="content">
@@ -80,6 +80,9 @@
 <script>
   $(document).ready(function () {
     $('#acondTbl').DataTable({
+      language: {
+            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Portuguese-Brasil.json"
+        },
       dom: 'Bfrtip',
       buttons: [
         {

@@ -3,7 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TipoAcessanteRequest;
+use App\Http\Resources\TipoAcessanteResource;
+use App\Models\TipoAcessante;
+// use App\Models\Atividade;
 use Illuminate\Http\Request;
+use Validator;
+
 
 class TipoAcessanteController extends Controller
 {
@@ -14,7 +20,9 @@ class TipoAcessanteController extends Controller
      */
     public function index()
     {
-        //
+
+        $tipo_acessante = TipoAcessante::all();
+        return TipoAcessanteResource::collection($tipo_acessante);
     }
 
     /**
@@ -35,7 +43,21 @@ class TipoAcessanteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'descricao' => 'required|string|max:45',
+            // 'ativo' => 'required|string|max:15',
+            
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors());       
+        }
+
+        $tipo_acessante = TipoAcessante::create($request->all());
+        // $atividades= Atividade::all();
+        // $tipo_acessante->atividades()->attach($atividades);
+        // dd($acondicionamento);
+        return new TipoAcessanteResource($tipo_acessante);
     }
 
     /**
@@ -46,7 +68,7 @@ class TipoAcessanteController extends Controller
      */
     public function show($id)
     {
-        //
+        return new TipoAcessanteResource(TipoAcessante::find($id));
     }
 
     /**
@@ -69,7 +91,19 @@ class TipoAcessanteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'descricao' => 'required|string|max:45',
+            'ativo' => 'required|string|max:15',
+            
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors());       
+        }
+        
+        $tipo_acessante = TipoAcessante::find($id);
+        $tipo_acessante->update($request->all());
+        return new TipoAcessanteResource($tipo_acessante);
     }
 
     /**
@@ -80,6 +114,10 @@ class TipoAcessanteController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $tipo_acessante = TipoAcessante::findOrFail($id);
+        // $atividades= Atividade::all();
+        // $tipo_acessante->atividades()->detach($atividades);
+        $tipo_acessante->delete();
+        return response(null, 204);
     }
 }

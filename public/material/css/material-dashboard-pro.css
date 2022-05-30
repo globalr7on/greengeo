@@ -6,6 +6,21 @@
 =========================================================
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.*/
 
+/** custom select box********/
+.selectWrapper{
+    border-radius:20px;
+    display:inline-block;
+    overflow:hidden;
+    background:orange;
+    /* border:1px solid #cccccc; */
+  }
+  .selectBox{
+    width:140px;
+    height:40px;
+    border:0px;
+    outline:none;
+  }
+
 /* CUSTOM */
 .cursor-pointer {
     cursor: pointer;

@@ -54,20 +54,34 @@
           <div class="row">
             <div class="col-md-12">
               <form>
-                <div class="form-row">
+               <div class="form-row">
+                  <div class="form-group col-md-6 align-self-center">
+                    <div class="togglebutton">
+                      <label>
+                        Ativo?
+                        <input type="checkbox" id="checkAtivo">
+                        <span class="toggle"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <input type="text" class="form-control" id="inputPlaca" placeholder="Placa">
+                  </div>
+                </div>
+                <div class="form-row ">
                   <input type="hidden" class="form-control" id="inputId">
                   <div class="form-group col-md-4">
-                    <select  id="iMarca" data-style="btn btn-primary btn-square" title="Single Select" name="marca">
+                    <select id="iMarca" data-style="btn btn-warning text-white rounded" title="Single Select" name="marca">
                       <option value="" disabled selected>Marca</option>
                     </select>
                   </div>
                   <div class="form-group col-md-4">
-                    <select  id="iModelo" data-style="btn btn-primary btn-square" title="Single Select" name="modelo">
+                    <select  id="iModelo" data-style="btn btn-warning text-white rounded " title="Single Select" name="modelo">
                       <option value="" disabled selected>Modelo</option>
                     </select>
                   </div>
                   <div class="form-group col-md-4">
-                    <select  id="iAcondicionamento" data-style="btn btn-primary btn-square" title="Single Select" name="acondicionamento">
+                    <select id="iAcondicionamento" data-style="btn btn-warning text-white rounded" title="Single Select" name="acondicionamento">
                       <option value="" disabled selected>Acondicionamento</option>
                     </select>
                   </div>
@@ -76,9 +90,6 @@
                 <div class="form-row">
                   <div class="form-group col-md-4">
                     <input type="text" class="form-control" id="inputChassis" placeholder="Chassis">
-                  </div>
-                  <div class="form-group col-md-4">
-                    <input type="text" class="form-control" id="inputPlaca" placeholder="Placa">
                   </div>
                   <div class="form-group col-md-4">
                     <input type="text" class="form-control" id="inputCapacidade" placeholder="Capacidade">
@@ -91,16 +102,6 @@
                   </div>
                   <div class="form-group col-md-6">
                     <input type="text" class="form-control" id="inputCombustivel" placeholder="Combustivel">
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input class="form-check-input" type="checkbox"  id="checkAtivo" value="">
-                      Ativo?
-                      <span class="form-check-sign"><span class="check"></span></span>
-                    </label>
                   </div>
                 </div>
                 <button type="button" class="btn btn-primary" id="salvarVeiculo">Salvar</button>
@@ -117,6 +118,9 @@
   <script>
     $(document).ready(function () {
       $('#veiculoTbl').DataTable({
+        language: {
+            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Portuguese-Brasil.json"
+        },
         dom: 'Bfrtip',
         buttons: [
           {

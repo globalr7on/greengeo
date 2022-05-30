@@ -50,25 +50,26 @@
           <div class="row">
             <div class="col-md-12">
               <form>
-                <div class="form-row">
-                  <input type="hidden" class="form-control" id="inputId">
-                  <div class="form-group col-md-12">
-                    <input type="text" class="form-control" id="inputDescricao" placeholder="Descrição">
+                <div class="form-group col-md-12">
+                    <div class="togglebutton">
+                      <label>
+                        <input type="checkbox" checked="" id="checkAtivo">
+                          <span class="toggle"></span>
+                          Ativo?
+                      </label>
+                    </div>
                   </div>
-                </div>
-                <div class="form-row">
-                  <div class="form-group col-md-12">
-                    <input type="text" class="form-control" id="inputSimbolo" placeholder="Simbolo">
+                  <div class="form-row">
+                    <input type="hidden" class="form-control" id="inputId">
+                    <div class="form-group col-md-12">
+                      <input type="text" class="form-control" id="inputDescricao" placeholder="Descrição">
+                    </div>
                   </div>
-                </div>
-                <div class="form-group">
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input class="form-check-input" type="checkbox"  id="checkAtivo" value="">
-                      Ativo? <span class="form-check-sign"><span class="check"></span></span>
-                    </label>
+                  <div class="form-row">
+                    <div class="form-group col-md-12">
+                      <input type="text" class="form-control" id="inputSimbolo" placeholder="Simbolo">
+                    </div>
                   </div>
-                </div>
                 <button type="button" class="btn btn-primary" id="salvarUnidad">Salvar</button>
               </form>
             </div>
@@ -83,6 +84,9 @@
 <script>
   $(document).ready(function () {
     $('#unidadTbl').DataTable({
+      language: {
+            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Portuguese-Brasil.json"
+        },
       dom: 'Bfrtip',
       buttons: [
         {

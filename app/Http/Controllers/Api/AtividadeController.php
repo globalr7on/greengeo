@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AtividadeRequest;
 use App\Http\Resources\AtividadeResource;
 use App\Models\Atividade;
+// use App\Models\TipoAcessante;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -18,8 +19,9 @@ class AtividadeController extends Controller
      */
     public function index()
     {
+        
         $atividade = Atividade::all();
-        // dd($acondicionamento);
+
         return AtividadeResource::collection($atividade);
         // return $acessante;
     }
@@ -53,7 +55,9 @@ class AtividadeController extends Controller
         }
 
         $atividade = Atividade::create($request->all());
-        // dd($acondicionamento);
+        
+        // $tipo_acessantes= TipoAcessante::all();
+        // $atividade->tipo_acessantes()->attach($tipo_acessantes);
         return new AtividadeResource($atividade);
     }
 
@@ -113,6 +117,8 @@ class AtividadeController extends Controller
     public function destroy($id)
     {
         $atividade = Atividade::findOrFail($id);
+        // $tipo_acessantes= TipoAcessante::all();
+        // $atividade->tipo_acessantes()->detach($tipo_acessantes);
         $atividade->delete();
         return response(null, 204);
     }

@@ -9,9 +9,9 @@
             <div class="col-md-6">
               <div class="card card-chart">
                 <div class="card-body">
-                  <h3 class="card-title">Primero Gráfico</h3>
+                  <h3 class="card-title">Primeiro Gráfico</h3>
                   <p class="card-category">
-                    <span class="text-success"></span> increase in today sales.</p>
+                    <span class="text-success"></span> Informações do gráfico.</p>
                 </div>
                 <hr>
                 <div class="card-header">
@@ -24,7 +24,7 @@
                 <div class="card-body">
                   <h3 class="card-title">Segundo Gráfico</h3>
                   <p class="card-category">
-                    <span class="text-success"></span> increase in today sales.</p>
+                    <span class="text-success"></span> Informações do gráfico.</p>
                 </div>
                 <hr>
                 <div class="card-header">
@@ -37,9 +37,9 @@
             <div class="col-md-6">
               <div class="card card-chart mb-0 mt-2">
                 <div class="card-body">
-                  <h3 class="card-title">Tercero Gráfico</h3>
+                  <h3 class="card-title">Terceiro Gráfico</h3>
                   <p class="card-category">
-                    <span class="text-success"></span> increase in today sales.</p>
+                    <span class="text-success"></span> Informações do gráfico.</p>
                 </div>
                 <hr>
                 <div class="card-header">
@@ -52,7 +52,7 @@
                 <div class="card-body">
                   <h3 class="card-title">Quarto Gráfico</h3>
                   <p class="card-category">
-                    <span class="text-success"></span> increase in today sales.</p>
+                    <span class="text-success"></span> Informações do gráfico.</p>
                 </div>
                 <hr>
                 <div class="card-header">
@@ -69,7 +69,7 @@
                 <div class="card-body">
                   <h3 class="card-title">Novas Sucatas</h3>
                     <p class="card-category">
-                      <span class="text-success"></span>ultimos 2 meses 2022.</p>
+                      <span class="text-success"></span>últimos 2 meses 2022.</p>
                 </div>
                 <hr>
                 <div class="card-header text-center">
@@ -84,7 +84,7 @@
                 <div class="card-body">
                   <h3 class="card-title">Contagem de novas contratações</h3>
                     <p class="card-category">
-                      <span class="text-success"></span>ultimos 2 meses 2022.</p>
+                      <span class="text-success"></span>últimos 2 meses 2022.</p>
                 </div>
                 <hr>
                 <div class="card-header text-center">
@@ -99,7 +99,7 @@
                 <div class="card-body">
                   <h3 class="card-title">Quantidades de Sucatas</h3>
                     <p class="card-category">
-                      <span class="text-success"></span>ultimos 2 meses 2022.</p>
+                      <span class="text-success"></span>últimos 2 meses 2022.</p>
                 </div>
                 <hr>
                 <div class="card-header text-center">
@@ -114,7 +114,7 @@
                 <div class="card-body">
                   <h3 class="card-title">Novos Materiales</h3>
                     <p class="card-category">
-                      <span class="text-success"></span>ultimos 2 meses 2022.</p>
+                      <span class="text-success"></span>últimos 2 meses 2022.</p>
                 </div>
                 <hr>
                 <div class="card-header text-center">
@@ -135,7 +135,7 @@
       // Javascript method's body can be found in assets/js/demos.js
       // md.initDashboardPageCharts();
       var data = {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         series: [
           [5, 4, 3, 7, 5, 10, 3, 4, 8, 10, 6, 8],
           [3, 2, 9, 5, 4, 6, 4, 6, 7, 8, 7, 4]

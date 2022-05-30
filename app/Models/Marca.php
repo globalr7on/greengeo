@@ -11,17 +11,16 @@ use Laravel\Sanctum\HasApiTokens;
 
 class Marca extends Model
 {
-    // use HasFactory;
-    use HasApiTokens, HasFactory, Notifiable;
-    
-    
+    use HasApiTokens, HasFactory, Notifiable;   
     protected $table = 'marcas';
-    protected $fillable = ['descricao','ativo'];
-  
-    protected $guardaded=['id'];
+    protected $fillable = [
+        'descricao',
+        'ativo'
+    ];
+    protected $guardaded = ['id'];
 
     public function veiculo()
     {
-        return $this->belongsTo('App\Models\Veiculo',  'marcas_id', 'id');
+        return $this->belongsTo('App\Models\Veiculo');
     }
 }

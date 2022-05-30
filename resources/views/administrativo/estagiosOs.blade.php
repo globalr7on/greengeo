@@ -15,8 +15,8 @@
         <div class="col-md-12">
           <div class="card">
             <div class="card-header card-header-primary">
-              <!-- <h4 class="card-title">Acondicionamento</h4> -->
-              <!-- <p class="card-category">Listado de Acondicionamento</p> -->
+              <h4 class="card-title">Estagios</h4>
+              <p class="card-category">Estagios Cadastrados</p>
               <span class="card-title">&nbsp;</span>
             </div>
             <div class="card-body">
@@ -50,21 +50,12 @@
             <div class="col-md-12">
               <form>
                 <div class="form-row">
-                <div class="form-group col-md-6">
-                  <div class="togglebutton">
-                    <label>
-                      <input type="checkbox" checked="" id="checkAtivo">
-                        <span class="toggle"></span>
-                        Ativo?
-                    </label>
-                  </div>
-                </div>
                   <div class="form-group col-md-6">
                     <input type="hidden" class="form-control" id="inputId">
                     <input type="text" class="form-control" id="inputDescricao" placeholder="Descrição">
                   </div>
                 </div>
-                <button type="button" class="btn btn-primary" id="salvarAcond">Salvar</button>
+                <button type="button" class="btn btn-primary" id="salvarEstagioOs">Salvar</button>
               </form>
             </div>
           </div>
@@ -79,6 +70,9 @@
 <script>
   $(document).ready(function () {
     $('#estagioOsTbl').DataTable({
+      language: {
+            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Portuguese-Brasil.json"
+        },
       dom: 'Bfrtip',
       buttons: [
         {
@@ -124,14 +118,14 @@
       },
       columns: [
         { data: "descricao" },
-        { data: "ativo", className: "text-center", render: function (data, type) {
-          return data ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>'
-        } },
+        // { data: "ativo", className: "text-center", render: function (data, type) {
+        //   return data ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>'
+        // } },
       ],
       columnDefs: [
         { targets: 1, orderable: false },
         { 
-          targets: 2,
+          targets: 1,
           className: "text-center",
           render: function (data, type, row) {
             return `
@@ -148,7 +142,6 @@
     $('body').on('click', '#salvarEstagioOs', function(){
       const JSONRequest = {
         descricao: $("#inputDescricao").val(),
-        ativo: $("#checkAtivo").prop("checked") ? 1 : 0
       }
       const id = $('#inputId').val();
       const method = id ? "PUT" : "POST";
@@ -173,7 +166,6 @@
       $('#tituloModal').text("Nova Estagio OS");
       $('#inputId').val("");
       $("#inputDescricao").val("");
-      $("#checkAtivo").prop("checked", false)
     });
 
     // Editar

@@ -45,7 +45,7 @@ class PessoaJuridicaController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'tipo' => 'required|string|max:14',
+            // 'tipo' => 'required|string|max:14',
             'cnpj' => 'required|string|max:18',
             'nome_fantasia' => 'required|string|max:50',
             'razao_social' => 'required|string|max:50',
@@ -74,6 +74,7 @@ class PessoaJuridicaController extends Controller
             'senha_acesso' => 'required|string|max:10',
             'capacidade_media_carga' => 'required|numeric|between:1,999999.99',
             'usuario_responsavel_cadastro_id' => 'required|string',
+            'juridica_x_tipo_id' => 'required|string'
         
         ]);
 
@@ -126,7 +127,7 @@ class PessoaJuridicaController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'tipo' => 'required|string|max:14',
+            // 'tipo' => 'required|string|max:14',
             'cnpj' => 'required|string|max:18',
             'nome_fantasia' => 'required|string|max:50',
             'razao_social' => 'required|string|max:50',
@@ -155,6 +156,7 @@ class PessoaJuridicaController extends Controller
             'senha_acesso' => 'required|string|max:10',
             'capacidade_media_carga' => 'required',
             'usuario_responsavel_cadastro_id' => 'required|string|max:10',
+            'juridica_x_tipo_id' => 'required|string'
 
         ]);
 

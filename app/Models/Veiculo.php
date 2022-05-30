@@ -13,30 +13,39 @@ use Laravel\Sanctum\HasApiTokens;
 class Veiculo extends Model
 {
     use HasFactory, HasApiTokens, Notifiable;
-
     protected $table = 'veiculos';
-    protected $fillable = ['chassis','placa','capacidade_media_carga','renavam','combustivel','ativo', 'pessoa_juridicas_id', 'modelos_id', 'marcas_id', 'acondicionamento_id'];
-  
-    protected $guardaded=['id'];
+    protected $fillable = [
+        'chassis',
+        'placa',
+        'capacidade_media_carga',
+        'renavam',
+        'combustivel',
+        'ativo',
+        'pessoa_juridica_id',
+        'modelo_id',
+        'marca_id',
+        'acondicionamento_id'
+    ];
+    protected $guardaded = ['id'];
 
     public function pessoa_juridica()
     {
-        return $this->hasOne('App\Models\PessoaJuridica', 'id', 'pessoa_juridicas_id');
+        return $this->hasOne('App\Models\PessoaJuridica');
     }
 
     public function modelo()
     {
-        return $this->hasOne('App\Models\Modelo','id', 'modelos_id');
+        return $this->hasOne('App\Models\Modelo');
     }
 
     public function marca()
     {
-        return $this->hasOne('App\Models\Marca', 'id', 'marcas_id');
+        return $this->hasOne('App\Models\Marca');
     }
 
     public function acondicionamento()
     {
-        return $this->hasOne('App\Models\Acondicionamento', 'id', 'acondicionamento_id');
+        return $this->hasOne('App\Models\Acondicionamento');
     }
 
 }

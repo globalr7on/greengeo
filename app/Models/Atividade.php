@@ -11,13 +11,17 @@ use Laravel\Sanctum\HasApiTokens;
 
 class Atividade extends Model
 {
-    // use HasFactory;
-    use HasApiTokens, HasFactory, Notifiable;
-    
-    
+    use HasApiTokens, HasFactory, Notifiable;   
     protected $table = 'atividades';
-    protected $fillable = ['descricao','ativo'];
-  
-    protected $guardaded=['id'];
+    protected $fillable = [
+        'descricao',
+        'ativo'
+    ];
+    protected $guardaded = ['id'];
 
+
+    public function tipo_acessantes()
+    {
+        return $this->belongsToMany('App\Models\TipoAcessante','juridica_x_tipo', 'tipo_acessante_id', 'id');
+    }
 }

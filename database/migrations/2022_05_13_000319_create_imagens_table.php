@@ -15,11 +15,10 @@ class CreateImagensTable extends Migration
     {
         Schema::create('imagens', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('itens_da_os_id');
-
-            $table->foreign('itens_da_os_id')->references('id')->on('itens_da_os');
             $table->string('url', 100);
             $table->string('nome_arquivo', 20);
+            $table->unsignedBigInteger('orden_servico_iten_id');
+            $table->foreign('orden_servico_iten_id')->references('id')->on('orden_servico_itens');
             $table->timestamps();
         });
     }

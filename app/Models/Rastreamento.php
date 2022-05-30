@@ -7,5 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Rastreamento extends Model
 {
-    use HasFactory;
+    use HasApiTokens, HasFactory, Notifiable;
+    protected $table = 'rastreamentoss';
+    // protected $fillable = [];
+    // protected $guardaded = ['id'];
 }

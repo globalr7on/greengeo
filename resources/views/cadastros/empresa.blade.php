@@ -140,8 +140,9 @@
                     <input type="text" class="form-control" id="inputNomeFantasia">
                   </div>   
                 </div>
-
-                <button class="btn btn-primary stepper-next">Next</button>
+                <button class="btn btn-warning">Motorista</button>
+                <button class="btn btn-warning">Veiculo</button>
+                <button class="btn btn-primary stepper-next">Próximo</button>
               </div>
 
               <div id="step2" class="content" role="tabpanel" aria-labelledby="step2-trigger">
@@ -190,9 +191,10 @@
                     <input type="text" class="form-control" id="inputLogitude">
                   </div>   
                 </div>
-
-                <button class="btn btn-primary stepper-prev">Previous</button>
-                <button class="btn btn-primary stepper-next">Next</button>
+                <button class="btn btn-warning">Motorista</button>
+                <button class="btn btn-warning">Veiculo</button>
+                <button class="btn btn-primary stepper-prev">Anterior</button>
+                <button class="btn btn-primary stepper-next">Pŕoximo</button>
               </div>
 
               <div id="step3" class="content" role="tabpanel" aria-labelledby="step3-trigger">
@@ -200,7 +202,7 @@
 
                 <div class="row m-0">
                   <div class="form-group col-md-6">
-                    <label for="inputContato1" class="position-relative mb-0 font-weight-bold">Contato 1</label>
+                    <label for="inputContato1" class="position-relative mb-0 font-weight-bold">Responsável nº 1</label>
                     <input type="text" class="form-control" id="inputContato1">
                   </div>
                   <div class="form-group col-md-6">
@@ -222,7 +224,7 @@
 
                 <div class="row m-0">
                   <div class="form-group col-md-6">
-                    <label for="inputContato2" class="position-relative mb-0 font-weight-bold">Contato 2</label>
+                    <label for="inputContato2" class="position-relative mb-0 font-weight-bold">Responsável nº 2</label>
                     <input type="text" class="form-control" id="inputContato2">
                   </div>
                   <div class="form-group col-md-6">
@@ -242,7 +244,9 @@
                   </div>
                 </div>
 
-                <button class="btn btn-primary stepper-prev">Previous</button>
+                <button class="btn btn-warning">Motorista</button>
+                <button class="btn btn-warning">Veiculo</button>
+                <button class="btn btn-primary stepper-prev">Anterior</button>
                 <button class="btn btn-primary">Enviar</button>
               </div>
             </div>
@@ -258,6 +262,9 @@
   <script>
     $(document).ready(function () {
       $('#empresaTbl').DataTable({
+        language: {
+            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Portuguese-Brasil.json"
+        },
         scrollX: '500px',
         // dom: 'Bfrtip',
         dom: 'Bfrtip',
@@ -304,7 +311,7 @@
           dataSrc: 'data'
         },
         columns: [
-          { data: "tipo" },
+          { data: "juridica_x_tipo_id" },
           { data: "cnpj" },
           { data: "nome_fantasia" },
           { data: "razao_social" },
@@ -330,6 +337,7 @@
           { data: "identificador_celular" },
           { data: "senha_acesso" },
           { data: "capacidade_media_carga" },
+          { data: "usuario_responsavel_cadastro_id" },
           { 
             data: "ativo", className: "text-center", render: function (data, type) {
               return data ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>'

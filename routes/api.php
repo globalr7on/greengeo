@@ -137,3 +137,56 @@ Route::put('estagio_os/{id}', 'App\Http\Controllers\Api\EstagiosOsController@upd
 Route::delete('estagio_os/{id}', 'App\Http\Controllers\Api\EstagiosOsController@destroy');
 
 // 
+
+
+// API ESTAGIOS OS 
+// Route::get('estagio_os', 'App\Http\Controllers\Api\EstagiosOsController@index');
+
+// Route::get('estagio_os/{id}', 'App\Http\Controllers\Api\EstagiosOsController@show');
+
+// Route::post('estagio_os', 'App\Http\Controllers\Api\EstagiosOsController@store');
+
+// Route::put('estagio_os/{id}', 'App\Http\Controllers\Api\EstagiosOsController@update');
+
+// Route::delete('estagio_os/{id}', 'App\Http\Controllers\Api\EstagiosOsController@destroy');
+
+// 
+
+
+// APITIPO ACESSANTES 
+Route::get('tipo_acessante', 'App\Http\Controllers\Api\TipoAcessanteController@index');
+
+Route::get('tipo_acessante/{id}', 'App\Http\Controllers\Api\TipoAcessanteController@show');
+
+Route::post('tipo_acessante', 'App\Http\Controllers\Api\TipoAcessanteController@store');
+
+Route::put('tipo_acessante/{id}', 'App\Http\Controllers\Api\TipoAcessanteController@update');
+
+Route::delete('tipo_acessante/{id}', 'App\Http\Controllers\Api\TipoAcessanteController@destroy');
+
+// 
+
+// APITIPO JURIDICO X TIPO 
+Route::get('juridico_x_tipo', 'App\Http\Controllers\Api\JuridicoXTipoController@index');
+
+Route::get('juridico_x_tipo/{id}', 'App\Http\Controllers\Api\JuridicoXTipoController@show');
+
+Route::post('juridico_x_tipo', 'App\Http\Controllers\Api\JuridicoXTipoController@store');
+
+Route::put('juridico_x_tipo/{id}', 'App\Http\Controllers\Api\JuridicoXTipoController@update');
+
+Route::delete('juridico_x_tipo/{id}', 'App\Http\Controllers\Api\JuridicoXTipoController@destroy');
+
+// 
+// APITIPO CLASSES DE SUCATAS
+Route::get('classe_sucata', 'App\Http\Controllers\Api\ClasseSucataController@index');
+
+Route::get('classe_sucata/{id}', 'App\Http\Controllers\Api\ClasseSucataController@show');
+
+Route::post('classe_sucata', 'App\Http\Controllers\Api\ClasseSucataController@store');
+
+Route::put('classe_sucata/{id}', 'App\Http\Controllers\Api\ClasseSucataController@update');
+
+Route::delete('classe_sucata/{id}', 'App\Http\Controllers\Api\ClasseSucataController@destroy');
+
+// 

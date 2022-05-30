@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UnidadRequest;
 use App\Http\Resources\UnidadResource;
-use App\Models\Unidad;
+use App\Models\Unidade;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -18,7 +18,7 @@ class UnidadController extends Controller
      */
     public function index()
     {
-        $unidad = Unidad::all();
+        $unidad = Unidade::all();
         // dd($acondicionamento);
         return UnidadResource::collection($unidad);
         // return $acessante;
@@ -53,7 +53,7 @@ class UnidadController extends Controller
             return response()->json($validator->errors());       
         }
 
-        $unidad = Unidad::create($request->all());
+        $unidad = Unidade::create($request->all());
         // dd($acondicionamento);
         return new UnidadResource($unidad);
     }
@@ -66,7 +66,7 @@ class UnidadController extends Controller
      */
     public function show($id)
     {
-        return new UnidadResource(Unidad::find($id));
+        return new UnidadResource(Unidade::find($id));
     }
 
     /**
@@ -99,7 +99,7 @@ class UnidadController extends Controller
             return response()->json($validator->errors());       
         }
         
-        $unidad = Unidad::find($id);
+        $unidad = Unidade::find($id);
         $unidad->update($request->all());
         return new UnidadResource($unidad);
     }
@@ -112,7 +112,7 @@ class UnidadController extends Controller
      */
     public function destroy($id)
     {
-        $unidad = Unidad::findOrFail($id);
+        $unidad = Unidade::findOrFail($id);
         $unidad->delete();
         return response(null, 204);
     }
