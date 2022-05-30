@@ -93,8 +93,13 @@
     if(!navigator.geolocation){
       console.log("Your Browser doesn't support geolocation feature!")
     } else {
-      navigator.geolocation.getCurrentPosition(getPosition)
+      setInterval(() => {
+        navigator.geolocation.getCurrentPosition(getPosition)
+      },5000);
+      
     }
+
+    var marker, circle;
 
     function getPosition(position){
       // console.log(position)
@@ -102,10 +107,26 @@
       var long = position.coords.longitude
       var accuracy = position.coords.accuracy
 
-      var marcker = L.marker([lat, long]).addTo(map)
+      if(marker){
+        map.removeLayer(marker)
+      }
+
+      if(circle){
+        map.removeLayer(circle)
+      }
+
+
+
+      marker = L.marker([lat, long])
       .bindPopup('Eu estou aqui.<br> Teste.')
       .openPopup();
-      var circle = L.circle([lat, long],{radius:accuracy}).addTo(map)
+      circle = L.circle([lat, long],{radius:accuracy})
+
+      var featureGroup = L.featureGroup([marker, circle]).addTo(map)
+
+      map.fitBounds(featureGroup.getBounds())
+
+
 
       console.log("sua coordenada é: Lat: "+ lat+" Long: "+ long+ " Accuracy:"+ accuracy)
     }
