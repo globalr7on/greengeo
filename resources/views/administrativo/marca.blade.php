@@ -52,16 +52,16 @@
                 <div class="form-row">
                   <div class="form-group col-md-12">
                     <div class="togglebutton">
-                      <label>
+                      <label>Ativo?
                         <input type="checkbox" checked="" id="checkAtivo">
                           <span class="toggle"></span>
-                          Ativo?
                       </label>
                     </div>
                   </div>
                   <input type="hidden" class="form-control" id="inputId">
                   <div class="form-group col-md-6">
-                    <input type="text" class="form-control" id="inputDescricao" placeholder="Descrição">
+                    <label for="inputDescricao">Descrição</label>
+                    <input type="text" class="form-control" id="inputDescricao">
                   </div>
                 </div>
                 <button type="button" class="btn btn-primary" id="salvarMarca">Salvar</button>

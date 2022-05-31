@@ -25,12 +25,12 @@
             <b class="caret"></b>
           </p>
         </a>
-        <div class="collapse {{ in_array($activePage, array('acessante', 'empresa', 'motoristas', 'veiculo', 'nota_fiscal')) ? 'show' : '' }}" id="cadastrosTab">
+        <div class="collapse {{ in_array($activePage, array('usuarios', 'empresa', 'motoristas', 'veiculo')) ? 'show' : '' }}" id="cadastrosTab">
           <ul class="nav">
-            <li class="nav-item ml-4 {{ $activePage == 'acessante' ? 'active' : '' }}">
+            <li class="nav-item ml-4 {{ $activePage == 'usuarios' ? 'active' : '' }}">
               <a class="nav-link" href="/acessantes">
                 <i class="fa-solid fa-users"></i>
-                <span class="sidebar-normal">{{ __('Accesantes') }}</span>
+                <span class="sidebar-normal">{{ __('Usuarios') }}</span>
               </a>
             </li>
             <li class="nav-item ml-4 {{ $activePage == 'empresa' ? 'active' : '' }}">
@@ -57,12 +57,6 @@
                 <span class="sidebar-normal">{{ __('Itens de Estoque') }} </span>
               </a>
             </li> -->
-            <li class="nav-item ml-4 {{ $activePage == 'nota_fiscal' ? 'active' : '' }}">
-              <a class="nav-link" href="/nota_fiscal">
-                <i class="fa-solid fa-file-circle-check"></i>
-                <span class="sidebar-normal">{{ __('Nota Fiscal') }} </span>
-              </a>
-            </li>
           </ul>
         </div>
       </li>
@@ -133,7 +127,7 @@
             <b class="caret"></b>
           </p>
         </a>
-        <div class="collapse {{ in_array($activePage, array('rastreamento', 'os')) ? 'show' : '' }}" id="rasTab">
+        <div class="collapse {{ in_array($activePage, array('rastreamento', 'os', 'nota_fical')) ? 'show' : '' }}" id="rasTab">
           <ul class="nav">
             <li class="nav-item ml-4 {{ $activePage == 'rastreamento' ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('map') }}">
@@ -142,9 +136,15 @@
               </a>
             </li>
             <li class="nav-item ml-4 {{ $activePage == 'os' ? 'active' : '' }}">
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="{{ route('rastreamento.ordemServico') }}">
                 <i class="fa-solid fa-file-lines"></i>
-                <span class="sidebar-normal">{{ __('OS') }}</span>
+                <span class="sidebar-normal">{{ __('Ordem de Serviço') }}</span>
+              </a>
+            </li>
+            <li class="nav-item ml-4 {{ $activePage == 'nota_fiscal' ? 'active' : '' }}">
+              <a class="nav-link" href="/nota_fiscal">
+                <i class="fa-solid fa-file-circle-check"></i>
+                <span class="sidebar-normal">{{ __('Nota Fiscal') }} </span>
               </a>
             </li>
           </ul>

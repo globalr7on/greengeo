@@ -1,8 +1,8 @@
-@extends('layouts.app', ['activePage' => 'acessante', 'titlePage' => __('Perfil Pessoas')])
+@extends('layouts.app', ['activePage' => 'acessante', 'titlePage' => __('Perfil Usuarios')])
 @section('css')
 @endsection
 @section('subheaderTitle')
-  Acessantes
+  Usuarios
 @endsection
 @section('content')
   <div class="content mt-0">
@@ -14,8 +14,8 @@
         <div class="col-md-12">
           <div class="card">
             <div class="card-header card-header-primary">
-              <h4 class="card-title ">Pessoas</h4>
-              <p class="card-category"> Pessas Cadastradas</p>
+              <h4 class="card-title ">Usuarios</h4>
+              <p class="card-category"> Usuarios Cadastrados</p>
             </div>
             <div class="card-body">
               <div>
@@ -60,7 +60,7 @@
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Criar Novo Pessoas</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Criar Novo Usuario</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
             <span aria-hidden="true">&times;</span>
           </button>

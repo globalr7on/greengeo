@@ -54,7 +54,6 @@ class UnidadController extends Controller
         }
 
         $unidad = Unidade::create($request->all());
-        // dd($acondicionamento);
         return new UnidadResource($unidad);
     }
 

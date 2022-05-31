@@ -52,7 +52,8 @@
                 <div class="form-row">
                   <div class="form-group col-md-6">
                     <input type="hidden" class="form-control" id="inputId">
-                    <input type="text" class="form-control" id="inputDescricao" placeholder="Descrição">
+                    <label for="inputDescricao">Descrição</label>
+                    <input type="text" class="form-control" id="inputDescricao">
                   </div>
                 </div>
                 <button type="button" class="btn btn-primary" id="salvarEstagioOs">Salvar</button>

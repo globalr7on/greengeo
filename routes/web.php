@@ -84,5 +84,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('estagios_os', ['as' => 'administrativo.estagiosOs', 'uses' => 'App\Http\Controllers\EstagiosOsController@index']);
 
 	Route::get('classe_sucata', ['as' => 'administrativo.classeSucata', 'uses' => 'App\Http\Controllers\ClasseSucataController@index']);
+
+	Route::get('ordem_servico', ['as' => 'rastreamento.ordemServico', 'uses' => 'App\Http\Controllers\OrdemDeServicoController@index']);
 });
 

@@ -38,7 +38,7 @@
   </div>
 
   <div class="modal fade" id="modalUnidad" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-sd" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="tituloModal">Novo Unidad</h5>
@@ -50,26 +50,29 @@
           <div class="row">
             <div class="col-md-12">
               <form>
+              <div class="form-row">
                 <div class="form-group col-md-12">
-                    <div class="togglebutton">
-                      <label>
-                        <input type="checkbox" checked="" id="checkAtivo">
-                          <span class="toggle"></span>
-                          Ativo?
-                      </label>
-                    </div>
+                  <div class="togglebutton">
+                    <label>Ativo?
+                      <input type="checkbox" checked="" id="checkAtivo">
+                        <span class="toggle"></span> 
+                    </label>
                   </div>
-                  <div class="form-row">
-                    <input type="hidden" class="form-control" id="inputId">
-                    <div class="form-group col-md-12">
-                      <input type="text" class="form-control" id="inputDescricao" placeholder="Descrição">
-                    </div>
+                </div>
+                <div class="form-group col-md-12">
+                  <input type="hidden" class="form-control" id="inputId">
+                  <div class="form-group col-md-12">
+                    <label for="">Descrição</label>
+                    <input type="text" class="form-control" id="inputDescricao">
                   </div>
-                  <div class="form-row">
-                    <div class="form-group col-md-12">
-                      <input type="text" class="form-control" id="inputSimbolo" placeholder="Simbolo">
-                    </div>
+                </div>
+                <div class="form-group col-md-12">
+                  <div class="form-group col-md-12">
+                  <label for="">Simbolo</label>
+                    <input type="text" class="form-control" id="inputSimbolo">
                   </div>
+                </div>
+              </div>
                 <button type="button" class="btn btn-primary" id="salvarUnidad">Salvar</button>
               </form>
             </div>
