@@ -14,7 +14,7 @@ class NotaFiscalController extends Controller
      */
     public function index()
     {
-        return view('cadastros.notaFiscal');
+        return view('rastreamento.notaFiscal');
     }
 
     /**

@@ -1,9 +1,8 @@
 @extends('layouts.app', ['activePage' => 'marca', 'titlePage' => __('Marca')])
 @section('css')
-  <!-- <link rel="stylesheet" href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"> -->
 @endsection
 @section('subheaderTitle')
-  Marca de Veiculo
+  Administrativo
 @endsection
 @section('content')
   <div class="content">
@@ -15,9 +14,8 @@
         <div class="col-md-12">
           <div class="card">
             <div class="card-header card-header-primary">
-              <!-- <h4 class="card-title ">Marcas</h4> -->
-              <!-- <p class="card-category"> Listado de Marcas</p> -->
-              <span class="card-title">&nbsp;</span>
+              <h4 class="card-title">Administrativo</h4>
+              <p class="card-category">Marcas</p>
             </div>
             <div class="card-body">
               <div>

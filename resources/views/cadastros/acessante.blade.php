@@ -2,7 +2,7 @@
 @section('css')
 @endsection
 @section('subheaderTitle')
-  Usuarios
+  Cadastros
 @endsection
 @section('content')
   <div class="content mt-0">
@@ -14,8 +14,8 @@
         <div class="col-md-12">
           <div class="card">
             <div class="card-header card-header-primary">
-              <h4 class="card-title ">Usuarios</h4>
-              <p class="card-category"> Usuarios Cadastrados</p>
+              <h4 class="card-title">Cadastros</h4>
+              <p class="card-category"> Usuarios</p>
             </div>
             <div class="card-body">
               <div>

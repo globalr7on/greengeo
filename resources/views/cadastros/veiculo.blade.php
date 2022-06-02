@@ -2,7 +2,7 @@
 @section('css')
 @endsection
 @section('subheaderTitle')
-  Veiculo
+  Cadastros
 @endsection
 @section('content')
   <div class="content">
@@ -14,8 +14,8 @@
         <div class="col-md-12">
           <div class="card">
             <div class="card-header card-header-primary">
-              <h4 class="card-title ">Veiculo</h4>
-              <p class="card-category">Veiculos Cadastrados</p>
+              <h4 class="card-title ">Cadastros</h4>
+              <p class="card-category">Veiculos</p>
             </div>
             <div class="card-body">
               <div>

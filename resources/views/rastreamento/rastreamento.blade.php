@@ -1,7 +1,7 @@
-@extends('layouts.app', ['activePage' => 'map', 'titlePage' => __('Rastreamento')])
+@extends('layouts.app', ['activePage' => 'rastreamento', 'titlePage' => __('Rastreamento')])
 
 @section('subheaderTitle')
-  Rastreamento
+  OS E Rastreamento
 @endsection
 @section('content')
 

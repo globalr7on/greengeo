@@ -2,7 +2,7 @@
 @section('css')
 @endsection
 @section('subheaderTitle')
-  Nota Fiscal
+  OS E Rastreamento
 @endsection
 @section('content')
   <div class="content">
@@ -14,8 +14,8 @@
         <div class="col-md-12">
           <div class="card">
             <div class="card-header card-header-primary">
-              <h4 class="card-title ">Cadastros</h4>
-              <p class="card-category"> Notas Fiscais</p>
+              <h4 class="card-title ">OS E Rastreamento</h4>
+              <p class="card-category">Notas Fiscais</p>
             </div>
             <div class="card-body">
               <div>

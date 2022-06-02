@@ -1,9 +1,8 @@
 @extends('layouts.app', ['activePage' => 'estagios', 'titlePage' => __('Estagios OS')])
 @section('css')
-  <!-- <link rel="stylesheet" href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"> -->
 @endsection
 @section('subheaderTitle')
-  Estagio OS
+  Administrativo
 @endsection
 @section('content')
   <div class="content">
@@ -15,12 +14,10 @@
         <div class="col-md-12">
           <div class="card">
             <div class="card-header card-header-primary">
-              <h4 class="card-title">Estagios</h4>
-              <p class="card-category">Estagios Cadastrados</p>
-              <span class="card-title">&nbsp;</span>
+              <h4 class="card-title">Administrativo</h4>
+              <p class="card-category">Estagios de OS</p>
             </div>
             <div class="card-body">
-              <!-- <div class="table-responsive"> -->
               <div>
                 <table class="table" id="estagioOsTbl">
                   <thead>

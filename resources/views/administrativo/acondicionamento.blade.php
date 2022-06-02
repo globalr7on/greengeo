@@ -1,9 +1,8 @@
 @extends('layouts.app', ['activePage' => 'acondicionamento', 'titlePage' => __('Acondicionamento')])
 @section('css')
-  <!-- <link rel="stylesheet" href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"> -->
 @endsection
 @section('subheaderTitle')
-Acondicionamento
+  Administrativo
 @endsection
 @section('content')
   <div class="content">
@@ -15,9 +14,8 @@ Acondicionamento
         <div class="col-md-12">
           <div class="card">
             <div class="card-header card-header-primary">
-              <!-- <h4 class="card-title">Acondicionamento</h4> -->
-              <!-- <p class="card-category">Listado de Acondicionamento</p> -->
-              <span class="card-title">&nbsp;</span>
+              <h4 class="card-title">Administrativo</h4>
+              <p class="card-category">Acondicionamentos</p>
             </div>
             <div class="card-body">
               <!-- <div class="table-responsive"> -->

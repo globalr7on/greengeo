@@ -1,9 +1,8 @@
 @extends('layouts.app', ['activePage' => 'classe_sucata', 'titlePage' => __('Classes de Sucatas')])
 @section('css')
-  <!-- <link rel="stylesheet" href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"> -->
 @endsection
 @section('subheaderTitle')
-  Classes de Sucatas 
+  Administrativo
 @endsection
 @section('content')
   <div class="content">
@@ -15,8 +14,8 @@
         <div class="col-md-12">
           <div class="card">
             <div class="card-header card-header-primary">
-              <h4 class="card-title">Classes de Sucatas</h4>
-              <p class="card-category">Sucatas Cadastradas</p>
+              <h4 class="card-title">Administrativo</h4>
+              <p class="card-category">Classes de Sucatas</p>
               <span class="card-title">&nbsp;</span>
             </div>
             <div class="card-body">

@@ -2,7 +2,7 @@
 @section('css')
 @endsection
 @section('subheaderTitle')
-  Ordem de Serviço
+OS E Rastreamento
 @endsection
 @section('content')
   <div class="content mt-0">
@@ -16,8 +16,8 @@
         <div class="col-md-12">
           <div class="card">
             <div class="card-header card-header-primary">
-              <h4 class="card-title">Ordem de Serviço</h4>
-              <p class="card-category"> OS Cadastradas</p>
+              <h4 class="card-title">OS E Rastreamento</h4>
+              <p class="card-category">Ordem de Serviço</p>
             </div>
             <div class="card-body">
               <div>
@@ -263,7 +263,7 @@
     $(document).ready(function () {
       $('#empresaTbl').DataTable({
         language: {
-            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Portuguese-Brasil.json"
+          "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Portuguese-Brasil.json"
         },
         scrollX: '500px',
         // dom: 'Bfrtip',
@@ -306,10 +306,10 @@
             color: 'black'
           },
         ],
-        ajax: {
-          url: '/api/pessoa_juridica',
-          dataSrc: 'data'
-        },
+        // ajax: {
+        //   url: '/api/pessoa_juridica',
+        //   dataSrc: 'data'
+        // },
         columns: [
           { data: "juridica_x_tipo_id" },
           { data: "cnpj" },
@@ -364,7 +364,7 @@
       });
 
       // Salvar 
-      $('body').on('click', '#salvarEmpresa', function(){
+      $('body').on('click', '#salvarEmpresa', function() {
         const JSONRequest = {
           tipo: $("#inputTipo").val(),
           cpnj: $("#inputCnpj").val(),
@@ -416,32 +416,32 @@
         $("#modalEmpresa").modal("show");
         $('#tituloModal').text("Nova Empresa");
         $('#inputId').val("");
-        $("#inputTipo").val(),
-        $("#inputCnpj").val(),
-        $("#inputNomeFantasia").val(),
-        $("#inputRazaoSocial").val(),
-        $("#inputEmail").val(),
-        $("#inputContato1").val(),
-        $("#inputCargoContato1").val(),
-        $("#inputCargoContato2").val(),
-        $("#inputCelularContato1").val(),
-        // $("#inputCelularContato2").val(),
-        // $("#inputFixo").val(),
-        // $("#inputWhatsapp").val(),
-        // $("#inputEndereco").val(),
-        // $("#inputNumero").val(),
-        // $("#inputComplemento").val(),
-        // $("#inputCep").val(),
-        // $("#inputBairro").val(),
-        // $("#inputCidade").val(),
-        // $("#inputEstado").val(),
-        // $("#inputLatitude").val(),
-        // $("#inputLongitude").val(),
-        // $("#inputContrato").val(),
-        // $("#inputIdentificadorCelular").val(),
-        // $("#inputSenhaAcesso").val(),
-        // $("#inputCapacidadeMediaCarga").val(),
-        // $("#inputUsuarioResponsable").val(),
+        $("#inputTipo").val();
+        $("#inputCnpj").val();
+        $("#inputNomeFantasia").val();
+        $("#inputRazaoSocial").val();
+        $("#inputEmail").val();
+        $("#inputContato1").val();
+        $("#inputCargoContato1").val();
+        $("#inputCargoContato2").val();
+        $("#inputCelularContato1").val();
+        // $("#inputCelularContato2").val();
+        // $("#inputFixo").val();
+        // $("#inputWhatsapp").val();
+        // $("#inputEndereco").val();
+        // $("#inputNumero").val();
+        // $("#inputComplemento").val();
+        // $("#inputCep").val();
+        // $("#inputBairro").val();
+        // $("#inputCidade").val();
+        // $("#inputEstado").val();
+        // $("#inputLatitude").val();
+        // $("#inputLongitude").val();
+        // $("#inputContrato").val();
+        // $("#inputIdentificadorCelular").val();
+        // $("#inputSenhaAcesso").val();
+        // $("#inputCapacidadeMediaCarga").val();
+        // $("#inputUsuarioResponsable").val();
         // $("#checkAtivo").prop("checked", false)
       });
 
@@ -456,33 +456,33 @@
             $("#modalEmpresa").modal("show");
             $('#tituloModal').text("Editar Empresa")
             $('#inputId').val(response.data.id);
-            $("#inputTipo").val(response.data.tipo),
-            $("#inputCnpj").val(response.data.cnpj),
-            $("#inputNomeFantasia").val(response.data.nome_fantasia),
-            $("#inputRazaoSocial").val(response.data.razao_social),
-            $("#inputEmail").val(response.data.email),
-            $("#inputContato1").val(response.data.contato_1),
-            $("#inputCargoContato1").val(response.data.cargo_contato_1),
-            $("#inputContato2").val(response.data.contato_2),
-            $("#inputCargoContato2").val(response.data.cargo_contato_2),
-            // $("#inputCelularContato1").val(response.data.celular_contato_1),
-            // $("#inputCelularContato2").val(response.data.celular_contato_2),
-            // $("#inputFixo").val(response.data.fixo),
-            // $("#inputWhatsapp").val(response.data.whatsapp),
-            // $("#inputEndereco").val(response.data.enderco),
-            // $("#inputNumero").val(response.data.numero),
-            // $("#inputComplemento").val(response.data.complemento),
-            // $("#inputCep").val(response.data.cep),
-            // $("#inputBairro").val(response.data.bairro),
-            // $("#inputCidade").val(response.data.cidade),
-            // $("#inputEstado").val(response.data.estado),
-            // $("#inputLatitude").val(response.data.latitude),
-            // $("#inputLongitude").val(response.data.longitude),
-            // $("#inputContrato").val(response.data.contrato),
-            // $("#inputIdentificadorCelular").val(response.data.identificador_celular),
-            // $("#inputSenhaAcesso").val(response.data.senha_acesso),
-            // $("#inputCapacidadeMediaCarga").val(response.data.capacidade_media_carga),
-            // $("#inputUsuarioResponsable").val(response.data.usuario_responsavel_cadastro_id),
+            $("#inputTipo").val(response.data.tipo);
+            $("#inputCnpj").val(response.data.cnpj);
+            $("#inputNomeFantasia").val(response.data.nome_fantasia);
+            $("#inputRazaoSocial").val(response.data.razao_social);
+            $("#inputEmail").val(response.data.email);
+            $("#inputContato1").val(response.data.contato_1);
+            $("#inputCargoContato1").val(response.data.cargo_contato_1);
+            $("#inputContato2").val(response.data.contato_2);
+            $("#inputCargoContato2").val(response.data.cargo_contato_2);
+            // $("#inputCelularContato1").val(response.data.celular_contato_1);
+            // $("#inputCelularContato2").val(response.data.celular_contato_2);
+            // $("#inputFixo").val(response.data.fixo);
+            // $("#inputWhatsapp").val(response.data.whatsapp);
+            // $("#inputEndereco").val(response.data.enderco);
+            // $("#inputNumero").val(response.data.numero);
+            // $("#inputComplemento").val(response.data.complemento);
+            // $("#inputCep").val(response.data.cep);
+            // $("#inputBairro").val(response.data.bairro);
+            // $("#inputCidade").val(response.data.cidade);
+            // $("#inputEstado").val(response.data.estado);
+            // $("#inputLatitude").val(response.data.latitude);
+            // $("#inputLongitude").val(response.data.longitude);
+            // $("#inputContrato").val(response.data.contrato);
+            // $("#inputIdentificadorCelular").val(response.data.identificador_celular);
+            // $("#inputSenhaAcesso").val(response.data.senha_acesso);
+            // $("#inputCapacidadeMediaCarga").val(response.data.capacidade_media_carga);
+            // $("#inputUsuarioResponsable").val(response.data.usuario_responsavel_cadastro_id);
             // $("#checkAtivo").prop("checked", response.data.ativo)
           }
         });
