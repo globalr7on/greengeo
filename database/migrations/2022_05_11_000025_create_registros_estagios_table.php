@@ -20,8 +20,8 @@ class CreateRegistrosEstagiosTable extends Migration
             $table->foreign('orden_servico_id')->references('id')->on('ordens_servicos');
             $table->unsignedBigInteger('estagio_id');
             $table->foreign('estagio_id')->references('id')->on('estagios');
-            $table->unsignedBigInteger('acessante_id');
-            $table->foreign('acessante_id')->references('id')->on('acessantes');
+            $table->unsignedBigInteger('usuario_responsavel_cadastro_id');
+            $table->foreign('usuario_responsavel_cadastro_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

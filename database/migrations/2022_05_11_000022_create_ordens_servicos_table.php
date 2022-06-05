@@ -36,7 +36,7 @@ class CreateOrdensServicosTable extends Migration
             $table->unsignedBigInteger('destinador_id');
             $table->foreign('destinador_id')->references('id')->on('pessoas_juridicas');
             $table->unsignedBigInteger('motorista_id');
-            $table->foreign('motorista_id')->references('id')->on('acessantes');
+            $table->foreign('motorista_id')->references('id')->on('users');
             $table->unsignedBigInteger('veiculo_id');
             $table->foreign('veiculo_id')->references('id')->on('veiculos');
             $table->unsignedBigInteger('nota_fiscal_id');

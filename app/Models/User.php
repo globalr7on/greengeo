@@ -29,6 +29,27 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'cpf',
+        'rg',
+        'cargo',
+        'celular',
+        'fixo',
+        'whats',
+        'endereco',
+        'numero',
+        'complemento',
+        'cep',
+        'bairro',
+        'cidade',
+        'estado',
+        'registro_carteira',
+        'tipo_carteira',
+        'validade_carteira',
+        'ativo',
+        'identificador_celular',
+        'usuario_responsavel_cadastro_id',
+        'pessoa_juridica_id',
+        
     ];
 
     /**

@@ -16,7 +16,7 @@
           </div>
           <div class="card-body">
             <p class="card-description text-center">{{ __('Ingrese sus dados ') }}</p>
-            <div class="bmd-form-group{{ $errors->has('email') ? ' has-danger' : '' }}">
+            <!-- <div class="bmd-form-group{{ $errors->has('email') ? ' has-danger' : '' }}">
               <div class="input-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
@@ -28,6 +28,21 @@
               @if ($errors->has('email'))
                 <div id="email-error" class="error text-danger pl-3" for="email" style="display: block;">
                   <strong>{{ $errors->first('email') }}</strong>
+                </div>
+              @endif
+            </div> -->
+            <div class="bmd-form-group{{ $errors->has('cnpj') ? ' has-danger' : '' }}">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="material-icons">email</i>
+                  </span>
+                </div>
+                <input type="text" name="cpf" class="form-control" placeholder="{{ __('CPF...') }}" value="" required>
+              </div>
+              @if ($errors->has('cpf'))
+                <div id="cpf-error" class="error text-danger pl-3" for="cpf" style="display: block;">
+                  <strong>{{ $errors->first('cpf') }}</strong>
                 </div>
               @endif
             </div>

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
-// use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Permission;
 
 class UserController extends Controller
 {

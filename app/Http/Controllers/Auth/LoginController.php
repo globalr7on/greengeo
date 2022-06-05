@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use \Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -36,5 +37,28 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    /**
+     * Handle an authentication attempt.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return void
+     */
+
+    protected function validateLogin(Request $request)
+    {
+        $request->validate([
+            'cpf' => 'required',
+            'password' => 'required|string',
+        ]);
+
+        // dd($request);
+        // die;
+    }
+
+    protected function credentials(Request $request)
+    {
+        return array_merge($request->only('cpf', 'password'));
     }
 }

@@ -31,8 +31,8 @@ class CreateNotaFiscalItensTable extends Migration
             $table->foreign('nota_fiscal_id')->references('id')->on('notas_fiscais');
             $table->unsignedBigInteger('unidade_id');
             $table->foreign('unidade_id')->references('id')->on('unidades');
-            $table->unsignedBigInteger('acessante_id');
-            $table->foreign('acessante_id')->references('id')->on('acessantes');
+            $table->unsignedBigInteger('usuario_responsavel_cadastro_id');
+            $table->foreign('usuario_responsavel_cadastro_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
