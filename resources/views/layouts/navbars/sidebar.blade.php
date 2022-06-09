@@ -30,25 +30,25 @@
             <li class="nav-item ml-4 {{ $activePage == 'empresa' ? 'active' : '' }}">
               <a class="nav-link" href="/empresa">
                 <i class="fa-solid fa-building"></i>
-                <span class="sidebar-normal text-left" >{{ __('Empresas') }} </span>
+                <span class="sidebar-normal text-left" >{{ __('Empresas') }}</span>
               </a>
             </li>
             <li class="nav-item ml-4 {{ $activePage == 'motoristas' ? 'active' : '' }}">
               <a class="nav-link" href="/acessantes">
                 <i class="fa-solid fa-users"></i>
-                <span class="sidebar-normal">{{ __('Motoristas') }} </span>
+                <span class="sidebar-normal">{{ __('Motoristas') }}</span>
               </a>
             </li>
             <li class="nav-item ml-4 {{ $activePage == 'veiculo' ? 'active' : '' }}">
               <a class="nav-link" href="/veiculo">
                 <i class="fa-solid fa-truck"></i>
-                <span class="sidebar-normal">{{ __('Veiculo') }} </span>
+                <span class="sidebar-normal">{{ __('Veiculo') }}</span>
               </a>
             </li>
             <!-- <li class="nav-item ml-4">
               <a class="nav-link" href="#">
                 <i class="fa-solid fa-boxes-stacked"></i>
-                <span class="sidebar-normal">{{ __('Itens de Estoque') }} </span>
+                <span class="sidebar-normal">{{ __('Itens de Estoque') }}</span>
               </a>
             </li> -->
           </ul>
@@ -138,50 +138,50 @@
             <li class="nav-item ml-4 {{ $activePage == 'nota_fiscal' ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('rastreamento.notaFiscal') }}">
                 <i class="fa-solid fa-file-circle-check"></i>
-                <span class="sidebar-normal">{{ __('Nota Fiscal') }} </span>
+                <span class="sidebar-normal">{{ __('Nota Fiscal') }}</span>
               </a>
             </li>
           </ul>
         </div>
       </li>
-      <li class="nav-item {{ in_array($activePage, array('profile', 'acessantes', 'usuarios', 'funcoes', 'permissoes')) ? 'active' : ''}}">
-        <a class="nav-link" data-toggle="collapse" href="#settingTab" aria-expanded="{{ in_array($activePage, array('profile', 'acessantes', 'usuarios', 'funcoes', 'permissoes')) ? 'true' : 'false' }}">
+      <li class="nav-item {{ in_array($activePage, array('profile', 'users', 'funcoes', 'permissions')) ? 'active' : ''}}">
+        <a class="nav-link" data-toggle="collapse" href="#settingTab" aria-expanded="{{ in_array($activePage, array('profile', 'users', 'funcoes', 'permissions')) ? 'true' : 'false' }}">
           <i class="fa-solid fa-gear"></i>
           <p>{{ __('Configurações') }}
             <b class="caret"></b>
           </p>
         </a>
-        <div class="collapse {{ in_array($activePage, array('profile','acessantes', 'users', 'funcoes', 'permissoes'))  ? 'show' : '' }}" id="settingTab">
+        <div class="collapse {{ in_array($activePage, array('profile', 'users', 'funcoes', 'permissions'))  ? 'show' : '' }}" id="settingTab">
           <ul class="nav">
             <li class="nav-item ml-4 {{ $activePage == 'profile' ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('profile.edit') }}">
                 <i class="fa-solid fa-user"></i>
-                <span class="sidebar-normal">{{ __('Usuario') }} </span>
+                <span class="sidebar-normal">{{ __('Perfil') }}</span>
               </a>
             </li>
-            <li class="nav-item ml-4 {{ $activePage == 'acessantes' ? 'active' : '' }}">
+            <!-- <li class="nav-item ml-4 {{ $activePage == 'acessantes' ? 'active' : '' }}">
               <a class="nav-link" href="/acessantes">
               <i class="fa-solid fa-address-card"></i>
                 <span class="sidebar-normal">{{ __('Perfil') }}</span>
               </a>
-            </li>
+            </li> -->
             @role('admin')
               <li class="nav-item ml-4 {{ $activePage == 'users' ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('users.index') }}">
                 <i class="fa-solid fa-users"></i>
-                  <span class="sidebar-normal">{{ __('Usuarios') }} </span>
+                  <span class="sidebar-normal">{{ __('Usuarios') }}</span>
                 </a>
               </li>
               <li class="nav-item ml-4 {{ $activePage == 'funcoes' ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('roles.index') }}">
                  <i class="fa-solid fa-user-lock"></i>
-                  <span class="sidebar-normal">{{ __('Funções') }} </span>
+                  <span class="sidebar-normal">{{ __('Funções') }}</span>
                 </a>
               </li>
-              <li class="nav-item ml-4 {{ $activePage == 'pemissoes' ? 'active' : '' }}">
+              <li class="nav-item ml-4 {{ $activePage == 'permissions' ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('permissions.index') }}">
                 <i class="fa-solid fa-user-shield"></i>
-                  <span class="sidebar-normal">{{ __('Permissões') }} </span>
+                  <span class="sidebar-normal">{{ __('Permissões') }}</span>
                 </a>
               </li>
             @endrole

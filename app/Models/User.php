@@ -48,8 +48,7 @@ class User extends Authenticatable
         'ativo',
         'identificador_celular',
         'usuario_responsavel_cadastro_id',
-        'pessoa_juridica_id',
-        
+        'pessoa_juridica_id'
     ];
 
     /**
@@ -82,13 +81,13 @@ class User extends Authenticatable
         $this->attributes['password'] = bcrypt($value);
     }
 
-    public function acessante()
+    public function usuario_responsavel_cadastro()
     {
-        return $this->belongsTo('App\Models\Acessante');
+        return $this->hasOne('App\Models\User', 'usuario_responsavel_cadastro_id', 'id');
     }
 
     public function pessoa_juridica()
     {
-        return $this->belongsTo('App\Models\PessoaJuridica');
+        return $this->hasOne('App\Models\PessoaJuridica', 'id', 'pessoa_juridica_id');
     }
 }

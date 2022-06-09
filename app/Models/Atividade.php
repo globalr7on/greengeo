@@ -20,8 +20,8 @@ class Atividade extends Model
     protected $guardaded = ['id'];
 
 
-    public function tipo_acessantes()
+    public function pessoa_juridica()
     {
-        return $this->belongsToMany('App\Models\TipoAcessante','juridica_x_tipo', 'tipo_acessante_id', 'id');
+        return $this->belongsTo('App\Models\PessoaJuridica');
     }
 }

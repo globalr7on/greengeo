@@ -43,13 +43,18 @@ class PessoaJuridica extends Model
         'senha_acesso',
         'capacidade_media_carga',
         'usuario_responsavel_cadastro_id',
-        'juridica_x_tipo_id'
+        'actividade_id'
     ];
     protected $guardaded = ['id'];
 
     public function usuario_responsavel_cadastro()
     {
-        return $this->hasOne('App\Models\User');
+        return $this->hasOne('App\Models\User', 'usuario_responsavel_cadastro_id', 'id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User', 'usuario_responsavel_cadastro_id', 'id');
     }
 
     public function veiculo()
@@ -57,16 +62,8 @@ class PessoaJuridica extends Model
         return $this->belongsTo('App\Models\Veiculo');
     }
 
-    public function acessante()
-    {
-        return $this->belongsTo('App\Models\Acessante');
-    }
-
-
-    // public function getAcessantes()
+    // public function acessante()
     // {
-    //     return $this->belongsTo('App\Models\Users', 'usuario_responsavel_cadastro_id', 'id');
+    //     return $this->belongsTo('App\Models\Acessante');
     // }
-    
-  
 }

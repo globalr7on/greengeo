@@ -6,6 +6,7 @@ use \Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -46,19 +47,39 @@ class LoginController extends Controller
      * @return void
      */
 
-    protected function validateLogin(Request $request)
+    // protected function validateLogin(Request $request)
+    // {
+    //     $request->validate([
+    //         'cpf' => 'required',
+    //         'password' => 'required|string',
+    //     ]);
+    // }
+
+    // protected function credentials(Request $request)
+    // {
+    //     return array_merge($request->only('cpf', 'password'));
+    // }
+
+    /**
+    * Write code on Method
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @return response()
+    */
+    public function login(Request $request)
     {
         $request->validate([
             'cpf' => 'required',
-            'password' => 'required|string',
+            'password' => 'required',
         ]);
 
-        // dd($request);
-        // die;
-    }
+        $credentials = $request->only('cpf', 'password');
+        if (Auth::attempt($credentials)) {
+            return redirect()->route('home');
+        } else {
+            return back()->withErrors(['password' => 'CPF/Password incorrecta']);
+        }
 
-    protected function credentials(Request $request)
-    {
-        return array_merge($request->only('cpf', 'password'));
+        return redirect("login")->withSuccess('Oppes! You have entered invalid credentials');
     }
 }

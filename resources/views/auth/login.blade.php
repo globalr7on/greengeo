@@ -15,27 +15,13 @@
             <h4 class="card-title"><strong>{{ __('Login') }}</strong></h4>
           </div>
           <div class="card-body">
-            <p class="card-description text-center">{{ __('Ingrese sus dados ') }}</p>
-            <!-- <div class="bmd-form-group{{ $errors->has('email') ? ' has-danger' : '' }}">
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">
-                    <i class="material-icons">email</i>
-                  </span>
-                </div>
-                <input type="email" name="email" class="form-control" placeholder="{{ __('Email...') }}" value="" required>
-              </div>
-              @if ($errors->has('email'))
-                <div id="email-error" class="error text-danger pl-3" for="email" style="display: block;">
-                  <strong>{{ $errors->first('email') }}</strong>
-                </div>
-              @endif
-            </div> -->
+            <p class="card-description text-center">{{ __('Ingrese sus dados') }}</p>
+
             <div class="bmd-form-group{{ $errors->has('cnpj') ? ' has-danger' : '' }}">
               <div class="input-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
-                    <i class="material-icons">email</i>
+                  <i class="fas fa-id-card"></i>
                   </span>
                 </div>
                 <input type="text" name="cpf" class="form-control" placeholder="{{ __('CPF...') }}" value="" required>
@@ -46,11 +32,13 @@
                 </div>
               @endif
             </div>
+
             <div class="bmd-form-group{{ $errors->has('password') ? ' has-danger' : '' }} mt-3">
               <div class="input-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
-                    <i class="material-icons">lock_outline</i>
+                    <!-- <i class="material-icons">lock_outline</i> -->
+                    <i class="fas fa-lock"></i>
                   </span>
                 </div>
                 <input type="password" name="password" id="password" class="form-control" placeholder="{{ __('Password...') }}" value="" required>
@@ -61,6 +49,7 @@
                 </div>
               @endif
             </div>
+
             <div class="form-check mr-auto ml-3 mt-3">
               <label class="form-check-label">
                 <input class="form-check-input" type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> {{ __('Remember me') }}
@@ -71,7 +60,7 @@
             </div>
           </div>
           <div class="card-footer justify-content-center">
-            <button type="submit" class="btn btn-primary btn-link btn-lg">{{ __('Entrar') }}</button>
+            <button type="submit" class="btn btn-primary btn-lg">{{ __('Entrar') }}</button>
           </div>
         </div>
       </form>
