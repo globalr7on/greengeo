@@ -180,17 +180,17 @@
 
 @push('js')
 <script>
-  // $(document).ready(function () {
-  //   // Stepper
-  //   var stepper = new Stepper($('.bs-stepper')[0])
-  //   $('.stepper-next').on('click', function (e) {
-  //     stepper.next()
-  //   })
-  //   $('.stepper-prev').on('click', function (e) {
-  //     stepper.previous()
-  //   })
-  //   // Stepper
-  // })
+  $(document).ready(function () {
+    // Stepper
+    var stepper = new Stepper($('.bs-stepper')[0])
+    $('.stepper-next').on('click', function (e) {
+      stepper.next()
+    })
+    $('.stepper-prev').on('click', function (e) {
+      stepper.previous()
+    })
+    // Stepper
+  })
 </script>
 
 @endpush

@@ -31,7 +31,7 @@ class UserRequest extends FormRequest
         return [
             'name' => 'required|min:3',
             'email' => 'required|email|exists:users,email|max:50',
-            'password' => 'required|min:6',
+            'password' => 'required|min:30',
             'cpf' => 'required|string|max:50',
             'rg' => 'required|string|max:50',
             'cargo' => 'required|string|max:40',

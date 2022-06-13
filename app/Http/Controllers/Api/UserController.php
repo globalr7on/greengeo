@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -18,7 +19,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        return UserResource::collection(User::all());
+
+        // return new UserResource($user);
+        $user = User::all();
+        return UserResource::collection($user);
+        // return UserResource::collection(User::all());
     }
 
     /**
@@ -45,15 +50,17 @@ class UserController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\UserRequest  $request
+     
+     * @param  \Illuminate\Http\UpdateUserRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UserRequest $request, $id)
+    public function update(UpdateUserRequest $request, $id)
     {
-        $user = User::find($id)->update($request->all());
-        $user->syncRoles($request->get('role'));
+        $user = User::find($id);
+        $user->update($request->all());
+        // $user->syncRoles($request->get('role'));
+   
 
         return new UserResource($user);
     }

@@ -48,7 +48,8 @@ class User extends Authenticatable
         'ativo',
         'identificador_celular',
         'usuario_responsavel_cadastro_id',
-        'pessoa_juridica_id'
+        'pessoa_juridica_id',
+        
     ];
 
     /**

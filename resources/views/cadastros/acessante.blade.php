@@ -8,7 +8,7 @@
   <div class="content mt-0">
     <div class="container-fluid">
       <div class="col-12 text-right">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalExemplo">+ Novo Pessoa</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalExemplo">+ Novo Usuario</button>
       </div>
       <div class="row">
         <div class="col-md-12">
