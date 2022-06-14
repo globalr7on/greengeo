@@ -20,45 +20,8 @@
                         Email: {{ $user->email }}
                     </div>
                     <div>
-                        CPF: {{ $user->cpf }}
+                        Username: {{ $user->username }}
                     </div>
-                    <div>
-                        RG: {{ $user->rg }}
-                    </div>
-                    <div>
-                        Cargo: {{ $user->cargo }}
-                    </div>
-                    <div>
-                        Celular: {{ $user->celular }}
-                    </div>
-                    <div>
-                        Fixo: {{ $user->fixo }}
-                    </div>
-                    <div>
-                        Whatsapp: {{ $user->whats }}
-                    </div>
-                    <div>
-                        Endereço: {{ $user->endereco }}
-                    </div>
-                    <div>
-                        Número: {{ $user->numero }}
-                    </div>
-                    <div>
-                        Complemento: {{ $user->complemento }}
-                    </div>
-                    <div>
-                        CEP: {{ $user->cep }}
-                    </div>
-                    <div>
-                        Bairro: {{ $user->bairro }}
-                    </div>
-                    <div>
-                        Cidade: {{ $user->cidade }}
-                    </div>
-                    <div>
-                        Estado: {{ $user->estado }}
-                    </div>
-
                 </div>
                 <div class="mt-4">
                     <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning">Editar</a>

@@ -70,7 +70,7 @@ class AcondicionamentoController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'descricao' => 'required|string|max:45',
-            'ativo' => 'required|string|max:15',
+            // 'ativo' => 'required|string|max:15',
             
         ]);
 

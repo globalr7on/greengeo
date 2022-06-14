@@ -77,96 +77,48 @@
 @push('js')
 <script>
   $(document).ready(function () {
-    $('#acondTbl').DataTable({
-      language: {
-            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Portuguese-Brasil.json"
-        },
-      dom: 'Bfrtip',
-      buttons: [
-        {
-          extend: 'copyHtml5',
-          text: 'Copiar',
-          titleAttr: 'Copiar para Área de Transferência',
-          className: 'btn-default-light rounded-0 mr-1 py-2 font-weight-bold',
-          charset: 'UTF-8',
-        },
-        {
-          extend: 'csv',
-          text: 'CSV',
-          titleAttr: 'Exportar a CSV',
-          className: 'btn-default-light rounded-0 mr-1 py-2 font-weight-bold',
-          charset: 'UTF-8',
-        },
-        {
-          extend: 'excel',
-          text: 'Excel',
-          titleAttr: 'Exportar a Excel',
-          className: 'btn-default-light rounded-0 mr-1 py-2 font-weight-bold',
-          charset: 'UTF-8',
-        },
-        {
-          extend: 'pdf',
-          text: 'PDF',
-          titleAttr: 'Exportar a PDF',
-          className: 'btn-default-light rounded-0 mr-1 py-2 font-weight-bold',
-          charset: 'UTF-8',
-        },
-        {
-          extend: 'print',
-          text: 'Imprimir',
-          titleAttr: 'Imprimir Documento',
-          className: 'btn-default-light rounded-0 mr-1 py-2 font-weight-bold',
-          charset: 'UTF-8',
-          color: 'black'
-        },
-      ],
-      ajax: {
-        url: '/api/acondicionamento',
-        dataSrc: 'data'
-      },
-      columns: [
+    let app = new App({
+      apiUrl: '/api/acondicionamento',
+      apiDataTableColumns: [
         { data: "descricao" },
         { data: "ativo", className: "text-center", render: function (data, type) {
           return data ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>'
-        } },
+        } }
       ],
-      columnDefs: [
-        { targets: 1, orderable: false },
-        { 
-          targets: 2,
-          className: "text-center",
-          render: function (data, type, row) {
-            return `
-              <i class="fa fa-trash cursor-pointer excluirAcond" data-id="${row.id}" title="Excluir" ></i>
-              &nbsp;
-              <i class="fa fa-pen cursor-pointer editarAcond" data-id="${row.id}" title="Editar"></i>
-            `
-          }
-        }
+      apiDataTableColumnDefs: [
+        { targets: 1, orderable: false }
       ],
-    });
+      datatableSelector: '#acondTbl'
+    })
 
     // Salvar 
-    $('body').on('click', '#salvarAcond', function(){
+    $('body').on('click', '#salvarAcond', function() {
       const JSONRequest = {
         descricao: $("#inputDescricao").val(),
         ativo: $("#checkAtivo").prop("checked") ? 1 : 0
       }
       const id = $('#inputId').val();
-      const method = id ? "PUT" : "POST";
-      const urlP= id ? `/api/acondicionamento/${id}` : "/api/acondicionamento";
-      $.ajax({
-        type: method,
-        url: urlP,
-        data: JSONRequest,
-        dataType: "json",
-        encode: true,
-      }).done(function (response) {
-        if (response && response.data) {
-          $("#modalAcondicionamento").modal("hide");
-          $('#acondTbl').DataTable().ajax.reload();
-        }
-      });
+      if (id) {
+        app.api.put(`/acondicionamento/${id}`, JSONRequest).then(response =>  {
+          if (response && response.data) {
+            $("#modalAcondicionamento").modal("hide");
+            $('#acondTbl').DataTable().ajax.reload();
+          }
+        })
+        .catch(error => {
+          console.log('app.api.put error', error)
+        })
+      } else {
+        app.api.post('/acondicionamento', JSONRequest).then(response =>  {
+          if (response && response.data) {
+            $("#modalAcondicionamento").modal("hide");
+            $('#acondTbl').DataTable().ajax.reload();
+          }
+        })
+        .catch(error => {
+          console.log('app.api.post error', error)
+        })
+      }
     });
 
     // Open Modal New
@@ -179,12 +131,9 @@
     });
 
     // Editar
-    $('body').on('click', '.editarAcond', function() {
+    $('body').on('click', '.editAction', function() {
       const acond_id = $(this).attr('data-id');
-      $.ajax({
-        type: "GET",
-        url: `/api/acondicionamento/${acond_id}`,
-      }).done(function (response) {
+      app.api.get(`/acondicionamento/${acond_id}`).then(response =>  {
         if (response && response.data) {
           $("#modalAcondicionamento").modal("show");
           $('#tituloModal').text("Editar Acondicionamento")
@@ -192,19 +141,22 @@
           $("#inputDescricao").val(response.data.descricao);
           $("#checkAtivo").prop("checked", response.data.ativo)
         }
-      });
+      })
+      .catch(error => {
+        console.log('app.api.get error', error)
+      })
     });
 
     // Excluir
-    $('body').on('click', '.excluirAcond',  function() {
+    $('body').on('click', '.deleteAction',  function() {
       const acond_id = $(this).attr('data-id');
       if (confirm('Aviso! Deseja realmente excluir o acondicionamento?')) {
-        $.ajax({
-          type: "DELETE",
-          url:  `/api/acondicionamento/${acond_id}`,
-        }).done(function (response) {
+        app.api.delete(`/acondicionamento/${acond_id}`).then(response =>  {
           $('#acondTbl').DataTable().ajax.reload();
-        });
+        })
+        .catch(error => {
+          console.log('app.api.delete error', error)
+        })
       }
     });
   });

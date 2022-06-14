@@ -26,13 +26,7 @@ class StoreUserRequest extends FormRequest
         return [
             'name' => 'required',
             'email' => 'required|email:rfc,dns|unique:users,email',
-            'cpf' => 'required|unique:users,cpf',
-            'celular' => 'required|unique:users,celular',
-            'fixo' => 'required|unique:users,fixo',
-            'whats' => 'required|unique:users,whats',
-            'endereco' => 'required|unique:users,endereco',
-            'numero' => 'required|unique:users,numero',
-            'complemento' => 'required|unique:users,complemento',
+            // 'username' => 'required|unique:users,username',
         ];
     }
 }

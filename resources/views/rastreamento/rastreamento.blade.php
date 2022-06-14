@@ -78,7 +78,7 @@
 @endsection
 
 @push('js')
-<!-- <script>
+<script>
   $(document).ready(function() {
     var santaFelicidade = L.marker([-25.3954825,-49.3466]).bindPopup('Santa Felicidade');
     var novoMundo = L.marker([-25.4877125,-49.3042128]).bindPopup('Novo Mundo');
@@ -182,67 +182,5 @@
       // $("#checkAtivo").prop("checked", false)
     });
   });
-</script> -->
-<script>
-  // Inicialização do mapa
-  var map = L.map('map').setView([-25.441105, -49.276855], 12);
-  //OMS LAyer 
-    var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: 'OMS'
-    })
-    osm.addTo(map);
-
-    if(!navigator.geolocation){
-      console.log("Nao é compatible")
-    }else {
-      navigator.geolocation.getCurrentPosition(getPosition)
-    }
-
-    function getPosition(position){
-      console.log(position)
-      var lat = position.coords.latitude
-      var long = position.coords.longitude
-      var accuracy = position.coords.accuracy
-
-      var marker = L.marker([lat,long])
-      var circle = L.circle([lat, long],{radius: accuracy})
-      var featureGroup = L.featureGroup([marker,circle]).addTo(map)
-      
-      console.log(lat,long,accuracy)
-    }
-
-          //google street map
-      googleStreet = L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
-          maxZoom: 20,
-          subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
-      }); 
-
-      googleStreet.addTo(map);
-
-       // marker
-    var marker = L.marker([-25.441105, -49.276855], {icon: truckIcon}).addTo(map)
-
-    map.on('click', function (e){
-      console.log(e);
-      var secondMarker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
-      
-      L.Routing.control({
-      waypoints: [
-        L.latLng(-25.441105, -49.276855), 
-        L.latLng(e.latlng.lat, e.latlng.lng)
-      ]
-    }).on('routesfound', function(e){
-      console.log(e);
-      e.routes[0].coordinates.forEach(function(coord, index){
-        setTimeout(() => {
-          marker.setLatLng([coord.lat, coord.lng])
-        }, 100 * index);
-      })
-    })
-
-    .addTo(map);
-
-    });
 </script>
 @endpush

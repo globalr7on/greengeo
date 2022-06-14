@@ -26,7 +26,6 @@ class UserController extends Controller
         // $user->assignRole([$role->id]);
 
         $users = User::latest()->paginate(10);
-        // dd($users);
 
         return view('users.index', compact('users'));
     }
@@ -54,7 +53,7 @@ class UserController extends Controller
         //For demo purposes only. When creating user or inviting a user
         // you should create a generated random password and email it to the user
         $user->create(array_merge($request->validated(), [
-            'password' => 'test010203' 
+            'password' => 'test' 
         ]));
 
         return redirect()->route('users.index')
@@ -101,7 +100,6 @@ class UserController extends Controller
      */
     public function update(User $user, UpdateUserRequest $request) 
     {
-        
         $user->update($request->validated());
 
         $user->syncRoles($request->get('role'));

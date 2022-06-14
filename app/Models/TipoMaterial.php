@@ -12,7 +12,7 @@ use Laravel\Sanctum\HasApiTokens;
 class TipoMaterial extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
-    protected $table = 'tipo_materiais';
+    protected $table = 'tipo_materiaiss';
     protected $fillable = [
         'descricao'
     ];
