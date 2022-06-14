@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TipoMaterialRequest;
+use App\Http\Resources\TipoMaterialResource;
+use App\Models\TipoMaterial;
+// use App\Models\TipoAcessante;
 use Illuminate\Http\Request;
+use Validator;
 
 class TipoMaterialController extends Controller
 {
@@ -15,6 +21,7 @@ class TipoMaterialController extends Controller
     public function index()
     {
         $tipo_material = TipoMaterial::all();
+       
         // dd($acondicionamento);
         return TipoMaterialResource::collection($tipo_material);
         // return $acessante;
@@ -38,7 +45,19 @@ class TipoMaterialController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'descricao' => 'required|string|max:45',
+            // 'ativo' => 'required|string|max:15',
+            
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors());       
+        }
+
+        $tipo_material = TipoMaterial::create($request->all());
+        // dd($acondicionamento);
+        return new TipoMaterialResource($tipo_material);
     }
 
     /**
@@ -49,18 +68,8 @@ class TipoMaterialController extends Controller
      */
     public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        // $acessante = Acessante::findOrFail($id);
+        return new TipoMaterialResource(TipoMaterial::find($id));
     }
 
     /**
@@ -72,7 +81,19 @@ class TipoMaterialController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'descricao' => 'required|string|max:45',
+            'ativo' => 'required|string|max:15',
+            
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors());       
+        }
+        
+        $tipo_material = TipoMaterial::find($id);
+        $tipo_material->update($request->all());
+        return new TipoMaterialResource($tipo_material);
     }
 
     /**
@@ -83,6 +104,8 @@ class TipoMaterialController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $tipo_material = TipoMaterial::findOrFail($id);
+        $tipo_material->delete();
+        return response(null, 204);
     }
 }

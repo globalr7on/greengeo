@@ -87,3 +87,15 @@ Route::get('classe_sucata/{id}', 'App\Http\Controllers\Api\ClasseSucataControlle
 Route::post('classe_sucata', 'App\Http\Controllers\Api\ClasseSucataController@store');
 Route::put('classe_sucata/{id}', 'App\Http\Controllers\Api\ClasseSucataController@update');
 Route::delete('classe_sucata/{id}', 'App\Http\Controllers\Api\ClasseSucataController@destroy');
+
+
+// TIPO classe de materiais
+Route::get('tipo_materiais', 'App\Http\Controllers\Api\TipoMaterialController@index');
+Route::get('tipo_materiais/{id}', 'App\Http\Controllers\Api\TipoMaterialController@show');
+Route::post('tipo_materiais', 'App\Http\Controllers\Api\TipoMaterialController@store');
+Route::put('tipo_materiais/{id}', 'App\Http\Controllers\Api\TipoMaterialController@update');
+Route::delete('tipo_materiais/{id}', 'App\Http\Controllers\Api\TipoMaterialController@destroy');
+
+
+
+
