@@ -95,7 +95,3 @@ Route::get('tipo_materiais/{id}', 'App\Http\Controllers\Api\TipoMaterialControll
 Route::post('tipo_materiais', 'App\Http\Controllers\Api\TipoMaterialController@store');
 Route::put('tipo_materiais/{id}', 'App\Http\Controllers\Api\TipoMaterialController@update');
 Route::delete('tipo_materiais/{id}', 'App\Http\Controllers\Api\TipoMaterialController@destroy');
-
-
-
-

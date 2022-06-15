@@ -8,7 +8,7 @@
       <div class="row">
         <div class="col-12 text-right lead">
           <!-- <a href="{{ route('users.create') }}" class="btn btn-primary btn-sm float-right">+ Novo Usuario</a> -->
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalEdit">+ Novo Pessoa</button>
+          <button type="button" class="btn btn-primary" id="modalFormUser" >+ Novo Pessoa</button>
         </div>
         <div class="col-md-12">
           <div class="card">
@@ -63,6 +63,45 @@
         ],
         datatableSelector: '#usersTbl'
       })
+        // Open Modal New
+      $('body').on('click', '#novoAcondicionamento', function() {
+        $("#modalFormUser").modal("show");
+        $('#tituloModal').text("Nova Acondicionamento");
+        $('#inputId').val("");
+        $("#inputDescricao").val("");
+        $("#checkAtivo").prop("checked", false)
+      });
+
+      // Editar
+      $('body').on('click', '.editAction', function() {
+        const users_id = $(this).attr('data-id');
+        app.api.get(`/users/${users_id}`).then(response =>  {
+          if (response && response.data) {
+            $("#modalFormUser").modal("show");
+            $('#tituloModal').text("Editar Acondicionamento")
+            $('#inputId').val(response.data.id);
+            $("#inputDescricao").val(response.data.descricao);
+            $("#checkAtivo").prop("checked", response.data.ativo)
+          }
+        })
+        .catch(error => {
+          console.log('app.api.get error', error)
+        })
+      });
+
+      // Excluir
+      $('body').on('click', '.deleteAction',  function() {
+        const users_id = $(this).attr('data-id');
+        if (confirm('Aviso! Deseja realmente excluir o acondicionamento?')) {
+          app.api.delete(`/users/${users_id}`).then(response =>  {
+            $('#usersTbl').DataTable().ajax.reload();
+          })
+          .catch(error => {
+            console.log('app.api.delete error', error)
+          })
+        }
+      });
     });
+    
   </script>
 @endpush
