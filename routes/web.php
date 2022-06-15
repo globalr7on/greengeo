@@ -23,7 +23,6 @@ Auth::routes();
 Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home')->middleware('auth');
 
 
-
 Route::group(['middleware' => ['auth', 'permission']], function () {
 	
 	// Auth
@@ -49,9 +48,9 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
 	Route::get('/administrativo/tipo_material', ['as' => 'administrativo.tipoMaterial', 'uses' => 'App\Http\Controllers\TipoMaterialController@index']);
 	
 	// OS E Rastreamento
-	Route::get('rastreamento', ['as' => 'rastreamento.rastreamento', 'uses' => 'App\Http\Controllers\RastreamentoController@index']);
-	Route::get('nota_fiscal', ['as' => 'rastreamento.notaFiscal', 'uses' => 'App\Http\Controllers\NotaFiscalController@index']);
-	Route::get('ordem_servico', ['as' => 'rastreamento.ordemServico', 'uses' => 'App\Http\Controllers\OrdemDeServicoController@index']);
+	Route::get('/or/rastreamento', ['as' => 'rastreamento.rastreamento', 'uses' => 'App\Http\Controllers\RastreamentoController@index']);
+	Route::get('/or/nota_fiscal', ['as' => 'rastreamento.notaFiscal', 'uses' => 'App\Http\Controllers\NotaFiscalController@index']);
+	Route::get('/or/ordem_servico', ['as' => 'rastreamento.ordemServico', 'uses' => 'App\Http\Controllers\OrdemDeServicoController@index']);
 	
 	Route::resource('roles', App\Http\Controllers\RolesController::class);
 	Route::resource('permissions', App\Http\Controllers\PermissionsController::class);

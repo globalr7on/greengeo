@@ -8,7 +8,7 @@
       <div class="row">
         <div class="col-12 text-right lead">
           <!-- <a href="{{ route('users.create') }}" class="btn btn-primary btn-sm float-right">+ Novo Usuario</a> -->
-          <button type="button" class="btn btn-primary" id="modalFormUser" >+ Novo Pessoa</button>
+          <button type="button" class="btn btn-primary" id="novoFormUser">+ Novo Pessoa</button>
         </div>
         <div class="col-md-12">
           <div class="card">
@@ -63,13 +63,73 @@
         ],
         datatableSelector: '#usersTbl'
       })
-        // Open Modal New
-      $('body').on('click', '#novoAcondicionamento', function() {
+      app.stepper()
+         // Open Modal New
+      $('body').on('click', '#novoFormUser', function() {
         $("#modalFormUser").modal("show");
-        $('#tituloModal').text("Nova Acondicionamento");
+        $('#tituloModal').text("Novo Usuario");
         $('#inputId').val("");
-        $("#inputDescricao").val("");
+        $('#formUser')[0].reset();
         $("#checkAtivo").prop("checked", false)
+      });
+
+      // Salvar 
+      $('body').on('click', '#salvarUser', function() {
+        const JSONRequest = {
+          cpf:$("#inputCpf").val(),
+          rg:$("#inputRg").val(),
+          name:$("#inputNome").val(),
+          email:$("#inputEmail").val(),
+          cargo:$("#inputCargo").val(),
+          cep:$("#inputCep").val(),
+          endereco:$("#inputEndereco").val(),
+          numero:$("#inputNumero").val(),
+          complemento:$("#inputComplemento").val(),
+          bairro:$("#inputBairro").val(),
+          cidade:$("#inputCidade").val(),
+          estado:$("#inputEstado").val(),
+          celular:$("#inputCelular").val(),
+          fixo:$("#inputFixo").val(),
+          whats:$("#inputWhats").val(),
+          registro_carteira:$("#inputRcarteira").val(),
+          tipo_carteira:$("#inputTcarteira").val(),
+          validade_carteira:$("#inputVcarteira").val(),
+          identificador_celular:$("#inputIdenticadorCelular").val(),
+          // usuario_responsable_cadastro_id:$("#inputUsuarioResponsavel").val(),
+          // password:$("#inputPassword").val(),
+          ativo:$("#checkAtivo").prop("checked") ? 1 : 0
+        }
+        const id = $('#inputId').val();
+        
+        if (id) {
+          console.log('if');
+          app.api.put(`/users/${id}`, JSONRequest).then(response =>  {
+            if (response && response.data) {
+              $("#modalFormUser").modal("hide");
+              app.datatable.ajax.reload();
+            }
+          })
+          .catch(error => {
+            console.log('app.api.put error', error)
+          })
+        } else {
+          app.api.post('/users', JSONRequest).then(response =>  {
+            if (response && response.data ) {
+              $("#modalFormUser").modal("hide");
+              app.datatable.ajax.reload();
+            } 
+            // else {
+            //   let message = ''
+            //   Object.keys(response.data).map(key => {
+            //     message += `${key}: ${response.data[key].join('\n')}\n\n`
+            //   })
+            //   alert(message);
+            // } 
+          })
+          .catch(error => {
+            console.log('app.api.post error', error)
+          })
+        }
       });
 
       // Editar
@@ -80,7 +140,25 @@
             $("#modalFormUser").modal("show");
             $('#tituloModal').text("Editar Acondicionamento")
             $('#inputId').val(response.data.id);
-            $("#inputDescricao").val(response.data.descricao);
+            $("#inputCpf").val(response.data.cpf);
+            $("#inputRg").val(response.data.rg);
+            $("#inputNome").val(response.data.name);
+            $("#inputEmail").val(response.data.email);
+            $("#inputCargo").val(response.data.cargo);
+            $("#inputEndereco").val(response.data.endereco);
+            $("#inputNumero").val(response.data.numero);
+            $("#inputComplemento").val(response.data.complemento);
+            $("#inputBairro").val(response.data.bairro);
+            $("#inputCidade").val(response.data.cidade);
+            $("#inputEstado").val(response.data.estado);
+            $("#inputCelular").val(response.data.celular);
+            $("#inputFixo").val(response.data.fixo);
+            $("#inputWhats").val(response.data.whats);
+            $("#inputRcarteira").val(response.data.registro_carteira);
+            $("#inputTcarteira").val(response.data.tipo_carteira);
+            $("#inputVcarteira").val(response.data.validade_carteira);
+            // $("#inputUsuarioResponsavel").val(response.data.usuario_responsable_cadastro_id);
+            // $("#inputPassword").val(response.data.password);
             $("#checkAtivo").prop("checked", response.data.ativo)
           }
         })
@@ -94,7 +172,7 @@
         const users_id = $(this).attr('data-id');
         if (confirm('Aviso! Deseja realmente excluir o acondicionamento?')) {
           app.api.delete(`/users/${users_id}`).then(response =>  {
-            $('#usersTbl').DataTable().ajax.reload();
+            app.datatable.ajax.reload();
           })
           .catch(error => {
             console.log('app.api.delete error', error)
@@ -102,6 +180,5 @@
         }
       });
     });
-    
   </script>
 @endpush
