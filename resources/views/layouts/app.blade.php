@@ -95,8 +95,6 @@
 
     <script src="{{ asset('material') }}/js/app/api.js"></script>
     <script src="{{ asset('material') }}/js/app/app.js"></script>
-
-    
     
     @stack('js')
 </body>

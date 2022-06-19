@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class RoleRequest extends FormRequest
+class PermissionRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -17,9 +17,8 @@ class RoleRequest extends FormRequest
     {
         $id = request()->route('id');
         return [
-            'name' => 'required|string|max:255|unique:roles,name,'.$id,
-            'guard_name' => 'required|string|max:255',
-            'permissions' => 'required|array'
+            'name' => 'required|string|max:255|unique:permissions,name,'.$id,
+            'guard_name' => 'required|string|max:255'
         ];
     }
 

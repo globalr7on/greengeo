@@ -167,19 +167,19 @@
             </li> -->
             @role('admin')
               <li class="nav-item ml-4 {{ $activePage == 'users' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('users.index') }}">
+                <a class="nav-link" href="{{ route('configuracoes.users') }}">
                 <i class="fa-solid fa-users"></i>
                   <span class="sidebar-normal">{{ __('Usuarios') }}</span>
                 </a>
               </li>
               <li class="nav-item ml-4 {{ $activePage == 'funcoes' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('roles.index') }}">
+                <a class="nav-link" href="{{ route('configuracoes.roles') }}">
                  <i class="fa-solid fa-user-lock"></i>
                   <span class="sidebar-normal">{{ __('Funções') }}</span>
                 </a>
               </li>
               <li class="nav-item ml-4 {{ $activePage == 'permissions' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('permissions.index') }}">
+                <a class="nav-link" href="{{ route('configuracoes.permissions') }}">
                 <i class="fa-solid fa-user-shield"></i>
                   <span class="sidebar-normal">{{ __('Permissões') }}</span>
                 </a>

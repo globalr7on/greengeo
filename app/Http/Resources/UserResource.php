@@ -42,8 +42,8 @@ class UserResource extends JsonResource
             'pessoa_juridica' => $this->pessoa_juridica ? $this->pessoa_juridica->nome_fantasia : null,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'roles_id' => $this->roles->pluck('id'),
-            'roles_name' => $this->roles->pluck('name'),
+            'role_id' => count($this->roles) > 0 ? $this->roles[0]->id : null,
+            'role_name' => count($this->roles) > 0 ? $this->roles[0]->name : null,
         ];
     }
 }

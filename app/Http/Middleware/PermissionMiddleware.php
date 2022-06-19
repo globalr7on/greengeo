@@ -17,7 +17,6 @@ class PermissionMiddleware
      */
     public function handle($request, Closure $next, $permission = null, $guard = null)
     {
-        // return $next($request);
         $authGuard = app('auth')->guard($guard);
 
         if ($authGuard->guest()) {
@@ -32,8 +31,7 @@ class PermissionMiddleware
             $permission = $request->route()->getName();
             $permissions = array($permission);
         }
-        // dd($permissions);
-        // dd($authGuard->user());
+
         foreach ($permissions as $permission) {
             if ($authGuard->user()->can($permission)) {
                 return $next($request);

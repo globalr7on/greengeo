@@ -18,6 +18,13 @@ Route::post('roles', 'App\Http\Controllers\Api\RoleController@store');
 Route::put('roles/{id}', 'App\Http\Controllers\Api\RoleController@update');
 Route::delete('roles/{id}', 'App\Http\Controllers\Api\RoleController@destroy');
 
+// PERMISSIONS
+Route::get('permissions', 'App\Http\Controllers\Api\PermissionController@index');
+Route::get('permissions/{id}', 'App\Http\Controllers\Api\PermissionController@show');
+Route::post('permissions', 'App\Http\Controllers\Api\PermissionController@store');
+Route::put('permissions/{id}', 'App\Http\Controllers\Api\PermissionController@update');
+Route::delete('permissions/{id}', 'App\Http\Controllers\Api\PermissionController@destroy');
+
 // ACONDICIONAMENTO 
 Route::get('acondicionamento', 'App\Http\Controllers\Api\AcondicionamentoController@index');
 Route::get('acondicionamento/{id}', 'App\Http\Controllers\Api\AcondicionamentoController@show');

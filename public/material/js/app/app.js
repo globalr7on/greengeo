@@ -1,21 +1,4 @@
 // Main js for all views
-
-// $(document).ready(function () {
-
-//     // Stepper
-//     var stepperElement = $('.bs-stepper')[0]
-//     if (stepperElement) {
-//         var stepper = new Stepper(stepperElement)
-//         $('.stepper-next').on('click', function (e) {
-//           stepper.next()
-//         })
-//         $('.stepper-prev').on('click', function (e) {
-//           stepper.previous()
-//         })
-//     }
-//     // Stepper
-// })
-
 class App {
   constructor({...params}) {
     this.api = new Api(params?.baseUrl)
@@ -111,3 +94,82 @@ class App {
 	}
 }
 
+function addInputError(inputId, error) {
+  (Array.isArray(error) ? error : [error]).map(currError => {
+    $(`#${inputId}`).addClass("error").parent().append(`<label id="${inputId}-error" class="error mb-0" for="${inputId}">${currError}</label>`)
+    $(`#${inputId}`).parent().find('label').addClass("error")
+  })
+}
+
+function delFormValidationErrors() {
+  $('.error').removeClass('error')
+  $('label[id$="-error"]').remove()
+}
+
+function addFormValidationErrors(data) {
+  if (!Object.keys(data).length) {
+    return
+  }
+  delFormValidationErrors()
+  Object.keys(data).map(field => addInputError(`input_${field}`, data[field]))
+}
+
+// NOTIFICATIONS
+function _showNotification(from, align, type = "success", icon = "add_alert", message = "Successfully") {
+  $.notify({
+    icon: icon,
+    message: message
+  },{
+    type: type,
+    delay: 2000,
+    timer: 1000,
+    placement: {
+      from: from,
+      align: align
+    }
+  })
+}
+
+function notifySuccess(message) {
+  _showNotification('top', 'right', type = "success", icon = "add_alert", message = message)
+}
+
+function notifyWarning(message) {
+  _showNotification('top', 'right', type = "warning", icon = "add_alert", message = message)
+}
+
+function notifyInfo(message) {
+  _showNotification('top', 'right', type = "info", icon = "add_alert", message = message)
+}
+
+function notifyDanger(message) {
+  _showNotification('top', 'right', type = "danger", icon = "add_alert", message = message)
+}
+
+function sweetConfirm(message, title = "Aviso!") {
+  return new Promise((resolve, reject) => {
+    swal({
+      title: title,
+      text: message,
+      type: "question",
+      buttonsStyling: false,
+      showConfirmButton: true,
+      confirmButtonClass: "btn btn-success",
+      showCancelButton: true,
+      cancelButtonClass: "btn btn-danger",
+    })
+    .then(result => resolve(result?.dismiss ? false : true))
+    .catch(error => reject(error))
+  })
+}
+
+function loadSelect(selector, data, fields = ['id', 'name'], selected = null) {
+  $(selector).empty().append('<option disabled selected>Seleccione</option>')
+  $.each(data, function(index, value) {
+    $(selector).append(`<option value="${value[fields[0]]}">${value[fields[1]]}</option>`)
+  })
+  $(selector).selectpicker('refresh')
+  if (selected) {
+    $(selector).selectpicker('val', selected)
+  }
+}

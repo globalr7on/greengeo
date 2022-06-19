@@ -57,7 +57,7 @@ class Api {
           url: fullURL,
           method: method,
           headers: headers ? headers : this.getApiHeaders(),
-          data: data,
+          data: data
           // beforeSend: function () {
           //   if (showLoading) {
           //     self.message.loadingShow('Por favor, aguarde...');
@@ -78,7 +78,7 @@ class Api {
           // setTimeout(function () {
           //   self.onResponseError(error);
           // }, 200);
-          reject(error)
+          reject(error?.responseJSON)
         })
         // .always(function () {
         //   resolve(retorno)

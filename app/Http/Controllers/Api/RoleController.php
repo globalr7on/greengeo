@@ -7,12 +7,6 @@ use App\Http\Requests\RoleRequest;
 use App\Http\Resources\RoleResource;
 use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
-use Validator;
-
-$rules = [
-    'name' => 'required|string|max:255',
-    'guard_name' => 'required|string|max:255'
-];
 
 class RoleController extends Controller
 {
@@ -23,24 +17,26 @@ class RoleController extends Controller
      */
     public function index()
     {
-        return RoleResource::collection(Role::all());
+        return response([
+            'data' => RoleResource::collection(Role::all()),
+            'status' => true
+        ], 200);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  app\Http\Requests\RoleRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RoleRequest $request)
     {
-        $validator = Validator::make($request->all(), $rules);
-
-        if($validator->fails()){
-            return response()->json($validator->errors());       
-        }
-
-        return new RoleResource(Role::create($request->all()));
+        $role = Role::create($request->except('permissions'));
+        $role->syncPermissions($request->get('permissions'));
+        return response([
+            'data' => new RoleResource($role),
+            'status' => true
+        ], 200);
     }
 
     /**
@@ -51,26 +47,29 @@ class RoleController extends Controller
      */
     public function show($id)
     {
-        return new RoleResource(Role::find($id));
+        return response([
+            'data' => new RoleResource(Role::find($id)),
+            'status' => true
+        ], 200);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  app\Http\Requests\RoleRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(RoleRequest $request, $id)
     {
-        $validator = Validator::make($request->all(), $rules);
+        $role = Role::find($id);
+        $role->update($request->except('permissions'));
+        $role->syncPermissions($request->get('permissions'));
 
-        if($validator->fails()){
-            return response()->json($validator->errors());       
-        }
-
-        $role = Role::find($id)->update($request->all());
-        return new RoleResource($role);
+        return response([
+            'data' => new RoleResource($role),
+            'status' => true
+        ], 200);
     }
 
     /**

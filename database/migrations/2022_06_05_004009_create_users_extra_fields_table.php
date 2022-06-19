@@ -30,7 +30,7 @@ class CreateUsersExtraFieldsTable extends Migration
             $table->string('registro_carteira')->nullable();
             $table->string('tipo_carteira')->nullable();
             $table->date('validade_carteira')->nullable();
-            $table->boolean('ativo')->default(true);
+            $table->boolean('ativo')->default(false);
             $table->string('identificador_celular')->nullable();
             $table->unsignedBigInteger('usuario_responsavel_cadastro_id')->nullable();
             $table->foreign('usuario_responsavel_cadastro_id')->references('id')->on('users');

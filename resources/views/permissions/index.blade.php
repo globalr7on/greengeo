@@ -1,47 +1,28 @@
 @extends('layouts.app', ['activePage' => 'permissions', 'titlePage' => __('Permissions')])
-
-@section('content')    
-<div class="content">
+@section('subheaderTitle')
+  Configurações
+@endsection
+@section('content')
+  <div class="content">
     <div class="container-fluid">
       <div class="row">
         <div class="col-12 text-right">
-             <a href="{{ route('permissions.create') }}" class="btn btn-primary btn-sm float-right">Adicionar permissões</a>
+          <button type="button" class="btn btn-primary" id="novaPermission">+ Novo Permissõe</button>
         </div>
         <div class="col-md-12">
           <div class="card">
             <div class="card-header card-header-primary">
-              <h4 class="card-title">Permissões</h4>
-              <p class="card-category">Gerencie suas permissões aqui.</p>
+              <h4 class="card-title">Configurações</h4>
+              <p class="card-category">Permissões</p>
             </div>
-            <div class="mt-2">
-                @include('layouts.messages')
-            </div>
-
             <div class="card-body">
-              <!-- <div class="table-responsive"> -->
               <div>
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th scope="col" width="15%">Nome</th>
-                        <th scope="col">Guarda</th> 
-                        <th scope="col" colspan="3" width="1%"></th> 
-                    </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($permissions as $permission)
-                            <tr>
-                                <td>{{ $permission->name }}</td>
-                                <td>{{ $permission->guard_name }}</td>
-                                <td><a href="{{ route('permissions.edit', $permission->id) }}" class="btn btn-warning btn-sm">Editar</a></td>
-                                <td>
-                                    {!! Form::open(['method' => 'DELETE','route' => ['permissions.destroy', $permission->id],'style'=>'display:inline']) !!}
-                                    {!! Form::submit('Excluir', ['class' => 'btn btn-danger btn-sm']) !!}
-                                    {!! Form::close() !!}
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
+                <table class="table" id="permissionsTbl">
+                  <thead>
+                    <th class="text-primary font-weight-bold">Name</th>
+                    <th class="text-primary font-weight-bold">Guard</th>
+                    <th class="text-primary font-weight-bold">Ação</th>
+                  </thead>
                 </table>
               </div>
             </div>
@@ -50,5 +31,94 @@
       </div>
     </div>
   </div>
-
+  @include('permissions.modal')
 @endsection
+
+@push('js')
+  <script>
+    $(document).ready(function () {
+      let app = new App({
+        apiUrl: '/api/permissions',
+        apiDataTableColumns: [
+          { data: "name" },
+          { data: "guard_name" },
+        ],
+        datatableSelector: '#permissionsTbl'
+      })
+
+      // Open Modal New
+      $('body').on('click', '#novaPermission', function() {
+        delFormValidationErrors()
+        $("#modalFormPermission").modal("show")
+        $('#modalFormPermissionTitle').text("Novo Permission")
+        $('#inputId').val("")
+        $('#formPermission')[0].reset()
+      });
+
+      // Salvar 
+      $('body').on('click', '#salvarPermission', function() {
+        const JSONRequest = {
+          name: $("#input_name").val(),
+          guard_name: $("#input_guard_name").val(),
+        }
+        const id = $('#inputId').val()
+        if (id) {
+          app.api.put(`/permissions/${id}`, JSONRequest).then(response => {
+            if (response && response.status) {
+              $("#modalFormPermission").modal("hide")
+              app.datatable.ajax.reload()
+              notifySuccess('Permission updated successfully')
+            }
+          })
+          .catch(error => {
+            addFormValidationErrors(error?.data)
+            notifyDanger('Failed to update permission, try again')
+          })
+        } else {
+          app.api.post('/permissions', JSONRequest).then(response => {
+            if (response && response.status) {
+              $("#modalFormPermission").modal("hide")
+              app.datatable.ajax.reload()
+              notifySuccess('Permission created successfully')
+            }
+          })
+          .catch(error => {
+            addFormValidationErrors(error?.data)
+            notifyDanger('Failed to create permission, try again')
+          })
+        }
+      });
+
+      // Editar
+      $('body').on('click', '.editAction', function() {
+        const id = $(this).attr('data-id');
+        app.api.get(`/permissions/${id}`).then(response =>  {
+          if (response && response.status) {
+            delFormValidationErrors()
+            $('#formPermission')[0].reset()
+            $("#modalFormPermission").modal("show")
+            $('#modalFormPermissionTitle').text("Editar Permission")
+            $('#inputId').val(response.data.id)
+            $("#input_name").val(response.data.name)
+            $("#input_guard_name").val(response.data.guard_name)
+          }
+        })
+        .catch(error => notifyDanger('Failed to get permission details, try again'))
+      })
+
+      // Excluir
+      $('body').on('click', '.deleteAction',  function() {
+        const id = $(this).attr('data-id')
+        sweetConfirm('Deseja realmente excluir a permission?').then(confirmed => {
+          if (confirmed) {
+            app.api.delete(`/permissions/${id}`).then(response =>  {
+              app.datatable.ajax.reload()
+              notifySuccess('Permission deleted successfully')
+            })
+            .catch(error => notifyDanger('Failed to delete permission, try again'))
+          }
+        }).catch(error => notifyDanger('An error has occurred, try again'))
+      })
+    })
+  </script>
+@endpush

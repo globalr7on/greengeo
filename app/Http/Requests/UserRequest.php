@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Models\User;
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -28,10 +26,10 @@ class UserRequest extends FormRequest
      */
     public function rules()
     {
+        $id = request()->route('id');
         return [
             'name' => 'required|min:3',
-            'email' => 'required|email|unique:users,email|max:50',
-            // 'password' => 'required|min:30',
+            'email' => 'required|email|max:50|unique:users,email,'.$id,
             'cpf' => 'required|string|max:50',
             'rg' => 'required|string|max:50',
             'cargo' => 'required|string|max:40',
@@ -49,15 +47,18 @@ class UserRequest extends FormRequest
             'validade_carteira' => 'required|date|date_format:Y-m-d',
             'tipo_carteira' => 'required|string|max:50',
             'identificador_celular' => 'required|string|max:20',
+            'role' => 'required',
         ];
     }
 
     public function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException(response()->json([
-            'success'   => false,
-            'message'   => 'Validation errors',
-            'data'      => $validator->errors()
-        ]));
+        throw new HttpResponseException(
+            response()->json([
+                'status' => false,
+                'message' => 'Validation errors',
+                'data' => $validator->errors()
+            ])->setStatusCode(400)
+        );
     }
 }

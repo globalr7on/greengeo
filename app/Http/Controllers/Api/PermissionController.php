@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserRequest;
-use App\Http\Resources\UserResource;
-use App\Models\User;
+use App\Http\Requests\PermissionRequest;
+use App\Http\Resources\PermissionResource;
+use Spatie\Permission\Models\Permission;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class PermissionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +18,7 @@ class UserController extends Controller
     public function index()
     {
         return response([
-            'data' => UserResource::collection(User::all()),
+            'data' => PermissionResource::collection(Permission::all()),
             'status' => true
         ], 200);
     }
@@ -26,16 +26,13 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  app\Http\Requests\UserRequest  $request
+     * @param  app\Http\Requests\PermissionRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UserRequest $request)
+    public function store(PermissionRequest $request)
     {
-        $request->merge(array('password' => 'test010203'));
-        $user = User::create($request->except('role'));
-        $user->syncRoles($request->get('role'));
         return response([
-            'data' => new UserResource($user),
+            'data' => new PermissionResource(Permission::create($request->all())),
             'status' => true
         ], 200);
     }
@@ -49,26 +46,25 @@ class UserController extends Controller
     public function show($id)
     {
         return response([
-            'data' => new UserResource(User::find($id)),
+            'data' => new PermissionResource(Permission::find($id)),
             'status' => true
         ], 200);
     }
 
     /**
      * Update the specified resource in storage.
-     
-     * @param  app\Http\Requests\UserRequest  $request
+     *
+     * @param  app\Http\Requests\PermissionRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UserRequest $request, $id)
+    public function update(PermissionRequest $request, $id)
     {
-        $user = User::find($id);
-        $user->update($request->except('role'));
-        $user->syncRoles($request->get('role'));
+        $permission = Permission::find($id);
+        $permission->update($request->all());
 
         return response([
-            'data' => new UserResource($user),
+            'data' => new PermissionResource($permission),
             'status' => true
         ], 200);
     }
@@ -81,7 +77,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        User::findOrFail($id)->delete();
+        Permission::findOrFail($id)->delete();
         return response(null, 204);
     }
 }
