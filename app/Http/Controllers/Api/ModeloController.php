@@ -7,7 +7,7 @@ use App\Http\Requests\ModeloRequest;
 use App\Http\Resources\ModeloResource;
 use App\Models\Modelo;
 use Illuminate\Http\Request;
-use Validator;
+
 
 class ModeloController extends Controller
 {
@@ -16,44 +16,31 @@ class ModeloController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $modelo = Modelo::all();
-        return ModeloResource::collection($modelo);
+        return response([
+            'data' => ModeloResource::collection($modelo),
+            'status' => true
+        ], 200);
         // return $acessante;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
+    
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\ModeloRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ModeloRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'descricao' => 'required|string|max:45',
-            // 'ativo' => 'required|string|max:15',
-            
-        ]);
-
-        if($validator->fails()){
-            return response()->json($validator->errors());       
-        }
-
         $modelo = Modelo::create($request->all());
-        // dd($acondicionamento);
-        return new ModeloResource($modelo);
+         return response([
+            'data' => new ModeloResource($modelo),
+            'status' => true
+        ], 200);
+
     
     }
 
@@ -65,42 +52,27 @@ class ModeloController extends Controller
      */
     public function show($id)
     {
-        return new ModeloResource(Modelo::find($id));
+        return response([
+            'data' => new ModeloResource(Modelo::find($id)),
+            'status' => true
+        ], 200);
     }
 
     /**
-     * Show the form for editing the specified resource.
+      * Update the specified resource in storage.
      *
+     * @param  app\Http\Requests\ModeloRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        $validator = Validator::make($request->all(), [
-            'descricao' => 'required|string|max:45',
-            'ativo' => 'required|string|max:15',
-            
-        ]);
-
-        if($validator->fails()){
-            return response()->json($validator->errors());       
-        }
-        
+    public function update(ModeloRequest $request, $id)
+    {   
         $modelo = Modelo::find($id);
         $modelo->update($request->all());
-        return new ModeloResource($modelo);
+        return response([
+                'data' => new ModeloResource($modelo),
+                'status' => true
+            ], 200);
   
     }
 
@@ -112,8 +84,7 @@ class ModeloController extends Controller
      */
     public function destroy($id)
     {
-        $modelo = Modelo::findOrFail($id);
-        $modelo->delete();
+        Modelo::findOrFail($id)->delete();
         return response(null, 204);
     }
 }

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<NFe xmlns="http://www.portalfiscal.inf.br/nfe">
+   <infNFe Id="NFe41220673327280000110550130000000022331596484" versao="4.00">
+      <ide>
+         <cUF>41</cUF>
+         <cNF>33159648</cNF>
+         <natOp>5102 - VENDA DE MERCADORIA ADQUIRIDA OU RECEBIDA DE TERCEIRO</natOp>
+         <mod>55</mod>
+         <serie>13</serie>
+         <nNF>2</nNF>
+         <dhEmi>2022-06-13T10:50:25-03:00</dhEmi>
+         <dhSaiEnt>2022-06-13T10:50:25-03:00</dhSaiEnt>
+         <tpNF>1</tpNF>
+         <idDest>1</idDest>
+         <cMunFG>4119152</cMunFG>
+         <tpImp>1</tpImp>
+         <tpEmis>1</tpEmis>
+         <cDV>4</cDV>
+         <tpAmb>1</tpAmb>
+         <finNFe>1</finNFe>
+         <indFinal>1</indFinal>
+         <indPres>1</indPres>
+         <procEmi>0</procEmi>
+         <verProc>1.00</verProc>
+      </ide>
+      <emit>
+         <CNPJ>73327280000110</CNPJ>
+         <xNome>CELESTINO POITEVIN NETO - ME</xNome>
+         <xFant>CPN INFORMÁTICA</xFant>
+         <enderEmit>
+            <xLgr>RUA GUILHERME WEISS</xLgr>
+            <nro>105</nro>
+            <xBairro>ESTÂNCIA PINHAIS</xBairro>
+            <cMun>4119152</cMun>
+            <xMun>PINHAIS</xMun>
+            <UF>PR</UF>
+            <CEP>83323200</CEP>
+            <cPais>1058</cPais>
+            <xPais>BRASIL</xPais>
+            <fone>4136532681</fone>
+         </enderEmit>
+         <IE>9048425248</IE>
+         <CRT>1</CRT>
+      </emit>
+      <dest>
+         <CNPJ>08462222000138</CNPJ>
+         <xNome>POITEC TECNOLOGIA</xNome>
+         <enderDest>
+            <xLgr>RUA 25 DE AGOSTO</xLgr>
+            <nro>632</nro>
+            <xBairro>CENTRO</xBairro>
+            <cMun>4119152</cMun>
+            <xMun>PINHAIS</xMun>
+            <UF>PR</UF>
+            <CEP>83323010</CEP>
+            <cPais>1058</cPais>
+            <xPais>BRASIL</xPais>
+         </enderDest>
+         <indIEDest>2</indIEDest>
+         <email>celestino@cpninformatica.com.br</email>
+      </dest>
+      <entrega>
+         <CNPJ>08462222000138</CNPJ>
+         <xNome>POITEC TECNOLOGIA</xNome>
+         <xLgr>RUA 25 DE AGOSTO</xLgr>
+         <nro>632</nro>
+         <xCpl>SOBRELOJA</xCpl>
+         <xBairro>CENTRO</xBairro>
+         <cMun>4119152</cMun>
+         <xMun>PINHAIS</xMun>
+         <UF>PR</UF>
+         <CEP>83323010</CEP>
+         <cPais>1058</cPais>
+         <xPais>BRASIL</xPais>
+         <email>celestino@cpninformatica.com.br</email>
+      </entrega>
+      <det nItem="1">
+         <prod>
+            <cProd>100</cProd>
+            <cEAN>SEM GTIN</cEAN>
+            <xProd>REFRIGERADOR ELETROLUX 127V PLATINA</xProd>
+            <NCM>84181000</NCM>
+            <CEST>2100200</CEST>
+            <CFOP>5102</CFOP>
+            <uCom>UN</uCom>
+            <qCom>3.0000</qCom>
+            <vUnCom>2882.0700000000</vUnCom>
+            <vProd>8646.21</vProd>
+            <cEANTrib>SEM GTIN</cEANTrib>
+            <uTrib>UN</uTrib>
+            <qTrib>3.0000</qTrib>
+            <vUnTrib>2882.0700000000</vUnTrib>
+            <indTot>1</indTot>
+         </prod>
+         <imposto>
+            <vTotTrib>2655.99</vTotTrib>
+            <ICMS>
+               <ICMSSN102>
+                  <orig>0</orig>
+                  <CSOSN>400</CSOSN>
+               </ICMSSN102>
+            </ICMS>
+            <IPI>
+               <qSelo>0</qSelo>
+               <cEnq>999</cEnq>
+               <IPITrib>
+                  <CST>50</CST>
+                  <vBC>8774.05</vBC>
+                  <pIPI>20.4000</pIPI>
+                  <vIPI>1789.91</vIPI>
+               </IPITrib>
+            </IPI>
+            <PIS>
+               <PISNT>
+                  <CST>07</CST>
+               </PISNT>
+            </PIS>
+            <COFINS>
+               <COFINSNT>
+                  <CST>07</CST>
+               </COFINSNT>
+            </COFINS>
+         </imposto>
+      </det>
+      <total>
+         <ICMSTot>
+            <vBC>0.00</vBC>
+            <vICMS>0.00</vICMS>
+            <vICMSDeson>0.00</vICMSDeson>
+            <vFCP>0.00</vFCP>
+            <vBCST>0.00</vBCST>
+            <vST>0.00</vST>
+            <vFCPST>0.00</vFCPST>
+            <vFCPSTRet>0.00</vFCPSTRet>
+            <vProd>8646.21</vProd>
+            <vFrete>0.00</vFrete>
+            <vSeg>0.00</vSeg>
+            <vDesc>0.00</vDesc>
+            <vII>0.00</vII>
+            <vIPI>1789.91</vIPI>
+            <vIPIDevol>0.00</vIPIDevol>
+            <vPIS>0.00</vPIS>
+            <vCOFINS>0.00</vCOFINS>
+            <vOutro>0.00</vOutro>
+            <vNF>10436.12</vNF>
+            <vTotTrib>2655.99</vTotTrib>
+         </ICMSTot>
+      </total>
+      <transp>
+         <modFrete>0</modFrete>
+         <transporta>
+            <CNPJ>05218070000304</CNPJ>
+            <xNome>JAMEF TRANSPORTES LTDA</xNome>
+            <IE>114387171114</IE>
+            <xEnder>MIGUEL MENTE, 500</xEnder>
+            <xMun>SÃO PAULO</xMun>
+            <UF>SP</UF>
+         </transporta>
+         <vol>
+            <qVol>3</qVol>
+            <esp>CX</esp>
+            <marca>.</marca>
+            <nVol>0</nVol>
+            <pesoL>207.000</pesoL>
+            <pesoB>201.000</pesoB>
+         </vol>
+      </transp>
+      <pag>
+         <detPag>
+            <indPag>0</indPag>
+            <tPag>01</tPag>
+            <vPag>8646.21</vPag>
+         </detPag>
+      </pag>
+      <infAdic>
+         <infCpl>Tributos Incid. Lei Federal 12.741/12 - R$ 2.655,99;</infCpl>
+      </infAdic>
+      <infRespTec>
+         <CNPJ>73327280000110</CNPJ>
+         <xContato>Celestino Poitevin Neto</xContato>
+         <email>suporte@cpninformatica.com.br</email>
+         <fone>4136532681</fone>
+      </infRespTec>
+   </infNFe>
+</NFe>

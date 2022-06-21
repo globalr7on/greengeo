@@ -9,6 +9,7 @@
     <div class="container-fluid">
       <div class="col-12 text-right">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAddNew">+ Novo Fiscal</button>
+     
       </div>
       <div class="row">
         <div class="col-md-12">
@@ -34,33 +35,15 @@
                   <tbody>
                     <tr>
                       <td class="text-center">P.J</td>
-                      <td>38.156.898/0001-13</td>
+                      <td>{{$cnpj}}</td>
                       <td>000.001.249</td>
-                      <td>002</td>
+                      <td>{{$serie}}</td>
                       <td> 1/1</td>
                       <td class="text-center">4220 1009 3789 2500 0145 5500 2000 0010 4910 0001 0554</td>
                       <td></td>
                     </tr>
-                    <tr>
-                      <td class="text-center">P.J</td>
-                      <td>27.333.579/0001-11</td>
-                      <td>000.053.838</td>
-                      <td>003</td>
-                      <td> 1/1</td>
-                      <td class="text-center">4120 1101 7957 5100 0104 5500 3000 0833 3815 9465 4388</td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td class="text-center">P.J</td>
-                      <td>12.403.752/0001-54</td>
-                      <td>000.356.985</td>
-                      <td>001</td>
-                      <td> 1/2</td>
-                      <td class="text-center">4220 1179 3636 7200 1098 5500 1000 3459 6910 0069 1940</td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                    </tr>
+                  
+                   
                   </tbody>
                 </table>
               </div>
@@ -125,7 +108,32 @@
                   </button>
                   <!-- <button type="button" class="btn btn-primary"  id="addItems">Adicionar Item</button> -->
                 </div>
-                <table class="table" id="itemTbl" >
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                                <tr>
+                                    <th> Nota </th>
+                                    <th> Serie </th>
+                                    <th> Emição </th>
+                                    <th> Saida </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td> {{$nota}} </td>
+                                <td> {{$serie}} </td>
+                                <td> {{$emicao}} </td>
+                                <td> {{$saida}} </td>
+                            </tr>
+                            <tr>
+                                <td> {{$nota}} </td>
+                                <td> {{$serie}} </td>
+                                <td> {{$emicao}} </td>
+                                <td> {{$saida}} </td>
+                            </tr>
+                            </tbody>
+
+                    </table>
+                {{-- <table class="table" id="output" >
                   <thead>
                     <tr>
                       <th>Unidade</th>
@@ -144,7 +152,7 @@
                       <th>D/Fabricação</th>
                     </tr>
                   </thead>
-                </table>
+                </table> --}}
               </div>
             </div>
           </div>
@@ -429,15 +437,35 @@
         }
       });
 
-      // $.ajax({
-      //   type: "GET",
-      //   url: "/api/user",
-      // }).done(function (response) {
-      //   if (response && response.data) {
-      //     loadSelect('#formAddItem select[name="usuario"]', response.data)
-      //   }
-      // });
-    });
+      //openFile will read XML file and input it into text field
+      var openFile = function(event) {
+        var input = event.target;
+      var text = "";
+        var reader = new FileReader();
+        var onload = function(event) {
+          text = reader.result;
+          parseFile(text);
+
+        };
+
+        reader.onload = onload;
+        reader.readAsText(input.files[0]);
+
+      };
+
+      //this will parse XML file and output it to website
+      var parseFile = function(text) {
+        var xmlDoc = $.parseXML(text),
+          $xml = $(xmlDoc),
+          $options = $xml.find("option");
+
+        $.each($options, function() {
+          $("#output").append("<li>" + $(this).text() + "</li >");
+        });
+
+      };
+
+      //
 
     function loadSelect(selector, data) {
       $.each(data, function(index, value) {
@@ -445,5 +473,10 @@
       });
       $(selector).selectpicker()
     }
+  });
+  
+    
   </script>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
 @endpush

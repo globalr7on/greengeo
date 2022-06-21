@@ -62,8 +62,4 @@ class PessoaJuridica extends Model
         return $this->belongsTo('App\Models\Veiculo');
     }
 
-    // public function acessante()
-    // {
-    //     return $this->belongsTo('App\Models\Acessante');
-    // }
 }

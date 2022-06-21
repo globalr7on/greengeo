@@ -7,7 +7,7 @@ use App\Http\Requests\AcondicionamentoRequest;
 use App\Http\Resources\AcondicionamentoResource;
 use App\Models\Acondicionamento;
 use Illuminate\Http\Request;
-use Validator;
+
 
 class AcondicionamentoController extends Controller
 {
@@ -19,32 +19,28 @@ class AcondicionamentoController extends Controller
     public function index(Request $request)
     {
         $acondicionamento = Acondicionamento::all();
-        // dd($acondicionamento);
-        return AcondicionamentoResource::collection($acondicionamento);
+      
+         return response([
+            'data' => AcondicionamentoResource::collection($acondicionamento),
+            'status' => true
+        ], 200);
         // return $acessante;
     }
 
      /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     *  @param  app\Http\Requests\AcondicionamentoRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AcondicionamentoRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'descricao' => 'required|string|max:45',
-            // 'ativo' => 'required|string|max:15',
-            
-        ]);
-
-        if($validator->fails()){
-            return response()->json($validator->errors());       
-        }
-
         $acondicionamento = Acondicionamento::create($request->all());
-        // dd($acondicionamento);
-        return new AcondicionamentoResource($acondicionamento);
+        return response([
+            'data' => new AcondicionamentoResource($acondicionamento),
+            'status' => true
+        ], 200);
+
     }
 
     /**
@@ -55,32 +51,28 @@ class AcondicionamentoController extends Controller
      */
     public function show($id)
     {
-        // $acessante = Acessante::findOrFail($id);
-        return new AcondicionamentoResource(Acondicionamento::find($id));
+         return response([
+            'data' => new AcondicionamentoResource(Acondicionamento::find($id)),
+            'status' => true
+        ], 200);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+   
+     * @param  app\Http\Requests\AcondicionamentoRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AcondicionamentoRequest $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'descricao' => 'required|string|max:45',
-            // 'ativo' => 'required|string|max:15',
-            
-        ]);
-
-        if($validator->fails()){
-            return response()->json($validator->errors());       
-        }
-        
         $acondicionamento = Acondicionamento::find($id);
         $acondicionamento->update($request->all());
-        return new AcondicionamentoResource($acondicionamento);
+         return response([
+            'data' => new AcondicionamentoResource($acondicionamento),
+            'status' => true
+        ], 200);
     }
 
     /**
@@ -91,8 +83,7 @@ class AcondicionamentoController extends Controller
      */
     public function destroy($id)
     {
-        $acondicionamento = Acondicionamento::findOrFail($id);
-        $acondicionamento->delete();
+        Acondicionamento::findOrFail($id)->delete();
         return response(null, 204);
     }
 }

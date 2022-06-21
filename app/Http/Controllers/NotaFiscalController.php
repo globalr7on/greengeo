@@ -14,7 +14,32 @@ class NotaFiscalController extends Controller
      */
     public function index()
     {
-        return view('rastreamento.notaFiscal');
+        $xmlDataString = file_get_contents(public_path('xmlfile/nota.xml'));
+        $xmlObject = simplexml_load_string($xmlDataString);      
+        $json = json_encode($xmlObject);
+        $phpDataArray = json_decode($json, true); 
+        // dd($phpDataArray["infNFe"]);//["ide"]);
+      
+        $nota = $phpDataArray["infNFe"]["ide"]["cNF"];
+        $serie = $phpDataArray["infNFe"]["ide"]["serie"];
+        $emicao = $phpDataArray["infNFe"]["ide"]["dhEmi"];
+        $saida = $phpDataArray["infNFe"]["ide"]["dhSaiEnt"];
+        $cnpj = $phpDataArray["infNFe"]["emit"]["CNPJ"];
+        $nome = $phpDataArray["infNFe"]["emit"]["xNome"];
+        $empresa = $phpDataArray["infNFe"]["emit"]["xFant"];
+        $endereco = $phpDataArray["infNFe"]["emit"]["enderEmit"]["xLgr"];
+        $numero = $phpDataArray["infNFe"]["emit"]["enderEmit"]["nro"];
+        $cep = $phpDataArray["infNFe"]["emit"]["enderEmit"]["CEP"];
+        $fone = $phpDataArray["infNFe"]["emit"]["enderEmit"]["fone"];
+        $ean = $phpDataArray["infNFe"]["det"]["prod"]["cEAN"];
+        $produto = $phpDataArray["infNFe"]["det"]["prod"]["xProd"];
+        
+        // $serie = $phpDataArray["infNFe"]["ide"]["serie"];
+        // $serie = $phpDataArray["infNFe"]["ide"]["serie"];
+
+
+        // dd($nota, $serie, $emisao, $saida, $cnpj, $nome, $empresa, $endereco, $numero, $cep, $fone, $produto,$ean);
+        return view('rastreamento.notaFiscal', compact('nota','serie','emicao','saida', 'cnpj'));
     }
 
     /**

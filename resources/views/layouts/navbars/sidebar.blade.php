@@ -33,12 +33,12 @@
                 <span class="sidebar-normal text-left" >{{ __('Empresas') }}</span>
               </a>
             </li>
-            <li class="nav-item ml-4 {{ $activePage == 'motoristas' ? 'active' : '' }}">
+            {{-- <li class="nav-item ml-4 {{ $activePage == 'motoristas' ? 'active' : '' }}">
               <a class="nav-link" href="/acessantes">
                 <i class="fa-solid fa-users"></i>
                 <span class="sidebar-normal">{{ __('Motoristas') }}</span>
               </a>
-            </li>
+            </li> --}}
             <li class="nav-item ml-4 {{ $activePage == 'veiculo' ? 'active' : '' }}">
               <a class="nav-link" href="/veiculo">
                 <i class="fa-solid fa-truck"></i>
@@ -54,34 +54,34 @@
           </ul>
         </div>
       </li>
-      <li class="nav-item {{ in_array($activePage, array('acondicionamento', 'tratamentos', 'classe_sucata', 'unidad', 'modelo', 'marca', 'estagios', 'atividades')) ? 'active' : '' }}">
-        <a class="nav-link" data-toggle="collapse" href="#l2" aria-expanded="{{ in_array($activePage, array('acondicionamento', 'tratamentos', 'classe_sucata', 'unidad', 'modelo', 'marca', 'estagios', 'atividades')) ? 'true' : 'false' }}">
+      <li class="nav-item {{ in_array($activePage, array('acondicionamento', 'tratamento', 'sucata', 'unidade', 'modelo', 'marca', 'estagios', 'tipo_material','atividade')) ? 'active' : '' }}">
+        <a class="nav-link" data-toggle="collapse" href="#l2" aria-expanded="{{ in_array($activePage, array('acondicionamento', 'tratamentos', 'classe_sucata', 'unidad', 'modelo', 'marca', 'estagios','tipo_material', 'atividade')) ? 'true' : 'false' }}">
           <i class="fa-solid fa-folder-tree"></i>
           <p>{{ __('Administrativo') }}
             <b class="caret"></b>
           </p>
         </a>  
-        <div class="collapse {{ in_array($activePage, array('acondicionamento', 'tratamentos', 'classe_sucata', 'unidad', 'modelo', 'marca', 'estagios', 'atividades')) ? 'show' : '' }}" id="l2">
+        <div class="collapse {{ in_array($activePage, array('acondicionamento.index', 'tratamento.index', 'sucata.index', 'unidade.index', 'modelo.index', 'marca.index', 'estagio.index','tipo_material', 'atividade.index')) ? 'show' : '' }}" id="l2">
           <ul class="nav">
             <li class="nav-item ml-4 {{ $activePage == 'acondicionamento' ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('administrativo.acondicionamento') }}">
                 <i class="fa-solid fa-dumpster"></i>
                 <span class="sidebar-normal">{{ __('Acondicionamento') }}</span>
-              </a>
+              </a>  
             </li>
-            <li class="nav-item ml-4 {{ $activePage == 'tratamentos' ? 'active' : '' }}">
+            <li class="nav-item ml-4 {{ $activePage == 'tratamento' ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('administrativo.tratamento') }}">
                 <i class="fa-solid fa-radiation"></i>
                 <span class="sidebar-normal">{{ __('Tratamientos') }}</span>
               </a>
             </li>
-            <li class="nav-item ml-4 {{ $activePage == 'classe_sucata' ? 'active' : '' }}">
+            <li class="nav-item ml-4 {{ $activePage == 'sucata' ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('administrativo.classeSucata') }}">
                 <i class="fa-solid fa-recycle"></i>
                 <span class="sidebar-normal">{{ __('Classes de Sucata') }}</span>
               </a>
             </li>
-            <li class="nav-item ml-4 {{ $activePage == 'unidad' ? 'active' : '' }}">
+            <li class="nav-item ml-4 {{ $activePage == 'unidade' ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('administrativo.unidad') }}">
                 <i class="fa-solid fa-weight-scale"></i>
                 <span class="sidebar-normal">{{ __('Unidade') }}</span>
@@ -105,7 +105,13 @@
                 <span class="sidebar-normal">{{ __('Estágios de OS') }}</span>
               </a>
             </li>
-            <li class="nav-item ml-4 {{ $activePage == 'atividades' ? 'active' : '' }}">
+            <li class="nav-item ml-4 {{ $activePage == 'tipo_material' ? 'active' : '' }}">
+              <a class="nav-link" href="{{ route('administrativo.tipoMaterial') }}">
+                <i class="fa-regular fa-clipboard"></i>
+                <span class="sidebar-normal">{{ __('Tipo de Material') }}</span>
+              </a>
+            </li>
+            <li class="nav-item ml-4 {{ $activePage == 'atividade' ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('administrativo.atividade') }}">
                 <i class="fa-solid fa-square-caret-right"></i>
                 <span class="sidebar-normal">{{ __('Atividade') }}</span>

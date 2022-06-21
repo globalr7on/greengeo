@@ -31,25 +31,6 @@ OS E Rastreamento
                     <th class="text-primary font-weight-bold">Destinador</th>
                     <th class="text-primary font-weight-bold">Emissão</th>
                     <th class="text-primary font-weight-bold">MTR</th>
-                    <!-- <th class="text-primary font-weight-bold">Contato2</th>
-                    <th class="text-primary font-weight-bold">Cargo Contato2</th>
-                    <th class="text-primary font-weight-bold">Celular Contato2</th>
-                    <th class="text-primary font-weight-bold">Fixo</th>
-                    <th class="text-primary font-weight-bold">Whatsapp</th>
-                    <th class="text-primary font-weight-bold">Endereço</th>
-                    <th class="text-primary font-weight-bold">Número</th>
-                    <th class="text-primary font-weight-bold">Complemento</th>
-                    <th class="text-primary font-weight-bold">Cep</th>
-                    <th class="text-primary font-weight-bold">Bairro</th>
-                    <th class="text-primary font-weight-bold">Cidade</th>
-                    <th class="text-primary font-weight-bold">Estado</th>
-                    <th class="text-primary font-weight-bold">Latitude</th>
-                    <th class="text-primary font-weight-bold">Longitude</th>
-                    <th class="text-primary font-weight-bold">Contrato</th>
-                    <th class="text-primary font-weight-bold">Identificador</th>
-                    <th class="text-primary font-weight-bold">Senha Acesso</th>
-                    <th class="text-primary font-weight-bold">Capacidade Media Carga</th>
-                    <th class="text-primary font-weight-bold">Ativo</th> -->
                     <th class="text-primary font-weight-bold">Ação</th>
                   </thead>
                 </table>
@@ -99,14 +80,14 @@ OS E Rastreamento
                 <h4 class="text-primary font-weight-bold text-uppercase">Informações Básicas</h4>
 
                 <div class="row m-0">
-                  <div class="form-group col-md-6 align-self-center">
-                    <div class="togglebutton">
-                      <label>
-                        Ativo?
-                        <input type="checkbox" id="checkAtivo">
-                        <span class="toggle"></span>
-                      </label>
-                    </div>
+                  <div class="form-group col-md-6 text-center">
+                    <label for="inputTipo" class="display-inherit mb-0">Tipo de Empresa</label>
+                    <select class="selectpicker" data-style="btn-warning text-white" title="Single Select" name="tipo" id="inputTipo">
+                      <option value="" disabled selected>Seleccione</option>
+                      <option value="gerador">Gerador</option>
+                      <option value="transportador">Transportador</option>
+                      <option value="destinador">Destinador</option>
+                    </select>
                   </div>
                   <div class="form-group col-md-6">
                     <label for="inputContrato" class="position-relative mb-0 font-weight-bold">Contrato Nro.</label>

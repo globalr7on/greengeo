@@ -14,6 +14,10 @@ class MarcaResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'descricao' => $this->descricao,
+            'ativo' => $this->ativo,
+        ];
     }
 }

@@ -13,48 +13,33 @@ class TratamentoController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
         $tratamento = Tratamento::all();
-        // dd($acondicionamento);
-        return TratamentoResource::collection($tratamento);
-        // return $acessante;
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return response([
+            'data' => TratamentoResource::collection($tratamento),
+            'status' => true
+        ], 200);
+     
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  app\Http\Requests\TratamentoRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TratamentoRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'descricao' => 'required|string|max:15',
-            // 'ativo' => 'required|string|max:15',
-            
-        ]);
-
-        if($validator->fails()){
-            return response()->json($validator->errors());       
-        }
-
+       
         $tratamento = Tratamento::create($request->all());
-        // dd($acondicionamento);
-        return new TratamentoResource($tratamento);
+        return response([
+            'data' => new TratamentoResource($tratamento),
+            'status' => true
+        ], 200);
+
     }
 
     /**
@@ -65,43 +50,29 @@ class TratamentoController extends Controller
      */
     public function show($id)
     {
-        // $acessante = Acessante::findOrFail($id);
-       return new TratamentoResource(Tratamento::find($id));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        return response([
+            'data' => new TratamentoResource(Tratamento::find($id)),
+            'status' => true
+        ], 200);
+       
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  app\Http\Requests\TratamentoRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(TratamentoRequest $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'descricao' => 'required|string|max:14',
-            'ativo' => 'required|string|max:15',
-            
-        ]);
-
-        if($validator->fails()){
-            return response()->json($validator->errors());       
-        }
         
         $tratamento = Tratamento::find($id);
         $tratamento->update($request->all());
-        return new TratamentoResource($tratamento);
+        return response([
+            'data' => new TratamentoResource($tratamento),
+            'status' => true
+        ], 200);
     }
 
     /**
@@ -112,8 +83,7 @@ class TratamentoController extends Controller
      */
     public function destroy($id)
     {
-        $tratamento = Tratamento::findOrFail($id);
-        $tratamento->delete();
-        return response(null, 204);
+       Tratamento::findOrFail($id)->delete();
+       return response(null, 204);
     }
 }

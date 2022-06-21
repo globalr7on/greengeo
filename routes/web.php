@@ -24,7 +24,7 @@ Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home')->
 
 Route::group(['middleware' => ['auth', 'permission']], function () {
 	// Cadastros
-	Route::get('acessantes', ['as' => 'cadastro.acessante', 'uses' => 'App\Http\Controllers\AcessanteController@index']);
+	
 	Route::get('empresa', ['as' => 'cadastros.empresa', 'uses' => 'App\Http\Controllers\PessoaJuridicaController@index']);
 	Route::get('veiculo', ['as' => 'cadastros.veiculo', 'uses' => 'App\Http\Controllers\VeiculoController@index']);
 	

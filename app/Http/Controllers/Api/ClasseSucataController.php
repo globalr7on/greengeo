@@ -20,41 +20,27 @@ class ClasseSucataController extends Controller
     public function index()
     {
         $classe_sucata = ClasseSucata::all();
-        // dd($acondicionamento);
-        return ClasseSucataResource::collection($classe_sucata);
-        // return $acessante;
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return response([
+            'data' => ClasseSucataResource::collection($classe_sucata),
+            'status' => true
+        ], 200);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  app\Http\Requests\ClasseSucataRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ClasseSucataRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'descricao' => 'required|string|max:45',
-            
-        ]);
-
-        if($validator->fails()){
-            return response()->json($validator->errors());       
-        }
-
+      
         $classe_sucata = ClasseSucata::create($request->all());
-        // dd($acondicionamento);
-        return new ClasseSucataResource($classe_sucata);
+        return response([
+                'data' => new ClasseSucataResource($classe_sucata),
+                'status' => true
+            ], 200);
+
     }
 
     /**
@@ -65,40 +51,30 @@ class ClasseSucataController extends Controller
      */
     public function show($id)
     {
-        return new ClasseSucataResource(ClasseSucata::find($id));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        return response([
+            'data' => new ClasseSucataResource(ClasseSucata::find($id)),
+            'status' => true
+        ], 200);
+       
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  app\Http\Requests\ClasseSucataRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ClasseSucataRequest $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'descricao' => 'required|string|max:45',
-        ]);
 
-        if($validator->fails()){
-            return response()->json($validator->errors());       
-        }
-        
         $classe_sucata = ClasseSucata::find($id);
         $classe_sucata->update($request->all());
-        return new ClasseSucataResource($classe_sucata);
+        return response([
+            'data' => new ClasseSucataResource($classe_sucata),
+            'status' => true
+        ], 200);
+
     }
 
     /**
@@ -109,8 +85,7 @@ class ClasseSucataController extends Controller
      */
     public function destroy($id)
     {
-        $classe_sucata = ClasseSucata::findOrFail($id);
-        $classe_sucata->delete();
-        return response(null, 204);
+       ClasseSucata::findOrFail($id)->delete();
+       return response(null, 204);
     }
 }

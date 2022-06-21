@@ -14,6 +14,11 @@ class UnidadResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+         return [
+            'id' => $this->id,
+            'descricao' => $this->descricao,
+            'simbolo' => $this->simbolo,
+            'ativo' => $this->ativo,
+        ];
     }
 }
