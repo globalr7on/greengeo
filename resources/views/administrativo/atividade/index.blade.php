@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'tratamento', 'titlePage' => __('Tratamento')])
+@extends('layouts.app', ['activePage' => 'atividade', 'titlePage' => __('Atividade')])
 @section('css')
 @endsection
 @section('subheaderTitle')
@@ -8,19 +8,19 @@
   <div class="content">
     <div class="container-fluid">
       <div class="col-12 text-right">
-        <button type="button" class="btn btn-primary" id="novoTratamento">+ Novo Tratamnto</button>
+        <button type="button" class="btn btn-primary" id="novaAtividade">+ Nova Atividade</button>
       </div>
       <div class="row">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header card-header-primary">
               <h4 class="card-title">Administrativo</h4>
-              <p class="card-category">Tratamento</p>
+              <p class="card-category">Atividade</p>
             </div>
             <div class="card-body">
               <!-- <div class="table-responsive"> -->
               <div>
-                <table class="table" id="tratamentoTbl">
+                <table class="table" id="atividadeTbl">
                   <thead>
                     <th class="text-primary font-weight-bold">Descrição</th>
                     <th class="text-primary font-weight-bold text-center">Ativo</th>
@@ -34,30 +34,30 @@
       </div>
     </div>
   </div>
-   @include('tratamento.modal')
+   @include('administrativo.atividade.modal')
 @endsection
 
 @push('js')
   <script>
     $(document).ready(function () {
       let app = new App({
-        apiUrl: '/api/tratamento',
+        apiUrl: '/api/atividade',
         apiDataTableColumns: [
            { data: "descricao" },
            { data: "ativo", className: "text-center", render: function (data, type) {
              return data ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>'
             }},
         ],
-        datatableSelector: '#tratamentoTbl'
+        datatableSelector: '#atividadeTbl'
       })
 
       // Open Modal New
-      $('body').on('click', '#novoTratamento', function() {
+      $('body').on('click', '#novaAtividade', function() {
         delFormValidationErrors()
-        $("#modalTratamento").modal("show")
-        $('#tituloModal').text("Novo Tratamento")
+        $("#modalAtividade").modal("show")
+        $('#tituloModal').text("Novo Atividade")
         $('#inputId').val("")
-        $('#formTratamento')[0].reset()
+        $('#formAtividade')[0].reset()
       });
 
       // Salvar 
@@ -70,28 +70,28 @@
         }
         const id = $('#inputId').val()
         if (id) {
-          app.api.put(`/tratamento/${id}`, JSONRequest).then(response => {
+          app.api.put(`/atividade/${id}`, JSONRequest).then(response => {
             if (response && response.status) {
-              $("#modalTratamento").modal("hide")
+              $("#modalAtividade").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('Tratamento Atualizado com sucesso')
+              notifySuccess('Atividade Atualizado com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao atualizar o tratamento, tente novamente')
+            notifyDanger('Falha ao atualizar o atividade, tente novamente')
           })
         } else {
-          app.api.post('/tratamento', JSONRequest).then(response => {
+          app.api.post('/atividade', JSONRequest).then(response => {
             if (response && response.status) {
-              $("#modalTratamento").modal("hide")
+              $("#modalAtividade").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('Tratamento Criado com sucesso')
+              notifySuccess('Atividade Criado com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao criar Tratamento, tente novamente')
+            notifyDanger('Falha ao criar atividade, tente novamente')
           })
         }
       });
@@ -99,12 +99,12 @@
       // Editar
       $('body').on('click', '.editAction', function() {
         const id = $(this).attr('data-id');
-        app.api.get(`/tratamento/${id}`).then(response =>  {
+        app.api.get(`/atividade/${id}`).then(response =>  {
           if (response && response.status) {
             delFormValidationErrors()
-            $('#formTratamento')[0].reset()
-            $("#modalTratamento").modal("show");
-            $('#tituloModal').text("Editar Tratamento")
+            $('#formAtividade')[0].reset()
+            $("#modalAtividade").modal("show");
+            $('#tituloModal').text("Editar Atividade")
             $('#inputId').val(response.data.id);
             $("#inputDescricao").val(response.data.descricao);
             $("#checkAtivo").prop("checked", response.data.ativo)
@@ -112,19 +112,19 @@
 
           }
         })
-        .catch(error => notifyDanger('Falha ao obter detalhes do tratamento. Tente novamente'))
+        .catch(error => notifyDanger('Falha ao obter detalhes do atividade. Tente novamente'))
       })
 
       // Excluir
       $('body').on('click', '.deleteAction',  function() {
         const id = $(this).attr('data-id')
-        sweetConfirm('Deseja realmente excluir a tratamento?').then(confirmed => {
+        sweetConfirm('Deseja realmente excluir a atividade?').then(confirmed => {
           if (confirmed) {
-            app.api.delete(`/tratamento/${id}`).then(response =>  {
+            app.api.delete(`/atividade/${id}`).then(response =>  {
               app.datatable.ajax.reload()
-              notifySuccess('Tratamento excluído com sucesso')
+              notifySuccess('Atividade excluído com sucesso')
             })
-            .catch(error => notifyDanger('Falha ao excluir tratamento. Tente novamente'))
+            .catch(error => notifyDanger('Falha ao excluir atividade. Tente novamente'))
           }
         }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
       })

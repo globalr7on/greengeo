@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'marca', 'titlePage' => __('Marca')])
+@extends('layouts.app', ['activePage' => 'unidade', 'titlePage' => __('Unidades')])
 @section('css')
 @endsection
 @section('subheaderTitle')
@@ -8,21 +8,22 @@
   <div class="content">
     <div class="container-fluid">
       <div class="col-12 text-right">
-        <button type="button" class="btn btn-primary" id="novoMarca">+ Novo Marca</button>
+        <button type="button" class="btn btn-primary" id="novaUnidade">+ Nova Unidade</button>
       </div>
       <div class="row">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header card-header-primary">
               <h4 class="card-title">Administrativo</h4>
-              <p class="card-category">Marca</p>
+              <p class="card-category">Unidades</p>
             </div>
             <div class="card-body">
               <!-- <div class="table-responsive"> -->
               <div>
-                <table class="table" id="marcaTbl">
+                <table class="table" id="unidadTbl">
                   <thead>
                     <th class="text-primary font-weight-bold">Descrição</th>
+                    <th class="text-primary font-weight-bold">Simbolo</th>
                     <th class="text-primary font-weight-bold text-center">Ativo</th>
                     <th class="text-primary font-weight-bold text-center">Ação</th>
                   </thead>
@@ -34,94 +35,99 @@
       </div>
     </div>
   </div>
-   @include('marca.modal')
+   @include('administrativo.unidade.modal')
 @endsection
 
 @push('js')
   <script>
     $(document).ready(function () {
       let app = new App({
-        apiUrl: '/api/marca',
+        apiUrl: '/api/unidad',
         apiDataTableColumns: [
            { data: "descricao" },
+           { data: "simbolo", className: "text-center" },
            { data: "ativo", className: "text-center", render: function (data, type) {
              return data ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>'
             }},
         ],
-        datatableSelector: '#marcaTbl'
+        datatableSelector: '#unidadTbl'
       })
 
       // Open Modal New
-      $('body').on('click', '#novoMarca', function() {
+      $('body').on('click', '#novaUnidade', function() {
         delFormValidationErrors()
-        $("#modalMarca").modal("show")
-        $('#tituloModal').text("Nova Marca")
+        $("#modalUnidade").modal("show")
+        $('#tituloModal').text("Nova Unidade")
         $('#inputId').val("")
-        $('#formMarca')[0].reset()
+        $('#formUnidade')[0].reset()
       });
 
       // Salvar 
-      $('body').on('click', '#salvarMarca', function() {
+      $('body').on('click', '#salvarUnidade', function() {
         const JSONRequest = {
           descricao: $("#inputDescricao").val(),
+          simbolo: $("#inputSimbolo").val(),
           ativo: $("#checkAtivo").prop("checked") ? 1 : 0
           // name: $("#input_name").val(),
           // guard_name: $("#input_guard_name").val(),
         }
         const id = $('#inputId').val()
         if (id) {
-          app.api.put(`/marca/${id}`, JSONRequest).then(response => {
+          app.api.put(`/unidad/${id}`, JSONRequest).then(response => {
             if (response && response.status) {
-              $("#modalMarca").modal("hide")
+              $("#modalUnidade").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('Marca Atualizado com sucesso')
+              notifySuccess('Unidade Atualizado com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao atualizar a marca, tente novamente')
+            notifyDanger('Falha ao atualizar a unidade, tente novamente')
           })
         } else {
-          app.api.post('/marca', JSONRequest).then(response => {
+          app.api.post('/unidade', JSONRequest).then(response => {
             if (response && response.status) {
-              $("#modalMarca").modal("hide")
+              $("#modalUnidade").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('Marca Criado com sucesso')
+              notifySuccess('Unidade Criado com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao criar marca, tente novamente')
+            notifyDanger('Falha ao criar unidade, tente novamente')
           })
         }
       });
 
-     // Editar
+      // Editar
       $('body').on('click', '.editAction', function() {
         const id = $(this).attr('data-id');
-        app.api.get(`/marca/${id}`).then(response =>  {
+        app.api.get(`/unidad/${id}`).then(response =>  {
           if (response && response.status) {
             delFormValidationErrors()
-            // $('#formMarca')[0].reset()
-            $("#modalMarca").modal("show");
-            $('#tituloModal').text("Editar Marca")
+            $('#formUnidade')[0].reset()
+            $("#modalUnidade").modal("show");
+            $('#tituloModal').text("Editar Unidade")
             $('#inputId').val(response.data.id);
             $("#inputDescricao").val(response.data.descricao);
+            $("#inputSimbolo").val(response.data.simbolo);
             $("#checkAtivo").prop("checked", response.data.ativo)
+
           }
         })
-        .catch(error => notifyDanger('Falha ao obter detalhes do marca. Tente novamente'))
+        .catch(error => notifyDanger('Falha ao obter detalhes do unidade. Tente novamente'))
       })
+
       // Excluir
       $('body').on('click', '.deleteAction',  function() {
         const id = $(this).attr('data-id')
-        sweetConfirm('Deseja realmente excluir a marca?').then(confirmed => {
+        sweetConfirm('Deseja realmente excluir a unidade?').then(confirmed => {
           if (confirmed) {
-            app.api.delete(`/marca/${id}`).then(response =>  {
+            app.api.delete(`/unidade/${id}`).then(response =>  {
               app.datatable.ajax.reload()
-              notifySuccess('Marca excluído com sucesso')
+              notifySuccess('Unidade excluída com sucesso')
             })
-            .catch(error => notifyDanger('Falha ao excluir marca. Tente novamente'))
+            .catch(error => notifyDanger('Falha ao excluir unidade. Tente novamente'))
           }
         }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
       })

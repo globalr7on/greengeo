@@ -13,7 +13,7 @@ class MarcaController extends Controller
      */
     public function index()
     {
-        return view('marca.index');
+        return view('administrativo.marca.index');
     }
 
     /**

@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'sucata', 'titlePage' => __('Clase Sucata')])
+@extends('layouts.app', ['activePage' => 'modelo', 'titlePage' => __('Modelo')])
 @section('css')
 @endsection
 @section('subheaderTitle')
@@ -8,21 +8,22 @@
   <div class="content">
     <div class="container-fluid">
       <div class="col-12 text-right">
-        <button type="button" class="btn btn-primary" id="novaClasseSucata">+ Nova Classe</button>
+        <button type="button" class="btn btn-primary" id="novoModelo">+ Novo Modelo</button>
       </div>
       <div class="row">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header card-header-primary">
               <h4 class="card-title">Administrativo</h4>
-              <p class="card-category">Classe de Sucata</p>
+              <p class="card-category">Modelo</p>
             </div>
             <div class="card-body">
               <!-- <div class="table-responsive"> -->
               <div>
-                <table class="table" id="sucataTbl">
+                <table class="table" id="modeloTbl">
                   <thead>
                     <th class="text-primary font-weight-bold">Descrição</th>
+                    <th class="text-primary font-weight-bold text-center">Ativo</th>
                     <th class="text-primary font-weight-bold text-center">Ação</th>
                   </thead>
                 </table>
@@ -33,59 +34,64 @@
       </div>
     </div>
   </div>
-   @include('sucata.modal')
+   @include('administrativo.modelo.modal')
 @endsection
 
 @push('js')
   <script>
     $(document).ready(function () {
       let app = new App({
-        apiUrl: '/api/classe_sucata',
+        apiUrl: '/api/modelo',
         apiDataTableColumns: [
            { data: "descricao" },
+           { data: "ativo", className: "text-center", render: function (data, type) {
+             return data ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>'
+            }},
         ],
-        datatableSelector: '#sucataTbl'
+        datatableSelector: '#modeloTbl'
       })
-     
+
       // Open Modal New
-      $('body').on('click', '#novaClasseSucata', function() {
+      $('body').on('click', '#novoModelo', function() {
         delFormValidationErrors()
-        $("#modalClasseSucata").modal("show")
-        $('#tituloModal').text("Nova classe")
+        $("#modalModelo").modal("show")
+        $('#tituloModal').text("Novo Modelo")
         $('#inputId').val("")
-        $('#formClaseSucata')[0].reset()
+        $('#formModelo')[0].reset()
       });
 
       // Salvar 
-      $('body').on('click', '#salvarclase', function() {
+      $('body').on('click', '#salvarModelo', function() {
         const JSONRequest = {
           descricao: $("#inputDescricao").val(),
-         
+          ativo: $("#checkAtivo").prop("checked") ? 1 : 0
+          // name: $("#input_name").val(),
+          // guard_name: $("#input_guard_name").val(),
         }
         const id = $('#inputId').val()
         if (id) {
-          app.api.put(`/classe_sucata/${id}`, JSONRequest).then(response => {
+          app.api.put(`/modelo/${id}`, JSONRequest).then(response => {
             if (response && response.status) {
-              $("#modalClasseSucata").modal("hide")
+              $("#modalModelo").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('classe Atualizado com sucesso')
+              notifySuccess('Modelo Atualizado com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao atualizar o classe, tente novamente')
+            notifyDanger('Falha ao atualizar a modelo, tente novamente')
           })
         } else {
-          app.api.post('/classe_sucata', JSONRequest).then(response => {
+          app.api.post('/modelo', JSONRequest).then(response => {
             if (response && response.status) {
-              $("#modalClasseSucata").modal("hide")
+              $("#modalModelo").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('classe Criado com sucesso')
+              notifySuccess('Modelo Criado com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao criar classe, tente novamente')
+            notifyDanger('Falha ao criar modelo, tente novamente')
           })
         }
       });
@@ -93,29 +99,31 @@
       // Editar
       $('body').on('click', '.editAction', function() {
         const id = $(this).attr('data-id');
-        app.api.get(`/classe_sucata/${id}`).then(response =>  {
+        app.api.get(`/modelo/${id}`).then(response =>  {
           if (response && response.status) {
             delFormValidationErrors()
-            $('#formClaseSucata')[0].reset()
-            $("#modalClasseSucata").modal("show");
-            $('#tituloModal').text("Editar classe")
+            $('#formModelo')[0].reset()
+            $("#modalModelo").modal("show");
+            $('#tituloModal').text("Editar Modelo")
             $('#inputId').val(response.data.id);
             $("#inputDescricao").val(response.data.descricao);
+            $("#checkAtivo").prop("checked", response.data.ativo)
+
           }
         })
-        .catch(error => notifyDanger('Falha ao obter detalhes do classe. Tente novamente'))
+        .catch(error => notifyDanger('Falha ao obter detalhes do modelo. Tente novamente'))
       })
 
       // Excluir
       $('body').on('click', '.deleteAction',  function() {
         const id = $(this).attr('data-id')
-        sweetConfirm('Deseja realmente excluir a classe?').then(confirmed => {
+        sweetConfirm('Deseja realmente excluir o modelo?').then(confirmed => {
           if (confirmed) {
-            app.api.delete(`/classe_sucata/${id}`).then(response =>  {
+            app.api.delete(`/modelo/${id}`).then(response =>  {
               app.datatable.ajax.reload()
-              notifySuccess('classe excluído com sucesso')
+              notifySuccess('Modelo excluído com sucesso')
             })
-            .catch(error => notifyDanger('Falha ao excluir classe. Tente novamente'))
+            .catch(error => notifyDanger('Falha ao excluir modelo. Tente novamente'))
           }
         }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
       })

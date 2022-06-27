@@ -65,7 +65,7 @@
           <ul class="nav">
             <li class="nav-item ml-4 {{ $activePage == 'tipo_empresa' ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('administrativo.tipoEmpresa') }}">
-                <i class="fa-solid fa-dumpster"></i>
+                <i class="fa-solid fa-building"></i>
                 <span class="sidebar-normal">{{ __('Tipo Empresa') }}</span>
               </a>  
             </li>

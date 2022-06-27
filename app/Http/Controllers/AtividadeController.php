@@ -14,7 +14,7 @@ class AtividadeController extends Controller
      */
     public function index()
     {
-        return view('atividade.index');
+        return view('administrativo.atividade.index');
     }
 
     /**

@@ -13,6 +13,6 @@ class ClasseSucataController extends Controller
      */
     public function index()
     {
-        return view('sucata.index');
+        return view('administrativo.sucata.index');
     }
 }

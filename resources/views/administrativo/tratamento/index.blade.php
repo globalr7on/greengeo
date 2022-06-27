@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'unidade', 'titlePage' => __('Unidades')])
+@extends('layouts.app', ['activePage' => 'tratamento', 'titlePage' => __('Tratamento')])
 @section('css')
 @endsection
 @section('subheaderTitle')
@@ -8,22 +8,21 @@
   <div class="content">
     <div class="container-fluid">
       <div class="col-12 text-right">
-        <button type="button" class="btn btn-primary" id="novaUnidade">+ Nova Unidade</button>
+        <button type="button" class="btn btn-primary" id="novoTratamento">+ Novo Tratamnto</button>
       </div>
       <div class="row">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header card-header-primary">
               <h4 class="card-title">Administrativo</h4>
-              <p class="card-category">Unidades</p>
+              <p class="card-category">Tratamento</p>
             </div>
             <div class="card-body">
               <!-- <div class="table-responsive"> -->
               <div>
-                <table class="table" id="unidadTbl">
+                <table class="table" id="tratamentoTbl">
                   <thead>
                     <th class="text-primary font-weight-bold">Descrição</th>
-                    <th class="text-primary font-weight-bold">Simbolo</th>
                     <th class="text-primary font-weight-bold text-center">Ativo</th>
                     <th class="text-primary font-weight-bold text-center">Ação</th>
                   </thead>
@@ -35,66 +34,64 @@
       </div>
     </div>
   </div>
-   @include('unidade.modal')
+   @include('administrativo.tratamento.modal')
 @endsection
 
 @push('js')
   <script>
     $(document).ready(function () {
       let app = new App({
-        apiUrl: '/api/unidad',
+        apiUrl: '/api/tratamento',
         apiDataTableColumns: [
            { data: "descricao" },
-           { data: "simbolo", className: "text-center" },
            { data: "ativo", className: "text-center", render: function (data, type) {
              return data ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>'
             }},
         ],
-        datatableSelector: '#unidadTbl'
+        datatableSelector: '#tratamentoTbl'
       })
 
       // Open Modal New
-      $('body').on('click', '#novaUnidade', function() {
+      $('body').on('click', '#novoTratamento', function() {
         delFormValidationErrors()
-        $("#modalUnidade").modal("show")
-        $('#tituloModal').text("Nova Unidade")
+        $("#modalTratamento").modal("show")
+        $('#tituloModal').text("Novo Tratamento")
         $('#inputId').val("")
-        $('#formUnidade')[0].reset()
+        $('#formTratamento')[0].reset()
       });
 
       // Salvar 
-      $('body').on('click', '#salvarUnidade', function() {
+      $('body').on('click', '#salvarTratamento', function() {
         const JSONRequest = {
           descricao: $("#inputDescricao").val(),
-          simbolo: $("#inputSimbolo").val(),
           ativo: $("#checkAtivo").prop("checked") ? 1 : 0
           // name: $("#input_name").val(),
           // guard_name: $("#input_guard_name").val(),
         }
         const id = $('#inputId').val()
         if (id) {
-          app.api.put(`/unidad/${id}`, JSONRequest).then(response => {
+          app.api.put(`/tratamento/${id}`, JSONRequest).then(response => {
             if (response && response.status) {
-              $("#modalUnidade").modal("hide")
+              $("#modalTratamento").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('Unidade Atualizado com sucesso')
+              notifySuccess('Tratamento Atualizado com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao atualizar a unidade, tente novamente')
+            notifyDanger('Falha ao atualizar o tratamento, tente novamente')
           })
         } else {
-          app.api.post('/unidade', JSONRequest).then(response => {
+          app.api.post('/tratamento', JSONRequest).then(response => {
             if (response && response.status) {
-              $("#modalUnidade").modal("hide")
+              $("#modalTratamento").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('Unidade Criado com sucesso')
+              notifySuccess('Tratamento Criado com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao criar unidade, tente novamente')
+            notifyDanger('Falha ao criar Tratamento, tente novamente')
           })
         }
       });
@@ -102,32 +99,32 @@
       // Editar
       $('body').on('click', '.editAction', function() {
         const id = $(this).attr('data-id');
-        app.api.get(`/unidad/${id}`).then(response =>  {
+        app.api.get(`/tratamento/${id}`).then(response =>  {
           if (response && response.status) {
             delFormValidationErrors()
-            $('#formUnidade')[0].reset()
-            $("#modalUnidade").modal("show");
-            $('#tituloModal').text("Editar Unidade")
+            $('#formTratamento')[0].reset()
+            $("#modalTratamento").modal("show");
+            $('#tituloModal').text("Editar Tratamento")
             $('#inputId').val(response.data.id);
             $("#inputDescricao").val(response.data.descricao);
-            $("#inputSimbolo").val(response.data.simbolo);
             $("#checkAtivo").prop("checked", response.data.ativo)
+
 
           }
         })
-        .catch(error => notifyDanger('Falha ao obter detalhes do unidade. Tente novamente'))
+        .catch(error => notifyDanger('Falha ao obter detalhes do tratamento. Tente novamente'))
       })
 
       // Excluir
       $('body').on('click', '.deleteAction',  function() {
         const id = $(this).attr('data-id')
-        sweetConfirm('Deseja realmente excluir a unidade?').then(confirmed => {
+        sweetConfirm('Deseja realmente excluir a tratamento?').then(confirmed => {
           if (confirmed) {
-            app.api.delete(`/unidade/${id}`).then(response =>  {
+            app.api.delete(`/tratamento/${id}`).then(response =>  {
               app.datatable.ajax.reload()
-              notifySuccess('Unidade excluída com sucesso')
+              notifySuccess('Tratamento excluído com sucesso')
             })
-            .catch(error => notifyDanger('Falha ao excluir unidade. Tente novamente'))
+            .catch(error => notifyDanger('Falha ao excluir tratamento. Tente novamente'))
           }
         }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
       })

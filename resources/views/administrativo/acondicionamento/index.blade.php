@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'estagios', 'titlePage' => __('Estagios OS')])
+@extends('layouts.app', ['activePage' => 'acondicionamento', 'titlePage' => __('Acondicionamento')])
 @section('css')
 @endsection
 @section('subheaderTitle')
@@ -8,21 +8,22 @@
   <div class="content">
     <div class="container-fluid">
       <div class="col-12 text-right">
-        <button type="button" class="btn btn-primary" id="novoEstagio">+ Novo Clase</button>
+        <button type="button" class="btn btn-primary" id="novoAcondicionamento">+ Novo Acondicionamento</button>
       </div>
       <div class="row">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header card-header-primary">
               <h4 class="card-title">Administrativo</h4>
-              <p class="card-category">Estagios OS</p>
+              <p class="card-category">Acondicionamentos</p>
             </div>
             <div class="card-body">
               <!-- <div class="table-responsive"> -->
               <div>
-                <table class="table" id="estagioTbl">
+                <table class="table" id="acondTbl">
                   <thead>
                     <th class="text-primary font-weight-bold">Descrição</th>
+                    <th class="text-primary font-weight-bold text-center">Ativo</th>
                     <th class="text-primary font-weight-bold text-center">Ação</th>
                   </thead>
                 </table>
@@ -33,61 +34,63 @@
       </div>
     </div>
   </div>
-   @include('estagio.modal')
+   @include('administrativo.acondicionamento.modal')
 @endsection
 
 @push('js')
   <script>
     $(document).ready(function () {
       let app = new App({
-        apiUrl: '/api/estagio_os',
+        apiUrl: '/api/acondicionamento',
         apiDataTableColumns: [
            { data: "descricao" },
+           { data: "ativo", className: "text-center", render: function (data, type) {
+             return data ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>'
+            }},
         ],
-        datatableSelector: '#estagioTbl'
+        datatableSelector: '#acondTbl'
       })
-     
+
       // Open Modal New
-      $('body').on('click', '#novoEstagio', function() {
+      $('body').on('click', '#novoAcondicionamento', function() {
         delFormValidationErrors()
-        // $('#formEstagio')[0].reset()
-        $("#modalEstagio").modal("show")
-         $('#formEstagio')[0].reset()
-        $('#tituloModal').text("Novo Estagio")
+        $("#modalAcondicionamento").modal("show")
+        $('#tituloModal').text("Novo Permission")
         $('#inputId').val("")
-        // $('#formEstagio')[0].reset()
+        $('#formAcondicionamento')[0].reset()
       });
 
       // Salvar 
-      $('body').on('click', '#salvarEstagio', function() {
+      $('body').on('click', '#salvarAcond', function() {
         const JSONRequest = {
           descricao: $("#inputDescricao").val(),
-         
+          ativo: $("#checkAtivo").prop("checked") ? 1 : 0
+        
         }
         const id = $('#inputId').val()
         if (id) {
-          app.api.put(`/estagio_os/${id}`, JSONRequest).then(response => {
+          app.api.put(`/acondicionamento/${id}`, JSONRequest).then(response => {
             if (response && response.status) {
-              $("#modalEstagio").modal("hide")
+              $("#modalAcondicionamento").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('Estagio Atualizado com sucesso')
+              notifySuccess('Acondicionamento Atualizado com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao atualizar o Estagio, tente novamente')
+            notifyDanger('Falha ao atualizar a permissão, tente novamente')
           })
         } else {
-          app.api.post('/estagio_os', JSONRequest).then(response => {
+          app.api.post('/acondicionamento', JSONRequest).then(response => {
             if (response && response.status) {
-              $("#modalEstagio").modal("hide")
+              $("#modalAcondicionamento").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('Estagio Criado com sucesso')
+              notifySuccess('Acondicionamento Criado com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao criar Estagio, tente novamente')
+            notifyDanger('Falha ao criar permissão, tente novamente')
           })
         }
       });
@@ -95,29 +98,32 @@
       // Editar
       $('body').on('click', '.editAction', function() {
         const id = $(this).attr('data-id');
-        app.api.get(`/estagio_os/${id}`).then(response =>  {
+        app.api.get(`/acondicionamento/${id}`).then(response =>  {
           if (response && response.status) {
             delFormValidationErrors()
-            // $('#formEstagio')[0].reset()
-            $("#modalEstagio").modal("show");
-            $('#tituloModal').text("Editar clase")
+            $('#formAcondicionamento')[0].reset()
+            $("#modalAcondicionamento").modal("show");
+            $('#tituloModal').text("Editar Acondicionamento")
             $('#inputId').val(response.data.id);
             $("#inputDescricao").val(response.data.descricao);
+            $("#checkAtivo").prop("checked", response.data.ativo)
+
+
           }
         })
-        .catch(error => notifyDanger('Falha ao obter detalhes do Estagio. Tente novamente'))
+        .catch(error => notifyDanger('Falha ao obter detalhes do acondicionamento. Tente novamente'))
       })
 
       // Excluir
       $('body').on('click', '.deleteAction',  function() {
         const id = $(this).attr('data-id')
-        sweetConfirm('Deseja realmente excluir a clase?').then(confirmed => {
+        sweetConfirm('Deseja realmente excluir a acondicionamento?').then(confirmed => {
           if (confirmed) {
-            app.api.delete(`/estagio_os/${id}`).then(response =>  {
+            app.api.delete(`/acondicionamento/${id}`).then(response =>  {
               app.datatable.ajax.reload()
-              notifySuccess('Estagio excluído com sucesso')
+              notifySuccess('Permissão excluída com sucesso')
             })
-            .catch(error => notifyDanger('Falha ao excluir Estagio. Tente novamente'))
+            .catch(error => notifyDanger('Falha ao excluir permissão. Tente novamente'))
           }
         }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
       })
