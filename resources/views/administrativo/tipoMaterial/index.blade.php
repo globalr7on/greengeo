@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'sucata', 'titlePage' => __('Clase Sucata')])
+@extends('layouts.app', ['activePage' => 'tipo_material', 'titlePage' => __('Tipo Material')])
 @section('css')
 @endsection
 @section('subheaderTitle')
@@ -8,19 +8,19 @@
   <div class="content">
     <div class="container-fluid">
       <div class="col-12 text-right">
-        <button type="button" class="btn btn-primary" id="novaClasseSucata">+ Nova Classe</button>
+        <button type="button" class="btn btn-primary" id="novoTipoMaterial">+ Novo Tipo Material </button>
       </div>
       <div class="row">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header card-header-primary">
               <h4 class="card-title">Administrativo</h4>
-              <p class="card-category">Classe de Sucata</p>
+              <p class="card-category">Tipo Material</p>
             </div>
             <div class="card-body">
               <!-- <div class="table-responsive"> -->
               <div>
-                <table class="table" id="sucataTbl">
+                <table class="table" id="tipoMaterialTbl">
                   <thead>
                     <th class="text-primary font-weight-bold">Descrição</th>
                     <th class="text-primary font-weight-bold text-center">Ação</th>
@@ -33,59 +33,59 @@
       </div>
     </div>
   </div>
-   @include('sucata.modal')
+   @include('administrativo.tipoMaterial.modal')
 @endsection
 
 @push('js')
   <script>
     $(document).ready(function () {
       let app = new App({
-        apiUrl: '/api/classe_sucata',
+        apiUrl: '/api/tipo_materiais',
         apiDataTableColumns: [
            { data: "descricao" },
+          
         ],
-        datatableSelector: '#sucataTbl'
+        datatableSelector: '#tipoMaterialTbl'
       })
-     
+
       // Open Modal New
-      $('body').on('click', '#novaClasseSucata', function() {
+      $('body').on('click', '#novoTipoMaterial', function() {
         delFormValidationErrors()
-        $("#modalClasseSucata").modal("show")
-        $('#tituloModal').text("Nova classe")
+        $("#modalTipoMaterial").modal("show")
+        $('#tituloModal').text("Novo Permission")
         $('#inputId').val("")
-        $('#formClaseSucata')[0].reset()
+        $('#formTipoMaterial')[0].reset()
       });
 
       // Salvar 
-      $('body').on('click', '#salvarclase', function() {
+      $('body').on('click', '#salvarTipoMaterial', function() {
         const JSONRequest = {
-          descricao: $("#inputDescricao").val(),
-         
+          descricao: $("#inputDescricao").val()
         }
         const id = $('#inputId').val()
         if (id) {
-          app.api.put(`/classe_sucata/${id}`, JSONRequest).then(response => {
+          app.api.put(`/tipo_materiais/${id}`, JSONRequest).then(response => {
             if (response && response.status) {
-              $("#modalClasseSucata").modal("hide")
+              $("#modalTipoMaterial").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('classe Atualizado com sucesso')
+              notifySuccess('Tipo Material Atualizado com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao atualizar o classe, tente novamente')
+            notifyDanger('Falha ao atualizar a tipo material, tente novamente')
           })
         } else {
-          app.api.post('/classe_sucata', JSONRequest).then(response => {
+          app.api.post('/tipo_materiais', JSONRequest).then(response => {
             if (response && response.status) {
-              $("#modalClasseSucata").modal("hide")
+              $("#modalTipoMaterial").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('classe Criado com sucesso')
+              notifySuccess('Tipo Material Criado com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao criar classe, tente novamente')
+            notifyDanger('Falha ao criar tipo Material, tente novamente')
           })
         }
       });
@@ -93,29 +93,32 @@
       // Editar
       $('body').on('click', '.editAction', function() {
         const id = $(this).attr('data-id');
-        app.api.get(`/classe_sucata/${id}`).then(response =>  {
+        app.api.get(`/tipo_materiais/${id}`).then(response =>  {
           if (response && response.status) {
             delFormValidationErrors()
-            $('#formClaseSucata')[0].reset()
-            $("#modalClasseSucata").modal("show");
-            $('#tituloModal').text("Editar classe")
+            $('#formTipoMaterial')[0].reset()
+            $("#modalTipoMaterial").modal("show");
+            $('#tituloModal').text("Editar tipo matrial")
             $('#inputId').val(response.data.id);
             $("#inputDescricao").val(response.data.descricao);
+            $("#checkAtivo").prop("checked", response.data.ativo)
+
+
           }
         })
-        .catch(error => notifyDanger('Falha ao obter detalhes do classe. Tente novamente'))
+        .catch(error => notifyDanger('Falha ao obter detalhes do tipo material . Tente novamente'))
       })
 
       // Excluir
       $('body').on('click', '.deleteAction',  function() {
         const id = $(this).attr('data-id')
-        sweetConfirm('Deseja realmente excluir a classe?').then(confirmed => {
+        sweetConfirm('Deseja realmente excluir a tipo material?').then(confirmed => {
           if (confirmed) {
-            app.api.delete(`/classe_sucata/${id}`).then(response =>  {
+            app.api.delete(`/tipo_materiais/${id}`).then(response =>  {
               app.datatable.ajax.reload()
-              notifySuccess('classe excluído com sucesso')
+              notifySuccess('Tipo material excluído com sucesso')
             })
-            .catch(error => notifyDanger('Falha ao excluir classe. Tente novamente'))
+            .catch(error => notifyDanger('Falha ao excluir tipo material. Tente novamente'))
           }
         }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
       })

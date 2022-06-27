@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TipoMaterialResource extends JsonResource
+class TipoEmpresaResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,6 +17,7 @@ class TipoMaterialResource extends JsonResource
         return [
             'id' => $this->id,
             'descricao' => $this->descricao,
+            'ativo' => $this->ativo,
         ];
    
     }

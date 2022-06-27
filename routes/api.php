@@ -74,6 +74,14 @@ Route::post('pessoa_juridica', 'App\Http\Controllers\Api\PessoaJuridicaControlle
 Route::put('pessoa_juridica/{id}', 'App\Http\Controllers\Api\PessoaJuridicaController@update');
 Route::delete('pessoa_juridica/{id}', 'App\Http\Controllers\Api\PessoaJuridicaController@destroy');
 
+// OS 
+Route::get('os', 'App\Http\Controllers\Api\OrdenDeServicoController@index');
+Route::get('os/{id}', 'App\Http\Controllers\Api\OrdenDeServicoController@show');
+Route::post('os', 'App\Http\Controllers\Api\OrdenDeServicoController@store');
+Route::put('os/{id}', 'App\Http\Controllers\Api\OrdenDeServicoController@update');
+Route::delete('os/{id}', 'App\Http\Controllers\Api\OrdenDeServicoController@destroy');
+
+
 // VEICULOS 
 Route::get('veiculo', 'App\Http\Controllers\Api\VeiculoController@index');
 Route::get('veiculo/{id}', 'App\Http\Controllers\Api\VeiculoController@show');
@@ -102,3 +110,11 @@ Route::get('tipo_materiais/{id}', 'App\Http\Controllers\Api\TipoMaterialControll
 Route::post('tipo_materiais', 'App\Http\Controllers\Api\TipoMaterialController@store');
 Route::put('tipo_materiais/{id}', 'App\Http\Controllers\Api\TipoMaterialController@update');
 Route::delete('tipo_materiais/{id}', 'App\Http\Controllers\Api\TipoMaterialController@destroy');
+
+
+// TIPO Empresa
+Route::get('tipo_empresa', 'App\Http\Controllers\Api\TipoEmpresaController@index');
+Route::get('tipo_empresa/{id}', 'App\Http\Controllers\Api\TipoEmpresaController@show');
+Route::post('tipo_empresa', 'App\Http\Controllers\Api\TipoEmpresaController@store');
+Route::put('tipo_empresa/{id}', 'App\Http\Controllers\Api\TipoEmpresaController@update');
+Route::delete('tipo_empresa/{id}', 'App\Http\Controllers\Api\TipoEmpresaController@destroy');

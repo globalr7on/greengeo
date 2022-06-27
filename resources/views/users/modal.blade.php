@@ -66,7 +66,7 @@
                   </div>
 
                   <div class="form-group col-md-6 text-center">
-                    <label for="input_role" class="display-inherit mb-0">Role</label>
+                    <label for="input_role" class="display-inherit mb-0">Funçõe</label>
                     <select data-style="btn-warning text-white" title="Select" name="role" id="input_role"></select>
                   </div>
                   

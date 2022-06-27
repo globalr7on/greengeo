@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
+
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UnidadeRequest;
-use App\Http\Resources\UnidadeResource;
-use App\Models\Unidade;
+use App\Http\Requests\TipoEmpresaRequest;
+use App\Http\Resources\TipoEmpresaResource;
+use App\Models\TipoEmpresa;
 use Illuminate\Http\Request;
 
 
-class UnidadController extends Controller
+class TipoEmpresaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,10 +19,10 @@ class UnidadController extends Controller
      */
     public function index()
     {
-        $unidad = Unidade::all();
-
-        return response([
-            'data' => UnidadeResource::collection($unidad),
+        $tipo_empresa = TipoEmpresa::all();
+       
+          return response([
+            'data' => TipoEmpresaResource::collection($tipo_empresa),
             'status' => true
         ], 200);
     }
@@ -29,15 +30,15 @@ class UnidadController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\UnidadRequest  $request
+     * @param  \Illuminate\Http\TipoEmpresaRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UnidadeRequest $request)
+    public function store(TipoEmpresaRequest $request)
     {
         
-        $unidad = Unidade::create($request->all());
-        return response([
-            'data' => new UnidadeResource($unidad),
+        $tipo_empresa = TipoEmpresa::create($request->all());
+          return response([
+            'data' => new TipoEmpresaResource($tipo_empresa),
             'status' => true
         ], 200);
     }
@@ -50,31 +51,28 @@ class UnidadController extends Controller
      */
     public function show($id)
     {
-        return response([
-            'data' => new UnidadeResource(Unidade::find($id)),
+       return response([
+            'data' => new TipoEmpresaResource(TipoEmpresa::find($id)),
             'status' => true
         ], 200);
     }
 
-   
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\UnidadRequest  $request
+     * @param  \Illuminate\Http\TipoEmpresaRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UnidadeRequest $request, $id)
-    {
-        $unidad = Unidade::find($id);
-        $unidad->update($request->all());
+    public function update(TipoEmpresaRequest $request, $id)
+    { 
+        $tipo_empresa = TipoEmpresa::find($id);
+        $tipo_empresa->update($request->all());
          return response([
-            'data' => new UnidadeResource($unidad),
+            'data' => new TipoEmpresaResource($tipo_empresa),
             'status' => true
         ], 200);
-        
-    }
-
+    } 
     /**
      * Remove the specified resource from storage.
      *
@@ -83,7 +81,7 @@ class UnidadController extends Controller
      */
     public function destroy($id)
     {
-        Unidad::findOrFail($id)->delete();
+        TipoEmpresa::findOrFail($id)->delete();
         return response(null, 204);
     }
 }

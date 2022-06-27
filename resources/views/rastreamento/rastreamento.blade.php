@@ -9,7 +9,7 @@
     <div class="container-fluid">
       <div class="col-12 text-right">
         <button type="button" class="btn btn-primary" id="novoSearch">
-          Pesquisar
+          Mostrar OS
         </button>
 
         <div class="modal fade" id="modalMapaSearch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -83,36 +83,73 @@
   // Inicialização do mapa
   var map = L.map('map').setView([-25.441105, -49.276855], 12);
   //OMS LAyer 
-    var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: 'OMS'
-    })
-    osm.addTo(map);
+  var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: 'OMS'
+  })
+  osm.addTo(map);
 
-    var marker = L.marker([-25.441105, -49.276855]).addTo(map);
+  
 
-    // map click event 
+  var truckIcon = L.icon({
+    iconUrl: "{{ asset('material') }}/img/truck.png",
+    iconSize: [40,15]
+  })
 
-    map.on('click', function(e){
-        console.log(e);
-        var secondMarker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
-      
-        L.Routing.control({
-          waypoints: [
-            L.latLng(-25.441105, -49.276855),
-            L.latLng(e.latlng.lat, e.latlng.lng)
-          ]
-      }).on('routesfound', function(e){
-        console.log(e);
-        e.routes[0].coordinates.forEach(function(coord, index){
-          setTimeout(() => {
-            marker.setLatLng([coord.lat, coord.lng])
-          }, 100 * index);
-        })
+  var marker = L.marker([-25.441105, -49.276855], {icon:truckIcon}).addTo(map);
+
+  function getOs(gerador, destinador) {
+    L.Routing.control({
+      waypoints: [
+        L.latLng(gerador.lat, gerador.lng),
+        L.latLng(destinador.lat, destinador.lng)
+      ]
+    }).on('routesfound', function(e) {
+      console.log(e);
+      e.routes[0].coordinates.forEach(function(coord, index) {
+        setTimeout(() => {
+          marker.setLatLng([coord.lat, coord.lng])
+        }, 100 * index);
       })
-      
-      .addTo(map);
     })
+    .addTo(map);
+  }
 
+  $('body').on('click', '#novoSearch',  function() {
+    $.ajax({
+      type: "GET",
+      url: "/api/os",
+    }).done(function (response) {
+      if (response && response.data) {
+        for (let i = 0; i < response.data.length; i++) {
+          console.log(response.data[i])
+          getOs(response.data[i].gerador_coord, response.data[i].destinador_coord)
+        }
+      }
+    });  
+  });
+
+  
+
+  // map.on('click', function(e){
+  //   console.log(e);
+  //   var secondMarker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);    
+  //   L.Routing.control({
+  //     waypoints: [
+  //       L.latLng(-25.441105, -49.276855),
+  //       L.latLng(e.latlng.lat, e.latlng.lng)
+  //     ]
+  //   }).on('routesfound', function(e){
+  //     console.log(e);
+  //     e.routes[0].coordinates.forEach(function(coord, index){
+  //       setTimeout(() => {
+  //         marker.setLatLng([coord.lat, coord.lng])
+  //       }, 100 * index);
+  //     })
+  //   })  
+  //   .addTo(map);
+  // })
+
+    
 
 
 

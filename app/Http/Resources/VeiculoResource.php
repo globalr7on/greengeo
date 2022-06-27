@@ -14,7 +14,6 @@ class VeiculoResource extends JsonResource
      */
     public function toArray($request)
     {
-        // return parent::toArray($request);
          return [
             'id' => $this->id,
             'chassis' => $this->chassis,
@@ -23,12 +22,13 @@ class VeiculoResource extends JsonResource
             'renavam' => $this->renavam,
             'combustivel' => $this->combustivel,
             'ativo' => $this->ativo,
-            'pessoa_juridica' => $this->pessoa_juridica->nome_fantasia,
-            'modelo' => $this->modelo->descricao,
-            'modelos_id' => $this->modelos_id,
-            'marca' => $this->marca->descricao,
-            'marcas_id' => $this->marcas_id,
-            'acondicionamento' => $this->acondicionamento->descricao ,
+            'pessoa_juridica' => $this->pessoa_juridica ? $this->pessoa_juridica->razao_social : null,
+            'pessoa_juridica_id' => $this->pessoa_juridica_id,
+            'modelo' => $this->modelo ? $this->modelo->descricao : null,
+            'modelo_id' => $this->modelo_id,
+            'marca' => $this->marca ? $this->marca->descricao : null,
+            'marca_id' => $this->marca_id,
+            'acondicionamento' => $this->acondicionamento ? $this->acondicionamento->descricao : null,
             'acondicionamento_id' => $this->acondicionamento_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

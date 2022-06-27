@@ -25,7 +25,7 @@
    crossorigin=""/>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
-
+  
     @yield('css')
 </head>
 <body class="{{ $class ?? '' }}">

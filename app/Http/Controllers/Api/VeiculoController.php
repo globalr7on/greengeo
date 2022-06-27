@@ -7,7 +7,7 @@ use App\Http\Requests\VeiculoRequest;
 use App\Http\Resources\VeiculoResource;
 use App\Models\Veiculo;
 use Illuminate\Http\Request;
-use Validator;
+
 
 class VeiculoController extends Controller
 {
@@ -19,46 +19,30 @@ class VeiculoController extends Controller
     public function index()
     {
         $veiculo = Veiculo::all();
-        return VeiculoResource::collection($veiculo);
+        return response([
+            'data' => VeiculoResource::collection($veiculo),
+            'status' => true
+        ], 200);
+      
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+    
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\VeiculoRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(VeiculoRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            
-            'chassis' => 'required|string|max:14',
-            'placa' => 'required|string|max:18',
-            'capacidade_media_carga' => 'required|string|max:50',
-            'renavam' => 'required|string|max:50',
-            'combustivel' => 'required|string|max:40',
-            'modelos_id' => 'required|string|max:1',
-            'marcas_id' => 'required|string|max:1',
-            'acondicionamento_id' => 'required|string|max:1',
-            
-        ]);
-
-        if($validator->fails()){
-            return response()->json($validator->errors());       
-        }
 
         $veiculo = Veiculo::create($request->all());
-        return new VeiculoResource($veiculo);
+        return response([
+            'data' => new VeiculoResource($veiculo),
+            'status' => true
+        ], 200);
+
     }
 
     /**
@@ -69,18 +53,10 @@ class VeiculoController extends Controller
      */
     public function show($id)
     {
-        return new VeiculoResource(Veiculo::find($id));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        return response([
+            'data' => new veiculoResource(veiculo::find($id)),
+            'status' => true
+        ], 200);
     }
 
     /**
@@ -90,30 +66,14 @@ class VeiculoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(VeiculoRequest $request, $id)
     {
-
-        // dd($request->all());
-        $validator = Validator::make($request->all(), [
-            
-            'chassis' => 'required|string|max:14',
-            'placa' => 'required|string|max:18',
-            'capacidade_media_carga' => 'required|string|max:50',
-            'renavam' => 'required|string|max:50',
-            'combustivel' => 'required|string|max:40',
-            'modelos_id' => 'required|string|max:1',
-            'marcas_id' => 'required|string|max:1',
-            'acondicionamento_id' => 'required|string|max:1',
-            
-        ]);
-
-        if($validator->fails()){
-            return response()->json($validator->errors());       
-        }
-
         $veiculo = Veiculo::find($id);
         $veiculo->update($request->all());
-        return new VeiculoResource($veiculo);
+        return response([
+            'data' => new VeiculoResource($veiculo),
+            'status' => true
+        ], 200);
     }
 
     /**
@@ -124,8 +84,7 @@ class VeiculoController extends Controller
      */
     public function destroy($id)
     {
-        $veiculo = Veiculo::findOrFail($id);
-        $veiculo->delete();
+        Veiculo::findOrFail($id)->delete();
         return response(null, 204);
     }
 }

@@ -43,13 +43,19 @@ class PessoaJuridica extends Model
         'senha_acesso',
         'capacidade_media_carga',
         'usuario_responsavel_cadastro_id',
-        'actividade_id'
+        'atividade_id',
+        'tipo_empresa_id'
     ];
     protected $guardaded = ['id'];
 
     public function usuario_responsavel_cadastro()
     {
         return $this->hasOne('App\Models\User', 'usuario_responsavel_cadastro_id', 'id');
+    }
+
+    public function tipo_empresa()
+    {
+        return $this->hasOne('App\Models\TipoEmpresa');
     }
 
     public function user()
@@ -62,4 +68,5 @@ class PessoaJuridica extends Model
         return $this->belongsTo('App\Models\Veiculo');
     }
 
+     
 }

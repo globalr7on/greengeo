@@ -97,7 +97,6 @@
               <!-- your steps content here -->
               <div id="step1" class="content" role="tabpanel" aria-labelledby="step1-trigger">
                 <h4 class="text-primary font-weight-bold text-uppercase">Informações Básicas</h4>
-
                 <div class="row m-0">
                   <div class="form-group col-md-6 align-self-center">
                     <div class="togglebutton">
@@ -125,8 +124,14 @@
                     </select>
                   </div>
                   <div class="form-group col-md-6">
-                    <label for="inputId" class="position-relative mb-0 font-weight-bold">ID Pessoa Juridica</label>
-                    <input type="text" class="form-control" id="inputId">
+                     <label for="iAtividade" class="display-inherit mb-0">Tipo de Atividade</label>
+                    <select id="iAtividade" data-style="btn btn-warning text-white rounded" title="Single Select" name="atividade">
+                      <option value="" disabled selected>Atividade</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-4">
+                    {{-- <label for="inputId" class="position-relative mb-0 font-weight-bold">ID Pessoa Juridica</label> --}}
+                    <input type="hidden" class="form-control" id="inputId">
                   </div>
                 </div>
 
@@ -311,7 +316,6 @@
           dataSrc: 'data'
         },
         columns: [
-          { data: "juridica_x_tipo_id" },
           { data: "cnpj" },
           { data: "nome_fantasia" },
           { data: "razao_social" },
@@ -338,6 +342,7 @@
           { data: "senha_acesso" },
           { data: "capacidade_media_carga" },
           { data: "usuario_responsavel_cadastro_id" },
+          { data: "atividade_id" },
           { 
             data: "ativo", className: "text-center", render: function (data, type) {
               return data ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>'
@@ -391,7 +396,8 @@
           identificador_celular: $("#inputIdentificadorCelular").val(),
           senha_acesso: $("#inputSenhaAcesso").val(),
           capacidade_media_carga: $("#inputCapacidadeMediaCarga").val(),
-          usuario_responsavel_cadastro_id: $("#inputUsuarioResponsable")
+          usuario_responsavel_cadastro_id: $("#inputUsuarioResponsable"),
+          atividade_id: $("#iAtividade"),
           // ativo: $("#checkAtivo").prop("checked") ? 1 : 0
         }
         const id = $('#inputId').val();
@@ -501,6 +507,16 @@
         }
       });
 
+       $.ajax({
+        type: "GET",
+        url: "/api/atividade",
+      }).done(function (response) {
+        if (response && response.data) {
+          loadSelect('#iAtividade', response.data)
+        }
+      });
+
+
       // Stepper
       var stepper = new Stepper($('.bs-stepper')[0])
       $('.stepper-next').on('click', function (e) {
@@ -511,5 +527,11 @@
       })
       // Stepper
     });
+    function loadSelect(selector, data) {
+      $.each(data, function(index, value) {
+        $(selector).append(new Option(value.descricao, value.id));
+      });
+      $(selector).selectpicker()
+    }
   </script>
 @endpush

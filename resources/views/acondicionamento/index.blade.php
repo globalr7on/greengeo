@@ -65,8 +65,7 @@
         const JSONRequest = {
           descricao: $("#inputDescricao").val(),
           ativo: $("#checkAtivo").prop("checked") ? 1 : 0
-          // name: $("#input_name").val(),
-          // guard_name: $("#input_guard_name").val(),
+        
         }
         const id = $('#inputId').val()
         if (id) {
