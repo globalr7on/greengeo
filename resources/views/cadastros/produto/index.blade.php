@@ -1,15 +1,15 @@
-@extends('layouts.app', ['activePage' => 'empresa', 'titlePage' => __('Empresas')])
+@extends('layouts.app', ['activePage' => 'produto', 'titlePage' => __('Produto Acabado')])
 @section('css')
 @endsection
 @section('subheaderTitle')
-  Administrativo
+  Cadastros
 @endsection
 @section('content')
    <div class="content mt-0">
     <div class="container-fluid">
       <div class="col-12 text-right">
-        <button type="button" class="btn btn-primary" id="novaEmpresa">
-         + Nova Empresa
+        <button type="button" class="btn btn-primary" id="novoProduto">
+         + Novo Produto
         </button>
       </div>
       <div class="row">
@@ -17,38 +17,19 @@
           <div class="card">
             <div class="card-header card-header-primary">
               <h4 class="card-title">Cadastros</h4>
-              <p class="card-category">Empresas</p>
+              <p class="card-category">Produto</p>
             </div>
             <div class="card-body">
               <div>
-                <table class="table" id="empresaTbl">
+                <table class="table" id="produtoTbl">
                   <thead>
-                    <th class="text-primary font-weight-bold">CNPJ</th>
-                    {{-- <th class="text-primary font-weight-bold">Fantasia</th> --}}
-                    <th class="text-primary font-weight-bold">Razao Social</th>
-                    <th class="text-primary font-weight-bold">Email</th>
-                    <th class="text-primary font-weight-bold">Contato1</th>
-                    {{-- <th class="text-primary font-weight-bold">Cargo Contato1</th> --}}
-                    <th class="text-primary font-weight-bold">Celular Contato1</th>
-                    {{-- <th class="text-primary font-weight-bold">Contato2</th>
-                    <th class="text-primary font-weight-bold">Cargo Contato2</th>
-                    <th class="text-primary font-weight-bold">Celular Contato2</th> --}}
-                    <th class="text-primary font-weight-bold">Fixo</th>
-                    {{-- <th class="text-primary font-weight-bold">Whatsapp</th>
-                    <th class="text-primary font-weight-bold">Endereço</th>
-                    <th class="text-primary font-weight-bold">Número</th>
-                    <th class="text-primary font-weight-bold">Complemento</th>
-                    <th class="text-primary font-weight-bold">Cep</th>
-                    <th class="text-primary font-weight-bold">Bairro</th>
-                    <th class="text-primary font-weight-bold">Cidade</th>
-                    <th class="text-primary font-weight-bold">Estado</th>
-                    <th class="text-primary font-weight-bold">Latitude</th>
-                    <th class="text-primary font-weight-bold">Longitude</th>
-                    <th class="text-primary font-weight-bold">Contrato</th>
-                    <th class="text-primary font-weight-bold">Identificador</th>
-                    <th class="text-primary font-weight-bold">Senha Acesso</th> --}}
-                    <th class="text-primary font-weight-bold">Capacidade Media Carga</th>
-                    {{-- <th class="text-primary font-weight-bold">Atividade</th> --}}
+                    <th class="text-primary font-weight-bold">Fabricante</th>
+                    <th class="text-primary font-weight-bold">Peso bruto</th>
+                    <th class="text-primary font-weight-bold">Peso liquido</th>
+                    <th class="text-primary font-weight-bold">Dimensões</th>
+                    <th class="text-primary font-weight-bold">Altura</th>
+                    <th class="text-primary font-weight-bold">Largura</th>
+                    <th class="text-primary font-weight-bold">Profundidade</th>
                     <th class="text-primary font-weight-bold">Ativo</th>
                     <th class="text-primary font-weight-bold">Ação</th>
                   </thead>
@@ -60,7 +41,7 @@
       </div>
     </div>
   </div>
-   @include('cadastros.empresa.modal')
+   @include('cadastros.produto.modal')
   
 @endsection
 
@@ -69,15 +50,15 @@
     $(document).ready(function () {
       
       let app = new App({
-        apiUrl: '/api/pessoa_juridica',
+        apiUrl: '/api/produto',
         apiDataTableColumns: [
-          { data: "cnpj" },
-          { data: "razao_social" },
-          { data: "email" },
-          { data: "contato_1" },
-          { data: "celular_contato_1" },
-          { data: "fixo" },
-          { data: "capacidade_media_carga" },
+          { data: "nome_fabricante" },
+          { data: "peso_bruto" },
+          { data: "peso_liquido" },
+          { data: "dimensoes" },
+          { data: "altura" },
+          { data: "largura" },
+          { data: "profundidade" },
           { 
             data: "ativo", className: "text-center", render: function (data, type) {
               return data ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>'
@@ -86,9 +67,7 @@
         ],
         apiDataTableColumnsDefs : [
           { targets: 1, orderable: false },
-          // { width: "70px", targets: [0,19,26] },
-          // { width: "200px", targets: [2,3,4,5,6,7,8,9,10,11,12,13,24,25] },
-          // { width: "100px", targets: [14,15,16,17,18,20,21,22,23] },
+        
           { 
             targets : 8,
             className: "text-center",
@@ -101,7 +80,7 @@
             }
           }
         ],
-        datatableSelector: '#empresaTbl'
+        datatableSelector: '#produtoTbl'
       })
      
       // Open Modal New
@@ -109,20 +88,12 @@
        
         app.stepper()
         delFormValidationErrors()
-        $("#input_cnpj").mask("999.999.999-99");
         $("#modalEmpresa").modal("show")
         $('#tituloModal').text("Novo Empresa")
         $('#input_id').val("")
         $('#formEmpresa')[0].reset()
         getTipoEmpresa()
         getAtividade()
-        // $('.cep').mask('00000-000');
-         // $('.date').mask('00/00/0000');
-        // $('.time').mask('00:00:00');
-        // $('.cep').mask('00000-000');
-        // $('.phone').mask('(00) 00000-0000');
-        
-        // $('.money').mask('000.000.000.000,00');
       });
 
       // Salvar ''
@@ -268,7 +239,7 @@
           notifyDanger('Falha ao obter funções, tente novamente')
         })
       }
-
+   
      });
   </script>
 @endpush

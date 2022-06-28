@@ -118,3 +118,11 @@ Route::get('tipo_empresa/{id}', 'App\Http\Controllers\Api\TipoEmpresaController@
 Route::post('tipo_empresa', 'App\Http\Controllers\Api\TipoEmpresaController@store');
 Route::put('tipo_empresa/{id}', 'App\Http\Controllers\Api\TipoEmpresaController@update');
 Route::delete('tipo_empresa/{id}', 'App\Http\Controllers\Api\TipoEmpresaController@destroy');
+
+
+// Produto
+Route::get('produto', 'App\Http\Controllers\Api\ProdutoController@index');
+Route::get('produto/{id}', 'App\Http\Controllers\Api\ProdutoController@show');
+Route::post('produto', 'App\Http\Controllers\Api\ProdutoController@store');
+Route::put('produto/{id}', 'App\Http\Controllers\Api\ProdutoController@update');
+Route::delete('produto/{id}', 'App\Http\Controllers\Api\ProdutoController@destroy');

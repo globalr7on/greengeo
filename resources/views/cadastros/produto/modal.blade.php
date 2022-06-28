@@ -78,7 +78,7 @@
                     </div>
                     <div class="form-group col-md-3">
                       <label for="input_cnpj" class="position-relative mb-0 font-weight-bold " placeholder="00.000.000/0000-00">CNPJ</label>
-                      <input type="text" class="form-control maskCnpj" id="input_cnpj">
+                      <input type="text" class="form-control" id="input_cnpj">
                     </div>  
                     <div class="form-group col-md-3">
                       <label for="input_nome_fantasia" class="position-relative mb-0 font-weight-bold">Nome de Fantasia</label>
@@ -198,7 +198,8 @@
                 <div class="row m-0">
                   <div class="form-group col-md-4">
                       <label for="input_capacidade_media_carga" class="position-relative mb-0 font-weight-bold">Capacidade Carga</label>
-                      <input type="text" class="form-control maskpeso" id="input_capacidade_media_carga" placeholder="000000000.00 kg">
+                      <input type="text" class="form-control" id="input_capacidade_media_carga" placeholder="000000000.00 kg">
+                     
                     </div>
                    <div class="form-group col-md-4">
                       <label for="input_identificador_celular" class="position-relative mb-0 font-weight-bold">Identificador Celular</label>

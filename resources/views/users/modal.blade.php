@@ -38,12 +38,12 @@
                   <div class="form-group col-md-6">
                     <input type="hidden" class="form-control" id="inputId">
                     <label for="input_cpf" class="position-relative mb-0 font-weight-bold">CPF</label>
-                    <input type="text" class="form-control" id="input_cpf" placeholder="123.456.789-10">
+                    <input type="text" class="form-control maskcpf" id="input_cpf" placeholder="123.456.789-10">
                   </div>
 
                   <div class="form-group col-md-6">
                     <label for="input_rg" class="position-relative mb-0 font-weight-bold">RG</label>
-                    <input type="text" class="form-control" id="input_rg" placeholder="A-12345678">
+                    <input type="text" class="form-control maskrg" id="input_rg" placeholder="A-12345678">
                   </div>
                 </div>
 

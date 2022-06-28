@@ -18,14 +18,14 @@
           <p>{{ __('Painel') }}</p>
         </a>
       </li>
-      <li class="nav-item {{ in_array($activePage, array('empresa', 'veiculo')) ? 'active' : '' }}">
-        <a class="nav-link" data-toggle="collapse" href="#cadastrosTab" aria-expanded="{{ in_array($activePage, array('empresa', 'veiculo')) ? 'true' : 'false' }}">
+      <li class="nav-item {{ in_array($activePage, array('empresa', 'produto', 'veiculo')) ? 'active' : '' }}">
+        <a class="nav-link" data-toggle="collapse" href="#cadastrosTab" aria-expanded="{{ in_array($activePage, array('empresa', 'produto', 'veiculo')) ? 'true' : 'false' }}">
           <i class="fa-solid fa-address-card"></i>
           <p>{{ __('Cadastros') }}
             <b class="caret"></b>
           </p>
         </a>
-        <div class="collapse {{ in_array($activePage, array('empresa', 'veiculo')) ? 'show' : '' }}" id="cadastrosTab">
+        <div class="collapse {{ in_array($activePage, array('empresa', 'produto', 'veiculo')) ? 'show' : '' }}" id="cadastrosTab">
           <ul class="nav">
             <li class="nav-item ml-4 {{ $activePage == 'empresa' ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('cadastros.empresa') }}">
@@ -33,12 +33,12 @@
                 <span class="sidebar-normal text-left" >{{ __('Empresas') }}</span>
               </a>
             </li>
-            {{-- <li class="nav-item ml-4 {{ $activePage == 'motoristas' ? 'active' : '' }}">
-              <a class="nav-link" href="/acessantes">
-                <i class="fa-solid fa-users"></i>
-                <span class="sidebar-normal">{{ __('Motoristas') }}</span>
+            <li class="nav-item ml-4 {{ $activePage == 'produto' ? 'active' : '' }}">
+              <a class="nav-link" href="{{ route('cadastros.produto') }}">
+                <i class="fa-solid fa-box-archive"></i>
+                <span class="sidebar-normal">{{ __('Produto') }}</span>
               </a>
-            </li> --}}
+            </li>
             <li class="nav-item ml-4 {{ $activePage == 'veiculo' ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('cadastros.veiculo') }}">
                 <i class="fa-solid fa-truck"></i>
