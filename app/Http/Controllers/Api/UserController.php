@@ -21,6 +21,7 @@ class UserController extends Controller
     public function accessToken(Request $request, User $user)
     {
         if ($user) {
+            $user->OauthAccessToken()->delete();
             return $user->createToken('accessToken')->accessToken;
         }
 
@@ -41,6 +42,7 @@ class UserController extends Controller
             $user = User::where("cpf", $request->cpf)->first();
             if ($user) {
                 if (Hash::check($request->password, $user->password)) {
+                    $user->OauthAccessToken()->delete();
                     $data = [
                         "token" => $user->createToken('accessToken')->accessToken
                     ];
