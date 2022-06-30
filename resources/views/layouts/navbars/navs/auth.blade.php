@@ -16,7 +16,7 @@
     <div class="collapse navbar-collapse justify-content-end">
       <form class="navbar-form mr-4">
         <div class="input-group no-border">
-        <input type="text" value="" class="form-control" placeholder="Search...">
+        <input type="text" value="" class="form-control" placeholder="Pesquisar...">
         <button type="submit" class="btn btn-white btn-round btn-just-icon">
           <i class="material-icons">search</i>
           <div class="ripple-container"></div>
@@ -52,10 +52,10 @@
             </p>
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
-            <a class="dropdown-item" href="{{ route('profile.edit') }}">{{ __('Profile') }}</a>
-            <a class="dropdown-item" href="#">{{ __('Settings') }}</a>
+            <a class="dropdown-item" href="{{ route('profile.edit') }}">{{ __('Meu Cadastro') }}</a>
+            <a class="dropdown-item" href="#">{{ __('Configuração') }}</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ __('Log out') }}</a>
+            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ __('Sair') }}</a>
           </div>
         </li>
       </ul>

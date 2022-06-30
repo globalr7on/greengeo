@@ -38,12 +38,12 @@
                   <div class="form-group col-md-6">
                     <input type="hidden" class="form-control" id="inputId">
                     <label for="input_cpf" class="position-relative mb-0 font-weight-bold">CPF</label>
-                    <input type="text" class="form-control" id="input_cpf" placeholder="123.456.789-10">
+                    <input type="text" class="form-control maskcpf" id="input_cpf" placeholder="123.456.789-10">
                   </div>
 
                   <div class="form-group col-md-6">
                     <label for="input_rg" class="position-relative mb-0 font-weight-bold">RG</label>
-                    <input type="text" class="form-control" id="input_rg" placeholder="A-12345678">
+                    <input type="text" class="form-control maskrg" id="input_rg" placeholder="A-12345678">
                   </div>
                 </div>
 
@@ -66,12 +66,12 @@
                   </div>
 
                   <div class="form-group col-md-4 text-center">
-                    <label for="input_role_web" class="display-inherit mb-0">Role Web</label>
+                    <label for="input_role_web" class="display-inherit mb-0">Funçõe Web</label>
                     <select data-style="btn-warning text-white" title="Select" name="role_web" id="input_role_web"></select>
                   </div>
 
                   <div class="form-group col-md-4 text-center">
-                    <label for="input_role_api" class="display-inherit mb-0">Role Api</label>
+                    <label for="input_role_api" class="display-inherit mb-0">Funçõe Api</label>
                     <select data-style="btn-warning text-white" title="Select" name="role_api" id="input_role_api"></select>
                   </div>
                 </div>

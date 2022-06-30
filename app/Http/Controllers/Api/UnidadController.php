@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UnidadRequest;
-use App\Http\Resources\UnidadResource;
+use App\Http\Requests\UnidadeRequest;
+use App\Http\Resources\UnidadeResource;
 use App\Models\Unidade;
 use Illuminate\Http\Request;
 
@@ -21,7 +21,7 @@ class UnidadController extends Controller
         $unidad = Unidade::all();
 
         return response([
-            'data' => UnidadResource::collection($unidad),
+            'data' => UnidadeResource::collection($unidad),
             'status' => true
         ], 200);
     }
@@ -32,12 +32,12 @@ class UnidadController extends Controller
      * @param  \Illuminate\Http\UnidadRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UnidadRequest $request)
+    public function store(UnidadeRequest $request)
     {
         
         $unidad = Unidade::create($request->all());
         return response([
-            'data' => new UnidadResource($unidad),
+            'data' => new UnidadeResource($unidad),
             'status' => true
         ], 200);
     }
@@ -51,7 +51,7 @@ class UnidadController extends Controller
     public function show($id)
     {
         return response([
-            'data' => new UnidadResource(Unidade::find($id)),
+            'data' => new UnidadeResource(Unidade::find($id)),
             'status' => true
         ], 200);
     }
@@ -64,12 +64,12 @@ class UnidadController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UnidadRequest $request, $id)
+    public function update(UnidadeRequest $request, $id)
     {
         $unidad = Unidade::find($id);
         $unidad->update($request->all());
          return response([
-            'data' => new UnidadResource($unidad),
+            'data' => new UnidadeResource($unidad),
             'status' => true
         ], 200);
         

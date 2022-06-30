@@ -13,7 +13,7 @@ class ModeloController extends Controller
      */
     public function index()
     {
-        return view('modelo.index');
+        return view('administrativo.modelo.index');
     }
 
     /**

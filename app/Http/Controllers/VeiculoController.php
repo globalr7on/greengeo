@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+
 class VeiculoController extends Controller
 {
     /**
@@ -13,8 +14,10 @@ class VeiculoController extends Controller
      */
     public function index()
     {
-        return view('cadastros.veiculo');
+        // return view('cadastros.veiculo');
+        return view('cadastros.veiculo.index');
     }
+
 
     /**
      * Show the form for creating a new resource.

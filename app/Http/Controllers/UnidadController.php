@@ -14,7 +14,7 @@ class UnidadController extends Controller
      */
     public function index()
     {
-        return view('unidade.index');
+        return view('administrativo.unidade.index');
     }
 
    

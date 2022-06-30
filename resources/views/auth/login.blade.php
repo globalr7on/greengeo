@@ -15,7 +15,7 @@
             <h4 class="card-title"><strong>{{ __('Login') }}</strong></h4>
           </div>
           <div class="card-body">
-            <p class="card-description text-center">{{ __('Ingrese sus dados') }}</p>
+            <p class="card-description text-center">{{ __('Entre com seus dados') }}</p>
 
             <div class="bmd-form-group{{ $errors->has('cnpj') ? ' has-danger' : '' }}">
               <div class="input-group">
@@ -41,7 +41,7 @@
                     <i class="fas fa-lock"></i>
                   </span>
                 </div>
-                <input type="password" name="password" id="password" class="form-control" placeholder="{{ __('Password...') }}" value="" required>
+                <input type="password" name="password" id="password" class="form-control" placeholder="{{ __('Senha...') }}" value="" required>
               </div>
               @if ($errors->has('password'))
                 <div id="password-error" class="error text-danger pl-3" for="password" style="display: block;">
@@ -52,7 +52,7 @@
 
             <div class="form-check mr-auto ml-3 mt-3">
               <label class="form-check-label">
-                <input class="form-check-input" type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> {{ __('Remember me') }}
+                <input class="form-check-input" type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> {{ __('Lembre-me') }}
                 <span class="form-check-sign">
                   <span class="check"></span>
                 </span>

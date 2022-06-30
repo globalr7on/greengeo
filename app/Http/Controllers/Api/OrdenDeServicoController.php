@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\OrdenDeServicoRequest;
+use App\Http\Resources\OrdenDeServicoResource;
+use App\Models\OrdensServicos;
 use Illuminate\Http\Request;
 
 class OrdenDeServicoController extends Controller
@@ -14,28 +17,24 @@ class OrdenDeServicoController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return response([
+            'data' => OrdenDeServicoResource::collection(OrdensServicos::all()),
+            'status' => true
+        ], 200);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\OrdenDeServicoRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(OrdenDeServicoRequest $request)
     {
-        //
+        return response([
+            'data' => new OrdenDeServicoResource(OrdensServicos::create($request->all())),
+            'status' => true
+        ], 200);
     }
 
     /**
@@ -46,30 +45,28 @@ class OrdenDeServicoController extends Controller
      */
     public function show($id)
     {
-        //
+        return response([
+            'data' => new OrdenDeServicoResource(OrdensServicos::find($id)),
+            'status' => true
+        ], 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
+  
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\OrdenDeServicoRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(OrdenDeServicoRequest $request, $id)
     {
-        //
+        $orden_servico = OrdensServicos::find($id);
+        $orden_servico->update($request->all());
+           return response([
+            'data' => new OrdenDeServicoResource($orden_servico),
+            'status' => true
+        ], 200);
     }
 
     /**
@@ -80,6 +77,7 @@ class OrdenDeServicoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        OrdensServicos::findOrFail($id)->delete();
+        return response(null, 204);
     }
 }

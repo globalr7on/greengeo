@@ -13,6 +13,7 @@ class OrdemDeServicoController extends Controller
      */
     public function index()
     {
-        return view('rastreamento.ordemServico');
+
+        return view('rastreamento.os.index');
     }
 }

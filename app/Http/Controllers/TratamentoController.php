@@ -14,7 +14,7 @@ class TratamentoController extends Controller
      */
     public function index()
     {
-        return view('tratamento.index');
+        return view('administrativo.tratamento.index');
     }
 
     /**

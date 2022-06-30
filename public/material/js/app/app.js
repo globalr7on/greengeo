@@ -179,3 +179,151 @@ function loadSelect(selector, data, fields = ['id', 'name'], selected = null) {
     $(selector).selectpicker('val', selected)
   }
 }
+
+// Maskcpf
+const maskcpf = "999.999.999-99";
+$(".maskcpf").each(function () {
+  $(this).inputmask({
+    mask: maskcpf,
+    clearIncomplete: true,
+    removeMaskOnSubmit: true,
+    autoUnmask: true,
+  });
+});
+setTimeout(() => {
+  $(".maskcpf").focus(function () {
+    $(this).inputmask("remove");
+    return false;
+  }).blur(function () {
+    $(this).inputmask("remove");
+    $(this).inputmask({
+      mask: maskcpf,
+      clearIncomplete: true,
+      removeMaskOnSubmit: true,
+      autoUnmask: true,
+    });
+  });
+}, 500);
+
+// Maskcnpj
+const maskcnpj = "99.999.999/9999-99";
+$(".maskCnpj").each(function () {
+  $(this).inputmask({
+    mask: maskcnpj,
+    clearIncomplete: true,
+    removeMaskOnSubmit: true,
+    autoUnmask: true,
+  });
+});
+setTimeout(() => {
+  $(".maskCnpj").focus(function () {
+    $(this).inputmask("remove");
+    return false;
+  }).blur(function () {
+    $(this).inputmask("remove");
+    $(this).inputmask({
+      mask: maskcnpj,
+      clearIncomplete: true,
+      removeMaskOnSubmit: true,
+      autoUnmask: true,
+    });
+  });
+}, 500);
+
+// Maskrg
+$(".maskrg").each(function () {
+  $(this).inputmask({
+    mask: getMaskRg($(this).val()),
+    clearIncomplete: true,
+    removeMaskOnSubmit: true,
+    autoUnmask: true,
+  });
+});
+setTimeout(() => {
+  $(".maskrg").focus(function () {
+    $(this).inputmask("remove");
+    return false;
+  }).blur(function () {
+    $(this).inputmask("remove");
+    $(this).inputmask({
+      mask: getMaskRg($(this).val()),
+      clearIncomplete: true,
+      removeMaskOnSubmit: true,
+      autoUnmask: true,
+    });
+  });
+}, 500);
+
+function getMaskRg(val) {
+  let mask = "";
+  switch (val.length) {
+    case 10:
+      mask = "aa-99.999.999";
+      break;
+
+    case 11:
+      mask = "aa-99.999.999";
+      break;
+
+    default:
+      mask = "aa-99.999.999";
+  }
+  return mask;
+}
+// MaskPeso 
+const maskpeso = "99.99 KG";
+$(".maskpeso").each(function () {
+  $(this).inputmask({
+    mask: maskpeso,
+    clearIncomplete: true,
+    removeMaskOnSubmit: true,
+    autoUnmask: true,
+  });
+});
+setTimeout(() => {
+  $(".maskpeso").focus(function () {
+    $(this).inputmask("remove");
+    return false;
+  }).blur(function () {
+    $(this).inputmask("remove");
+    $(this).inputmask({
+      mask: maskpeso,
+      clearIncomplete: true,
+      removeMaskOnSubmit: true,
+      autoUnmask: true,
+    });
+  });
+}, 500);
+     
+// MaskCep 
+// $("#input_cep").each(function () {
+//   $(this).inputmask({
+//     mask: getMaskCep($(this).val()),
+//     clearIncomplete: true,
+//     removeMaskOnSubmit: true,
+//     autoUnmask: true,
+//   });
+// });
+// setTimeout(() => {
+//   $("#input_cep").focus(function () {
+//     $(this).inputmask("remove");
+//     return false;
+//   }).blur(function () {
+//     $(this).inputmask("remove");
+//     $(this).inputmask({
+//       mask: getMaskCep($(this).val()),
+//       clearIncomplete: true,
+//       removeMaskOnSubmit: true,
+//       autoUnmask: true,
+//     });
+//   });
+// }, 500);
+
+// function getMaskCep(val) {
+//   let mask = "";          
+//   switch (val.length) {
+//     default:
+//       mask = "999999-999";
+//   }
+//   return mask;
+// }
