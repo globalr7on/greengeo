@@ -38,6 +38,13 @@ class PermissionMiddleware
             }
         }
 
+        if ($request->is('api/*')) {
+            return Response([
+                'status' => false,
+                'data' => 'User does not have the right permissions.'
+            ], 403);
+        }
+
         throw UnauthorizedException::forPermissions($permissions);
     }
 }

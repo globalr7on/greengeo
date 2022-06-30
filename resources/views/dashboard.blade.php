@@ -132,6 +132,8 @@
 @push('js')
   <script>
     $(document).ready(function() {
+      localStorage.setItem('token', "{{ session('token') }}");
+
       // Javascript method's body can be found in assets/js/demos.js
       // md.initDashboardPageCharts();
       var data = {

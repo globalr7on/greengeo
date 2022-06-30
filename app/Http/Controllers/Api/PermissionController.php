@@ -15,10 +15,12 @@ class PermissionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $guard = $request->get('guard', ['web', 'api']);
+        $guard = is_array($guard) ? $guard : [$guard];
         return response([
-            'data' => PermissionResource::collection(Permission::all()),
+            'data' => PermissionResource::collection(Permission::whereIn('guard_name', $guard)->get()),
             'status' => true
         ], 200);
     }

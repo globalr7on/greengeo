@@ -18,8 +18,8 @@
             </div>
 
             <div class="form-group col-md-6">
-              <label for="input_guard_name" class="position-relative mb-0 font-weight-bold">Guard</label>
-              <input type="text" class="form-control" id="input_guard_name" placeholder="web" value="web">
+              <label for="input_guard_name" class="display-inherit mb-0">Guard</label>
+              <select data-style="btn-warning text-white" title="Select" name="guard_name" id="input_guard_name"></select>
             </div>
           </div>
 

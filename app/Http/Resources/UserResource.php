@@ -40,10 +40,10 @@ class UserResource extends JsonResource
             'usuario_responsavel_cadastro' => $this->usuario_responsavel_cadastro ? $this->usuario_responsavel_cadastro->name : null,
             'pessoa_juridica_id' => $this->pessoa_juridica_id,
             'pessoa_juridica' => $this->pessoa_juridica ? $this->pessoa_juridica->nome_fantasia : null,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'role_id' => count($this->roles) > 0 ? $this->roles[0]->id : null,
-            'role_name' => count($this->roles) > 0 ? $this->roles[0]->name : null,
+            'role_web' => $this->roles->filter(function ($roles) { return $roles->guard_name == 'web'; })->pluck('id')->first(),
+            'role_name_web' => $this->roles->filter(function ($roles) { return $roles->guard_name == 'web'; })->pluck('name')->first(),
+            'role_api' => $this->roles->filter(function ($roles) { return $roles->guard_name == 'api'; })->pluck('id')->first(),
+            'role_name_api' => $this->roles->filter(function ($roles) { return $roles->guard_name == 'api'; })->pluck('name')->first(),
         ];
     }
 }

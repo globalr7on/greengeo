@@ -47,7 +47,8 @@ class UserRequest extends FormRequest
             'validade_carteira' => 'required|date|date_format:Y-m-d',
             'tipo_carteira' => 'required|string|max:50',
             'identificador_celular' => 'required|string|max:20',
-            'role' => 'required',
+            'role_web' => 'required_without_all:role_api|nullable',
+            'role_api' => 'required_without_all:role_web|nullable',
         ];
     }
 

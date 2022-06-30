@@ -43,11 +43,18 @@
           { data: "name" },
           { data: "guard_name" },
         ],
+        apiDataTableColumnDefs: [
+          {
+            targets: 0,
+            orderData: [1, 0]
+          }
+        ],
         datatableSelector: '#permissionsTbl'
       })
 
       // Open Modal New
       $('body').on('click', '#novaPermission', function() {
+        getGuardNames()
         delFormValidationErrors()
         $("#modalFormPermission").modal("show")
         $('#modalFormPermissionTitle').text("Novo Permission")
@@ -100,7 +107,7 @@
             $('#modalFormPermissionTitle').text("Editar Permission")
             $('#inputId').val(response.data.id)
             $("#input_name").val(response.data.name)
-            $("#input_guard_name").val(response.data.guard_name)
+            getGuardNames(response.data.guard_name)
           }
         })
         .catch(error => notifyDanger('Failed to get permission details, try again'))
@@ -119,6 +126,14 @@
           }
         }).catch(error => notifyDanger('An error has occurred, try again'))
       })
+
+      function getGuardNames(value) {
+        const data = [
+          { id: 'web', name: 'web' },
+          { id: 'api', name: 'api' },
+        ]
+        loadSelect('#input_guard_name', data, ['id', 'name'], value)
+      }
     })
   </script>
 @endpush

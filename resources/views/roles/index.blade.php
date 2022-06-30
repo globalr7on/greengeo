@@ -48,7 +48,8 @@
 
       // Open Modal New
       $('body').on('click', '#novaFuncao', function() {
-        getPermissions()
+        removePermissions('#permissions', '#input_permissions')
+        getGuardNames()
         delFormValidationErrors()
         $("#modalFormRole").modal("show")
         $('#modalFormRoleTitle').text("Novo Role")
@@ -63,7 +64,7 @@
         const JSONRequest = {
           name: $("#input_name").val(),
           guard_name: $("#input_guard_name").val(),
-          permissions: permissions,
+          permissions: permissions
         }
         const id = $('#inputId').val()
         if (id) {
@@ -104,8 +105,8 @@
             $('#modalFormRoleTitle').text("Editar Role")
             $('#inputId').val(response.data.id)
             $("#input_name").val(response.data.name)
-            $("#input_guard_name").val(response.data.guard_name)
-            getPermissions(response.data.permissions)
+            setPermissions('#input_permissions', response.data.permissions, response.data.guard_name)
+            getGuardNames(response.data.guard_name)
           }
         })
         .catch(error => notifyDanger('Failed to get role details, try again'))
@@ -125,35 +126,62 @@
         }).catch(error => notifyDanger('An error has occurred, try again'))
       })
 
-      function getPermissions(values) {
-        app.api.get('/permissions').then(response => {
+      $('body').on('change', '#input_guard_name',  function(event) {
+        const guardName = event.target.value == 'Seleccione' ? null : event.target.value
+        const permissionsJSON = JSON.parse($('#input_permissions').val())
+        if (guardName) {
+          const permissions = permissionsJSON?.guardName == guardName ? permissionsJSON?.permissions : []
+          getPermissions(permissions, guardName)
+        }
+      })
+
+      function getGuardNames(guardValue = null) {
+        const data = [
+          { id: 'web', name: 'web' },
+          { id: 'api', name: 'api' },
+        ]
+        loadSelect('#input_guard_name', data, ['id', 'name'], guardValue)
+        if (!guardValue) {
+          removePermissions('#permissions', '#input_permissions')
+        }
+      }
+
+      function getPermissions(values, guard) {
+        app.api.get(`/permissions?guard=${guard}`).then(response => {
           if (response && response.status) {
             addPermissionsCheck('#permissions', response.data, values)
           }
         })
         .catch(error => {
-          notifyDanger('Failed to get permissions, try again')
+          notifyDanger(`Failed to get permissions ${guard}, try again`)
           $("#modalFormRole").modal("hide")
         })
       }
-    })
 
-    function addPermissionsCheck(selector, data, values = []) {
-      $(selector).empty()
-      data.map(curr => {
-        const isChecked = values.find(val => val == curr.id) ? true : false
-        $(selector).append(
-          `<div class="form-check col-md-6">
-            <label class="form-check-label">
-              <input class="form-check-input" type="checkbox" value="${curr.id}" name="permissions[${curr.name}]" ${isChecked ? 'checked' : ''}>
-              [${curr.guard_name}] ${curr.name}
-              <span class="form-check-sign"><span class="check"></span></span>
-            </label>
-          </div>`
-        )
-      })
-      // for show validation error
-      $(selector).append('<div class="form-group"><input type="hidden" class="form-control" id="input_permissions"></div>')
-    }
+      function removePermissions(selector, inputSelector) {
+        $(selector).empty()
+        $(inputSelector).val("{}")
+      }
+
+      function setPermissions(selector, permissions, guardName) {
+        $(selector).val(JSON.stringify({permissions, guardName}))
+      }
+  
+      function addPermissionsCheck(selector, data, values = []) {
+        $(selector).empty()
+        data.map(curr => {
+          const isChecked = values.find(val => val == curr.id) ? true : false
+          $(selector).append(
+            `<div class="form-check col-md-6 my-2">
+              <label class="form-check-label">
+                <input class="form-check-input" type="checkbox" value="${curr.id}" name="permissions[${curr.name}]" ${isChecked ? 'checked' : ''}>
+                [${curr.guard_name}] ${curr.name}
+                <span class="form-check-sign"><span class="check"></span></span>
+              </label>
+            </div>`
+          )
+        })
+      }
+    })
   </script>
 @endpush

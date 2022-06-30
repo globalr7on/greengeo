@@ -60,16 +60,20 @@
                 </div>
 
                 <div class="row m-0">
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-4">
                     <label for="input_cargo" class="position-relative mb-0 font-weight-bold">Cargo</label>
                     <input type="text" class="form-control" id="input_cargo" placeholder="Cargo do usuario">
                   </div>
 
-                  <div class="form-group col-md-6 text-center">
-                    <label for="input_role" class="display-inherit mb-0">Role</label>
-                    <select data-style="btn-warning text-white" title="Select" name="role" id="input_role"></select>
+                  <div class="form-group col-md-4 text-center">
+                    <label for="input_role_web" class="display-inherit mb-0">Role Web</label>
+                    <select data-style="btn-warning text-white" title="Select" name="role_web" id="input_role_web"></select>
                   </div>
-                  
+
+                  <div class="form-group col-md-4 text-center">
+                    <label for="input_role_api" class="display-inherit mb-0">Role Api</label>
+                    <select data-style="btn-warning text-white" title="Select" name="role_api" id="input_role_api"></select>
+                  </div>
                 </div>
 
                 <div class="row m-0">

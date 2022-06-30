@@ -6,8 +6,9 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Spatie\Permission\Models\Role;
 
 class User extends Authenticatable
 {
@@ -89,5 +90,60 @@ class User extends Authenticatable
     public function pessoa_juridica()
     {
         return $this->hasOne('App\Models\PessoaJuridica', 'id', 'pessoa_juridica_id');
+    }
+
+    public function OauthAccessToken()
+    {
+        return $this->hasMany('App\Models\OauthAccessToken');
+    }
+
+    public function assignRole($roles, string $guard = null)
+    {
+        $roles = \is_string($roles) ? [$roles] : $roles;
+        $guard = $guard ? : $this->getDefaultGuardName();
+
+        $roles = collect($roles)
+            ->flatten()
+            ->map(function ($role) use ($guard) {
+                return $this->getStoredRole($role, $guard);
+            })
+            ->each(function ($role) {
+                $this->ensureModelSharesGuard($role);
+            })
+            ->all();
+
+        $this->roles()->saveMany($roles);
+
+        $this->forgetCachedPermissions();
+
+        return $this;
+    }
+
+    public function removeRole($role, string $guard = null)
+    {
+        $guard = $guard ? : $this->getDefaultGuardName();
+
+        $this->roles()->detach($this->getStoredRole($role, $guard));
+
+        $this->load('roles');
+
+        if (is_a($this, get_class($this->getPermissionClass()))) {
+            $this->forgetCachedPermissions();
+        }
+
+        return $this;
+    }
+
+    protected function getStoredRole($role, string $guard): Role
+    {
+        if (is_numeric($role)) {
+            return app(Role::class)->findById($role, $guard);
+        }
+
+        if (is_string($role)) {
+            return app(Role::class)->findByName($role, $guard);
+        }
+
+        return $role;
     }
 }

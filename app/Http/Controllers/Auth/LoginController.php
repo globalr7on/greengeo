@@ -41,26 +41,6 @@ class LoginController extends Controller
     }
 
     /**
-     * Handle an authentication attempt.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return void
-     */
-
-    // protected function validateLogin(Request $request)
-    // {
-    //     $request->validate([
-    //         'cpf' => 'required',
-    //         'password' => 'required|string',
-    //     ]);
-    // }
-
-    // protected function credentials(Request $request)
-    // {
-    //     return array_merge($request->only('cpf', 'password'));
-    // }
-
-    /**
     * Write code on Method
     *
     * @param  \Illuminate\Http\Request  $request
@@ -74,9 +54,7 @@ class LoginController extends Controller
         ]);
 
         $credentials = $request->only('cpf', 'password');
-        // dd(Auth::attempt($credentials));
         if (Auth::attempt($credentials)) {
-
             return redirect()->route('home');
         } else {
             return back()->withErrors(['password' => 'CPF/Password incorrecta']);

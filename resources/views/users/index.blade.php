@@ -53,9 +53,12 @@
         ],
         apiDataTableColumnDefs: [
           {
-            targets : 4,
-            render : function (data, type, row) {
-              return row.role_name ? `<span class="badge bg-primary">${row.role_name}</span>` : ''
+            targets: 4,
+            render: function (data, type, row) {
+              const roleWeb = row.role_name_web ? `<span class="badge bg-primary">[Web] ${row.role_name_web}</span>` : ''
+              const roleApi = row.role_name_api ? `<span class="badge bg-danger">[Api] ${row.role_name_api}</span>` : ''
+
+              return `${roleWeb} ${roleApi}`
             }
           }
         ],
@@ -70,7 +73,8 @@
         $('#modalFormUserTitle').text("Novo Usuario")
         $('#inputId').val("")
         $('#formUser')[0].reset()
-        getRoles()
+        getRoles(null, 'web')
+        getRoles(null, 'api')
       });
 
       // Salvar 
@@ -95,7 +99,8 @@
           tipo_carteira: $("#input_tipo_carteira").val(),
           validade_carteira: $("#input_validade_carteira").val(),
           identificador_celular: $("#input_identificador_celular").val(),
-          role: $("#input_role").val(),
+          role_web: $("#input_role_web").val(),
+          role_api: $("#input_role_api").val(),
           // usuario_responsable_cadastro_id: 1
         }
         const id = $('#inputId').val()
@@ -132,7 +137,6 @@
         const id = $(this).attr('data-id');
         app.api.get(`/users/${id}`).then(response =>  {
           if (response && response.status) {
-            getRoles(response.data.role_id)
             delFormValidationErrors()
             $('#formUser')[0].reset()
             $("#modalFormUser").modal("show")
@@ -157,6 +161,8 @@
             $("#input_tipo_carteira").val(response.data.tipo_carteira)
             $("#input_validade_carteira").val(response.data.validade_carteira)
             $("#input_identificador_celular").val(response.data.identificador_celular)
+            getRoles(response.data.role_web, 'web')
+            getRoles(response.data.role_api, 'api')
           }
         })
         .catch(error => notifyDanger('Failed to get user details, try again'))
@@ -176,10 +182,10 @@
         }).catch(error => notifyDanger('An error has occurred, try again'))
       })
 
-      function getRoles(value) {
-        app.api.get('/roles').then(response =>  {
+      function getRoles(value, guard) {
+        app.api.get(`/roles?guard=${guard}`).then(response =>  {
           if (response && response.status) {
-            loadSelect('#input_role', response.data, ['id', 'name'], value)
+            loadSelect(`#input_role_${guard}`, response.data, ['id', 'name'], value)
           }
         })
         .catch(error => {

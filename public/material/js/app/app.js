@@ -1,7 +1,8 @@
 // Main js for all views
 class App {
   constructor({...params}) {
-    this.api = new Api(params?.baseUrl)
+    this.token = localStorage.getItem('token')
+    this.api = new Api({baseUrl: params?.baseUrl, token: this.token})
     this.config = {
       apiUrl: params?.apiUrl || null,
       apiDataSrc: params?.apiDataSrc || 'data',
@@ -67,7 +68,11 @@ class App {
       ],
       ajax: {
         url: this.config.apiUrl,
-        dataSrc: this.config.apiDataSrc
+        dataSrc: this.config.apiDataSrc,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.token}`,
+        }
       },
       columns: this.config.apiDataTableColumns,
       columnDefs : [

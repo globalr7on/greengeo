@@ -1,13 +1,15 @@
 class Api {
-	constructor(baseUrl) {
-		this.baseUrl = baseUrl || '/api'
+	constructor({...params}) {
+		this.token = params?.token
+		this.baseUrl = params?.baseUrl || '/api'
 	// 	this.message = new Message();
 	// 	this.usuarioModel = new UsuarioModel();
 	}
 
 	getApiHeaders() {
 		return {
-			'Content-Type': 'application/json'
+			'Content-Type': 'application/json',
+			'Authorization': 'Bearer ' + this.token
 		};
 	}
 
@@ -42,7 +44,6 @@ class Api {
 
 	send(url, method = 'GET', params = {}, showLoading = true, headers = null) {
 		const fullURL = (this.baseUrl ? this.baseUrl : '') + url
-    console.log('::SEND::', url);
 		return new Promise(
 			(resolve, reject) => {
 				let data = Object.keys(params).length == 0
@@ -52,11 +53,19 @@ class Api {
 					: JSON.stringify(params)
 				// let self = this
 				// let retorno
+        // let allHeaders = headers ? headers : this.getApiHeaders()
+        // allHeaders = {
+        //   ...allHeaders,
+        //   ...{
+        //     Authorization: 'Bearer '
+        //   }
+        // }
 
         $.ajax({
           url: fullURL,
           method: method,
-          headers: headers ? headers : this.getApiHeaders(),
+        //   headers: headers ? headers : this.getApiHeaders(),
+          headers: this.getApiHeaders(),
           data: data
           // beforeSend: function () {
           //   if (showLoading) {
