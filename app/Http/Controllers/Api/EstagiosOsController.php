@@ -7,7 +7,7 @@ use App\Http\Requests\EstagiosOsRequest;
 use App\Http\Resources\EstagiosOsResource;
 use App\Models\Estagio;
 use Illuminate\Http\Request;
-use Validator;
+
 
 class EstagiosOsController extends Controller
 {
@@ -19,42 +19,25 @@ class EstagiosOsController extends Controller
     public function index()
     {
         $estagios_os = Estagio::all();
-        // dd($acondicionamento);
-        return EstagiosOsResource::collection($estagios_os);
-        // return $acessante;
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return response([
+                'data' => EstagiosOsResource::collection($estagios_os),
+                'status' => true
+            ], 200);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\EstagiosOsRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(EstagiosOsRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'descricao' => 'required|string|max:45',
-          
-            
-        ]);
-
-        if($validator->fails()){
-            return response()->json($validator->errors());       
-        }
-
         $estagios_os = Estagio::create($request->all());
-        // dd($acondicionamento);
-        return new EstagiosOsResource($estagios_os);
+        return response([
+                'data' => new EstagiosOsResource($estagios_os),
+                'status' => true
+            ], 200);
     }
 
     /**
@@ -65,41 +48,30 @@ class EstagiosOsController extends Controller
      */
     public function show($id)
     {
-        return new EstagiosOsResource(Estagio::find($id));
-    }
+         return response([
+            'data' => new EstagiosOsResource(Estagio::find($id)),
+            'status' => true
+        ], 200);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\EstagiosOsRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(EstagiosOsRequest $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'descricao' => 'required|string|max:45',
-            
-        ]);
-
-        if($validator->fails()){
-            return response()->json($validator->errors());       
-        }
         
         $estagios_os = Estagio::find($id);
         $estagios_os->update($request->all());
-        return new EstagiosOsResource($estagios_os);
+        return response([
+            'data' => new EstagiosOsResource($estagios_os),
+            'status' => true
+        ], 200);
+
     }
 
     /**
@@ -110,8 +82,7 @@ class EstagiosOsController extends Controller
      */
     public function destroy($id)
     {
-        $estagios_os = Estagio::findOrFail($id);
-        $estagios_os->delete();
+        Estagio::findOrFail($id)->delete();
         return response(null, 204);
     }
 }

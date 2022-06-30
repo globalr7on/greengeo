@@ -8,6 +8,6 @@ class EstagiosOsController extends Controller
 {
     public function index(Request $request)
     {
-        return view('administrativo.estagiosOs');
+        return view('estagio.index');
     }
 }

@@ -7,7 +7,7 @@ use App\Http\Requests\MarcaRequest;
 use App\Http\Resources\MarcaResource;
 use App\Models\Marca;
 use Illuminate\Http\Request;
-use Validator;
+
 
 class MarcaController extends Controller
 {
@@ -16,48 +16,35 @@ class MarcaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $marca = Marca::all();
-        // dd($acondicionamento);
-        return MarcaResource::collection($marca);
+        return response([
+            'data' => MarcaResource::collection($marca),
+            'status' => true
+        ], 200);
         // return $acessante;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
+    
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\MarcaRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(MarcaRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'descricao' => 'required|string|max:15',
-            // 'ativo' => 'required|string|max:15',
-            
-        ]);
-
-        if($validator->fails()){
-            return response()->json($validator->errors());       
-        }
-
         $marca = Marca::create($request->all());
-        // dd($acondicionamento);
-        return new MarcaResource($marca);
+         return response([
+            'data' => new MarcaResource($marca),
+            'status' => true
+        ], 200);
+
+    
     }
 
-    /**
+   /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -65,42 +52,28 @@ class MarcaController extends Controller
      */
     public function show($id)
     {
-        return new MarcaResource(Marca::find($id));
+        return response([
+            'data' => new MarcaResource(Marca::find($id)),
+            'status' => true
+        ], 200);
     }
-
     /**
-     * Show the form for editing the specified resource.
+      * Update the specified resource in storage.
      *
+     * @param  app\Http\Requests\MarcaRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        $validator = Validator::make($request->all(), [
-            'descricao' => 'required|string|max:15',
-            
-        ]);
-
-        if($validator->fails()){
-            return response()->json($validator->errors());       
+    public function update(MarcaRequest $request, $id)
+        {   
+            $marca = Marca::find($id);
+            $marca->update($request->all());
+            return response([
+                    'data' => new MarcaResource($marca),
+                    'status' => true
+                ], 200);
+    
         }
-        
-        $marca = Marca::find($id);
-        $marca->update($request->all());
-        return new MarcaResource($marca);
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -110,8 +83,7 @@ class MarcaController extends Controller
      */
     public function destroy($id)
     {
-        $marca = Marca::findOrFail($id);
-        $marca->delete();
+        Marca::findOrFail($id)->delete();
         return response(null, 204);
     }
 }

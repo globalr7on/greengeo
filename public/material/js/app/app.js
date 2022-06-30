@@ -1,4 +1,5 @@
 // Main js for all views
+
 class App {
   constructor({...params}) {
     this.token = localStorage.getItem('token')

@@ -7,7 +7,7 @@ use App\Http\Requests\UnidadRequest;
 use App\Http\Resources\UnidadResource;
 use App\Models\Unidade;
 use Illuminate\Http\Request;
-use Validator;
+
 
 class UnidadController extends Controller
 {
@@ -19,42 +19,27 @@ class UnidadController extends Controller
     public function index()
     {
         $unidad = Unidade::all();
-        // dd($acondicionamento);
-        return UnidadResource::collection($unidad);
-        // return $acessante;
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return response([
+            'data' => UnidadResource::collection($unidad),
+            'status' => true
+        ], 200);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\UnidadRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UnidadRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'descricao' => 'required|string|max:45',
-            'simbolo' => 'required|string|max:15',
-            // 'ativo' => 'required|string|max:15',
-            
-        ]);
-
-        if($validator->fails()){
-            return response()->json($validator->errors());       
-        }
-
+        
         $unidad = Unidade::create($request->all());
-        return new UnidadResource($unidad);
+        return response([
+            'data' => new UnidadResource($unidad),
+            'status' => true
+        ], 200);
     }
 
     /**
@@ -65,42 +50,29 @@ class UnidadController extends Controller
      */
     public function show($id)
     {
-        return new UnidadResource(Unidade::find($id));
+        return response([
+            'data' => new UnidadResource(Unidade::find($id)),
+            'status' => true
+        ], 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
+   
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\UnidadRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UnidadRequest $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'descricao' => 'required|string|max:45',
-            'simbolo' => 'required|string|max:10',
-            
-        ]);
-
-        if($validator->fails()){
-            return response()->json($validator->errors());       
-        }
-        
         $unidad = Unidade::find($id);
         $unidad->update($request->all());
-        return new UnidadResource($unidad);
+         return response([
+            'data' => new UnidadResource($unidad),
+            'status' => true
+        ], 200);
+        
     }
 
     /**
@@ -111,8 +83,7 @@ class UnidadController extends Controller
      */
     public function destroy($id)
     {
-        $unidad = Unidade::findOrFail($id);
-        $unidad->delete();
+        Unidad::findOrFail($id)->delete();
         return response(null, 204);
     }
 }

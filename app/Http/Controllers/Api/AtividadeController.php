@@ -21,44 +21,26 @@ class AtividadeController extends Controller
     {
         
         $atividade = Atividade::all();
-
-        return AtividadeResource::collection($atividade);
-        // return $acessante;
+         return response([
+            'data' => AtividadeResource::collection($atividade),
+            'status' => true
+        ], 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
+   
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  app\Http\Requests\AtividadeRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AtividadeRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'descricao' => 'required|string|max:15',
-            // 'ativo' => 'required|string|max:15',
-            
-        ]);
-
-        if($validator->fails()){
-            return response()->json($validator->errors());       
-        }
-
         $atividade = Atividade::create($request->all());
-        
-        // $tipo_acessantes= TipoAcessante::all();
-        // $atividade->tipo_acessantes()->attach($tipo_acessantes);
-        return new AtividadeResource($atividade);
+        return response([
+            'data' => new AtividadeResource($atividade),
+            'status' => true
+        ], 200);
     }
 
     /**
@@ -69,43 +51,27 @@ class AtividadeController extends Controller
      */
     public function show($id)
     {
-       // $acessante = Acessante::findOrFail($id);
-       return new AtividadeResource(Atividade::find($id));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        return response([
+            'data' => new AtividadeResource(Atividade::find($id)),
+            'status' => true
+        ], 200);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\AtividadeRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'descricao' => 'required|string|max:14',
-            'ativo' => 'required|string|max:15',
-            
-        ]);
-
-        if($validator->fails()){
-            return response()->json($validator->errors());       
-        }
-        
         $atividade = Atividade::find($id);
         $atividade->update($request->all());
-        return new AtividadeResource($atividade);
+         return response([
+            'data' => new AtividadeResource($atividade),
+            'status' => true
+        ], 200);
     }
 
     /**
@@ -116,10 +82,7 @@ class AtividadeController extends Controller
      */
     public function destroy($id)
     {
-        $atividade = Atividade::findOrFail($id);
-        // $tipo_acessantes= TipoAcessante::all();
-        // $atividade->tipo_acessantes()->detach($tipo_acessantes);
-        $atividade->delete();
+        Atividade::findOrFail($id)->delete();
         return response(null, 204);
     }
 }
