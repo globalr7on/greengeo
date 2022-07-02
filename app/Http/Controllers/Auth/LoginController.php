@@ -41,6 +41,7 @@ class LoginController extends Controller
     }
 
     /**
+  
     * Write code on Method
     *
     * @param  \Illuminate\Http\Request  $request
@@ -55,6 +56,7 @@ class LoginController extends Controller
 
         $credentials = $request->only('cpf', 'password');
         if (Auth::attempt($credentials)) {
+
             return redirect()->route('home');
         } else {
             return back()->withErrors(['password' => 'CPF/Password incorrecta']);

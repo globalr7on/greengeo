@@ -68,24 +68,24 @@
             if (response && response.status) {
               $("#modalClasseSucata").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('classe Atualizado com sucesso')
+              notifySuccess('Atualizado com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao atualizar o classe, tente novamente')
+            notifyDanger('Falha ao atualizar, tente novamente')
           })
         } else {
           app.api.post('/classe_sucata', JSONRequest).then(response => {
             if (response && response.status) {
               $("#modalClasseSucata").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('classe Criado com sucesso')
+              notifySuccess('Criado com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao criar classe, tente novamente')
+            notifyDanger('Falha ao criar, tente novamente')
           })
         }
       });
@@ -103,19 +103,19 @@
             $("#inputDescricao").val(response.data.descricao);
           }
         })
-        .catch(error => notifyDanger('Falha ao obter detalhes do classe. Tente novamente'))
+        .catch(error => notifyDanger('Falha ao obter detalhes. Tente novamente'))
       })
 
       // Excluir
       $('body').on('click', '.deleteAction',  function() {
         const id = $(this).attr('data-id')
-        sweetConfirm('Deseja realmente excluir a classe?').then(confirmed => {
+        sweetConfirm('Deseja realmente excluir?').then(confirmed => {
           if (confirmed) {
             app.api.delete(`/classe_sucata/${id}`).then(response =>  {
               app.datatable.ajax.reload()
-              notifySuccess('classe excluído com sucesso')
+              notifySuccess('Excluído com sucesso')
             })
-            .catch(error => notifyDanger('Falha ao excluir classe. Tente novamente'))
+            .catch(error => notifyDanger('Falha ao excluir. Tente novamente'))
           }
         }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
       })

@@ -34,8 +34,8 @@ class UnidadController extends Controller
      */
     public function store(UnidadeRequest $request)
     {
-        
         $unidad = Unidade::create($request->all());
+        
         return response([
             'data' => new UnidadeResource($unidad),
             'status' => true

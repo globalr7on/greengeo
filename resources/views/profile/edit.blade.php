@@ -201,7 +201,7 @@
                 <fieldset>
                 <h4>Carteira</h4>
                 <div class="row m-0">
-                  <div class="form-group col-md-3">
+                  <div class="form-group col-md-4">
                     <label class="position-relative mb-0 font-weight-bold col-form-label">{{ __('Registro Carteira') }}</label>
                     <div class="form-group{{ $errors->has('registro_carteira') ? ' has-danger' : '' }}">
                       <input class="form-control{{ $errors->has('registro_carteira') ? ' is-invalid' : '' }}" name="registro_carteira" id="input-registro_carteira" type="text" placeholder="{{ __('Registro Carteira') }}" required />
@@ -210,7 +210,7 @@
                       @endif
                     </div>
                   </div>
-                  <div class="form-group col-md-3">
+                  <div class="form-group col-md-4">
                     <label class="position-relative mb-0 font-weight-bold col-form-label">{{ __('Tipo Carteira') }}</label>
                     <div class="form-group{{ $errors->has('tipo_carteira') ? ' has-danger' : '' }}">
                       <input class="form-control{{ $errors->has('tipo_carteira') ? ' is-invalid' : '' }}" name="tipo_carteira" id="input-tipo_carteira" type="text" placeholder="{{ __('tipo_carteira') }}" required />
@@ -219,7 +219,7 @@
                       @endif
                     </div>
                   </div>
-                  <div class="form-group col-md-3">
+                  <div class="form-group col-md-4">
                     <label class="position-relative mb-0 font-weight-bold col-form-label">{{ __('Validade Carteira') }}</label>
                     <div class="form-group{{ $errors->has('tipo_carteira') ? ' has-danger' : '' }}">
                       <input class="form-control{{ $errors->has('tipo_carteira') ? ' is-invalid' : '' }}" name="tipo_carteira" id="input-validade_carteira" type="text" placeholder="{{ __('Validade Carteira') }}" required />
@@ -229,16 +229,15 @@
                     </div>
                   </div>
                   <div class="row m-0">
-                  <div class="form-group col-md-3">
-                    <label class="position-relative mb-0 font-weight-bold col-form-label">{{ __('Identificador de Celular') }}</label>
-                    <div class="form-group{{ $errors->has('identificador_celular') ? ' has-danger' : '' }}">
-                      <input class="form-control{{ $errors->has('identificador_celular') ? ' is-invalid' : '' }}" name="identificador_celular" id="input-identificador_celular" type="text" placeholder="{{ __('Identificador de Celular') }}" required />
-                      @if ($errors->has('identificador_celular'))
-                        <span id="identificador_celular-error" class="error text-danger" for="input-identificador_celular">{{ $errors->first('identificador_celular') }}</span>
-                      @endif
+                    <div class="form-group col-md-6 text-center">
+                      <label for="input_role_web" class="display-inherit mb-0">Permissão Web</label>
+                      <select data-style="btn-warning text-white" title="Select" name="role_web" id="input_role_web"></select>
+                    </div>
+                    <div class="form-group col-md-6 text-center">
+                      <label for="input_role_api" class="display-inherit mb-0">Permissão Api</label>
+                      <select data-style="btn-warning text-white" title="Select" name="role_api" id="input_role_api"></select>
                     </div>
                   </div>
-                </div>
                 </div>
                 </fieldset>
               </div>
@@ -316,13 +315,27 @@
 @endsection
 @push('js')
   <script>
-       const profile_1 ="{{ auth()->user()->id }}";
+       let app = new App({})
+       const id ="{{ auth()->user()->id }}";
+       
       //  console.log(profile_1);
-       $.ajax({
-        type: "GET",
-        url: `/api/users/${profile_1}`,
-      }).done(function (response) {
-        console.log(response);
+      //  $.ajax({
+      //   type: "GET",
+      //   url: `/api/users/${profile_1}`,
+      // }).done(function (response) {
+      //   console.log(response);
+      function getRoles(value, guard) {
+        app.api.get(`/roles?guard=${guard}`).then(response =>  {
+          if (response && response.status) {
+            loadSelect(`#input_role_${guard}`, response.data, ['id', 'name'], value)
+          }
+        })
+        .catch(error => {
+          console.log('app.api.get error', error)
+          notifyDanger('Falha ao obter funções, tente novamente')
+        })
+      }
+      app.api.get(`/users/${id}`).then(response =>  {
         if (response && response.data) {
           $('#input-name').val(response.data.name);
           $('#input-email').val(response.data.email);
@@ -343,6 +356,8 @@
           $("#input-tipo_carteira").val(response.data.tipo_carteira);
           $("#input-validade_carteira").val(response.data.validade_carteira);
           $("#input-identificador_celular").val(response.data.identificador_celular);
+          getRoles(response.data.role_web, 'web');
+          getRoles(response.data.role_api, 'api');
         }
       });
       // Salvar 
@@ -366,19 +381,25 @@
           registro_carteira: $("#input-registro_carteira").val(),
           tipo_carteira: $("#input-tipo_carteira").val(),
           validade_carteira: $("#input-validade_carteira").val(),
-          identificador_celular: $("#input-identificador_celular").val()
+          identificador_celular: '1234565', //$("#input-identificador_celular").val()
+          role_web: $("#input_role_web").val(),
+          role_api: $("#input_role_api").val(),
         }
     
-        const profile_id ="{{ auth()->user()->id }}";
-        $.ajax({
-          type: "PUT",
-          url: `/api/users/${profile_id}`,
-          data: JSONRequest,
-          dataType: "json",
-          encode: true,
-        }).done(function (response) {
-            console.log(response);
-          })
+        // const id ="{{ auth()->user()->id }}";
+        app.api.put(`/users/${id}`, JSONRequest).then(response => {
+          if (response && response.status) {
+            // $("#modalEmpresa").modal("hide")
+            // app.datatable.ajax.reload()
+            notifySuccess('Atualizado com sucesso')
+          }
+        })
+        .catch(error => {
+          addFormValidationErrors(error?.data)
+          notifyDanger('Falha ao atualizar, tente novamente')
+        })
+      
+      
       });
   </script>
 @endpush

@@ -74,24 +74,24 @@
             if (response && response.status) {
               $("#modalAtividade").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('Atividade Atualizado com sucesso')
+              notifySuccess('Atualizado com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao atualizar o atividade, tente novamente')
+            notifyDanger('Falha ao atualizar, tente novamente')
           })
         } else {
           app.api.post('/atividade', JSONRequest).then(response => {
             if (response && response.status) {
               $("#modalAtividade").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('Atividade Criado com sucesso')
+              notifySuccess('Criado com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao criar atividade, tente novamente')
+            notifyDanger('Falha ao criar, tente novamente')
           })
         }
       });
@@ -112,19 +112,19 @@
 
           }
         })
-        .catch(error => notifyDanger('Falha ao obter detalhes do atividade. Tente novamente'))
+        .catch(error => notifyDanger('Falha ao obter detalhes. Tente novamente'))
       })
 
       // Excluir
       $('body').on('click', '.deleteAction',  function() {
         const id = $(this).attr('data-id')
-        sweetConfirm('Deseja realmente excluir a atividade?').then(confirmed => {
+        sweetConfirm('Deseja realmente excluir?').then(confirmed => {
           if (confirmed) {
             app.api.delete(`/atividade/${id}`).then(response =>  {
               app.datatable.ajax.reload()
-              notifySuccess('Atividade excluído com sucesso')
+              notifySuccess('Excluído com sucesso')
             })
-            .catch(error => notifyDanger('Falha ao excluir atividade. Tente novamente'))
+            .catch(error => notifyDanger('Falha ao excluir. Tente novamente'))
           }
         }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
       })

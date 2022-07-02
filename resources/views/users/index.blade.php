@@ -53,7 +53,7 @@
         ],
         apiDataTableColumnDefs: [
           {
-            targets: 4,
+            targets : 4,
             render: function (data, type, row) {
               const roleWeb = row.role_name_web ? `<span class="badge bg-primary">[Web] ${row.role_name_web}</span>` : ''
               const roleApi = row.role_name_api ? `<span class="badge bg-danger">[Api] ${row.role_name_api}</span>` : ''
@@ -98,10 +98,10 @@
           registro_carteira: $("#input_registro_carteira").val(),
           tipo_carteira: $("#input_tipo_carteira").val(),
           validade_carteira: $("#input_validade_carteira").val(),
-          identificador_celular: $("#input_identificador_celular").val(),
+          usuario_responsavel_cadastro_id: $("#input_usuario_responsavel_cadastro_id").val(),
+          identificador_celular: '123456',
           role_web: $("#input_role_web").val(),
           role_api: $("#input_role_api").val(),
-          // usuario_responsable_cadastro_id: 1
         }
         const id = $('#inputId').val()
         if (id) {
@@ -109,24 +109,24 @@
             if (response && response.status) {
               $("#modalFormUser").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('User updated successfully')
+              notifySuccess('Usuário atualizado com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Failed to update user, try again')
+            notifyDanger('Falha ao atualizar o usuário, tente novamente')
           })
         } else {
           app.api.post('/users', JSONRequest).then(response => {
             if (response && response.status) {
               $("#modalFormUser").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('User created successfully')
+              notifySuccess('Usuário criado com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Failed to create user, try again')
+            notifyDanger('Falha ao criar usuário, tente novamente')
           })
         }
       });
@@ -161,11 +161,13 @@
             $("#input_tipo_carteira").val(response.data.tipo_carteira)
             $("#input_validade_carteira").val(response.data.validade_carteira)
             $("#input_identificador_celular").val(response.data.identificador_celular)
+            // $("#input_usuario_responsavel_cadastro_id").val(response.data.usuario_responsavel_cadastro_id),
+            
             getRoles(response.data.role_web, 'web')
             getRoles(response.data.role_api, 'api')
           }
         })
-        .catch(error => notifyDanger('Failed to get user details, try again'))
+        .catch(error => notifyDanger('Falha ao obter detalhes do usuário, tente novamente'))
       })
 
       // Excluir
@@ -175,11 +177,11 @@
           if (confirmed) {
             app.api.delete(`/users/${id}`).then(response =>  {
               app.datatable.ajax.reload()
-              notifySuccess('User deleted successfully')
+              notifySuccess('Usuário excluído com sucesso')
             })
-            .catch(error => notifyDanger('Failed to delete user, try again'))
+            .catch(error => notifyDanger('Falha ao excluir usuário, tente novamente'))
           }
-        }).catch(error => notifyDanger('An error has occurred, try again'))
+        }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
       })
 
       function getRoles(value, guard) {
@@ -190,7 +192,7 @@
         })
         .catch(error => {
           console.log('app.api.get error', error)
-          notifyDanger('Failed to get roles, try again')
+          notifyDanger('Falha ao obter funções, tente novamente')
         })
       }
     })

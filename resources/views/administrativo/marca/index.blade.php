@@ -74,24 +74,24 @@
             if (response && response.status) {
               $("#modalMarca").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('Marca Atualizado com sucesso')
+              notifySuccess('Atualizado com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao atualizar a marca, tente novamente')
+            notifyDanger('Falha ao atualizar, tente novamente')
           })
         } else {
           app.api.post('/marca', JSONRequest).then(response => {
             if (response && response.status) {
               $("#modalMarca").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('Marca Criado com sucesso')
+              notifySuccess('Criado com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao criar marca, tente novamente')
+            notifyDanger('Falha ao criar, tente novamente')
           })
         }
       });
@@ -110,18 +110,18 @@
             $("#checkAtivo").prop("checked", response.data.ativo)
           }
         })
-        .catch(error => notifyDanger('Falha ao obter detalhes do marca. Tente novamente'))
+        .catch(error => notifyDanger('Falha ao obter detalhes. Tente novamente'))
       })
       // Excluir
       $('body').on('click', '.deleteAction',  function() {
         const id = $(this).attr('data-id')
-        sweetConfirm('Deseja realmente excluir a marca?').then(confirmed => {
+        sweetConfirm('Deseja realmente excluir?').then(confirmed => {
           if (confirmed) {
             app.api.delete(`/marca/${id}`).then(response =>  {
               app.datatable.ajax.reload()
               notifySuccess('Marca excluído com sucesso')
             })
-            .catch(error => notifyDanger('Falha ao excluir marca. Tente novamente'))
+            .catch(error => notifyDanger('Falha ao excluir. Tente novamente'))
           }
         }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
       })

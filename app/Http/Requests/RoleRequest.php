@@ -14,7 +14,7 @@ class RoleRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+     public function rules()
     {
         $id = $this->id;
         $newGuardName = $this->guard_name;

@@ -77,24 +77,24 @@
             if (response && response.status) {
               $("#modalUnidade").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('Unidade Atualizado com sucesso')
+              notifySuccess('Atualizado com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao atualizar a unidade, tente novamente')
+            notifyDanger('Falha ao atualizar, tente novamente')
           })
         } else {
-          app.api.post('/unidade', JSONRequest).then(response => {
+          app.api.post('/unidad', JSONRequest).then(response => {
             if (response && response.status) {
               $("#modalUnidade").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('Unidade Criado com sucesso')
+              notifySuccess('Criado com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao criar unidade, tente novamente')
+            notifyDanger('Falha ao criar, tente novamente')
           })
         }
       });
@@ -115,19 +115,20 @@
 
           }
         })
-        .catch(error => notifyDanger('Falha ao obter detalhes do unidade. Tente novamente'))
+        .catch(error => notifyDanger('Falha ao obter detalhes. Tente novamente'))
       })
 
       // Excluir
+      // Excluir
       $('body').on('click', '.deleteAction',  function() {
         const id = $(this).attr('data-id')
-        sweetConfirm('Deseja realmente excluir a unidade?').then(confirmed => {
+        sweetConfirm('Deseja realmente excluir?').then(confirmed => {
           if (confirmed) {
-            app.api.delete(`/unidade/${id}`).then(response =>  {
+            app.api.delete(`/unidad/${id}`).then(response =>  {
               app.datatable.ajax.reload()
-              notifySuccess('Unidade excluída com sucesso')
+              notifySuccess('Excluído com sucesso')
             })
-            .catch(error => notifyDanger('Falha ao excluir unidade. Tente novamente'))
+            .catch(error => notifyDanger('Falha ao excluir. Tente novamente'))
           }
         }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
       })

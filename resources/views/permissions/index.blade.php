@@ -7,7 +7,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-12 text-right">
-          <button type="button" class="btn btn-primary" id="novaPermission">+ Novo Permissõe</button>
+          <button type="button" class="btn btn-primary" id="novaPermission">+ Nova Permissão</button>
         </div>
         <div class="col-md-12">
           <div class="card">
@@ -19,8 +19,8 @@
               <div>
                 <table class="table" id="permissionsTbl">
                   <thead>
-                    <th class="text-primary font-weight-bold">Name</th>
-                    <th class="text-primary font-weight-bold">Guard</th>
+                    <th class="text-primary font-weight-bold">Permissão</th>
+                    <th class="text-primary font-weight-bold">Acesso</th>
                     <th class="text-primary font-weight-bold">Ação</th>
                   </thead>
                 </table>
@@ -57,7 +57,7 @@
         getGuardNames()
         delFormValidationErrors()
         $("#modalFormPermission").modal("show")
-        $('#modalFormPermissionTitle').text("Novo Permission")
+        $('#modalFormPermissionTitle').text("Nova Permissão")
         $('#inputId').val("")
         $('#formPermission')[0].reset()
       });
@@ -74,24 +74,24 @@
             if (response && response.status) {
               $("#modalFormPermission").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('Permission updated successfully')
+              notifySuccess('Permissão atualizada com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Failed to update permission, try again')
+            notifyDanger('Falha ao atualizar a permissão, tente novamente')
           })
         } else {
           app.api.post('/permissions', JSONRequest).then(response => {
             if (response && response.status) {
               $("#modalFormPermission").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('Permission created successfully')
+              notifySuccess('Permissão criada com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Failed to create permission, try again')
+            notifyDanger('Falha ao criar permissão, tente novamente')
           })
         }
       });
@@ -104,29 +104,29 @@
             delFormValidationErrors()
             $('#formPermission')[0].reset()
             $("#modalFormPermission").modal("show")
-            $('#modalFormPermissionTitle').text("Editar Permission")
+            $('#modalFormPermissionTitle').text("Editar Permissão")
             $('#inputId').val(response.data.id)
             $("#input_name").val(response.data.name)
             getGuardNames(response.data.guard_name)
           }
         })
-        .catch(error => notifyDanger('Failed to get permission details, try again'))
+        .catch(error => notifyDanger('Falha ao obter detalhes. Tente novamente'))
       })
 
       // Excluir
       $('body').on('click', '.deleteAction',  function() {
         const id = $(this).attr('data-id')
-        sweetConfirm('Deseja realmente excluir a permission?').then(confirmed => {
+        sweetConfirm('Deseja realmente excluir?').then(confirmed => {
           if (confirmed) {
             app.api.delete(`/permissions/${id}`).then(response =>  {
               app.datatable.ajax.reload()
-              notifySuccess('Permission deleted successfully')
+              notifySuccess('Apagado com sucesso')
             })
-            .catch(error => notifyDanger('Failed to delete permission, try again'))
+            .catch(error => notifyDanger('Falha ao excluir. Tente novamente'))
           }
-        }).catch(error => notifyDanger('An error has occurred, try again'))
+        }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
       })
-
+      
       function getGuardNames(value) {
         const data = [
           { id: 'web', name: 'web' },

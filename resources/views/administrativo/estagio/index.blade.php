@@ -8,7 +8,7 @@
   <div class="content">
     <div class="container-fluid">
       <div class="col-12 text-right">
-        <button type="button" class="btn btn-primary" id="novoEstagio">+ Novo Clase</button>
+        <button type="button" class="btn btn-primary" id="novoEstagio">+ Novo Estagio</button>
       </div>
       <div class="row">
         <div class="col-md-12">
@@ -70,24 +70,24 @@
             if (response && response.status) {
               $("#modalEstagio").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('Estagio Atualizado com sucesso')
+              notifySuccess('Atualizado com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao atualizar o Estagio, tente novamente')
+            notifyDanger('Falha ao atualizar, tente novamente')
           })
         } else {
           app.api.post('/estagio_os', JSONRequest).then(response => {
             if (response && response.status) {
               $("#modalEstagio").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('Estagio Criado com sucesso')
+              notifySuccess('Criado com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao criar Estagio, tente novamente')
+            notifyDanger('Falha ao criar, tente novamente')
           })
         }
       });
@@ -100,24 +100,24 @@
             delFormValidationErrors()
             // $('#formEstagio')[0].reset()
             $("#modalEstagio").modal("show");
-            $('#tituloModal').text("Editar clase")
+            $('#tituloModal').text("Editar Estagio")
             $('#inputId').val(response.data.id);
             $("#inputDescricao").val(response.data.descricao);
           }
         })
-        .catch(error => notifyDanger('Falha ao obter detalhes do Estagio. Tente novamente'))
+        .catch(error => notifyDanger('Falha ao obter detalhes. Tente novamente'))
       })
 
       // Excluir
       $('body').on('click', '.deleteAction',  function() {
         const id = $(this).attr('data-id')
-        sweetConfirm('Deseja realmente excluir a clase?').then(confirmed => {
+        sweetConfirm('Deseja realmente excluir?').then(confirmed => {
           if (confirmed) {
             app.api.delete(`/estagio_os/${id}`).then(response =>  {
               app.datatable.ajax.reload()
-              notifySuccess('Estagio excluído com sucesso')
+              notifySuccess('Excluído com sucesso')
             })
-            .catch(error => notifyDanger('Falha ao excluir Estagio. Tente novamente'))
+            .catch(error => notifyDanger('Falha ao excluir. Tente novamente'))
           }
         }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
       })

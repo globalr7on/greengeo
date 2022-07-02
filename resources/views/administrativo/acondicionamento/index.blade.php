@@ -55,7 +55,7 @@
       $('body').on('click', '#novoAcondicionamento', function() {
         delFormValidationErrors()
         $("#modalAcondicionamento").modal("show")
-        $('#tituloModal').text("Novo Permission")
+        $('#tituloModal').text("Novo Acondicionamento")
         $('#inputId').val("")
         $('#formAcondicionamento')[0].reset()
       });
@@ -73,24 +73,24 @@
             if (response && response.status) {
               $("#modalAcondicionamento").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('Acondicionamento Atualizado com sucesso')
+              notifySuccess('Atualizado com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao atualizar a permissão, tente novamente')
+            notifyDanger('Falha ao atualizar, tente novamente')
           })
         } else {
           app.api.post('/acondicionamento', JSONRequest).then(response => {
             if (response && response.status) {
               $("#modalAcondicionamento").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('Acondicionamento Criado com sucesso')
+              notifySuccess('Criado com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao criar permissão, tente novamente')
+            notifyDanger('Falha ao criar, tente novamente')
           })
         }
       });
@@ -117,13 +117,13 @@
       // Excluir
       $('body').on('click', '.deleteAction',  function() {
         const id = $(this).attr('data-id')
-        sweetConfirm('Deseja realmente excluir a acondicionamento?').then(confirmed => {
+        sweetConfirm('Deseja realmente excluir?').then(confirmed => {
           if (confirmed) {
             app.api.delete(`/acondicionamento/${id}`).then(response =>  {
               app.datatable.ajax.reload()
-              notifySuccess('Permissão excluída com sucesso')
+              notifySuccess('Excluído com sucesso')
             })
-            .catch(error => notifyDanger('Falha ao excluir permissão. Tente novamente'))
+            .catch(error => notifyDanger('Falha ao excluir. Tente novamente'))
           }
         }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
       })

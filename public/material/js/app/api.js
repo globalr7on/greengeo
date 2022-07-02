@@ -12,7 +12,6 @@ class Api {
 			'Authorization': 'Bearer ' + this.token
 		};
 	}
-
 	// getApiHeadersPrivate() {
 	// 	return {
 	// 		'Content-Type': 'application/json',
@@ -53,18 +52,18 @@ class Api {
 					: JSON.stringify(params)
 				// let self = this
 				// let retorno
-        // let allHeaders = headers ? headers : this.getApiHeaders()
-        // allHeaders = {
-        //   ...allHeaders,
-        //   ...{
-        //     Authorization: 'Bearer '
-        //   }
-        // }
+				 // let allHeaders = headers ? headers : this.getApiHeaders()
+				// allHeaders = {
+				//   ...allHeaders,
+				//   ...{
+				//     Authorization: 'Bearer '
+				//   }
+				// }
 
         $.ajax({
           url: fullURL,
           method: method,
-        //   headers: headers ? headers : this.getApiHeaders(),
+		  //   headers: headers ? headers : this.getApiHeaders(),
           headers: this.getApiHeaders(),
           data: data
           // beforeSend: function () {

@@ -28,21 +28,22 @@
                   </select>
                 </div>
                 <div class="form-group col-md-4">
-                  <input type="text" class="form-control" id="input_placa" placeholder="Placa">
+                  <label for="input_placa" class="display-inherit mb-0">Placa</label>
+                  <input type="text" class="form-control" id="input_placa" >
                 </div>
               </div>
                 
               <div class="form-row ">
                 <input type="hidden" class="form-control" id="inputId">
                 <div class="form-group col-md-4 text-center">
-                  <label for="input_marca_id" class="display-inherit mb-0">Marca</label>
-                  <select id="input_marca_id" data-style="btn-warning text-white" title="Single Select" name="marca" >
+                   <label for="input_modelo_id" class="display-inherit mb-0">Modelo</label>
+                  <select id="input_modelo_id" data-style="btn-warning text-white" title="Single Select" name="modelo" >
                     <option value="" disabled selected>Seleccione</option>
                   </select>
                 </div>
                 <div class="form-group col-md-4 text-center">
-                  <label for="input_modelo_id" class="display-inherit mb-0">Modelo</label>
-                  <select id="input_modelo_id" data-style="btn-warning text-white" title="Single Select" name="modelo" >
+                  <label for="input_marca_id" class="display-inherit mb-0">Marca</label>
+                  <select id="input_marca_id" data-style="btn-warning text-white" title="Single Select" name="marca" >
                     <option value="" disabled selected>Seleccione</option>
                   </select>
                 </div>
@@ -56,19 +57,38 @@
 
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <input type="text" class="form-control" id="input_chassis" placeholder="Chassis">
+                   <label for="input_chassis" class="display-inherit mb-0">Chassis</label>
+                  <input type="text" class="form-control" id="input_chassis" >
                 </div>
                 <div class="form-group col-md-6">
-                  <input type="text" class="form-control" id="input_capacidade_media_carga" placeholder="Capacidade">
+                  <label for="input_capacidade_media_carga" class="display-inherit mb-0">Capacidade</label>
+                  <input type="text" class="form-control maskpeso" id="input_capacidade_media_carga">KG
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <input type="text" class="form-control" id="input_renavam" placeholder="Renavam">
+                  <label for="input_renavam" class="display-inherit mb-0">Renavam</label>
+                  <input type="text" class="form-control" id="input_renavam">
                 </div>
                 <div class="form-group col-md-6">
-                  <input type="text" class="form-control" id="input_combustivel" placeholder="Combustivel">
+                  <label for="input_combustivel" class="display-inherit mb-0">Combustivel</label>
+                  <select id="input_combustivel" data-style="btn-warning text-white" class="form-select" aria-label="Default select example" title="Single Select" name="input_combustivel" >
+                    <option selected>Open this select menu</option>
+                    <option value="1">Diesel</option>
+                    <option value="2">Diesel S10</option>
+                    <option value="3">Gasolina</option>
+                    <option value="3">Bio-Diesel</option>
+                    <option value="3">Alcool</option>
+                  </select>
+                  {{-- <select  id="input_combustivel" class="form-select" data-style="btn-warning text-white" title="Single Select" name="input_combustivel" >
+                    <option value="" disabled selected>Seleccione</option>
+                    <option value="">Diesel</option>
+                    <option value="1">Diesel S10</option>
+                    <option value="2">Gasolina</option>
+                    <option value="3">Bio-Diesel</option>
+                    <option value="4">Alcool</option>
+                  </select> --}}
                 </div>
               </div>
               <button type="button" class="btn btn-primary" id="salvarVeiculo">Salvar</button>

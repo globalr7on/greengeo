@@ -8,7 +8,7 @@
   <div class="content">
     <div class="container-fluid">
       <div class="col-12 text-right">
-        <button type="button" class="btn btn-primary" id="novoTratamento">+ Novo Tratamnto</button>
+        <button type="button" class="btn btn-primary" id="novoTratamento">+ Novo Tratamento</button>
       </div>
       <div class="row">
         <div class="col-md-12">
@@ -65,8 +65,6 @@
         const JSONRequest = {
           descricao: $("#inputDescricao").val(),
           ativo: $("#checkAtivo").prop("checked") ? 1 : 0
-          // name: $("#input_name").val(),
-          // guard_name: $("#input_guard_name").val(),
         }
         const id = $('#inputId').val()
         if (id) {
@@ -74,24 +72,24 @@
             if (response && response.status) {
               $("#modalTratamento").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('Tratamento Atualizado com sucesso')
+              notifySuccess('Atualizado com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao atualizar o tratamento, tente novamente')
+            notifyDanger('Falha ao atualizar, tente novamente')
           })
         } else {
           app.api.post('/tratamento', JSONRequest).then(response => {
             if (response && response.status) {
               $("#modalTratamento").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('Tratamento Criado com sucesso')
+              notifySuccess('Criado com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao criar Tratamento, tente novamente')
+            notifyDanger('Falha ao criar, tente novamente')
           })
         }
       });
@@ -112,19 +110,19 @@
 
           }
         })
-        .catch(error => notifyDanger('Falha ao obter detalhes do tratamento. Tente novamente'))
+        .catch(error => notifyDanger('Falha ao obter detalhes. Tente novamente'))
       })
 
       // Excluir
       $('body').on('click', '.deleteAction',  function() {
         const id = $(this).attr('data-id')
-        sweetConfirm('Deseja realmente excluir a tratamento?').then(confirmed => {
+        sweetConfirm('Deseja realmente excluir?').then(confirmed => {
           if (confirmed) {
             app.api.delete(`/tratamento/${id}`).then(response =>  {
               app.datatable.ajax.reload()
-              notifySuccess('Tratamento excluído com sucesso')
+              notifySuccess('Excluído com sucesso')
             })
-            .catch(error => notifyDanger('Falha ao excluir tratamento. Tente novamente'))
+            .catch(error => notifyDanger('Falha ao excluir. Tente novamente'))
           }
         }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
       })

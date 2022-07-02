@@ -37,6 +37,7 @@
                 <div class="row m-0">
                   <div class="form-group col-md-6">
                     <input type="hidden" class="form-control" id="inputId">
+                    <input type="hidden" class="form-control" id="input_usuario_responsavel_cadastro_id"  value="{{  Auth::user()->id  }}">
                     <label for="input_cpf" class="position-relative mb-0 font-weight-bold">CPF</label>
                     <input type="text" class="form-control maskcpf" id="input_cpf" placeholder="123.456.789-10">
                   </div>
@@ -66,12 +67,12 @@
                   </div>
 
                   <div class="form-group col-md-4 text-center">
-                    <label for="input_role_web" class="display-inherit mb-0">Funçõe Web</label>
+                    <label for="input_role_web" class="display-inherit mb-0">Permissão Web</label>
                     <select data-style="btn-warning text-white" title="Select" name="role_web" id="input_role_web"></select>
                   </div>
 
                   <div class="form-group col-md-4 text-center">
-                    <label for="input_role_api" class="display-inherit mb-0">Funçõe Api</label>
+                    <label for="input_role_api" class="display-inherit mb-0">Permissão Api</label>
                     <select data-style="btn-warning text-white" title="Select" name="role_api" id="input_role_api"></select>
                   </div>
                 </div>
@@ -104,7 +105,7 @@
                 <div class="row m-0">
                   <div class="form-group col-md-6">
                     <label for="input_cep" class="position-relative mb-0 font-weight-bold">CEP</label>
-                    <input type="text" class="form-control" id="input_cep" placeholder="123456-789">
+                    <input type="text" class="form-control input_cep" id="input_cep" placeholder="123456-789">
                   </div>
                   <div class="form-group col-md-6">
                     <label for="input_bairro" class="position-relative mb-0 font-weight-bold">Bairro</label>
@@ -134,43 +135,35 @@
                 <div class="row m-0">
                   <div class="form-group col-md-4">
                     <label for="input_celular" class="position-relative mb-0 font-weight-bold">Celular</label>
-                    <input type="text" class="form-control" id="input_celular" placeholder="+55..">
+                    <input type="text" class="form-control maskphone1" id="input_celular" placeholder="+55..">
                   </div>
                   <div class="form-group col-md-4">
                     <label for="input_fixo" class="position-relative mb-0 font-weight-bold">Fixo</label>
-                    <input type="text" class="form-control" id="input_fixo" placeholder="+55..">
+                    <input type="text" class="form-control maskfixo" id="input_fixo" placeholder="+55..">
                   </div>
                   <div class="form-group col-md-4">
                     <label for="input_whats" class="position-relative mb-0 font-weight-bold">Whatsapp</label>
-                    <input type="text" class="form-control" id="input_whats" placeholder="+55..">
+                    <input type="text" class="form-control maskwhats" id="input_whats" placeholder="+55..">
                   </div>
                 </div>
 
                 <div class="row m-0">    
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-4">
                     <label for="input_registro_carteira" class="position-relative mb-0 font-weight-bold">Registros Carteira</label>
                     <input type="text" class="form-control" id="input_registro_carteira" placeholder="...">
                   </div>
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-4">
                     <label for="input_tipo_carteira" class="position-relative mb-0 font-weight-bold">Tipo de Carteira</label>
                     <input type="text" class="form-control" id="input_tipo_carteira" placeholder="...">
                   </div>
-                </div>
-
-                <div class="row m-0">
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-4">
                     <label for="input_validade_carteira" class="position-relative mb-0 font-weight-bold">Validade de Carteira</label>
                     <input type="text" class="form-control datepicker" id="input_validade_carteira" placeholder="...">
                   </div>
-                  <div class="form-group col-md-6">
-                    <label for="input_identificador_celular" class="position-relative mb-0 font-weight-bold">Identificador de Celular</label>
-                    <input type="text" class="form-control" id="input_identificador_celular" placeholder="...">
-                  </div>
                 </div>
-
                 <div class="row m-0">
                   <button class="btn btn-primary stepper-prev">Anterior</button>
-                  <button class="btn btn-primary stepper-next" id="salvarUser">Enviar</button>
+                  <button class="btn btn-primary stepper-next" id="salvarUser">Salvar</button>
                 </div>
               </div>
             </div>  

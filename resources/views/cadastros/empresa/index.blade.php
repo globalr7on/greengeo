@@ -67,7 +67,6 @@
 @push('js')
   <script>
     $(document).ready(function () {
-      
       let app = new App({
         apiUrl: '/api/pessoa_juridica',
         apiDataTableColumns: [
@@ -106,23 +105,14 @@
      
       // Open Modal New
       $('body').on('click', '#novaEmpresa', function() {
-       
         app.stepper()
         delFormValidationErrors()
-        $("#input_cnpj").mask("999.999.999-99");
         $("#modalEmpresa").modal("show")
         $('#tituloModal').text("Novo Empresa")
         $('#input_id').val("")
         $('#formEmpresa')[0].reset()
         getTipoEmpresa()
         getAtividade()
-        // $('.cep').mask('00000-000');
-         // $('.date').mask('00/00/0000');
-        // $('.time').mask('00:00:00');
-        // $('.cep').mask('00000-000');
-        // $('.phone').mask('(00) 00000-0000');
-        
-        // $('.money').mask('000.000.000.000,00');
       });
 
       // Salvar ''
@@ -150,7 +140,8 @@
           latitude: $("#input_latitude").val(),
           longitude: $("#input_longitude").val(),
           contrato: $("#input_contrato").val(),
-          identificador_celular: $("#input_identificador_celular").val(),
+          // identificador_celular: $("#input_identificador_celular").val(),
+          identificador_celular: '123456',
           senha_acesso: $("#input_senha_acesso").val(),
           capacidade_media_carga: $("#input_capacidade_media_carga").val(),
           usuario_responsavel_cadastro_id: $("#input_usuario_responsavel_cadastro_id").val(),
@@ -164,24 +155,24 @@
             if (response && response.status) {
               $("#modalEmpresa").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('Empresa Atualizada com sucesso')
+              notifySuccess('Atualizado com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao atualizar o empresa, tente novamente')
+            notifyDanger('Falha ao atualizar, tente novamente')
           })
         } else {
           app.api.post('/pessoa_juridica', JSONRequest).then(response => {
             if (response && response.status) {
               $("#modalEmpresa").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('Empresa Criado com sucesso')
+              notifySuccess('Criado com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao criar empresa, tente novamente')
+            notifyDanger('Falha ao criar, tente novamente')
           })
         }
       });
@@ -228,19 +219,19 @@
             $("#checkAtivo").prop("checked", response.data.ativo)
           }
         })
-        .catch(error => console.log(error) && notifyDanger('Falha ao obter detalhes do empresa. Tente novamente'))
+        .catch(error => console.log(error) && notifyDanger('Falha ao obter detalhes. Tente novamente'))
       })
 
       // Excluir
       $('body').on('click', '.deleteAction',  function() {
         const id = $(this).attr('data-id')
-        sweetConfirm('Deseja realmente excluir a clase?').then(confirmed => {
+        sweetConfirm('Deseja realmente excluir?').then(confirmed => {
           if (confirmed) {
             app.api.delete(`/pessoa_juridica/${id}`).then(response =>  {
               app.datatable.ajax.reload()
-              notifySuccess('empresa excluída com sucesso')
+              notifySuccess('Excluída com sucesso')
             })
-            .catch(error => notifyDanger('Falha ao excluir empresa. Tente novamente'))
+            .catch(error => notifyDanger('Falha ao excluir. Tente novamente'))
           }
         }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
       });
@@ -253,7 +244,7 @@
         })
         .catch(error => {
           console.log('app.api.get error', error)
-          notifyDanger('Falha ao obter funções, tente novamente')
+          notifyDanger('Falha ao obter dados, tente novamente')
         })
       }
 
@@ -265,10 +256,28 @@
         })
         .catch(error => {
           console.log('app.api.get error', error)
-          notifyDanger('Falha ao obter funções, tente novamente')
+          notifyDanger('Falha ao obter dados, tente novamente')
         })
       }
 
-     });
+      $('body').on('blur', '#input_cep , #input_numero',   function() {
+        var cep = $('#input_cep').val()
+        var numero = $('#input_numero').val()
+          console.log(cep)
+        if(cep && numero) {
+        // window.location.href = window.location.href + "?cep=" + cep ;
+            app.api.get(`/geo?cep=${cep}&numero=${numero}`).then(response =>  {
+              console.log(response)
+            })
+        }
+      });
+
+      // function javascript_to_php() {
+      //     var jsVar1 = "Hello";
+      //     var jsVar2 = "World";
+      //     window.location.href = window.location.href + "?w1=" + jsVar1 + "&w2=" + jsVar2;
+      // }
+
+    });
   </script>
 @endpush

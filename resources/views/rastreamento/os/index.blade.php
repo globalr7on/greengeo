@@ -125,24 +125,24 @@
             if (response && response.status) {
               $("#modalOs").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('Os Atualizada com sucesso')
+              notifySuccess('Atualizada com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao atualizar o Os, tente novamente')
+            notifyDanger('Falha ao atualizar, tente novamente')
           })
         } else {
           app.api.post('/os', JSONRequest).then(response => {
             if (response && response.status) {
               $("#modalOs").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('Os Criado com sucesso')
+              notifySuccess('Criado com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao criar os, tente novamente')
+            notifyDanger('Falha ao criar, tente novamente')
           })
         }
       });
@@ -172,19 +172,19 @@
            
           }
         })
-        .catch(error => notifyDanger('Falha ao obter detalhes do empresa. Tente novamente'))
+        .catch(error => notifyDanger('Falha ao obter detalhes. Tente novamente'))
       })
 
       // Excluir
       $('body').on('click', '.deleteAction',  function() {
         const id = $(this).attr('data-id')
-        sweetConfirm('Deseja realmente excluir a clase?').then(confirmed => {
+        sweetConfirm('Deseja realmente excluir?').then(confirmed => {
           if (confirmed) {
             app.api.delete(`/os/${id}`).then(response =>  {
               app.datatable.ajax.reload()
               notifySuccess('os excluída com sucesso')
             })
-            .catch(error => notifyDanger('Falha ao excluir os. Tente novamente'))
+            .catch(error => notifyDanger('Falha ao excluir. Tente novamente'))
           }
         }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
       });
@@ -199,7 +199,7 @@
         })
         .catch(error => {
           console.log('app.api.get error', error)
-          notifyDanger('Falha ao obter funções, tente novamente')
+          notifyDanger('Falha ao obter dados, tente novamente')
         })
       }
 
@@ -211,7 +211,7 @@
         })
         .catch(error => {
           console.log('app.api.get error', error)
-          notifyDanger('Falha ao obter modelo, tente novamente')
+          notifyDanger('Falha ao obter dados, tente novamente')
         })
       }
       function getMotorista(value) {
@@ -222,7 +222,7 @@
         })
         .catch(error => {
           console.log('app.api.get error', error)
-          notifyDanger('Falha ao obter modelo, tente novamente')
+          notifyDanger('Falha ao obter dados, tente novamente')
         })
       }
        function getEstagio(value) {
@@ -233,7 +233,7 @@
         })
         .catch(error => {
           console.log('app.api.get error', error)
-          notifyDanger('Falha ao obter estagio, tente novamente')
+          notifyDanger('Falha ao obter dados, tente novamente')
         })
       }
       

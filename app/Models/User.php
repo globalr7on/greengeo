@@ -50,6 +50,7 @@ class User extends Authenticatable
         'identificador_celular',
         'usuario_responsavel_cadastro_id',
         'pessoa_juridica_id',
+        
     ];
 
     /**
@@ -84,7 +85,7 @@ class User extends Authenticatable
 
     public function usuario_responsavel_cadastro()
     {
-        return $this->hasOne('App\Models\User', 'usuario_responsavel_cadastro_id', 'id');
+        return $this->hasOne('App\Models\User', 'id', 'usuario_responsavel_cadastro_id');
     }
 
     public function pessoa_juridica()
@@ -146,4 +147,5 @@ class User extends Authenticatable
 
         return $role;
     }
+
 }

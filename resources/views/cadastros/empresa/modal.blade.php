@@ -97,7 +97,7 @@
                   <div class="row m-0">
                      <div class="form-group col-md-3">
                       <label for="input_cep" class="position-relative mb-0 font-weight-bold">CEP</label>
-                      <input type="text" class="form-control" id="input_cep">
+                      <input type="text" class="form-control maskcep" id="input_cep"  name="input_cep">
                     </div>
                     <div class="form-group col-md-3">
                       <label for="input_endereco" class="position-relative mb-0 font-weight-bold">Endereço</label>
@@ -162,7 +162,7 @@
                     </div>
                     <div class="form-group col-md-4">
                       <label for="input_celular_contato_1" class="position-relative mb-0 font-weight-bold">Celular</label>
-                      <input type="text" class="form-control" id="input_celular_contato_1">
+                      <input type="text" class="form-control maskphone1" id="input_celular_contato_1">
                     </div>
                   </div>
                    <div class="row m-0">
@@ -176,18 +176,18 @@
                     </div>
                      <div class="form-group col-md-4">
                       <label for="input_celular_contato_2" class="position-relative mb-0 font-weight-bold">Celular</label>
-                      <input type="text" class="form-control" id="input_celular_contato_2">
+                      <input type="text" class="form-control maskphone2" id="input_celular_contato_2">
                     </div>          
                   </div>
 
                   <div class="row m-0">
                     <div class="form-group col-md-4">
                       <label for="input_fixo" class="position-relative mb-0 font-weight-bold">Fixo</label>
-                      <input type="text" class="form-control" id="input_fixo">
+                      <input type="text" class="form-control maskfixo" id="input_fixo">
                     </div>
                     <div class="form-group col-md-4">
                       <label for="input_whatsapp" class="position-relative mb-0 font-weight-bold">Whatsapp</label>
-                      <input type="text" class="form-control" id="input_whatsapp">
+                      <input type="text" class="form-control maskwhats" id="input_whatsapp">
                     </div>
                    
                     <div class="form-group col-md-4">
@@ -196,21 +196,19 @@
                     </div>
                   </div>
                 <div class="row m-0">
-                  <div class="form-group col-md-4">
+                  <div class="form-group col-md-6">
                       <label for="input_capacidade_media_carga" class="position-relative mb-0 font-weight-bold">Capacidade Carga</label>
-                      <input type="text" class="form-control maskpeso" id="input_capacidade_media_carga" placeholder="000000000.00 kg">
+                      <input type="text" class="form-control maskpeso" id="input_capacidade_media_carga" placeholder="000000000.00 kg">kg
                     </div>
-                   <div class="form-group col-md-4">
+                   {{-- <div class="form-group col-md-4">
                       <label for="input_identificador_celular" class="position-relative mb-0 font-weight-bold">Identificador Celular</label>
                       <input type="text" class="form-control" id="input_identificador_celular">
-                    </div>
-                    <div class="form-group col-md-4">
+                    </div> --}}
+                    <div class="form-group col-md-6">
                       <label for="input_senha_acesso" class="position-relative mb-0 font-weight-bold">Senha Acesso</label>
                       <input type="text" class="form-control" id="input_senha_acesso">
                     </div>   
                 </div>
-
-
                   <button class="btn btn-warning" >Motorista</button>
                   <button class="btn btn-warning"id="#novoVeiculo">Veiculo</button>
                   <button class="btn btn-primary stepper-prev">Anterior</button>
@@ -226,8 +224,10 @@
 
 @push('js')
   <script>
+
     $('#formEmpresa').submit(function(event) {
       event.preventDefault()
     })
+
   </script>
 @endpush

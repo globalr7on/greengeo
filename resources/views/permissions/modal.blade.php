@@ -13,18 +13,18 @@
           <div class="row m-0">
             <div class="form-group col-md-6">
               <input type="hidden" class="form-control" id="inputId">
-              <label for="input_name" class="position-relative mb-0 font-weight-bold">Name</label>
-              <input type="text" class="form-control" id="input_name" placeholder="admin">
+              <label for="input_name" class="position-relative mb-0 font-weight-bold">Permissão</label>
+              <input type="text" class="form-control" id="input_name" placeholder="Permissão">
             </div>
 
             <div class="form-group col-md-6">
-              <label for="input_guard_name" class="display-inherit mb-0">Guard</label>
+              <label for="input_guard_name" class="display-inherit mb-0">Acesso</label>
               <select data-style="btn-warning text-white" title="Select" name="guard_name" id="input_guard_name"></select>
             </div>
           </div>
 
           <div class="row m-0">
-            <button class="btn btn-primary" id="salvarPermission">Enviar</button>
+            <button class="btn btn-primary" id="salvarPermission">Salvar</button>
           </div>
         </form>
       </div>

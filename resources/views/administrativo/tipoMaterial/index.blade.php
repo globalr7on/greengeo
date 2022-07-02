@@ -52,7 +52,7 @@
       $('body').on('click', '#novoTipoMaterial', function() {
         delFormValidationErrors()
         $("#modalTipoMaterial").modal("show")
-        $('#tituloModal').text("Novo Permission")
+        $('#tituloModal').text("Novo Tipo Material")
         $('#inputId').val("")
         $('#formTipoMaterial')[0].reset()
       });
@@ -68,24 +68,24 @@
             if (response && response.status) {
               $("#modalTipoMaterial").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('Tipo Material Atualizado com sucesso')
+              notifySuccess(' Atualizado com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao atualizar a tipo material, tente novamente')
+            notifyDanger('Falha ao atualizar, tente novamente')
           })
         } else {
           app.api.post('/tipo_materiais', JSONRequest).then(response => {
             if (response && response.status) {
               $("#modalTipoMaterial").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('Tipo Material Criado com sucesso')
+              notifySuccess('Criado com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao criar tipo Material, tente novamente')
+            notifyDanger('Falha ao criar, tente novamente')
           })
         }
       });
@@ -98,7 +98,7 @@
             delFormValidationErrors()
             $('#formTipoMaterial')[0].reset()
             $("#modalTipoMaterial").modal("show");
-            $('#tituloModal').text("Editar tipo matrial")
+            $('#tituloModal').text("Editar tipo material")
             $('#inputId').val(response.data.id);
             $("#inputDescricao").val(response.data.descricao);
             $("#checkAtivo").prop("checked", response.data.ativo)
@@ -106,19 +106,19 @@
 
           }
         })
-        .catch(error => notifyDanger('Falha ao obter detalhes do tipo material . Tente novamente'))
+        .catch(error => notifyDanger('Falha ao obter detalhes . Tente novamente'))
       })
 
       // Excluir
       $('body').on('click', '.deleteAction',  function() {
         const id = $(this).attr('data-id')
-        sweetConfirm('Deseja realmente excluir a tipo material?').then(confirmed => {
+        sweetConfirm('Deseja realmente excluir?').then(confirmed => {
           if (confirmed) {
             app.api.delete(`/tipo_materiais/${id}`).then(response =>  {
               app.datatable.ajax.reload()
-              notifySuccess('Tipo material excluído com sucesso')
+              notifySuccess('Excluído com sucesso')
             })
-            .catch(error => notifyDanger('Falha ao excluir tipo material. Tente novamente'))
+            .catch(error => notifyDanger('Falha ao excluir. Tente novamente'))
           }
         }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
       })

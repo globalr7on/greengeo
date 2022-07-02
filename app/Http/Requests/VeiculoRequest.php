@@ -12,7 +12,7 @@ class VeiculoRequest extends FormRequest
     public function rules()
     {
         return [
-            'chassis' => 'required|string|max:14',
+            'chassis' => 'required|string|max:18',
             'placa' => 'required|string|max:18',
             'capacidade_media_carga' => 'required|string|max:50',
             'renavam' => 'required|string|max:50',

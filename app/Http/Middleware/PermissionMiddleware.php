@@ -37,7 +37,7 @@ class PermissionMiddleware
                 return $next($request);
             }
         }
-
+       
         if ($request->is('api/*')) {
             return Response([
                 'status' => false,

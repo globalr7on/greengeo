@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Api\UserController;
@@ -20,7 +19,6 @@ class HomeController extends Controller
 
     /**
      * Show the application dashboard.
-     *
      * @param  Illuminate\Http\Request  $request
      * @return \Illuminate\View\View
      */

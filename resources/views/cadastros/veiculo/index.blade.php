@@ -80,6 +80,7 @@
         getModelo()
         getAcondicionamento()
         getEmpresa()
+        getCombustivel()
       });
 
       // Salvar
@@ -198,6 +199,11 @@
           notifyDanger('Falha ao obter acondicionamento, tente novamente')
         })
       }
+
+      function getCombustivel(value) {
+            loadSelect('#input_combustivel', value)
+          }
+      
 
       function getEmpresa(value) {
         app.api.get('/pessoa_juridica').then(response =>  {

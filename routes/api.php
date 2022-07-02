@@ -9,7 +9,7 @@ Route::post('login','App\Http\Controllers\Api\UserController@accessToken');
 Route::middleware(['auth:api', 'permission'])->group(function(){
     // AUTHENTICATED USER
     Route::get('me', function (Request $request) { return new UserResource($request->user()); })->name('me');
-    Route::get('logout', 'App\Http\Controllers\Api\UserController@logout')->name('logout');
+    // Route::get('logout', 'App\Http\Controllers\Api\UserController@logout')->name('logout');
 
     // USERS
     Route::get('users', 'App\Http\Controllers\Api\UserController@index')->name('users.index');
@@ -74,19 +74,12 @@ Route::middleware(['auth:api', 'permission'])->group(function(){
     Route::put('modelo/{id}', 'App\Http\Controllers\Api\ModeloController@update')->name('modelo.update');
     Route::delete('modelo/{id}', 'App\Http\Controllers\Api\ModeloController@destroy')->name('modelo.destroy');
 
-    // EMPRESA
+    // PESSOAS
     Route::get('pessoa_juridica', 'App\Http\Controllers\Api\PessoaJuridicaController@index')->name('pessoa_juridica.index');
     Route::get('pessoa_juridica/{id}', 'App\Http\Controllers\Api\PessoaJuridicaController@show')->name('pessoa_juridica.show');
     Route::post('pessoa_juridica', 'App\Http\Controllers\Api\PessoaJuridicaController@store')->name('pessoa_juridica.store');
     Route::put('pessoa_juridica/{id}', 'App\Http\Controllers\Api\PessoaJuridicaController@update')->name('pessoa_juridica.update');
     Route::delete('pessoa_juridica/{id}', 'App\Http\Controllers\Api\PessoaJuridicaController@destroy')->name('pessoa_juridica.destroy');
-
-    // OS 
-    Route::get('os', 'App\Http\Controllers\Api\OrdenDeServicoController@index')->name('os.index');
-    Route::get('os/{id}', 'App\Http\Controllers\Api\OrdenDeServicoController@show')->name('os.show');
-    Route::post('os', 'App\Http\Controllers\Api\OrdenDeServicoController@store')->name('os.store');
-    Route::put('os/{id}', 'App\Http\Controllers\Api\OrdenDeServicoController@update')->name('os.update');
-    Route::delete('os/{id}', 'App\Http\Controllers\Api\OrdenDeServicoController@destroy')->name('os.destroy');
 
     // VEICULOS
     Route::get('veiculo', 'App\Http\Controllers\Api\VeiculoController@index')->name('veiculo.index');
@@ -115,7 +108,14 @@ Route::middleware(['auth:api', 'permission'])->group(function(){
     Route::post('tipo_materiais', 'App\Http\Controllers\Api\TipoMaterialController@store')->name('tipo_materiais.store');
     Route::put('tipo_materiais/{id}', 'App\Http\Controllers\Api\TipoMaterialController@update')->name('tipo_materiais.update');
     Route::delete('tipo_materiais/{id}', 'App\Http\Controllers\Api\TipoMaterialController@destroy')->name('tipo_materiais.destroy');
-    
+
+    // OS 
+    Route::get('os', 'App\Http\Controllers\Api\OrdenDeServicoController@index')->name('os.index');
+    Route::get('os/{id}', 'App\Http\Controllers\Api\OrdenDeServicoController@show')->name('os.show');
+    Route::post('os', 'App\Http\Controllers\Api\OrdenDeServicoController@store')->name('os.store');
+    Route::put('os/{id}', 'App\Http\Controllers\Api\OrdenDeServicoController@update')->name('os.update');
+    Route::delete('os/{id}', 'App\Http\Controllers\Api\OrdenDeServicoController@destroy')->name('os.destroy');
+
     // TIPO EMPRESA
     Route::get('tipo_empresa', 'App\Http\Controllers\Api\TipoEmpresaController@index')->name('tipo_empresa.index');
     Route::get('tipo_empresa/{id}', 'App\Http\Controllers\Api\TipoEmpresaController@show')->name('tipo_empresa.show');
@@ -130,4 +130,6 @@ Route::middleware(['auth:api', 'permission'])->group(function(){
     Route::post('produto', 'App\Http\Controllers\Api\ProdutoController@store')->name('produto.store');
     Route::put('produto/{id}', 'App\Http\Controllers\Api\ProdutoController@update')->name('produto.update');
     Route::delete('produto/{id}', 'App\Http\Controllers\Api\ProdutoController@destroy')->name('produto.destroy');
+
+    Route::get('geo', 'App\Http\Controllers\Api\GeoCepController@index')->name('geo.index');
 });

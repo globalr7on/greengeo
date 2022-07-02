@@ -72,24 +72,24 @@
             if (response && response.status) {
               $("#modalTipoEmpresa").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('Tipo Empresa Atualizado com sucesso')
+              notifySuccess('Atualizado com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao atualizar a Tipo Empresa, tente novamente')
+            notifyDanger('Falha ao atualizar, tente novamente')
           })
         } else {
           app.api.post('/tipo_empresa', JSONRequest).then(response => {
             if (response && response.status) {
               $("#modalTipoEmpresa").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('Tipo Empresa Criado com sucesso')
+              notifySuccess('Criado com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao criar Tipo Empresa, tente novamente')
+            notifyDanger('Falha ao criar, tente novamente')
           })
         }
       });
@@ -108,19 +108,19 @@
             $("#checkAtivo").prop("checked", response.data.ativo)
           }
         })
-        .catch(error => notifyDanger('Falha ao obter detalhes do tipo empresa. Tente novamente'))
+        .catch(error => notifyDanger('Falha ao obter detalhes. Tente novamente'))
       })
 
       // Excluir
       $('body').on('click', '.deleteAction',  function() {
         const id = $(this).attr('data-id')
-        sweetConfirm('Deseja realmente excluir a tipo empresa?').then(confirmed => {
+        sweetConfirm('Deseja realmente excluir?').then(confirmed => {
           if (confirmed) {
             app.api.delete(`/tipo_empresa/${id}`).then(response =>  {
               app.datatable.ajax.reload()
-              notifySuccess('Tipo Empresa excluída com sucesso')
+              notifySuccess('Excluída com sucesso')
             })
-            .catch(error => notifyDanger('Falha ao excluir tipo empresa. Tente novamente'))
+            .catch(error => notifyDanger('Falha ao excluir. Tente novamente'))
           }
         }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
       })
