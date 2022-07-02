@@ -1,9 +1,4 @@
 <div class="sidebar" data-color="purple" data-background-color="white">
-  <!--
-      Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
-
-      Tip 2: you can also add an image using data-image tag
-  -->
   <div class="logo pb-0 pt-2">
     <a href="/" class="text-center logo-normal">
       <img src="{{ asset('material') }}/img/electrolux.png" style="height: 40px;" />
@@ -12,13 +7,16 @@
   </div>
   <div class="sidebar-wrapper">
     <ul class="nav">
+      @can('home')
       <li class="nav-item {{ $activePage == 'dashboard' ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('home') }}">
           <i class="material-icons">dashboard</i>
           <p>{{ __('Painel') }}</p>
         </a>
       </li>
-      @can('cadastros.empresa')
+      @endcan
+
+      @canany(['cadastros.empresa', 'cadastros.produto', 'cadastros.veiculo'])
       <li class="nav-item {{ in_array($activePage, array('empresa', 'produto', 'veiculo')) ? 'active' : '' }}">
         <a class="nav-link" data-toggle="collapse" href="#cadastrosTab" aria-expanded="{{ in_array($activePage, array('empresa', 'produto', 'veiculo')) ? 'true' : 'false' }}">
           <i class="fa-solid fa-address-card"></i>
@@ -55,17 +53,21 @@
           </ul>
         </div>
       </li>
-      @endcan
+      @endcanany
 
-      @can('cadastros.empresa')
-      <li class="nav-item {{ in_array($activePage, array('tipo_empresa','acondicionamento', 'tratamento', 'sucata', 'unidade', 'modelo', 'marca', 'estagios', 'tipo_material', 'atividade')) ? 'active' : '' }}">
-        <a class="nav-link" data-toggle="collapse" href="#l2" aria-expanded="{{ in_array($activePage, array('tipo_empresa','acondicionamento', 'tratamento', 'sucata', 'unidade', 'modelo', 'marca', 'estagios', 'tipo_material', 'atividade')) ? 'true' : 'false' }}">
+      @canany([
+        'administrativo.tipoEmpresa', 'administrativo.acondicionamento', 'administrativo.tratamento',
+        'administrativo.classeSucata', 'administrativo.unidad', 'administrativo.modelo', 'administrativo.marca',
+        'administrativo.estagiosOs', 'administrativo.tipoMaterial', 'administrativo.atividade'
+      ])
+      <li class="nav-item {{ in_array($activePage, array('tipo_empresa','acondicionamento','tratamento','sucata','unidade','modelo','marca','estagios','tipo_material','atividade')) ? 'active' : '' }}">
+        <a class="nav-link" data-toggle="collapse" href="#l2" aria-expanded="{{ in_array($activePage, array('tipo_empresa','acondicionamento','tratamento','sucata','unidade','modelo','marca','estagios','tipo_material','atividade')) ? 'true' : 'false' }}">
           <i class="fa-solid fa-folder-tree"></i>
           <p>{{ __('Administrativo') }}
             <b class="caret"></b>
           </p>
         </a>  
-        <div class="collapse {{ in_array($activePage, array('tipo_empresa','acondicionamento', 'tratamento', 'sucata', 'unidade', 'modelo', 'marca', 'estagios', 'tipo_material', 'atividade')) ? 'show' : '' }}" id="l2">
+        <div class="collapse {{ in_array($activePage, array('tipo_empresa','acondicionamento','tratamento','sucata','unidade','modelo','marca','estagios','tipo_material','atividade')) ? 'show' : '' }}" id="l2">
           <ul class="nav">
             @can('administrativo.tipoEmpresa')
             <li class="nav-item ml-4 {{ $activePage == 'tipo_empresa' ? 'active' : '' }}">
@@ -159,7 +161,9 @@
           </ul>
         </div>
       </li>
-    @endcan
+      @endcanany
+
+      @canany(['rastreamento.rastreamento', 'rastreamento.os', 'rastreamento.notaFiscal'])
       <li class="nav-item {{ in_array($activePage, array('rastreamento', 'os', 'nota_fiscal')) ? 'active' : '' }}">
         <a class="nav-link" data-toggle="collapse" href="#rasTab" aria-expanded="{{ in_array($activePage, array('rastreamento', 'os', 'nota_fiscal')) ? 'true' : 'false' }}">
           <i class="fa-solid fa-satellite-dish"></i>
@@ -198,6 +202,9 @@
           </ul>
         </div>
       </li>
+      @endcanany
+
+      @canany(['profile.edit', 'configuracoes.users', 'configuracoes.roles', 'configuracoes.permissions'])
       <li class="nav-item {{ in_array($activePage, array('profile', 'users', 'funcoes', 'permissions')) ? 'active' : ''}}">
         <a class="nav-link" data-toggle="collapse" href="#settingTab" aria-expanded="{{ in_array($activePage, array('profile', 'users', 'funcoes', 'permissions')) ? 'true' : 'false' }}">
           <i class="fa-solid fa-gear"></i>
@@ -245,6 +252,7 @@
           </ul>
         </div>
       </li>
+      @endcanany
     </ul>
     <div class="sidebar-footer-logo">
       <img src="{{ asset('material') }}/img/greenbeat.png" style="width: 150px;height: 40px;" />

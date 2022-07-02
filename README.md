@@ -6,3 +6,7 @@ Comandos para o novo serviço
 
 Manual cache resest (Permissions)
     php artisan permission:cache-reset
+
+Laravel/Passport
+    php artisan migrate
+    php artisan passport:install
