@@ -84,75 +84,59 @@
       })
      
       // Open Modal New
-      $('body').on('click', '#novaEmpresa', function() {
+      $('body').on('click', '#novoProduto', function() {
        
         app.stepper()
         delFormValidationErrors()
-        $("#modalEmpresa").modal("show")
-        $('#tituloModal').text("Novo Empresa")
+        $("#modalProduto").modal("show")
+        $('#tituloModal').text("Novo Produto")
         $('#input_id').val("")
-        $('#formEmpresa')[0].reset()
-        getTipoEmpresa()
-        getAtividade()
+        $('#formProduto')[0].reset()
+        // getTipoEmpresa()
+        // getAtividade()
       });
 
       // Salvar ''
-      $('body').on('click', '#salvarEmpresa', function() {
+      $('body').on('click', '#salvarProduto', function() {
         const JSONRequest = {
-          cnpj: $("#input_cnpj").val(),
-          nome_fantasia: $("#input_nome_fantasia").val(),
-          razao_social: $("#input_razao_social").val(),
-          email: $("#input_email").val(),
-          contato_1: $("#input_contato_1").val(),
-          cargo_contato_1: $("#input_cargo_contato_1").val(),
-          contato_2: $("#input_cargo_contato_2").val(),
-          cargo_contato_2: $("#input_cargo_contato_2").val(),
-          celular_contato_1: $("#input_celular_contato_1").val(),
-          celular_contato_2: $("#input_celular_contato_2").val(),
-          fixo: $("#input_fixo").val(),
-          whatsapp: $("#input_whatsapp").val(),
-          endereco: $("#input_endereco").val(),
-          numero: $("#input_numero").val(),
-          complemento: $("#input_complemento").val(),
-          cep: $("#input_cep").val(),
-          bairro: $("#input_bairro").val(),
-          cidade: $("#input_cidade").val(),
-          estado: $("#input_estado").val(),
-          latitude: $("#input_latitude").val(),
-          longitude: $("#input_longitude").val(),
-          contrato: $("#input_contrato").val(),
-          identificador_celular: $("#input_identificador_celular").val(),
-          senha_acesso: $("#input_senha_acesso").val(),
-          capacidade_media_carga: $("#input_capacidade_media_carga").val(),
-          usuario_responsavel_cadastro_id: $("#input_usuario_responsavel_cadastro_id").val(),
-          atividade_id: $("#input_atividade_id").val(),
-          tipo_empresa_id: $("#input_tipo_empresa_id").val(),
+          nome_fabricante: $("#input_nome_fabricante").val(),
+          peso_bruto: $("#input_peso_bruto").val(),
+          peso_liquido: $("#input_peso_liquido").val(),
+          dimensoes: $("#input_dimensoes").val(),
+          altura: $("#input_altura").val(),
+          largura: $("#input_largura").val(),
+          profundidade: $("#input_profundidade").val(),
+          comprimento: $("#input_comprimento").val(),
+          especie: $("#input_especie").val(),
+          marca: $("#input_marca").val(),
+          pessoa_juridica_id: $("#input_pessoa_juridica_id").val(),
+          material_id: $("#input_material_id").val(),
           ativo: $("#checkAtivo").prop("checked") ? 1 : 0
         }
         const id = $('#input_id').val()
         if (id) {
-          app.api.put(`/pessoa_juridica/${id}`, JSONRequest).then(response => {
+          app.api.put(`/produto/${id}`, JSONRequest).then(response => {
             if (response && response.status) {
-              $("#modalEmpresa").modal("hide")
+              $("#modalProduto").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('Empresa Atualizada com sucesso')
+              notifySuccess('Atualizado com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao atualizar o empresa, tente novamente')
+            notifyDanger('Falha ao atualizar, tente novamente')
           })
         } else {
-          app.api.post('/pessoa_juridica', JSONRequest).then(response => {
+          app.api.post('/produto', JSONRequest).then(response => {
             if (response && response.status) {
-              $("#modalEmpresa").modal("hide")
+              $("#modalProduto").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('Empresa Criado com sucesso')
+              notifySuccess('Criado com sucesso')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao criar empresa, tente novamente')
+            notifyDanger('Falha ao criar, tente novamente')
           })
         }
       });
@@ -161,41 +145,26 @@
       $('body').on('click', '.editAction', function() {
         app.stepper()
         const id = $(this).attr('data-id');
-        app.api.get(`/pessoa_juridica/${id}`).then(response =>  {
+        app.api.get(`/produto/${id}`).then(response =>  {
           if (response && response.status) {
-            getTipoEmpresa(response.data.tipo_empresa_id)
-            getAtividade(response.data.atividade_id)
+            // getTipoEmpresa(response.data.tipo_empresa_id)
+            // getAtividade(response.data.atividade_id)
             delFormValidationErrors()
-            $('#formEmpresa')[0].reset()
-            $("#modalEmpresa").modal("show");
-            $('#tituloModal').text("Editar Empresa")
-            $('#input_id').val(response.data.id);
-            $("#input_cnpj").val(response.data.cnpj),
-            $("#input_nome_fantasia").val(response.data.nome_fantasia),
-            $("#input_razao_social").val(response.data.razao_social),
-            $("#input_email").val(response.data.email),
-            $("#input_contato_1").val(response.data.contato_1),
-            $("#input_cargo_contato_1").val(response.data.cargo_contato_1),
-            $("#input_contato_2").val(response.data.contato_2),
-            $("#input_cargo_contato_2").val(response.data.cargo_contato_2),
-            $("#input_celular_contato_1").val(response.data.celular_contato_1),
-            $("#input_celular_contato_2").val(response.data.celular_contato_2),
-            $("#input_fixo").val(response.data.fixo),
-            $("#input_whatsapp").val(response.data.whatsapp),
-            $("#input_endereco").val(response.data.endereco),
-            $("#input_numero").val(response.data.numero),
-            $("#input_complemento").val(response.data.complemento),
-            $("#input_cep").val(response.data.cep),
-            $("#input_bairro").val(response.data.bairro),
-            $("#input_cidade").val(response.data.cidade),
-            $("#input_estado").val(response.data.estado),
-            $("#input_latitude").val(response.data.latitude),
-            $("#input_longitude").val(response.data.longitude),
-            $("#input_contrato").val(response.data.contrato),
-            $("#input_identificador_celular").val(response.data.identificador_celular),
-            $("#input_senha_acesso").val(response.data.senha_acesso),
-            $("#input_capacidade_media_carga").val(response.data.capacidade_media_carga),
-            $("#input_usuario_responsavel_cadastro_id").val(response.data.usuario_responsavel_cadastro_id),
+            $('#formProduto')[0].reset()
+            $("#modalProduto").modal("show");
+            $('#tituloModal').text("Editar Produto")
+            $("#input_nome_fabricante").val(response.data.nome_fabricante),
+            $("#input_peso_bruto").val(response.data.peso_bruto),
+            $("#input_peso_liquido").val(response.data.peso_liquido),
+            $("#input_dimensoes").val(response.data.dimensoes),
+            $("#input_altura").val(response.data.altura),
+            $("#input_largura").val(response.data.altura),
+            $("#input_profundidade").val(response.data.profundidade),
+            $("#input_comprimento").val(response.data.comprimento),
+            $("#input_especie").val(response.data.especie),
+            $("#input_marca").val(response.data.marca),
+            $("#input_pessoa_juridica_id").val(response.data.pessoa_juridica_id),
+            $("#input_material_id").val(response.data.material_id),
             $("#checkAtivo").prop("checked", response.data.ativo)
           }
         })
@@ -207,7 +176,7 @@
         const id = $(this).attr('data-id')
         sweetConfirm('Deseja realmente excluir a clase?').then(confirmed => {
           if (confirmed) {
-            app.api.delete(`/pessoa_juridica/${id}`).then(response =>  {
+            app.api.delete(`/produto/${id}`).then(response =>  {
               app.datatable.ajax.reload()
               notifySuccess('empresa excluída com sucesso')
             })
@@ -216,29 +185,29 @@
         }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
       });
 
-      function getTipoEmpresa(value) {
-        app.api.get('/tipo_empresa').then(response =>  {
-          if (response && response.status) {
-            loadSelect('#input_tipo_empresa_id', response.data, ['id', 'descricao'], value)
-          }
-        })
-        .catch(error => {
-          console.log('app.api.get error', error)
-          notifyDanger('Falha ao obter funções, tente novamente')
-        })
-      }
+      // function getTipoEmpresa(value) {
+      //   app.api.get('/tipo_empresa').then(response =>  {
+      //     if (response && response.status) {
+      //       loadSelect('#input_tipo_empresa_id', response.data, ['id', 'descricao'], value)
+      //     }
+      //   })
+      //   .catch(error => {
+      //     console.log('app.api.get error', error)
+      //     notifyDanger('Falha ao obter funções, tente novamente')
+      //   })
+      // }
 
-      function getAtividade(value) {
-        app.api.get('/atividade').then(response =>  {
-          if (response && response.status) {
-            loadSelect('#input_atividade_id', response.data, ['id', 'descricao'], value)
-          }
-        })
-        .catch(error => {
-          console.log('app.api.get error', error)
-          notifyDanger('Falha ao obter funções, tente novamente')
-        })
-      }
+      // function getAtividade(value) {
+      //   app.api.get('/atividade').then(response =>  {
+      //     if (response && response.status) {
+      //       loadSelect('#input_atividade_id', response.data, ['id', 'descricao'], value)
+      //     }
+      //   })
+      //   .catch(error => {
+      //     console.log('app.api.get error', error)
+      //     notifyDanger('Falha ao obter funções, tente novamente')
+      //   })
+      // }
    
      });
   </script>

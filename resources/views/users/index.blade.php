@@ -195,6 +195,26 @@
           notifyDanger('Falha ao obter funções, tente novamente')
         })
       }
+      $('body').on('blur', '#input_cep , #input_numero',   function() {
+        var cep = $('#input_cep').val()
+        var numero = $('#input_numero').val()
+          console.log(cep)
+        if(cep && numero) {
+        // window.location.href = window.location.href + "?cep=" + cep ;
+            app.api.get(`/geo?cep=${cep}&numero=${numero}`).then(response =>  {
+              
+              console.log(response)
+               if (response && response.status) {
+                  $("#input_endereco").val(response.data.address),
+                  $("#input_bairro").val(response.data.district)
+                  $("#input_cidade").val(response.data.city)
+                  $("#input_estado").val(response.data.state)
+                  // $("#input_latitude").val(response.data.coord.lat)
+                  // $("#input_longitude").val(response.data.coord.lng)
+               }
+            })
+        }
+      });
     })
   </script>
 @endpush

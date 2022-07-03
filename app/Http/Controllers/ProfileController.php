@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\PasswordRequest;
+// use App\Http\Requests\UserRequest;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
@@ -39,7 +41,25 @@ class ProfileController extends Controller
      */
     public function password(PasswordRequest $request)
     {
-        auth()->user()->update(['password' => Hash::make($request->get('password'))]);
+        // dd($request->all());
+           # Validation
+        $request->validate([
+            'old_password' => 'required',
+            'password' => 'required|confirmed',
+        ]);
+
+
+        #Match The Old Password
+        if(!Hash::check($request->old_password, auth()->user()->password)){
+            return back()->with("error", "A senha antiga não corresponde!");
+        }
+
+
+        #Update the new Password
+        User::whereId(auth()->user()->id)->update([
+            'password' => Hash::make($request->password)
+        ]);
+
 
         return back()->withStatusPassword(__('Senha atualizada com sucesso.'));
     }

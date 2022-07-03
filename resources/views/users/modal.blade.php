@@ -86,8 +86,8 @@
                 <h4 class="text-primary font-weight-bold text-uppercase">Endereço</h4>
                 <div class="row m-0">
                   <div class="form-group col-md-6">
-                    <label for="input_endereco" class="position-relative mb-0 font-weight-bold">Endereço</label>
-                    <input type="text" class="form-control" id="input_endereco" placeholder="Rua agusto ...">
+                    <label for="input_cep" class="position-relative mb-0 font-weight-bold">CEP</label>
+                    <input type="text" class="form-control input_cep" id="input_cep" placeholder="123456-789">
                   </div>
                   <div class="form-group col-md-6">
                     <label for="input_numero" class="position-relative mb-0 font-weight-bold">Número</label>
@@ -103,10 +103,11 @@
                 </div>
 
                 <div class="row m-0">
-                  <div class="form-group col-md-6">
-                    <label for="input_cep" class="position-relative mb-0 font-weight-bold">CEP</label>
-                    <input type="text" class="form-control input_cep" id="input_cep" placeholder="123456-789">
+                   <div class="form-group col-md-6">
+                    <label for="input_endereco" class="position-relative mb-0 font-weight-bold">Endereço</label>
+                    <input type="text" class="form-control" id="input_endereco" placeholder="Rua agusto ...">
                   </div>
+                  
                   <div class="form-group col-md-6">
                     <label for="input_bairro" class="position-relative mb-0 font-weight-bold">Bairro</label>
                     <input type="text" class="form-control" id="input_bairro" placeholder="Nome do bairro">
