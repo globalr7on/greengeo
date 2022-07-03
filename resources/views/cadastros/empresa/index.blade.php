@@ -219,7 +219,7 @@
             $("#checkAtivo").prop("checked", response.data.ativo)
           }
         })
-        .catch(error => console.log(error) && notifyDanger('Falha ao obter detalhes. Tente novamente'))
+        .catch(error => notifyDanger('Falha ao obter detalhes. Tente novamente'))
       })
 
       // Excluir
@@ -244,7 +244,7 @@
         })
         .catch(error => {
           console.log('app.api.get error', error)
-          notifyDanger('Falha ao obter dados, tente novamente')
+          notifyDanger('Falha ao obter dados de tipo empresa, tente novamente')
         })
       }
 
@@ -256,28 +256,28 @@
         })
         .catch(error => {
           console.log('app.api.get error', error)
-          notifyDanger('Falha ao obter dados, tente novamente')
+          notifyDanger('Falha ao obter dados de atividade, tente novamente')
         })
       }
 
-      $('body').on('blur', '#input_cep , #input_numero',   function() {
+      $('body').on('blur', '#input_cep , #input_numero', function() {
         var cep = $('#input_cep').val()
         var numero = $('#input_numero').val()
-          console.log(cep)
         if(cep && numero) {
-        // window.location.href = window.location.href + "?cep=" + cep ;
-            app.api.get(`/geo?cep=${cep}&numero=${numero}`).then(response =>  {
-              console.log(response)
-            })
+          app.api.get(`/geo?cep=${cep}&numero=${numero}`).then(response =>  {
+            if (response.status) {
+              $('#input_endereco').val(response.data.endereco)
+              $('#input_bairro').val(response.data.bairro)
+              $('#input_cidade').val(response.data.cidade)
+              $('#input_estado').val(response.data.estado)
+              $('#input_latitude').val(response.data.coord.lat)
+              $('#input_longitude').val(response.data.coord.lng)
+            } else {
+              notifyDanger(response.data)
+            }
+          }).catch(error => notifyDanger('Falha ao obter dados de endereço, tente novamente'))
         }
-      });
-
-      // function javascript_to_php() {
-      //     var jsVar1 = "Hello";
-      //     var jsVar2 = "World";
-      //     window.location.href = window.location.href + "?w1=" + jsVar1 + "&w2=" + jsVar2;
-      // }
-
+      })
     });
   </script>
 @endpush

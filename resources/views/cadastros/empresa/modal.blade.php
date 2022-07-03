@@ -83,75 +83,86 @@
                     <div class="form-group col-md-3">
                       <label for="input_nome_fantasia" class="position-relative mb-0 font-weight-bold">Nome de Fantasia</label>
                       <input type="text" class="form-control" id="input_nome_fantasia">
-                    </div>  
-                   
+                    </div>
                   </div>
-                  <button class="btn btn-warning">Motorista</button>
-                  <button class="btn btn-warning">Veiculo</button>
-                  <button class="btn btn-primary stepper-next">Próximo</button>
+
+                  <div class="row m-0">
+                    <button class="btn btn-warning">Motorista</button>
+                    <button class="btn btn-warning">Veiculo</button>
+                    <button class="btn btn-primary stepper-next">Próximo</button>
+                  </div>
                 </div>
 
                 <div id="step2" class="content" role="tabpanel" aria-labelledby="step2-trigger">
                   <h4 class="text-primary font-weight-bold text-uppercase">Endereço</h4>
-
                   <div class="row m-0">
-                     <div class="form-group col-md-3">
+                    <div class="form-group col-md-3">
                       <label for="input_cep" class="position-relative mb-0 font-weight-bold">CEP</label>
                       <input type="text" class="form-control maskcep" id="input_cep"  name="input_cep">
-                    </div>
-                    <div class="form-group col-md-3">
-                      <label for="input_endereco" class="position-relative mb-0 font-weight-bold">Endereço</label>
-                      <input type="text" class="form-control" id="input_endereco">
                     </div>
                     <div class="form-group col-md-3">
                       <label for="input_numero" class="position-relative mb-0 font-weight-bold">Número</label>
                       <input type="text" class="form-control" id="input_numero">
                     </div>
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-6">
                       <label for="input_complemento" class="position-relative mb-0 font-weight-bold">Complemento</label>
                       <input type="text" class="form-control" id="input_complemento">
                     </div>
-                   
                   </div>
 
                   <div class="row m-0">
                     <div class="form-group col-md-4">
+                      <label for="input_endereco" class="position-relative mb-0 font-weight-bold">Endereço</label>
+                      <input type="text" class="form-control" id="input_endereco">
+                    </div>
+                    <div class="form-group col-md-3">
                       <label for="input_bairro" class="position-relative mb-0 font-weight-bold">Bairro</label>
                       <input type="text" class="form-control" id="input_bairro">
                     </div>
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-3">
                       <label for="input_cidade" class="position-relative mb-0 font-weight-bold">Cidade</label>
                       <input type="text" class="form-control" id="input_cidade">
                     </div>
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-2">
                       <label for="input_estado" class="position-relative mb-0 font-weight-bold">Estado</label>
                       <input type="text" class="form-control" id="input_estado">
                     </div>
                   </div>
-                   <div class="row m-0">
-                     <div class="form-group col-md-12">
-                        <label class="position-relative mb-0 font-weight-bold">Coordenadas GPS</label>
-                     </div>
-                   </div>
+
                   <div class="row m-0">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-12">
+                      <label class="position-relative mb-0 font-weight-bold">Coordenadas GPS</label>
+                    </div>
+                  </div>
+
+                  <div class="row m-0">
+                    <div class="form-group col-md-5">
                       <label for="input_latitude" class="position-relative mb-0 font-weight-bold">Latitude</label>
                       <input type="text" class="form-control" id="input_latitude">
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-5">
                       <label for="input_longitude" class="position-relative mb-0 font-weight-bold">Logintude</label>
                       <input type="text" class="form-control" id="input_longitude">
-                    </div>   
+                    </div>
+                    
+                    <div class="form-group col-md-2 text-center align-self-center">
+                      <a href="#" target="_blank" class="btn btn-link" id="seeMap" data-toggle="tooltip" data-placement="top" title="Veja seu endereço no mapa">
+                        <i class="fas fa-map-marked-alt"></i>
+                      </a>
+                    </div>
                   </div>
-                  <button class="btn btn-warning">Motorista</button>
-                  <button class="btn btn-warning">Veiculo</button>
-                  <button class="btn btn-primary stepper-prev">Anterior</button>
-                  <button class="btn btn-primary stepper-next">Pŕoximo</button>
+
+                  <div class="row m-0">
+                    <button class="btn btn-warning">Motorista</button>
+                    <button class="btn btn-warning">Veiculo</button>
+                    <button class="btn btn-primary stepper-prev">Anterior</button>
+                    <button class="btn btn-primary stepper-next">Pŕoximo</button>
+                  </div>
                 </div>
 
                 <div id="step3" class="content" role="tabpanel" aria-labelledby="step3-trigger">
                   <h4 class="text-primary font-weight-bold text-uppercase">Contato</h4>
-                   <div class="row m-0">
+                  <div class="row m-0">
                     <div class="form-group col-md-4">
                       <label for="input_contato_1" class="position-relative mb-0 font-weight-bold">Responsável nº 1</label>
                       <input type="text" class="form-control" id="input_contato_1">
@@ -165,7 +176,8 @@
                       <input type="text" class="form-control maskphone1" id="input_celular_contato_1">
                     </div>
                   </div>
-                   <div class="row m-0">
+
+                  <div class="row m-0">
                     <div class="form-group col-md-4">
                       <label for="input_cargo_contato_2" class="position-relative mb-0 font-weight-bold">Responsável nº 2</label>
                       <input type="text" class="form-control" id="input_cargo_contato_2">
@@ -185,6 +197,7 @@
                       <label for="input_fixo" class="position-relative mb-0 font-weight-bold">Fixo</label>
                       <input type="text" class="form-control maskfixo" id="input_fixo">
                     </div>
+
                     <div class="form-group col-md-4">
                       <label for="input_whatsapp" class="position-relative mb-0 font-weight-bold">Whatsapp</label>
                       <input type="text" class="form-control maskwhats" id="input_whatsapp">
@@ -195,27 +208,27 @@
                       <input type="text" class="form-control" id="input_email">
                     </div>
                   </div>
-                <div class="row m-0">
-                  <div class="form-group col-md-6">
+
+                  <div class="row m-0">
+                    <div class="form-group col-md-6">
                       <label for="input_capacidade_media_carga" class="position-relative mb-0 font-weight-bold">Capacidade Carga</label>
-                      <input type="text" class="form-control maskpeso" id="input_capacidade_media_carga" placeholder="000000000.00 kg">kg
+                      <input type="text" class="form-control maskpeso" id="input_capacidade_media_carga" placeholder="999.999.999 Kg">
                     </div>
-                   {{-- <div class="form-group col-md-4">
-                      <label for="input_identificador_celular" class="position-relative mb-0 font-weight-bold">Identificador Celular</label>
-                      <input type="text" class="form-control" id="input_identificador_celular">
-                    </div> --}}
                     <div class="form-group col-md-6">
                       <label for="input_senha_acesso" class="position-relative mb-0 font-weight-bold">Senha Acesso</label>
                       <input type="text" class="form-control" id="input_senha_acesso">
                     </div>   
-                </div>
-                  <button class="btn btn-warning" >Motorista</button>
-                  <button class="btn btn-warning"id="#novoVeiculo">Veiculo</button>
-                  <button class="btn btn-primary stepper-prev">Anterior</button>
-                  <button class="btn btn-primary"  id="salvarEmpresa" >Salvar</button>
+                  </div>
+
+                  <div class="row m-0">
+                    <button class="btn btn-warning" >Motorista</button>
+                    <button class="btn btn-warning"id="#novoVeiculo">Veiculo</button>
+                    <button class="btn btn-primary stepper-prev">Anterior</button>
+                    <button class="btn btn-primary"  id="salvarEmpresa" >Salvar</button>
+                  </div>
                 </div>
               </div>
-           </form>
+            </form>
           </div>
         </div>
       </div>
@@ -224,10 +237,16 @@
 
 @push('js')
   <script>
-
     $('#formEmpresa').submit(function(event) {
       event.preventDefault()
     })
 
+    $('body').on('click', '#seeMap', function() {
+      const urlMapBase = 'https://www.google.com/maps/search/?api=1'
+      const lat = $('#input_latitude').val()
+      const lng = $('#input_longitude').val()
+      const urlMap = (lat && lng) ? `${urlMapBase}&query=${lat}%2C${lng}` : urlMapBase
+      window.open(urlMap, '_blank').focus();
+    })
   </script>
 @endpush
