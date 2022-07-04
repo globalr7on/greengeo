@@ -135,5 +135,14 @@ Route::middleware(['auth:api', 'permission'])->group(function(){
     Route::put('produto/{id}', 'App\Http\Controllers\Api\ProdutoController@update')->name('produto.update');
     Route::delete('produto/{id}', 'App\Http\Controllers\Api\ProdutoController@destroy')->name('produto.destroy');
 
+    // MATERIAL
+    Route::get('material', 'App\Http\Controllers\Api\MateriaisController@index')->name('material.index');
+    Route::get('material/{id}', 'App\Http\Controllers\Api\MateriaisController@show')->name('material.show');
+    Route::post('material', 'App\Http\Controllers\Api\MateriaisController@store')->name('material.store');
+    Route::put('material/{id}', 'App\Http\Controllers\Api\MateriaisController@update')->name('material.update');
+    Route::delete('material/{id}', 'App\Http\Controllers\Api\MateriaisController@destroy')->name('material.destroy');
+
+    //GEOLOCALIZAÇÃO
     Route::get('geo', 'App\Http\Controllers\Api\GeoCepController@index')->name('geo.index');
+
 });

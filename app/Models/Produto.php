@@ -27,15 +27,14 @@ class Produto extends Model
         'especie',
         'marca',
         'pessoa_juridica_id',
-        'material_id',
         'ativo',
     ];
     protected $guardaded = ['id'];
 
-    // public function usuario_responsavel_cadastro()
-    // {
-    //     return $this->hasOne('App\Models\User', 'usuario_responsavel_cadastro_id', 'id');
-    // }
+    public function materiais()
+    {
+        return $this->belongsToMany('App\Models\Material', 'material_produto');
+    }
 
     // public function tipo_empresa()
     // {

@@ -10,3 +10,6 @@ Manual cache resest (Permissions)
 Laravel/Passport
     php artisan migrate
     php artisan passport:install
+
+Nova Ruta
+    php artisan route:cache  

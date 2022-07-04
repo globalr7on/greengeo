@@ -26,8 +26,8 @@ class ProdutoResource extends JsonResource
             'comprimento'  => $this->comprimento,
             'especie' => $this->especie,
             'marca' => $this->marca,
-            'pessoa_juridica_id' => $this->pessoa_juridica,
-            'material_id' => $this->material_id,
+            'pessoa_juridica_id' => $this->pessoa_juridica_id,
+            'materiais' => $this->materiais ? $this->materiais->pluck('id') : [],
             'ativo'  => $this->ativo,
         ];
     }
