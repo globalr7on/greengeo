@@ -107,7 +107,6 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        // dd($request->all());
         $request->merge(array('password' => 'test010203'));
         $user = User::create($request->except('role_web', 'role_api'));
         $newRoleWeb = intval($request->get('role_web'));

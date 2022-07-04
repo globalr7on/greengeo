@@ -161,8 +161,6 @@
             $("#input_tipo_carteira").val(response.data.tipo_carteira)
             $("#input_validade_carteira").val(response.data.validade_carteira)
             $("#input_identificador_celular").val(response.data.identificador_celular)
-            // $("#input_usuario_responsavel_cadastro_id").val(response.data.usuario_responsavel_cadastro_id),
-            
             getRoles(response.data.role_web, 'web')
             getRoles(response.data.role_api, 'api')
           }
@@ -181,7 +179,8 @@
             })
             .catch(error => notifyDanger('Falha ao excluir usuário, tente novamente'))
           }
-        }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
+        })
+        .catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
       })
 
       function getRoles(value, guard) {
@@ -195,26 +194,24 @@
           notifyDanger('Falha ao obter funções, tente novamente')
         })
       }
-      $('body').on('blur', '#input_cep , #input_numero',   function() {
+
+      $('body').on('blur', '#input_cep , #input_numero', function() {
         var cep = $('#input_cep').val()
         var numero = $('#input_numero').val()
-          console.log(cep)
         if(cep && numero) {
-        // window.location.href = window.location.href + "?cep=" + cep ;
-            app.api.get(`/geo?cep=${cep}&numero=${numero}`).then(response =>  {
-              
-              console.log(response)
-               if (response && response.status) {
-                  $("#input_endereco").val(response.data.address),
-                  $("#input_bairro").val(response.data.district)
-                  $("#input_cidade").val(response.data.city)
-                  $("#input_estado").val(response.data.state)
-                  // $("#input_latitude").val(response.data.coord.lat)
-                  // $("#input_longitude").val(response.data.coord.lng)
-               }
-            })
+          app.api.get(`/geo?cep=${cep}&numero=${numero}`).then(response =>  {
+            if (response.status) {
+              $('#input_endereco').val(response.data.endereco)
+              $('#input_bairro').val(response.data.bairro)
+              $('#input_cidade').val(response.data.cidade)
+              $('#input_estado').val(response.data.estado)
+            } else {
+              notifyDanger(response.data)
+            }
+          })
+          .catch(error => notifyDanger('Falha ao obter dados de endereço, tente novamente'))
         }
-      });
+      })
     })
   </script>
 @endpush

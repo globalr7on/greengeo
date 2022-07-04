@@ -18,28 +18,22 @@ class CreateAdminUserSeeder extends Seeder
      */
     public function run()
     {
-        // $pessoa_juridica = PessoaJuridica::create([
-        //     'cnpj'=> '45.345.567/0001-45', 
-        //     'nome_fantasia'=> 'Hugo Tech',
-        //     'razao_social'=> 'VIctor Hugo Ramirez'
-        //     'email'=> 'emanuelsert@gmail.com',
-        // ]);
-    
         $user = User::create([
             'name' => 'Admin', 
             'email' => 'admin@greenbeat.com',
             'password' => 'admin',
             'cpf' => '709.413.992-65',
-            'rg' => 'f-72347838'
+            'rg' => 'f-72347838',
+            'ativo' => true
         ]);
-    
 
-        $role = Role::create(['name' => 'admin']);
-     
-        $permissions = Permission::pluck('id','id')->all();
-   
-        $role->syncPermissions($permissions);
-     
-        $user->assignRole([$role->id]);
+        $role_web = Role::create(['name' => 'admin', 'guard_name' => 'web']);
+        $role_api = Role::create(['name' => 'admin', 'guard_name' => 'api']);
+        $permissions_web = Permission::where('guard_name', 'web')->pluck('id')->all();
+        $permissions_api = Permission::where('guard_name', 'web')->pluck('id')->all();
+        $role_web->syncPermissions($permissions_web);
+        $role_api->syncPermissions($permissions_api);
+        $user->assignRole($role_web->id, 'web');
+        $user->assignRole($role_api->id, 'api');
     }
 }

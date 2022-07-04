@@ -98,7 +98,7 @@
                   <div class="row m-0">
                     <div class="form-group col-md-3">
                       <label for="input_cep" class="position-relative mb-0 font-weight-bold">CEP</label>
-                      <input type="text" class="form-control maskcep" id="input_cep"  name="input_cep">
+                      <input type="text" class="form-control maskcep" id="input_cep" name="input_cep">
                     </div>
                     <div class="form-group col-md-3">
                       <label for="input_numero" class="position-relative mb-0 font-weight-bold">Número</label>

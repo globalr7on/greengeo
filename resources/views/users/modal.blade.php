@@ -87,7 +87,7 @@
                 <div class="row m-0">
                   <div class="form-group col-md-6">
                     <label for="input_cep" class="position-relative mb-0 font-weight-bold">CEP</label>
-                    <input type="text" class="form-control input_cep" id="input_cep" placeholder="123456-789">
+                    <input type="text" class="form-control maskcep" id="input_cep" placeholder="123456-789">
                   </div>
                   <div class="form-group col-md-6">
                     <label for="input_numero" class="position-relative mb-0 font-weight-bold">Número</label>
@@ -179,21 +179,6 @@
   <script>
     $('#formUser').submit(function(event) {
       event.preventDefault()
-    })
-
-    $('.datepicker').datetimepicker({
-      format: "YYYY-MM-DD",
-      icons: {
-        time: "fa fa-clock-o",
-        date: "fa fa-calendar",
-        up: "fa fa-chevron-up",
-        down: "fa fa-chevron-down",
-        previous: 'fa fa-chevron-left',
-        next: 'fa fa-chevron-right',
-        today: 'fa fa-screenshot',
-        clear: 'fa fa-trash',
-        close: 'fa fa-remove'
-      }
     })
   </script>
 @endpush

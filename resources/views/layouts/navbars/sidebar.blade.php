@@ -214,9 +214,9 @@
         </a>
         <div class="collapse {{ in_array($activePage, array('profile', 'users', 'funcoes', 'permissions'))  ? 'show' : '' }}" id="settingTab">
           <ul class="nav">
-            @can('profile.edit')
+            @can('profile.index')
             <li class="nav-item ml-4 {{ $activePage == 'profile' ? 'active' : '' }}">
-              <a class="nav-link" href="{{ route('profile.edit') }}">
+              <a class="nav-link" href="{{ route('profile.index') }}">
                 <i class="fa-solid fa-user"></i>
                 <span class="sidebar-normal">{{ __('Perfil') }}</span>
               </a>

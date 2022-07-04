@@ -16,14 +16,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('auth.login');
 });
-// Route::get('register', ['as' => 'auth.register', 'uses' => 'App\Http\Controllers\Auth\RegisterController@index']);
-
 Auth::routes();
-
 Route::group(['middleware' => ['auth', 'permission']], function () {
-
 	Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home')->middleware('auth');
 
+	// Cadastro
 	Route::get('/cadastro/empresa', ['as' => 'cadastros.empresa', 'uses' => 'App\Http\Controllers\PessoaJuridicaController@index']);
 	Route::get('/cadastro/veiculo', ['as' => 'cadastros.veiculo', 'uses' => 'App\Http\Controllers\VeiculoController@index']);
 	Route::get('/cadastro/produto', ['as' => 'cadastros.produto', 'uses' => 'App\Http\Controllers\ProdutoController@index']);
@@ -46,10 +43,7 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
 	Route::get('/or/ordem_servico', ['as' => 'rastreamento.os', 'uses' => 'App\Http\Controllers\OrdemDeServicoController@index']);
 
 	// Configuracoes
-	// Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
-	Route::get('meu_cadastro', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
-	Route::put('meu_cadastro', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
-	Route::put('meu_cadastro/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
+	Route::get('meu_cadastro', ['as' => 'profile.index', 'uses' => 'App\Http\Controllers\ProfileController@index']);
 	Route::get('configuracoes/users', ['as' => 'configuracoes.users', 'uses' => 'App\Http\Controllers\UserController@index']);
 	Route::get('configuracoes/roles', ['as' => 'configuracoes.roles', 'uses' => 'App\Http\Controllers\RolesController@index']);
 	Route::get('configuracoes/permissions', ['as' => 'configuracoes.permissions', 'uses' => 'App\Http\Controllers\PermissionsController@index']);

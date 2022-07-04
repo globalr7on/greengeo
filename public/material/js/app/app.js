@@ -183,6 +183,22 @@ function loadSelect(selector, data, fields = ['id', 'name'], selected = null) {
 // Init tooltips
 $('[data-toggle="tooltip"]').tooltip()
 
+// Init datapickers
+$('.datepicker').datetimepicker({
+  format: "YYYY-MM-DD",
+  icons: {
+    time: "fa fa-clock-o",
+    date: "fa fa-calendar",
+    up: "fa fa-chevron-up",
+    down: "fa fa-chevron-down",
+    previous: 'fa fa-chevron-left',
+    next: 'fa fa-chevron-right',
+    today: 'fa fa-screenshot',
+    clear: 'fa fa-trash',
+    close: 'fa fa-remove'
+  }
+})
+
 // Maskcpf
 const maskcpf = "999.999.999-99";
 $(".maskcpf").each(function () {
@@ -300,7 +316,7 @@ setTimeout(() => {
      
 // MaskCep 
 const maskcep = "99999-999";
-$("#input_cep").each(function () {
+$(".maskcep").each(function () {
   $(this).inputmask({
     mask: maskcep,
     clearIncomplete: true,
@@ -309,7 +325,7 @@ $("#input_cep").each(function () {
   });
 });
 setTimeout(() => {
-  $("#input_cep").focus(function () {
+  $(".maskcep").focus(function () {
     $(this).inputmask("remove");
     return false;
   }).blur(function () {

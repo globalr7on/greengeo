@@ -4,12 +4,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Resources\UserResource;
 
-Route::post('login','App\Http\Controllers\Api\UserController@accessToken');
+Route::post('login','App\Http\Controllers\Api\UserController@accessToken')->name('api.login');
 
 Route::middleware(['auth:api', 'permission'])->group(function(){
     // AUTHENTICATED USER
-    Route::get('me', function (Request $request) { return new UserResource($request->user()); })->name('me');
-    // Route::get('logout', 'App\Http\Controllers\Api\UserController@logout')->name('logout');
+    Route::get('logout', 'App\Http\Controllers\Api\UserController@logout')->name('api.logout');
+
+    // PROFILE
+    Route::get('profile/me', 'App\Http\Controllers\Api\ProfileController@me')->name('profile.me');
+    Route::put('profile/password', 'App\Http\Controllers\Api\ProfileController@password')->name('profile.password');
+    Route::put('profile', 'App\Http\Controllers\Api\ProfileController@update')->name('profile.update');
 
     // USERS
     Route::get('users', 'App\Http\Controllers\Api\UserController@index')->name('users.index');

@@ -19,7 +19,6 @@ class PermissionRequest extends FormRequest
         $id = $this->id;
         $newGuardName = $this->guard_name;
         return [
-            // 'name' => 'required|string|max:255|unique:permissions,name,'.$id,
             'name' => [
                 'required',
                 'string',
