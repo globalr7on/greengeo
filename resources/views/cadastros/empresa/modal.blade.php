@@ -212,7 +212,7 @@
                   <div class="row m-0">
                     <div class="form-group col-md-6">
                       <label for="input_capacidade_media_carga" class="position-relative mb-0 font-weight-bold">Capacidade Carga</label>
-                      <input type="text" class="form-control maskpeso" id="input_capacidade_media_carga" placeholder="999.999.999 Kg">
+                      <input maxlength="12" type="text" class="form-control maskpeso" id="input_capacidade_media_carga" placeholder="999.999.999 Kg">
                     </div>
                     <div class="form-group col-md-6">
                       <label for="input_senha_acesso" class="position-relative mb-0 font-weight-bold">Senha Acesso</label>

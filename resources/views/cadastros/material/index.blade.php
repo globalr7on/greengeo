@@ -92,7 +92,7 @@
         $('#tituloModal').text("Novo Material")
         $('#input_id').val("")
         $('#formMaterial')[0].reset()
-         getEmpresa()
+        //  getEmpresa()
         // getAtividade()
       });
 

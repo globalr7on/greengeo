@@ -290,7 +290,7 @@ function getMaskRg(val) {
 }
       
 // MaskPeso 
-const maskpeso = "999.999.999 Kg";
+const maskpeso = "99999999,99";
 $(".maskpeso").each(function () {
   $(this).inputmask({
     mask: maskpeso,

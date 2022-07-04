@@ -114,19 +114,27 @@
     .addTo(map);
   }
 
+  let app = new App({})
+     
   $('body').on('click', '#novoSearch',  function() {
-    $.ajax({
-      type: "GET",
-      url: "/api/os",
-    }).done(function (response) {
-      if (response && response.data) {
-        for (let i = 0; i < response.data.length; i++) {
-          console.log(response.data[i])
-          getOs(response.data[i].gerador_coord, response.data[i].destinador_coord)
-        }
-      }
-    });  
+   getOsMap()
   });
+   
+    function getOsMap(value) {
+      app.api.get('/os').then(response =>  {
+        if (response && response.status) {
+          for (let i = 0; i < response.data.length; i++) {
+            console.log(response.data[i])
+            getOs(response.data[i].gerador_coord, response.data[i].destinador_coord)
+          }
+        }
+      })
+      .catch(error => notifyDanger('Falha ao obter mapa, tente novamente'))
+     }
+    
+  
+     
+
 
   
 

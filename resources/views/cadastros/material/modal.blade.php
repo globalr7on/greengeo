@@ -44,15 +44,12 @@
                         </label>
                       </div>
                     </div>
-                   
                      <div class="form-group col-md-6">
                       <label for="input_usuario_responsavel_cadastro_id" class="position-relative mb-0 font-weight-bold">Responsavel</label>
                       <input type="hidden" class="form-control" id="input_usuario_responsavel_cadastro_id"  value="{{  Auth::user()->id  }}">
                       <input type="text" class="form-control" value="{{  Auth::user()->name }}" disabled >
                     </div>
-                    
                   </div>
-
                   <div class="row m-0">
                    <div class="form-group col-md-4">
                       <label for="input_ean" class="position-relative mb-0 font-weight-bold">EAN</label>
@@ -69,7 +66,6 @@
                     </div>
                     
                   </div>
-
                   <div class="row m-0">
                     <div class="form-group col-md-4">
                       <label for="input_peso_bruto" class="position-relative mb-0 font-weight-bold">Peso Bruto</label>
@@ -122,7 +118,7 @@
 
                   <button class="btn btn-warning">Itens</button>
                   <button class="btn btn-primary stepper-prev">Anterior</button>
-                  <button class="btn btn-primary"  id="salvarProduto" >Salvar</button>
+                  <button class="btn btn-primary stepper-next">Próximo</button>
                 </div>
 
                 <div id="step3" class="content" role="tabpanel" aria-labelledby="step3-trigger">
@@ -154,7 +150,6 @@
                       <input type="text" class="form-control" id="input_nota_fiscal_iten_id">
                     </div>          
                   </div>
-
                   <button class="btn btn-warning">Itens</button>
                   <button class="btn btn-primary stepper-prev">Anterior</button>
                   <button class="btn btn-primary"  id="salvarEmpresa" >Salvar</button>

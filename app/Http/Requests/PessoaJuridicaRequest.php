@@ -37,7 +37,7 @@ class PessoaJuridicaRequest extends FormRequest
             'ativo' => 'required',
             'identificador_celular' => 'required|string|max:10',
             'senha_acesso' => 'required|string|max:10',
-            'capacidade_media_carga' => 'required|string|max:10',
+            'capacidade_media_carga' => 'required|string|max:20',
             'usuario_responsavel_cadastro_id' => 'required',
             'atividade_id' => 'required|string',
             'tipo_empresa_id' => 'required|string'

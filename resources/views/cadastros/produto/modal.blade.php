@@ -126,73 +126,7 @@
                   <button class="btn btn-primary"  id="salvarProduto" >Salvar</button>
                 </div>
 
-                {{-- <div id="step3" class="content" role="tabpanel" aria-labelledby="step3-trigger">
-                  <h4 class="text-primary font-weight-bold text-uppercase">Contato</h4>
-                   <div class="row m-0">
-                    <div class="form-group col-md-4">
-                      <label for="input_contato_1" class="position-relative mb-0 font-weight-bold">Responsável nº 1</label>
-                      <input type="text" class="form-control" id="input_contato_1">
-                    </div>
-                    <div class="form-group col-md-4">
-                      <label for="input_cargo_contato_1" class="position-relative mb-0 font-weight-bold">Cargo</label>
-                      <input type="text" class="form-control" id="input_cargo_contato_1">
-                    </div>
-                    <div class="form-group col-md-4">
-                      <label for="input_celular_contato_1" class="position-relative mb-0 font-weight-bold">Celular</label>
-                      <input type="text" class="form-control" id="input_celular_contato_1">
-                    </div>
-                  </div>
-                   <div class="row m-0">
-                    <div class="form-group col-md-4">
-                      <label for="input_cargo_contato_2" class="position-relative mb-0 font-weight-bold">Responsável nº 2</label>
-                      <input type="text" class="form-control" id="input_cargo_contato_2">
-                    </div>
-                    <div class="form-group col-md-4">
-                      <label for="input_cargo_contato_2" class="position-relative mb-0 font-weight-bold">Cargo</label>
-                      <input type="text" class="form-control" id="input_cargo_contato_2">
-                    </div>
-                     <div class="form-group col-md-4">
-                      <label for="input_celular_contato_2" class="position-relative mb-0 font-weight-bold">Celular</label>
-                      <input type="text" class="form-control" id="input_celular_contato_2">
-                    </div>          
-                  </div>
-
-                  <div class="row m-0">
-                    <div class="form-group col-md-4">
-                      <label for="input_fixo" class="position-relative mb-0 font-weight-bold">Fixo</label>
-                      <input type="text" class="form-control" id="input_fixo">
-                    </div>
-                    <div class="form-group col-md-4">
-                      <label for="input_whatsapp" class="position-relative mb-0 font-weight-bold">Whatsapp</label>
-                      <input type="text" class="form-control" id="input_whatsapp">
-                    </div>
-                   
-                    <div class="form-group col-md-4">
-                      <label for="input_email" class="position-relative mb-0 font-weight-bold">Email</label>
-                      <input type="text" class="form-control" id="input_email">
-                    </div>
-                  </div>
-                <div class="row m-0">
-                  <div class="form-group col-md-4">
-                      <label for="input_capacidade_media_carga" class="position-relative mb-0 font-weight-bold">Capacidade Carga</label>
-                      <input type="text" class="form-control" id="input_capacidade_media_carga" placeholder="000000000.00 kg">
-                     
-                    </div>
-                   <div class="form-group col-md-4">
-                      <label for="input_identificador_celular" class="position-relative mb-0 font-weight-bold">Identificador Celular</label>
-                      <input type="text" class="form-control" id="input_identificador_celular">
-                    </div>
-                    <div class="form-group col-md-4">
-                      <label for="input_senha_acesso" class="position-relative mb-0 font-weight-bold">Senha Acesso</label>
-                      <input type="text" class="form-control" id="input_senha_acesso">
-                    </div>   
-                </div>
-
-
-                  <button class="btn btn-warning" >Motorista</button>
-                  <button class="btn btn-warning"id="#novoVeiculo">Veiculo</button>
-                  <button class="btn btn-primary stepper-prev">Anterior</button>
-                  <button class="btn btn-primary"  id="salvarEmpresa" >Salvar</button> --}}
+                
                 </div>
               </div>
            </form>
