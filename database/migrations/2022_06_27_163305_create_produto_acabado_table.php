@@ -28,8 +28,6 @@ class CreateProdutoAcabadoTable extends Migration
             $table->string('marca');
             $table->unsignedBigInteger('pessoa_juridica_id');
             $table->foreign('pessoa_juridica_id')->references('id')->on('pessoas_juridicas');
-            $table->unsignedBigInteger('material_id');
-            $table->foreign('material_id')->references('id')->on('materiais');
             $table->timestamps();
         });
     }

@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'produto', 'titlePage' => __('Produto Acabado')])
+@extends('layouts.app', ['activePage' => 'material', 'titlePage' => __('Materiais')])
 @section('css')
 @endsection
 @section('subheaderTitle')
@@ -8,8 +8,8 @@
    <div class="content mt-0">
     <div class="container-fluid">
       <div class="col-12 text-right">
-        <button type="button" class="btn btn-primary" id="novoProduto">
-         + Novo Produto
+        <button type="button" class="btn btn-primary" id="novoMaterial">
+         + Novo Material
         </button>
       </div>
       <div class="row">
@@ -17,19 +17,19 @@
           <div class="card">
             <div class="card-header card-header-primary">
               <h4 class="card-title">Cadastros</h4>
-              <p class="card-category">Produto</p>
+              <p class="card-category">Material</p>
             </div>
             <div class="card-body">
               <div>
-                <table class="table" id="produtoTbl">
+                <table class="table" id="materialTbl">
                   <thead>
-                    <th class="text-primary font-weight-bold">Fabricante</th>
+                    <th class="text-primary font-weight-bold">Ean</th>
+                    <th class="text-primary font-weight-bold">Ibama</th>
+                    <th class="text-primary font-weight-bold">Denominação Ibama</th>
                     <th class="text-primary font-weight-bold">Peso bruto</th>
-                    <th class="text-primary font-weight-bold">Peso liquido</th>
-                    <th class="text-primary font-weight-bold">Dimensões</th>
-                    <th class="text-primary font-weight-bold">Altura</th>
-                    <th class="text-primary font-weight-bold">Largura</th>
-                    <th class="text-primary font-weight-bold">Profundidade</th>
+                    <th class="text-primary font-weight-bold">Peso Liquido</th>
+                    <th class="text-primary font-weight-bold">Estado Físico</th>
+                    <th class="text-primary font-weight-bold">Composição Percentual</th>
                     <th class="text-primary font-weight-bold">Ativo</th>
                     <th class="text-primary font-weight-bold">Ação</th>
                   </thead>
@@ -41,7 +41,7 @@
       </div>
     </div>
   </div>
-   @include('cadastros.produto.modal')
+   @include('cadastros.material.modal')
   
 @endsection
 
@@ -50,15 +50,15 @@
     $(document).ready(function () {
       
       let app = new App({
-        apiUrl: '/api/produto',
+        apiUrl: '/api/material',
         apiDataTableColumns: [
-          { data: "nome_fabricante" },
+          { data: "ean" },
+          { data: "ibama" },
+          { data: "denominacao_ibama" },
           { data: "peso_bruto" },
           { data: "peso_liquido" },
-          { data: "dimensoes" },
-          { data: "altura" },
-          { data: "largura" },
-          { data: "profundidade" },
+          { data: "estado_fisico" },
+          { data: "percentual_composicao" },
           { 
             data: "ativo", className: "text-center", render: function (data, type) {
               return data ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>'
@@ -80,44 +80,51 @@
             }
           }
         ],
-        datatableSelector: '#produtoTbl'
+        datatableSelector: '#materialTbl'
       })
      
       // Open Modal New
-      $('body').on('click', '#novoProduto', function() {
+      $('body').on('click', '#novoMaterial', function() {
        
         app.stepper()
         delFormValidationErrors()
-        $("#modalProduto").modal("show")
-        $('#tituloModal').text("Novo Produto")
+        $("#modalMaterial").modal("show")
+        $('#tituloModal').text("Novo Material")
         $('#input_id').val("")
-        $('#formProduto')[0].reset()
-        getEmpresa()
+        $('#formMaterial')[0].reset()
+         getEmpresa()
         // getAtividade()
       });
 
       // Salvar ''
-      $('body').on('click', '#salvarProduto', function() {
+      $('body').on('click', '#salvarMaterial', function() {
         const JSONRequest = {
-          nome_fabricante: $("#input_nome_fabricante").val(),
+          ean: $("#input_ean").val(),
+          ibama: $("#input_ibama").val(),
+          denominacao_ibama: $("#input_denominacao_ibama").val(),
           peso_bruto: $("#input_peso_bruto").val(),
           peso_liquido: $("#input_peso_liquido").val(),
+          estado_fisico: $("#input_estado_fisico").val(),
+          percenteual_composicao: $("#input_percenteual_composicao").val(),
           dimensoes: $("#input_dimensoes").val(),
-          altura: $("#input_altura").val(),
           largura: $("#input_largura").val(),
           profundidade: $("#input_profundidade").val(),
           comprimento: $("#input_comprimento").val(),
+          nome_no_fabricante: $("#input_nome_no_fabricante").val(),
           especie: $("#input_especie").val(),
           marca: $("#input_marca").val(),
-          pessoa_juridica_id: $("#input_pessoa_juridica_id").val(),
-          material_id: $("#input_material_id").val(),
+          gerador_id: $("#input_gerador_id").val(),
+          tipo_material_id: $("#input_tipo_material_id").val(),
+          clase_material_id: $("#input_clase_material_id").val(),
+          unidade_id: $("#input_unidade_id").val(),
+          nota_fiscal_iten_id: $("#input_nota_fiscal_iten_id").val(),
           ativo: $("#checkAtivo").prop("checked") ? 1 : 0
         }
         const id = $('#input_id').val()
         if (id) {
-          app.api.put(`/produto/${id}`, JSONRequest).then(response => {
+          app.api.put(`/material/${id}`, JSONRequest).then(response => {
             if (response && response.status) {
-              $("#modalProduto").modal("hide")
+              $("#modalMaterial").modal("hide")
               app.datatable.ajax.reload()
               notifySuccess('Atualizado com sucesso')
             }
@@ -127,9 +134,9 @@
             notifyDanger('Falha ao atualizar, tente novamente')
           })
         } else {
-          app.api.post('/produto', JSONRequest).then(response => {
+          app.api.post('/material', JSONRequest).then(response => {
             if (response && response.status) {
-              $("#modalProduto").modal("hide")
+              $("#modalMaterial").modal("hide")
               app.datatable.ajax.reload()
               notifySuccess('Criado com sucesso')
             }
@@ -145,27 +152,33 @@
       $('body').on('click', '.editAction', function() {
         app.stepper()
         const id = $(this).attr('data-id');
-        app.api.get(`/produto/${id}`).then(response =>  {
+        app.api.get(`/material/${id}`).then(response =>  {
           if (response && response.status) {
-            
+            // getEmpresa(response.data.gerador_id)
             // getAtividade(response.data.atividade_id)
             delFormValidationErrors()
             $('#formProduto')[0].reset()
             $("#modalProduto").modal("show");
             $('#tituloModal').text("Editar Produto")
-            getEmpresa(response.data.pessoa_juridica_id)
-            $("#input_nome_fabricante").val(response.data.nome_fabricante),
+            $("#input_ean").val(response.data.ean),
+            $("#input_ibama").val(response.data.ibama),
+            $("#input_denominacao_ibama").val(response.data.denominacao_ibama),
             $("#input_peso_bruto").val(response.data.peso_bruto),
             $("#input_peso_liquido").val(response.data.peso_liquido),
+            $("#input_estado_fisico").val(response.data.estado_fisico),
+            $("#input_percentual_composicao").val(response.data.percenteual_composicao),
             $("#input_dimensoes").val(response.data.dimensoes),
-            $("#input_altura").val(response.data.altura),
-            $("#input_largura").val(response.data.altura),
+            $("#input_largura").val(response.data.largura),
             $("#input_profundidade").val(response.data.profundidade),
             $("#input_comprimento").val(response.data.comprimento),
+            $("#input_nome_no_fabricante").val(response.data.nome_no_fabricante),
             $("#input_especie").val(response.data.especie),
             $("#input_marca").val(response.data.marca),
-            // $("#input_pessoa_juridica_id").val(response.data.pessoa_juridica_id),
-            $("#input_material_id").val(response.data.material_id),
+            $("#input_gerador_id").val(response.data.gerador_id),
+            $("#input_tipo_material_id").val(response.data.tipo_material_id),
+            $("#input_classe_material_id").val(response.data.clase_material_id),
+            $("#input_unidade_id").val(response.data.unidade_id),
+            $("#input_nota_fiscal_iten_id").val(response.data.nota_fiscal_iten_id),
             $("#checkAtivo").prop("checked", response.data.ativo)
           }
         })
@@ -177,30 +190,19 @@
         const id = $(this).attr('data-id')
         sweetConfirm('Deseja realmente excluir a clase?').then(confirmed => {
           if (confirmed) {
-            app.api.delete(`/produto/${id}`).then(response =>  {
+            app.api.delete(`/material/${id}`).then(response =>  {
               app.datatable.ajax.reload()
-              notifySuccess('empresa excluída com sucesso')
+              notifySuccess('Excluída com sucesso')
             })
-            .catch(error => notifyDanger('Falha ao excluir empresa. Tente novamente'))
+            .catch(error => notifyDanger('Falha ao excluir. Tente novamente'))
           }
         }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
       });
 
-       function getEmpresa(value) {
-        app.api.get('/pessoa_juridica').then(response =>  {
-          if (response && response.status) {
-            loadSelect('#input_pessoa_juridica_id', response.data, ['id', 'razao_social'], value)
-          }
-        })
-        .catch(error => {
-          console.log('app.api.get error', error)
-          notifyDanger('Falha ao obter funções, tente novamente')
-        })
-      }
-      // function getTipoEmpresa(value) {
-      //   app.api.get('/tipo_empresa').then(response =>  {
+      // function getEmpresa(value) {
+      //   app.api.get('/pessoa_juridica').then(response =>  {
       //     if (response && response.status) {
-      //       loadSelect('#input_tipo_empresa_id', response.data, ['id', 'descricao'], value)
+      //       loadSelect('#input_gerador_id', response.data, ['id', 'descricao'], value)
       //     }
       //   })
       //   .catch(error => {

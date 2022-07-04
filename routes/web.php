@@ -27,6 +27,7 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
 	Route::get('/cadastro/empresa', ['as' => 'cadastros.empresa', 'uses' => 'App\Http\Controllers\PessoaJuridicaController@index']);
 	Route::get('/cadastro/veiculo', ['as' => 'cadastros.veiculo', 'uses' => 'App\Http\Controllers\VeiculoController@index']);
 	Route::get('/cadastro/produto', ['as' => 'cadastros.produto', 'uses' => 'App\Http\Controllers\ProdutoController@index']);
+	Route::get('/cadastro/material', ['as' => 'cadastros.material', 'uses' => 'App\Http\Controllers\MateriaisController@index']);
 	
 	// Administrativo
 	Route::get('/administrativo/acondicionamento', ['as' => 'administrativo.acondicionamento', 'uses' => 'App\Http\Controllers\AcondicionamentoController@index']);

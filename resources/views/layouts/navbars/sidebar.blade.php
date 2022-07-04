@@ -34,6 +34,14 @@
               </a>
             </li>
             @endcan
+            @can('cadastros.material')
+            <li class="nav-item ml-4 {{ $activePage == 'material' ? 'active' : '' }}">
+              <a class="nav-link" href="{{ route('cadastros.material') }}">
+                <i class="fa-solid fa-box-archive"></i>
+                <span class="sidebar-normal">{{ __('Material') }}</span>
+              </a>
+            </li>
+            @endcan
             @can('cadastros.produto')
             <li class="nav-item ml-4 {{ $activePage == 'produto' ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('cadastros.produto') }}">
