@@ -25,7 +25,8 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $token = $request->session()->get('token', function () {
-            return UserController::accessToken(new Request(), Auth::user());
+            $userController = new UserController();
+            return $userController->accessToken(new Request(), Auth::user());
         });
         $request->session()->put('token', $token);
         return view('dashboard');
