@@ -26,7 +26,7 @@
                     <th class="text-primary font-weight-bold">Ean</th>
                     <th class="text-primary font-weight-bold">Ibama</th>
                     <th class="text-primary font-weight-bold">Denominação Ibama</th>
-                    <th class="text-primary font-weight-bold">Peso bruto</th>
+                    <th class="text-primary font-weight-bold">Peso Bruto</th>
                     <th class="text-primary font-weight-bold">Peso Liquido</th>
                     <th class="text-primary font-weight-bold">Estado Físico</th>
                     <th class="text-primary font-weight-bold">Composição Percentual</th>
@@ -48,7 +48,6 @@
 @push('js')
   <script>
     $(document).ready(function () {
-      
       let app = new App({
         apiUrl: '/api/material',
         apiDataTableColumns: [
@@ -67,36 +66,21 @@
         ],
         apiDataTableColumnsDefs : [
           { targets: 1, orderable: false },
-        
-          { 
-            targets : 8,
-            className: "text-center",
-            render : function (data, type, row) {
-              return `
-                <i class="fa fa-trash cursor-pointer excluirEmpresa" data-id="${row.id}" title="Excluir" ></i>
-                &nbsp;
-                <i class="fa fa-pen cursor-pointer editarEmpresa" data-id="${row.id}"  title="Editar"></i>
-              `
-            }
-          }
         ],
         datatableSelector: '#materialTbl'
       })
      
       // Open Modal New
       $('body').on('click', '#novoMaterial', function() {
-       
         app.stepper()
         delFormValidationErrors()
         $("#modalMaterial").modal("show")
         $('#tituloModal').text("Novo Material")
         $('#input_id').val("")
         $('#formMaterial')[0].reset()
-        //  getEmpresa()
-        // getAtividade()
       });
 
-      // Salvar ''
+      // Salvar
       $('body').on('click', '#salvarMaterial', function() {
         const JSONRequest = {
           ean: $("#input_ean").val(),
@@ -154,8 +138,6 @@
         const id = $(this).attr('data-id');
         app.api.get(`/material/${id}`).then(response =>  {
           if (response && response.status) {
-            // getEmpresa(response.data.gerador_id)
-            // getAtividade(response.data.atividade_id)
             delFormValidationErrors()
             $('#formProduto')[0].reset()
             $("#modalProduto").modal("show");
@@ -182,7 +164,7 @@
             $("#checkAtivo").prop("checked", response.data.ativo)
           }
         })
-        .catch(error => console.log(error) && notifyDanger('Falha ao obter detalhes do empresa. Tente novamente'))
+        .catch(error => notifyDanger('Falha ao obter detalhes do empresa. Tente novamente'))
       })
 
       // Excluir
@@ -198,31 +180,6 @@
           }
         }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
       });
-
-      // function getEmpresa(value) {
-      //   app.api.get('/pessoa_juridica').then(response =>  {
-      //     if (response && response.status) {
-      //       loadSelect('#input_gerador_id', response.data, ['id', 'descricao'], value)
-      //     }
-      //   })
-      //   .catch(error => {
-      //     console.log('app.api.get error', error)
-      //     notifyDanger('Falha ao obter funções, tente novamente')
-      //   })
-      // }
-
-      // function getAtividade(value) {
-      //   app.api.get('/atividade').then(response =>  {
-      //     if (response && response.status) {
-      //       loadSelect('#input_atividade_id', response.data, ['id', 'descricao'], value)
-      //     }
-      //   })
-      //   .catch(error => {
-      //     console.log('app.api.get error', error)
-      //     notifyDanger('Falha ao obter funções, tente novamente')
-      //   })
-      // }
-   
-     });
+    });
   </script>
 @endpush
