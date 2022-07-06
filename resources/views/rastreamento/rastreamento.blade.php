@@ -78,7 +78,6 @@
 @endsection
 
 @push('js')
-
 <script>
   // Inicialização do mapa
   var map = L.map('map').setView([-25.441105, -49.276855], 12);
