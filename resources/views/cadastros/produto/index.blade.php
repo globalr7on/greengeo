@@ -175,13 +175,13 @@
       // Excluir
       $('body').on('click', '.deleteAction',  function() {
         const id = $(this).attr('data-id')
-        sweetConfirm('Deseja realmente excluir a clase?').then(confirmed => {
+        sweetConfirm('Deseja realmente excluir?').then(confirmed => {
           if (confirmed) {
             app.api.delete(`/produto/${id}`).then(response =>  {
               app.datatable.ajax.reload()
               notifySuccess('empresa excluída com sucesso')
             })
-            .catch(error => notifyDanger('Falha ao excluir empresa. Tente novamente'))
+            .catch(error => notifyDanger('Falha ao excluir. Tente novamente'))
           }
         }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
       });

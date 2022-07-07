@@ -105,12 +105,6 @@
                 </div>
 
                 <div class="row m-0">
-                  <div class="form-group col-md-6 text-center">
-                    <label for="input_pessoa_juridica_id" class="display-inherit mb-0">Empresa</label>
-                    <select id="input_pessoa_juridica_id" data-style="btn-warning text-white" title="Single Select" name="empresa" >
-                      <option value="" disabled selected>Seleccione</option>
-                    </select>
-                  </div>
                   <div class="form-group col-md-6">
                     <label for="input_material_id" class="position-relative mb-0 font-weight-bold">Material</label>
                     <input type="text" class="form-control" id="input_material_id">

@@ -37,6 +37,7 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
 	Route::get('/administrativo/atividade', ['as' => 'administrativo.atividade', 'uses' => 'App\Http\Controllers\AtividadeController@index']);
 	Route::get('/administrativo/tipo_material', ['as' => 'administrativo.tipoMaterial', 'uses' => 'App\Http\Controllers\TipoMaterialController@index']);
 	Route::get('/administrativo/tipo_empresa', ['as' => 'administrativo.tipoEmpresa', 'uses' => 'App\Http\Controllers\TipoEmpresaController@index']);
+	Route::get('/administrativo/ibama', ['as' => 'administrativo.ibama', 'uses' => 'App\Http\Controllers\IbamaController@index']);
 	
 	// OS E Rastreamento
 	Route::get('/or/rastreamento', ['as' => 'rastreamento.rastreamento', 'uses' => 'App\Http\Controllers\RastreamentoController@index']);
@@ -44,7 +45,7 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
 	Route::get('/or/ordem_servico', ['as' => 'rastreamento.os', 'uses' => 'App\Http\Controllers\OrdemDeServicoController@index']);
 
 	// Configuracoes
-	Route::get('meu_cadastro', ['as' => 'profile.index', 'uses' => 'App\Http\Controllers\ProfileController@index']);
+	Route::get('meu_cadastro', ['as' => 'configuracoes.profile', 'uses' => 'App\Http\Controllers\ProfileController@index']);
 	Route::get('configuracoes/users', ['as' => 'configuracoes.users', 'uses' => 'App\Http\Controllers\UserController@index']);
 	Route::get('configuracoes/roles', ['as' => 'configuracoes.roles', 'uses' => 'App\Http\Controllers\RolesController@index']);
 	Route::get('configuracoes/permissions', ['as' => 'configuracoes.permissions', 'uses' => 'App\Http\Controllers\PermissionsController@index']);

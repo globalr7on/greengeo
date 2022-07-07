@@ -154,12 +154,12 @@
       // Excluir
       $('body').on('click', '.deleteAction',  function() {
         const id = $(this).attr('data-id')
-        sweetConfirm('Deseja realmente excluir a veiculo?').then(confirmed => {
+        sweetConfirm('Deseja realmente excluir?').then(confirmed => {
           if (confirmed) {
             app.api.delete(`/veiculo/${id}`).then(response =>  {
               app.datatable.ajax.reload()
               notifySuccess('veiculo excluída com sucesso')
-            }).catch(error => notifyDanger('Falha ao excluir veiculo. Tente novamente'))
+            }).catch(error => notifyDanger('Falha ao excluir. Tente novamente'))
           }
         }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
       });

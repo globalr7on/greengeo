@@ -24,7 +24,6 @@
                     <th class="text-primary font-weight-bold">Email</th>
                     <th class="text-primary font-weight-bold">Cargo</th>
                     <th class="text-primary font-weight-bold">Funções</th>
-                    <th class="text-primary font-weight-bold">Usuario Responsavel</th>
                     <th class="text-primary font-weight-bold">Ação</th>
                   </thead>
                 </table>
@@ -49,7 +48,6 @@
           { data: "email" },
           { data: "cargo" },
           { data: "roles_name" },
-          { data: "usuario_responsavel_cadastro" }
         ],
         apiDataTableColumnDefs: [
           {
@@ -75,6 +73,8 @@
         $('#formUser')[0].reset()
         getRoles(null, 'web')
         getRoles(null, 'api')
+        getEmpresa()
+        getTipoEmpresa()
       });
 
       // Salvar 
@@ -98,6 +98,7 @@
           registro_carteira: $("#input_registro_carteira").val(),
           tipo_carteira: $("#input_tipo_carteira").val(),
           validade_carteira: $("#input_validade_carteira").val(),
+          pessoa_juridica_id: $("#input_pessoa_juridica_id").val(),
           usuario_responsavel_cadastro_id: $("#input_usuario_responsavel_cadastro_id").val(),
           identificador_celular: '123456',
           role_web: $("#input_role_web").val(),
@@ -141,6 +142,8 @@
             $('#formUser')[0].reset()
             $("#modalFormUser").modal("show")
             $('#modalFormUserTitle').text("Editar Usuario")
+            getEmpresa(response.data.pessoa_juridica_id)
+            getTipoEmpresa(response.data.tipo_empresa_id)
             $('#inputId').val(response.data.id)
             $("#input_cpf").val(response.data.cpf)
             $("#input_rg").val(response.data.rg)
@@ -211,6 +214,35 @@
           })
           .catch(error => notifyDanger('Falha ao obter dados de endereço, tente novamente'))
         }
+      })
+      
+       function getEmpresa(value, tipo_empresa_id) {
+         
+        app.api.get(`/pessoa_juridica${tipo_empresa_id ? '?tipo_empresa_id='+tipo_empresa_id : ''}`).then(response =>  {
+          if (response && response.status) {
+            loadSelect('#input_pessoa_juridica_id', response.data, ['id', 'razao_social'], value)
+          }
+        })
+        .catch(error => {
+          console.log('app.api.get error', error)
+          notifyDanger('Falha ao obter funções, tente novamente')
+        })
+      }
+      function getTipoEmpresa(value) {
+        app.api.get('/tipo_empresa').then(response =>  {
+          if (response && response.status) {
+            loadSelect('#input_tipo_empresa_id', response.data, ['id', 'descricao'], value)
+          }
+        })
+        .catch(error => {
+          console.log('app.api.get error', error)
+          notifyDanger('Falha ao obter funções, tente novamente')
+        })
+      }
+
+      $('body').on('change', '#input_tipo_empresa_id', function(event) {
+        getEmpresa(null, event.target.value)
+        // console.log(event);
       })
     })
   </script>

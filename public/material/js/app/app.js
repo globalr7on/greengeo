@@ -289,30 +289,30 @@ function getMaskRg(val) {
   return mask;
 }
       
-// MaskPeso 
-const maskpeso = "999.999.999 Kg";
-$(".maskpeso").each(function () {
-  $(this).inputmask({
-    mask: maskpeso,
-    clearIncomplete: true,
-    removeMaskOnSubmit: true,
-    autoUnmask: true,
-  });
-});
-setTimeout(() => {
-  $(".maskpeso").focus(function () {
-    $(this).inputmask("remove");
-    return false;
-  }).blur(function () {
-    $(this).inputmask("remove");
-    $(this).inputmask({
-      mask: maskpeso,
-      clearIncomplete: true,
-      removeMaskOnSubmit: true,
-      autoUnmask: true,
-    });
-  });
-}, 500);
+
+// const maskpeso = "99999999,99";
+// $(".maskpeso").each(function () {
+//   $(this).inputmask({
+//     mask: maskpeso,
+//     clearIncomplete: true,
+//     removeMaskOnSubmit: true,
+//     autoUnmask: true,
+//   });
+// });
+// setTimeout(() => {
+//   $(".maskpeso").focus(function () {
+//     $(this).inputmask("remove");
+//     return false;
+//   }).blur(function () {
+//     $(this).inputmask("remove");
+//     $(this).inputmask({
+//       mask: maskpeso,
+//       clearIncomplete: true,
+//       removeMaskOnSubmit: true,
+//       autoUnmask: true,
+//     });
+//   });
+// }, 500);
      
 // MaskCep 
 const maskcep = "99999-999";

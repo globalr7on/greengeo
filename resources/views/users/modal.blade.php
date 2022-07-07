@@ -35,6 +35,20 @@
               <div id="step1" class="content" role="tabpanel" aria-labelledby="step1-trigger">
                 <h4 class="text-primary font-weight-bold text-uppercase">Informações Básicas</h4>
                 <div class="row m-0">
+                  <div class="form-group col-md-6 text-center">
+                    <label for="input_tipo_empresa_id" class="display-inherit mb-0">Tipo de Empresa</label>
+                    <select id="input_tipo_empresa_id" data-style="btn-warning text-white" title="Single Select" name="tipo_empresa" >
+                      <option value="" disabled selected>Seleccione</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-6 text-center">
+                    <label for="input_pessoa_juridica_id" class="display-inherit mb-0">Empresa</label>
+                    <select id="input_pessoa_juridica_id" data-style="btn-warning text-white" title="Single Select" name="empresa" >
+                      <option value="" disabled selected>Seleccione</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row m-0">
                   <div class="form-group col-md-6">
                     <input type="hidden" class="form-control" id="inputId">
                     <input type="hidden" class="form-control" id="input_usuario_responsavel_cadastro_id"  value="{{  Auth::user()->id  }}">
@@ -67,12 +81,12 @@
                   </div>
 
                   <div class="form-group col-md-4 text-center">
-                    <label for="input_role_web" class="display-inherit mb-0">Permissão Web</label>
+                    <label for="input_role_web" class="display-inherit mb-0">Função Web</label>
                     <select data-style="btn-warning text-white" title="Select" name="role_web" id="input_role_web"></select>
                   </div>
 
                   <div class="form-group col-md-4 text-center">
-                    <label for="input_role_api" class="display-inherit mb-0">Permissão Api</label>
+                    <label for="input_role_api" class="display-inherit mb-0">Função Api</label>
                     <select data-style="btn-warning text-white" title="Select" name="role_api" id="input_role_api"></select>
                   </div>
                 </div>

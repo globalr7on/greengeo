@@ -8,12 +8,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Estagio extends Model
+class Ibama extends Model
 {
-    use HasApiTokens, HasFactory, Notifiable;
-    protected $table = 'estagios';
+   use HasApiTokens, HasFactory, Notifiable;
+    protected $table = 'ibamas';
     protected $fillable = [
-        'descricao'
+        'code_ibama',
+        'denominacao_ibama'
     ]; 
     protected $guardaded = ['id'];
 }

@@ -278,6 +278,17 @@
           }).catch(error => notifyDanger('Falha ao obter dados de endereço, tente novamente'))
         }
       })
+      // MaskPeso 
+      $('.maskpeso').maskWeight({
+        integerDigits: 8,
+        decimalDigits: 2,
+        decimalMark:',',
+        initVal:'',
+        roundingZeros:false,
+        digitsCount: 8,
+        callBack:null,
+        doFocus:true
+      });
     });
   </script>
 @endpush

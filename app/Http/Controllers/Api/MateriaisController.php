@@ -58,11 +58,11 @@ class MateriaisController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\ProdutoRequest  $request
+     * @param  \Illuminate\Http\MateriaisRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ProdutoRequest $request, $id)
+    public function update(MateriaisRequest $request, $id)
     {
         $material = Material::find($id);
         $material->update($request->all());

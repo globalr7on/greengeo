@@ -16,15 +16,15 @@
       </li>
       @endcan
 
-      @canany(['cadastros.empresa', 'cadastros.produto', 'cadastros.veiculo'])
-      <li class="nav-item {{ in_array($activePage, array('empresa', 'produto', 'veiculo')) ? 'active' : '' }}">
+      @canany(['cadastros.empresa', 'cadastros.material', 'cadastros.produto', 'cadastros.veiculo'])
+      <li class="nav-item {{ in_array($activePage, array('empresa', 'material', 'produto', 'veiculo')) ? 'active' : '' }}">
         <a class="nav-link" data-toggle="collapse" href="#cadastrosTab" aria-expanded="{{ in_array($activePage, array('empresa', 'produto', 'veiculo')) ? 'true' : 'false' }}">
           <i class="fa-solid fa-address-card"></i>
           <p>{{ __('Cadastros') }}
             <b class="caret"></b>
           </p>
         </a>
-        <div class="collapse {{ in_array($activePage, array('empresa', 'produto', 'veiculo')) ? 'show' : '' }}" id="cadastrosTab">
+        <div class="collapse {{ in_array($activePage, array('empresa', 'material', 'produto', 'veiculo')) ? 'show' : '' }}" id="cadastrosTab">
           <ul class="nav">
             @can('cadastros.empresa')
             <li class="nav-item ml-4 {{ $activePage == 'empresa' ? 'active' : '' }}">
@@ -37,7 +37,7 @@
             @can('cadastros.material')
             <li class="nav-item ml-4 {{ $activePage == 'material' ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('cadastros.material') }}">
-                <i class="fa-solid fa-box-archive"></i>
+                <i class="fa-solid fa-recycle"></i>
                 <span class="sidebar-normal">{{ __('Material') }}</span>
               </a>
             </li>
@@ -68,14 +68,14 @@
         'administrativo.classeSucata', 'administrativo.unidad', 'administrativo.modelo', 'administrativo.marca',
         'administrativo.estagiosOs', 'administrativo.tipoMaterial', 'administrativo.atividade'
       ])
-      <li class="nav-item {{ in_array($activePage, array('tipo_empresa','acondicionamento','tratamento','sucata','unidade','modelo','marca','estagios','tipo_material','atividade')) ? 'active' : '' }}">
+      <li class="nav-item {{ in_array($activePage, array('tipo_empresa','acondicionamento','tratamento','sucata','unidade','modelo','marca','estagios','tipo_material','atividade', 'ibama')) ? 'active' : '' }}">
         <a class="nav-link" data-toggle="collapse" href="#l2" aria-expanded="{{ in_array($activePage, array('tipo_empresa','acondicionamento','tratamento','sucata','unidade','modelo','marca','estagios','tipo_material','atividade')) ? 'true' : 'false' }}">
           <i class="fa-solid fa-folder-tree"></i>
           <p>{{ __('Administrativo') }}
             <b class="caret"></b>
           </p>
         </a>  
-        <div class="collapse {{ in_array($activePage, array('tipo_empresa','acondicionamento','tratamento','sucata','unidade','modelo','marca','estagios','tipo_material','atividade')) ? 'show' : '' }}" id="l2">
+        <div class="collapse {{ in_array($activePage, array('tipo_empresa','acondicionamento','tratamento','sucata','unidade','modelo','marca','estagios','tipo_material','atividade', 'ibama')) ? 'show' : '' }}" id="l2">
           <ul class="nav">
             @can('administrativo.tipoEmpresa')
             <li class="nav-item ml-4 {{ $activePage == 'tipo_empresa' ? 'active' : '' }}">
@@ -166,6 +166,15 @@
               </a>
             </li>
             @endcan
+
+              @can('administrativo.ibama')
+            <li class="nav-item ml-4 {{ $activePage == 'ibama' ? 'active' : '' }}">
+              <a class="nav-link" href="{{ route('administrativo.ibama') }}">
+                <i class="fa-solid fa-square-caret-right"></i>
+                <span class="sidebar-normal">{{ __('Ibama') }}</span>
+              </a>
+            </li>
+            @endcan
           </ul>
         </div>
       </li>
@@ -212,7 +221,7 @@
       </li>
       @endcanany
 
-      @canany(['profile.edit', 'configuracoes.users', 'configuracoes.roles', 'configuracoes.permissions'])
+      @canany(['configuracoes.profile', 'configuracoes.users', 'configuracoes.roles', 'configuracoes.permissions'])
       <li class="nav-item {{ in_array($activePage, array('profile', 'users', 'funcoes', 'permissions')) ? 'active' : ''}}">
         <a class="nav-link" data-toggle="collapse" href="#settingTab" aria-expanded="{{ in_array($activePage, array('profile', 'users', 'funcoes', 'permissions')) ? 'true' : 'false' }}">
           <i class="fa-solid fa-gear"></i>
@@ -222,9 +231,9 @@
         </a>
         <div class="collapse {{ in_array($activePage, array('profile', 'users', 'funcoes', 'permissions'))  ? 'show' : '' }}" id="settingTab">
           <ul class="nav">
-            @can('profile.index')
+            @can('configuracoes.profile')
             <li class="nav-item ml-4 {{ $activePage == 'profile' ? 'active' : '' }}">
-              <a class="nav-link" href="{{ route('profile.index') }}">
+              <a class="nav-link" href="{{ route('configuracoes.profile') }}">
                 <i class="fa-solid fa-user"></i>
                 <span class="sidebar-normal">{{ __('Perfil') }}</span>
               </a>
@@ -258,10 +267,20 @@
             </li>
             @endcan
           </ul>
-        </div>
+        </div> 
       </li>
       @endcanany
+      @can('home')
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+          <i class="fa-solid fa-right-from-bracket"></i>
+          <p>{{ __('Sair') }}</p>
+        </a>
+      </li>
+      @endcan
+   
     </ul>
+
     <div class="sidebar-footer-logo">
       <img src="{{ asset('material') }}/img/greenbeat.png" style="width: 150px;height: 40px;" />
     </div>

@@ -2,13 +2,13 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Resources\UserResource;
+use App\Http\Resources\UserReslogoutource;
 
 Route::post('login','App\Http\Controllers\Api\UserController@accessToken')->name('api.login');
 
 Route::middleware(['auth:api', 'permission'])->group(function(){
     // AUTHENTICATED USER
-    Route::get('logout', 'App\Http\Controllers\Api\UserController@logout')->name('api.logout');
+    Route::get('', 'App\Http\Controllers\Api\UserController@logout')->name('api.logout');
 
     // PROFILE
     Route::get('profile/me', 'App\Http\Controllers\Api\ProfileController@me')->name('profile.me');
@@ -136,11 +136,18 @@ Route::middleware(['auth:api', 'permission'])->group(function(){
     Route::delete('produto/{id}', 'App\Http\Controllers\Api\ProdutoController@destroy')->name('produto.destroy');
 
     // MATERIAL
-    Route::get('material', 'App\Http\Controllers\Api\MateriaisController@index')->name('material.index');
-    Route::get('material/{id}', 'App\Http\Controllers\Api\MateriaisController@show')->name('material.show');
-    Route::post('material', 'App\Http\Controllers\Api\MateriaisController@store')->name('material.store');
-    Route::put('material/{id}', 'App\Http\Controllers\Api\MateriaisController@update')->name('material.update');
-    Route::delete('material/{id}', 'App\Http\Controllers\Api\MateriaisController@destroy')->name('material.destroy');
+    Route::get('material', 'App\Http\Controllers\Api\IbamaController@index')->name('material.index');
+    Route::get('material/{id}', 'App\Http\Controllers\Api\IbamaController@show')->name('material.show');
+    Route::post('material', 'App\Http\Controllers\Api\IbamaController@store')->name('material.store');
+    Route::put('material/{id}', 'App\Http\Controllers\Api\IbamaController@update')->name('material.update');
+    Route::delete('material/{id}', 'App\Http\Controllers\Api\IbamaController@destroy')->name('material.destroy');
+
+      // IBAMA
+    Route::get('ibama', 'App\Http\Controllers\Api\IbamaController@index')->name('ibama.index');
+    Route::get('ibama/{id}', 'App\Http\Controllers\Api\IbamaController@show')->name('ibama.show');
+    Route::post('ibama', 'App\Http\Controllers\Api\IbamaController@store')->name('ibama.store');
+    Route::put('ibama/{id}', 'App\Http\Controllers\Api\IbamaController@update')->name('ibama.update');
+    Route::delete('ibama/{id}', 'App\Http\Controllers\Api\IbamaController@destroy')->name('ibama.destroy');
 
     //GEOLOCALIZAÇÃO
     Route::get('geo', 'App\Http\Controllers\Api\GeoCepController@index')->name('geo.index');

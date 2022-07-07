@@ -52,43 +52,38 @@
                   </div>
 
                   <div class="row m-0">
-                    <div class="form-group col-md-4 text-center">
+                    <div class="form-group col-md-6 text-center">
                       <label for="input_tipo_empresa_id" class="display-inherit mb-0">Tipo de Empresa</label>
                       <select id="input_tipo_empresa_id" data-style="btn-warning text-white" title="Single Select" name="tipo" >
                         <option value="" disabled selected>Seleccione</option>
                       </select>
                     </div>
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-6">
                       <label for="input_atividade_id" class="display-inherit mb-0">Tipo de Atividade</label>
                       <select id="input_atividade_id" data-style="btn btn-warning text-white rounded" title="Single Select" name="input_atividade_id">
                         <option value="" disabled selected>Atividade</option>
                       </select>
                     </div>
-                    <div class="form-group col-md-4">
-                      <label for="input_usuario_responsavel_cadastro_id" class="position-relative mb-0 font-weight-bold">Usuario Responsavel</label>
-                      <input type="hidden" class="form-control" id="input_usuario_responsavel_cadastro_id"  value="{{  Auth::user()->id  }}">
-                      <input type="text" class="form-control" value="{{  Auth::user()->name }}" disabled >
-                    </div>
                   </div>
-
                   <div class="row m-0">
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-4">
+                      <input type="hidden" class="form-control" id="input_usuario_responsavel_cadastro_id"  value="{{  Auth::user()->id  }}">
                       <label for="input_razao_social" class="position-relative mb-0 font-weight-bold">Razão Social</label>
                       <input type="text" class="form-control" id="input_razao_social">
                     </div>
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-4">
                       <label for="input_cnpj" class="position-relative mb-0 font-weight-bold " placeholder="00.000.000/0000-00">CNPJ</label>
                       <input type="text" class="form-control maskCnpj" id="input_cnpj">
                     </div>  
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-4">
                       <label for="input_nome_fantasia" class="position-relative mb-0 font-weight-bold">Nome de Fantasia</label>
                       <input type="text" class="form-control" id="input_nome_fantasia">
                     </div>
                   </div>
 
                   <div class="row m-0">
-                    <button class="btn btn-warning">Motorista</button>
-                    <button class="btn btn-warning">Veiculo</button>
+                    {{-- <button class="btn btn-warning">Motorista</button>
+                    <button class="btn btn-warning">Veiculo</button> --}}
                     <button class="btn btn-primary stepper-next">Próximo</button>
                   </div>
                 </div>
@@ -212,7 +207,7 @@
                   <div class="row m-0">
                     <div class="form-group col-md-6">
                       <label for="input_capacidade_media_carga" class="position-relative mb-0 font-weight-bold">Capacidade Carga</label>
-                      <input maxlength="12" type="text" class="form-control maskpeso" id="input_capacidade_media_carga" placeholder="999.999.999 Kg">
+                      <input maxlength="12" type="text" class="form-control maskpeso" id="input_capacidade_media_carga">
                     </div>
                     <div class="form-group col-md-6">
                       <label for="input_senha_acesso" class="position-relative mb-0 font-weight-bold">Senha Acesso</label>

@@ -18,10 +18,14 @@ class PessoaJuridicaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $pessoa_juridica = PessoaJuridica::all();
-      
+
+        if ($request->has('tipo_empresa_id')) {
+            $pessoa_juridica = $pessoa_juridica->where('tipo_empresa_id', $request->tipo_empresa_id)->all();
+        }
+    
          return response([
             'data' => PessoaJuridicaResource::collection($pessoa_juridica),
             'status' => true
