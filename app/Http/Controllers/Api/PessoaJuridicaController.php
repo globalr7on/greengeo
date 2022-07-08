@@ -20,7 +20,11 @@ class PessoaJuridicaController extends Controller
      */
     public function index(Request $request)
     {
-        $pessoa_juridica = PessoaJuridica::all();
+         $pessoa_juridica = PessoaJuridica::all();
+
+        if ($request->has('usuario_responsavel_cadastro_id')) {
+            $pessoa_juridica = $pessoa_juridica->where('usuario_responsavel_cadastro_id', $request->usuario_responsavel_cadastro_id)->all();
+        }
 
         if ($request->has('tipo_empresa_id')) {
             $pessoa_juridica = $pessoa_juridica->where('tipo_empresa_id', $request->tipo_empresa_id)->all();

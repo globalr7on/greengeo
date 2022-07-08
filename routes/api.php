@@ -8,7 +8,7 @@ Route::post('login','App\Http\Controllers\Api\UserController@accessToken')->name
 
 Route::middleware(['auth:api', 'permission'])->group(function(){
     // AUTHENTICATED USER
-    Route::get('', 'App\Http\Controllers\Api\UserController@logout')->name('api.logout');
+    Route::get('logout', 'App\Http\Controllers\Api\UserController@logout')->name('api.logout');
 
     // PROFILE
     Route::get('profile/me', 'App\Http\Controllers\Api\ProfileController@me')->name('profile.me');
@@ -136,11 +136,11 @@ Route::middleware(['auth:api', 'permission'])->group(function(){
     Route::delete('produto/{id}', 'App\Http\Controllers\Api\ProdutoController@destroy')->name('produto.destroy');
 
     // MATERIAL
-    Route::get('material', 'App\Http\Controllers\Api\IbamaController@index')->name('material.index');
-    Route::get('material/{id}', 'App\Http\Controllers\Api\IbamaController@show')->name('material.show');
-    Route::post('material', 'App\Http\Controllers\Api\IbamaController@store')->name('material.store');
-    Route::put('material/{id}', 'App\Http\Controllers\Api\IbamaController@update')->name('material.update');
-    Route::delete('material/{id}', 'App\Http\Controllers\Api\IbamaController@destroy')->name('material.destroy');
+    Route::get('material', 'App\Http\Controllers\Api\MateriaisController@index')->name('material.index');
+    Route::get('material/{id}', 'App\Http\Controllers\Api\MateriaisController@show')->name('material.show');
+    Route::post('material', 'App\Http\Controllers\Api\MateriaisController@store')->name('material.store');
+    Route::put('material/{id}', 'App\Http\Controllers\Api\MateriaisController@update')->name('material.update');
+    Route::delete('material/{id}', 'App\Http\Controllers\Api\MateriaisController@destroy')->name('material.destroy');
 
       // IBAMA
     Route::get('ibama', 'App\Http\Controllers\Api\IbamaController@index')->name('ibama.index');

@@ -52,8 +52,10 @@
             </p>
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
-            <a class="dropdown-item" href="{{ route('configuracoes.profile') }}">{{ __('Meu Cadastro') }}</a>
-            {{-- <a class="dropdown-item" href="#">{{ __('Configuração') }}</a> --}}
+            {{-- <label class="dropdown-item">{{  Auth::user()->email  }}
+            <label class="dropdown-item">{{  Auth()->user()->roles ?  Auth()->user()->roles->filter(function ($roles) { return $roles->guard_name == 'web';})->first()->name : null }}</label>            
+            <label class="dropdown-item">{{   Auth::user()->pessoa_juridica ? Auth::user()->pessoa_juridica->nome_fantasia : null }}</label> --}}
+            <a class="dropdown-item" href="{{ route('configuracoes.profile') }}">{{  Auth::user()->name  }}</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ __('Sair') }}</a>
           </div>

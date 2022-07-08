@@ -91,10 +91,16 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $user = User::all();
+
+        if ($request->has('usuario_responsavel_cadastro_id')) {
+            $user = $user->where('usuario_responsavel_cadastro_id', $request->usuario_responsavel_cadastro_id)->all();
+        }
+
         return response([
-            'data' => UserResource::collection(User::all()),
+            'data' => UserResource::collection($user),
             'status' => true
         ], 200);
     }

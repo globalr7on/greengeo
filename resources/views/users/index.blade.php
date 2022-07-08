@@ -39,9 +39,11 @@
 
 @push('js')
   <script>
+   
     $(document).ready(function () {
+      const id = {{  Auth::user()->id  }}
       let app = new App({
-        apiUrl: '/api/users',
+        apiUrl: `/api/users${id ? '?usuario_responsavel_cadastro_id='+id : ''}`,
         apiDataTableColumns: [
           { data: "cpf" },
           { data: "name" },
@@ -62,6 +64,7 @@
         ],
         datatableSelector: '#usersTbl'
       })
+    
 
       // Open Modal New
       $('body').on('click', '#novoUser', function() {
@@ -74,7 +77,8 @@
         getRoles(null, 'web')
         getRoles(null, 'api')
         getEmpresa()
-        getTipoEmpresa()
+        // const tipo_empresa = {{ Auth::user()->pessoa_juridica ? Auth::user()->pessoa_juridica->tipo_empresa_id : null}}
+        getTipoEmpresa({{ Auth::user()->pessoa_juridica ? Auth::user()->pessoa_juridica->tipo_empresa_id : null }})
       });
 
       // Salvar 
@@ -135,6 +139,7 @@
       // Editar
       $('body').on('click', '.editAction', function() {
         app.stepper()
+         
         const id = $(this).attr('data-id');
         app.api.get(`/users/${id}`).then(response =>  {
           if (response && response.status) {
@@ -143,6 +148,7 @@
             $("#modalFormUser").modal("show")
             $('#modalFormUserTitle').text("Editar Usuario")
             getEmpresa(response.data.pessoa_juridica_id)
+            // getTipoEmpresa({{ Auth::user()->pessoa_juridica ? Auth::user()->pessoa_juridica->tipo_empresa_id : null }})
             getTipoEmpresa(response.data.tipo_empresa_id)
             $('#inputId').val(response.data.id)
             $("#input_cpf").val(response.data.cpf)
@@ -229,7 +235,7 @@
         })
       }
       function getTipoEmpresa(value) {
-        app.api.get('/tipo_empresa').then(response =>  {
+        app.api.get(`/tipo_empresa${value ? '?id='+value : ''}`).then(response =>  {
           if (response && response.status) {
             loadSelect('#input_tipo_empresa_id', response.data, ['id', 'descricao'], value)
           }

@@ -67,8 +67,9 @@
 @push('js')
   <script>
     $(document).ready(function () {
+      const id = {{  Auth::user()->id  }}
       let app = new App({
-        apiUrl: '/api/pessoa_juridica',
+        apiUrl: `/api/pessoa_juridica${id ? '?usuario_responsavel_cadastro_id='+id : ''}`,
         apiDataTableColumns: [
           { data: "cnpj" },
           { data: "razao_social" },

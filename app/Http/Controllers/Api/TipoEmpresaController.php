@@ -17,9 +17,13 @@ class TipoEmpresaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $tipo_empresa = TipoEmpresa::all();
+          
+        if ($request->has('id')) {
+            $tipo_empresa = $tipo_empresa->where('id', $request->id)->all();
+        }
        
           return response([
             'data' => TipoEmpresaResource::collection($tipo_empresa),
