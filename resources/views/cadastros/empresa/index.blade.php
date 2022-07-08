@@ -24,31 +24,12 @@
                 <table class="table" id="empresaTbl">
                   <thead>
                     <th class="text-primary font-weight-bold">CNPJ</th>
-                    {{-- <th class="text-primary font-weight-bold">Fantasia</th> --}}
                     <th class="text-primary font-weight-bold">Razao Social</th>
                     <th class="text-primary font-weight-bold">Email</th>
                     <th class="text-primary font-weight-bold">Contato1</th>
-                    {{-- <th class="text-primary font-weight-bold">Cargo Contato1</th> --}}
                     <th class="text-primary font-weight-bold">Celular Contato1</th>
-                    {{-- <th class="text-primary font-weight-bold">Contato2</th>
-                    <th class="text-primary font-weight-bold">Cargo Contato2</th>
-                    <th class="text-primary font-weight-bold">Celular Contato2</th> --}}
                     <th class="text-primary font-weight-bold">Fixo</th>
-                    {{-- <th class="text-primary font-weight-bold">Whatsapp</th>
-                    <th class="text-primary font-weight-bold">Endereço</th>
-                    <th class="text-primary font-weight-bold">Número</th>
-                    <th class="text-primary font-weight-bold">Complemento</th>
-                    <th class="text-primary font-weight-bold">Cep</th>
-                    <th class="text-primary font-weight-bold">Bairro</th>
-                    <th class="text-primary font-weight-bold">Cidade</th>
-                    <th class="text-primary font-weight-bold">Estado</th>
-                    <th class="text-primary font-weight-bold">Latitude</th>
-                    <th class="text-primary font-weight-bold">Longitude</th>
-                    <th class="text-primary font-weight-bold">Contrato</th>
-                    <th class="text-primary font-weight-bold">Identificador</th>
-                    <th class="text-primary font-weight-bold">Senha Acesso</th> --}}
                     <th class="text-primary font-weight-bold">Capacidade Media Carga</th>
-                    {{-- <th class="text-primary font-weight-bold">Atividade</th> --}}
                     <th class="text-primary font-weight-bold">Ativo</th>
                     <th class="text-primary font-weight-bold">Ação</th>
                   </thead>
@@ -67,7 +48,7 @@
 @push('js')
   <script>
     $(document).ready(function () {
-      const id = {{  Auth::user()->id  }}
+      const id = {{ Auth::user()->id }}
       let app = new App({
         apiUrl: `/api/pessoa_juridica${id ? '?usuario_responsavel_cadastro_id='+id : ''}`,
         apiDataTableColumns: [
@@ -86,20 +67,7 @@
         ],
         apiDataTableColumnsDefs : [
           { targets: 1, orderable: false },
-          // { width: "70px", targets: [0,19,26] },
-          // { width: "200px", targets: [2,3,4,5,6,7,8,9,10,11,12,13,24,25] },
-          // { width: "100px", targets: [14,15,16,17,18,20,21,22,23] },
-          { 
-            targets : 8,
-            className: "text-center",
-            render : function (data, type, row) {
-              return `
-                <i class="fa fa-trash cursor-pointer excluirEmpresa" data-id="${row.id}" title="Excluir" ></i>
-                &nbsp;
-                <i class="fa fa-pen cursor-pointer editarEmpresa" data-id="${row.id}"  title="Editar"></i>
-              `
-            }
-          }
+          { targets: 0, width: "70px" },
         ],
         datatableSelector: '#empresaTbl'
       })
@@ -114,9 +82,10 @@
         $('#formEmpresa')[0].reset()
         getTipoEmpresa()
         getAtividade()
+        maskPeso("#input_capacidade_media_carga")
       });
 
-      // Salvar ''
+      // Salvar
       $('body').on('click', '#salvarEmpresa', function() {
         const JSONRequest = {
           cnpj: $("#input_cnpj").val(),
@@ -125,7 +94,7 @@
           email: $("#input_email").val(),
           contato_1: $("#input_contato_1").val(),
           cargo_contato_1: $("#input_cargo_contato_1").val(),
-          contato_2: $("#input_cargo_contato_2").val(),
+          contato_2: $("#input_contato_2").val(),
           cargo_contato_2: $("#input_cargo_contato_2").val(),
           celular_contato_1: $("#input_celular_contato_1").val(),
           celular_contato_2: $("#input_celular_contato_2").val(),
@@ -141,10 +110,9 @@
           latitude: $("#input_latitude").val(),
           longitude: $("#input_longitude").val(),
           contrato: $("#input_contrato").val(),
-          // identificador_celular: $("#input_identificador_celular").val(),
           identificador_celular: '123456',
           senha_acesso: $("#input_senha_acesso").val(),
-          capacidade_media_carga: $("#input_capacidade_media_carga").val(),
+          capacidade_media_carga: formatStringToFloat($("#input_capacidade_media_carga").val()),
           usuario_responsavel_cadastro_id: $("#input_usuario_responsavel_cadastro_id").val(),
           atividade_id: $("#input_atividade_id").val(),
           tipo_empresa_id: $("#input_tipo_empresa_id").val(),
@@ -215,9 +183,9 @@
             $("#input_contrato").val(response.data.contrato),
             $("#input_identificador_celular").val(response.data.identificador_celular),
             $("#input_senha_acesso").val(response.data.senha_acesso),
-            $("#input_capacidade_media_carga").val(response.data.capacidade_media_carga),
             $("#input_usuario_responsavel_cadastro_id").val(response.data.usuario_responsavel_cadastro_id),
             $("#checkAtivo").prop("checked", response.data.ativo)
+            maskPeso("#input_capacidade_media_carga", formatFloatToString(response.data.capacidade_media_carga))
           }
         })
         .catch(error => notifyDanger('Falha ao obter detalhes. Tente novamente'))
@@ -279,17 +247,6 @@
           }).catch(error => notifyDanger('Falha ao obter dados de endereço, tente novamente'))
         }
       })
-      // MaskPeso 
-      $('.maskpeso').maskWeight({
-        integerDigits: 8,
-        decimalDigits: 2,
-        decimalMark:',',
-        initVal:'',
-        roundingZeros:false,
-        digitsCount: 8,
-        callBack:null,
-        doFocus:true
-      });
     });
   </script>
 @endpush

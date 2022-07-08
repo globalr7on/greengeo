@@ -148,8 +148,6 @@
                   </div>
 
                   <div class="row m-0">
-                    <button class="btn btn-warning">Motorista</button>
-                    <button class="btn btn-warning">Veiculo</button>
                     <button class="btn btn-primary stepper-prev">Anterior</button>
                     <button class="btn btn-primary stepper-next">Pŕoximo</button>
                   </div>
@@ -174,8 +172,8 @@
 
                   <div class="row m-0">
                     <div class="form-group col-md-4">
-                      <label for="input_cargo_contato_2" class="position-relative mb-0 font-weight-bold">Responsável nº 2</label>
-                      <input type="text" class="form-control" id="input_cargo_contato_2">
+                      <label for="input_contato_2" class="position-relative mb-0 font-weight-bold">Responsável nº 2</label>
+                      <input type="text" class="form-control" id="input_contato_2">
                     </div>
                     <div class="form-group col-md-4">
                       <label for="input_cargo_contato_2" class="position-relative mb-0 font-weight-bold">Cargo</label>
@@ -207,17 +205,22 @@
                   <div class="row m-0">
                     <div class="form-group col-md-6">
                       <label for="input_capacidade_media_carga" class="position-relative mb-0 font-weight-bold">Capacidade Carga</label>
-                      <input maxlength="12" type="text" class="form-control maskpeso" id="input_capacidade_media_carga">
+                      <input maxlength="12" type="text" class="form-control" id="input_capacidade_media_carga">
                     </div>
+                    <!-- <div class="col-md-6">
+                      <div class="form-group show-label">
+                        <label for="input_capacidade_media_carga" class="bmd-label-floating">Capacidade Carga</label>
+                        <input maxlength="12" type="text" class="form-control" id="input_capacidade_media_carga">
+                        <span class="form-control-feedback">Kg</span>
+                      </div>
+                    </div> -->
                     <div class="form-group col-md-6">
                       <label for="input_senha_acesso" class="position-relative mb-0 font-weight-bold">Senha Acesso</label>
                       <input type="text" class="form-control" id="input_senha_acesso">
-                    </div>   
+                    </div>
                   </div>
 
                   <div class="row m-0">
-                    <button class="btn btn-warning" >Motorista</button>
-                    <button class="btn btn-warning"id="#novoVeiculo">Veiculo</button>
                     <button class="btn btn-primary stepper-prev">Anterior</button>
                     <button class="btn btn-primary"  id="salvarEmpresa" >Salvar</button>
                   </div>

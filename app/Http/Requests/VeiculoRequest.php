@@ -14,7 +14,7 @@ class VeiculoRequest extends FormRequest
         return [
             'chassis' => 'required|string|max:18',
             'placa' => 'required|string|max:18',
-            'capacidade_media_carga' => 'required|string|max:50',
+            'capacidade_media_carga' => 'required|numeric',
             'renavam' => 'required|string|max:50',
             'combustivel' => 'required|string|max:40',
             'modelo_id' => 'required',

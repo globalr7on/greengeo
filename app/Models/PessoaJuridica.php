@@ -55,7 +55,7 @@ class PessoaJuridica extends Model
 
     public function tipo_empresa()
     {
-        return $this->hasOne('App\Models\TipoEmpresa');
+        return $this->hasOne('App\Models\TipoEmpresa', 'tipo_empresa_id', 'id');
     }
 
     public function user()

@@ -288,7 +288,6 @@ function getMaskRg(val) {
   }
   return mask;
 }
-      
 
 // const maskpeso = "99999999,99";
 // $(".maskpeso").each(function () {
@@ -436,3 +435,25 @@ setTimeout(() => {
     });
   });
 }, 500);
+
+function maskPeso(selector, initVal = '') {
+  $(selector).maskWeight({
+    integerDigits: 8,
+    decimalDigits: 2,
+    decimalMark: ',',
+    initVal: initVal,
+    roundingZeros: true,
+    digitsCount: 8,
+    callBack: null,
+    doFocus: true
+  })
+}
+
+// Formats
+function formatStringToFloat(value) {
+  return value ? parseFloat(value.replace(',', '.')) : null
+}
+
+function formatFloatToString(value) {
+  return value ? String(value).replace('.', ',') : ''
+}

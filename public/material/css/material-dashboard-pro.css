@@ -8542,6 +8542,9 @@ select, select.form-control {
     color: #f44336;
     opacity: 1;
 }
+.show-label .form-control-feedback {
+    opacity: 1;
+}
 .form-group {
     padding-bottom: 10px;
     position: relative;

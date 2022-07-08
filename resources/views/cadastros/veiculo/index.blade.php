@@ -81,6 +81,7 @@
         getAcondicionamento()
         getEmpresa()
         getCombustivel()
+        maskPeso("#input_capacidade_media_carga")
       });
 
       // Salvar
@@ -88,7 +89,7 @@
         const JSONRequest = {
           placa: $("#input_placa").val(),
           chassis: $("#input_chassis").val(),
-          capacidade_media_carga: $("#input_capacidade_media_carga").val(),
+          capacidade_media_carga: formatStringToFloat($("#input_capacidade_media_carga").val()),
           renavam: $("#input_renavam").val(),
           combustivel: $("#input_combustivel").val(),
           modelo_id: $("#input_modelo_id").val(),
@@ -143,10 +144,10 @@
             $('#inputId').val(response.data.id);
             $("#input_placa").val(response.data.placa),
             $("#input_chassis").val(response.data.chassis),
-            $("#input_capacidade_media_carga").val(response.data.capacidade_media_carga),
             $("#input_renavam").val(response.data.renavam),
             $("#input_combustivel").val(response.data.combustivel),
             $("#checkAtivo").prop("checked", response.data.ativo)
+            maskPeso("#input_capacidade_media_carga", formatFloatToString(response.data.capacidade_media_carga))
           }
         })
         .catch(error => console.log(error) && notifyDanger('Falha ao obter detalhes do veiculo. Tente novamente'))
