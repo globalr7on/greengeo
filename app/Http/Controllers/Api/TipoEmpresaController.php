@@ -20,12 +20,12 @@ class TipoEmpresaController extends Controller
     public function index(Request $request)
     {
         $tipo_empresa = TipoEmpresa::all();
-          
+
         if ($request->has('id')) {
             $tipo_empresa = $tipo_empresa->where('id', $request->id)->all();
         }
-       
-          return response([
+
+        return response([
             'data' => TipoEmpresaResource::collection($tipo_empresa),
             'status' => true
         ], 200);

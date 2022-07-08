@@ -23,13 +23,13 @@
                 </div>
                 <div class="form-group col-md-4 text-center">
                   <label for="input_pessoa_juridica_id" class="display-inherit mb-0">Empresa</label>
-                  <select id="input_pessoa_juridica_id" data-style="btn-warning text-white" title="Single Select" name="empresa" >
+                  <select id="input_pessoa_juridica_id" data-style="btn-warning text-white" title="Single Select" name="empresa">
                     <option value="" disabled selected>Seleccione</option>
                   </select>
                 </div>
                 <div class="form-group col-md-4">
                   <label for="input_placa" class="display-inherit mb-0">Placa</label>
-                  <input type="text" class="form-control" id="input_placa" >
+                  <input type="text" class="form-control" id="input_placa">
                 </div>
               </div>
                 
@@ -37,19 +37,19 @@
                 <input type="hidden" class="form-control" id="inputId">
                 <div class="form-group col-md-4 text-center">
                    <label for="input_modelo_id" class="display-inherit mb-0">Modelo</label>
-                  <select id="input_modelo_id" data-style="btn-warning text-white" title="Single Select" name="modelo" >
+                  <select id="input_modelo_id" data-style="btn-warning text-white" title="Single Select" name="modelo">
                     <option value="" disabled selected>Seleccione</option>
                   </select>
                 </div>
                 <div class="form-group col-md-4 text-center">
                   <label for="input_marca_id" class="display-inherit mb-0">Marca</label>
-                  <select id="input_marca_id" data-style="btn-warning text-white" title="Single Select" name="marca" >
+                  <select id="input_marca_id" data-style="btn-warning text-white" title="Single Select" name="marca">
                     <option value="" disabled selected>Seleccione</option>
                   </select>
                 </div>
                 <div class="form-group col-md-4 text-center">
                   <label for="input_acondicionamento_id" class="display-inherit mb-0">Acondicionamento</label>
-                  <select id="input_acondicionamento_id" data-style="btn-warning text-white" title="Single Select" name="acondicionamento" >
+                  <select id="input_acondicionamento_id" data-style="btn-warning text-white" title="Single Select" name="acondicionamento">
                     <option value="" disabled selected>Seleccione</option>
                   </select>
                 </div>
@@ -58,7 +58,7 @@
               <div class="form-row">
                 <div class="form-group col-md-6">
                    <label for="input_chassis" class="display-inherit mb-0">Chassis</label>
-                  <input type="text" class="form-control" id="input_chassis" >
+                  <input type="text" class="form-control" id="input_chassis">
                 </div>
                 <div class="form-group col-md-6">
                   <label for="input_capacidade_media_carga" class="display-inherit mb-0">Capacidade</label>
@@ -73,22 +73,9 @@
                 </div>
                 <div class="form-group col-md-6">
                   <label for="input_combustivel" class="display-inherit mb-0">Combustivel</label>
-                  <select id="input_combustivel" data-style="btn-warning text-white" class="form-select" aria-label="Default select example" title="Single Select" name="input_combustivel" >
-                    <option selected>Open this select menu</option>
-                    <option value="1">Diesel</option>
-                    <option value="2">Diesel S10</option>
-                    <option value="3">Gasolina</option>
-                    <option value="3">Bio-Diesel</option>
-                    <option value="3">Alcool</option>
-                  </select>
-                  {{-- <select  id="input_combustivel" class="form-select" data-style="btn-warning text-white" title="Single Select" name="input_combustivel" >
+                  <select id="input_combustivel" data-style="btn-warning text-white" title="Single Select" name="combustivel">
                     <option value="" disabled selected>Seleccione</option>
-                    <option value="">Diesel</option>
-                    <option value="1">Diesel S10</option>
-                    <option value="2">Gasolina</option>
-                    <option value="3">Bio-Diesel</option>
-                    <option value="4">Alcool</option>
-                  </select> --}}
+                  </select>
                 </div>
               </div>
               <button type="button" class="btn btn-primary" id="salvarVeiculo">Salvar</button>

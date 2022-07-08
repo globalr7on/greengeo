@@ -135,6 +135,7 @@
             getModelo(response.data.modelo_id)
             getAcondicionamento(response.data.acondicionamento_id)
             getEmpresa(response.data.pessoa_juridica_id)
+            getCombustivel(response.data.combustivel)
             delFormValidationErrors()
             $('#formVeiculo')[0].reset()
             $("#modalVeiculo").modal("show");
@@ -201,9 +202,15 @@
       }
 
       function getCombustivel(value) {
-            loadSelect('#input_combustivel', value)
-          }
-      
+        const data = [
+          { id: 1, descricao: 'Diesel' },
+          { id: 2, descricao: 'Diesel S10' },
+          { id: 3, descricao: 'Gasolina' },
+          { id: 4, descricao: 'Bio-Diesel' },
+          { id: 5, descricao: 'Alcool' }
+        ]
+        loadSelect('#input_combustivel', data, ['id', 'descricao'], value)
+      }      
 
       function getEmpresa(value) {
         app.api.get('/pessoa_juridica').then(response =>  {
