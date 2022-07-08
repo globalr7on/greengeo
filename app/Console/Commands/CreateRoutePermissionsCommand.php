@@ -43,10 +43,19 @@ class CreateRoutePermissionsCommand extends Command
 
         foreach ($routes as $route) {
             if ($route->getName() != '' && $route->getAction()['middleware']['0'] == 'web') {
-                $permission = Permission::where('name', $route->getName())->first();
-
-                if (is_null($permission)) {
-                    permission::create(['name' => $route->getName()]);
+                if (!str_starts_with($route->getName(), 'passport.')) {
+                    $permission_web = Permission::where('name', $route->getName())->where('guard_name', 'web')->first();
+                    
+                    if (is_null($permission_web)) {
+                        permission::create(['name' => $route->getName(), 'guard_name' => 'web']);
+                    }
+                }
+            }
+            if ($route->getName() != '' && $route->getAction()['middleware']['0'] == 'api') {
+                $permission_api = Permission::where('name', $route->getName())->where('guard_name', 'api')->first();
+                
+                if (is_null($permission_api)) {
+                    permission::create(['name' => $route->getName(), 'guard_name' => 'api']);
                 }
             }
         }
