@@ -34,14 +34,14 @@
       </div>
     </div>
   </div>
-  @include('users.modal')
+  @include('configuracoes.users.modal')
 @endsection
 
 @push('js')
   <script>
    
     $(document).ready(function () {
-      const id = {{  Auth::user()->id  }}
+      const id = {{ Auth::user()->id }}
       let app = new App({
         apiUrl: `/api/users${id ? '?usuario_responsavel_cadastro_id='+id : ''}`,
         apiDataTableColumns: [
@@ -64,7 +64,6 @@
         ],
         datatableSelector: '#usersTbl'
       })
-    
 
       // Open Modal New
       $('body').on('click', '#novoUser', function() {
@@ -77,7 +76,6 @@
         getRoles(null, 'web')
         getRoles(null, 'api')
         getEmpresa()
-        // const tipo_empresa = {{ Auth::user()->pessoa_juridica ? Auth::user()->pessoa_juridica->tipo_empresa_id : null}}
         getTipoEmpresa({{ Auth::user()->pessoa_juridica ? Auth::user()->pessoa_juridica->tipo_empresa_id : null }})
       });
 
@@ -139,7 +137,6 @@
       // Editar
       $('body').on('click', '.editAction', function() {
         app.stepper()
-         
         const id = $(this).attr('data-id');
         app.api.get(`/users/${id}`).then(response =>  {
           if (response && response.status) {
@@ -148,7 +145,6 @@
             $("#modalFormUser").modal("show")
             $('#modalFormUserTitle').text("Editar Usuario")
             getEmpresa(response.data.pessoa_juridica_id)
-            // getTipoEmpresa({{ Auth::user()->pessoa_juridica ? Auth::user()->pessoa_juridica->tipo_empresa_id : null }})
             getTipoEmpresa(response.data.tipo_empresa_id)
             $('#inputId').val(response.data.id)
             $("#input_cpf").val(response.data.cpf)
@@ -222,8 +218,7 @@
         }
       })
       
-       function getEmpresa(value, tipo_empresa_id) {
-         
+      function getEmpresa(value, tipo_empresa_id) {
         app.api.get(`/pessoa_juridica${tipo_empresa_id ? '?tipo_empresa_id='+tipo_empresa_id : ''}`).then(response =>  {
           if (response && response.status) {
             loadSelect('#input_pessoa_juridica_id', response.data, ['id', 'razao_social'], value)
@@ -234,6 +229,7 @@
           notifyDanger('Falha ao obter funções, tente novamente')
         })
       }
+
       function getTipoEmpresa(value) {
         app.api.get(`/tipo_empresa${value ? '?id='+value : ''}`).then(response =>  {
           if (response && response.status) {
@@ -248,7 +244,6 @@
 
       $('body').on('change', '#input_tipo_empresa_id', function(event) {
         getEmpresa(null, event.target.value)
-        // console.log(event);
       })
     })
   </script>

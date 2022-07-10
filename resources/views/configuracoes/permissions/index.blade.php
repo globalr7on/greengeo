@@ -31,7 +31,7 @@
       </div>
     </div>
   </div>
-  @include('permissions.modal')
+  @include('configuracoes.permissions.modal')
 @endsection
 
 @push('js')

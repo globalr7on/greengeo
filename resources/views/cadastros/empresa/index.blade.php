@@ -60,8 +60,12 @@
           { data: "fixo" },
           { data: "capacidade_media_carga" },
           { 
-            data: "ativo", className: "text-center", render: function (data, type) {
-              return data ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>'
+            data: "ativo",
+            className: "text-center",
+            orderable: false,
+            render: function (data, type, row) {
+              // return data ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>'
+              return `<i class="fas fa-${data ? 'check' : 'times'} cursor-pointer changeStatus" data-id="${row.id}" data-value-old="${data}" title="Deseja atualizar o status?"></i>`
             }
           }
         ],
@@ -116,7 +120,7 @@
           usuario_responsavel_cadastro_id: $("#input_usuario_responsavel_cadastro_id").val(),
           atividade_id: $("#input_atividade_id").val(),
           tipo_empresa_id: $("#input_tipo_empresa_id").val(),
-          ativo: $("#checkAtivo").prop("checked") ? 1 : 0
+          // ativo: $("#checkAtivo").prop("checked") ? 1 : 0
         }
         const id = $('#input_id').val()
         if (id) {
@@ -184,7 +188,7 @@
             $("#input_identificador_celular").val(response.data.identificador_celular),
             $("#input_senha_acesso").val(response.data.senha_acesso),
             $("#input_usuario_responsavel_cadastro_id").val(response.data.usuario_responsavel_cadastro_id),
-            $("#checkAtivo").prop("checked", response.data.ativo)
+            // $("#checkAtivo").prop("checked", response.data.ativo)
             maskPeso("#input_capacidade_media_carga", formatFloatToString(response.data.capacidade_media_carga))
           }
         })
@@ -192,7 +196,7 @@
       })
 
       // Excluir
-      $('body').on('click', '.deleteAction',  function() {
+      $('body').on('click', '.deleteAction', function() {
         const id = $(this).attr('data-id')
         sweetConfirm('Deseja realmente excluir?').then(confirmed => {
           if (confirmed) {
@@ -201,6 +205,25 @@
               notifySuccess('Excluída com sucesso')
             })
             .catch(error => notifyDanger('Falha ao excluir. Tente novamente'))
+          }
+        }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
+      });
+      
+      // Change status
+      $('body').on('click', '.changeStatus', function() {
+        sweetConfirm('Deseja realmente atualizar?').then(confirmed => {
+          if (confirmed) {
+            const id = $(this).attr('data-id')
+            const valueOld = $(this).attr('data-value-old')
+            app.api.put(`/pessoa_juridica/${id}/status`, { ativo: parseInt(valueOld) ? 0 : 1 }).then(response =>  {
+              if (response && response.status) {
+                app.datatable.ajax.reload()
+                notifySuccess('Atualizada com sucesso')
+              } else {
+                notifySuccess('Não foi possível atualizar, tente novamente')
+              }
+            })
+            .catch(error => notifyDanger('Falha ao atualizar. Tente novamente'))
           }
         }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
       });

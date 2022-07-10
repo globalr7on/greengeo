@@ -451,7 +451,7 @@ function maskPeso(selector, initVal = '') {
 
 // Formats
 function formatStringToFloat(value) {
-  return value ? parseFloat(value.replace(',', '.')) : null
+  return value ? parseFloat(value.replace(',', '.')) || null : null
 }
 
 function formatFloatToString(value) {

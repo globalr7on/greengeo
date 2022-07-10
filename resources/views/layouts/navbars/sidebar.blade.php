@@ -278,9 +278,7 @@
         </a>
       </li>
       @endcan
-   
     </ul>
-
     <div class="sidebar-footer-logo">
       <img src="{{ asset('material') }}/img/greenbeat.png" style="width: 150px;height: 40px;" />
     </div>

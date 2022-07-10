@@ -30,7 +30,7 @@ class CreateAdminUserSeeder extends Seeder
         $role_web = Role::create(['name' => 'admin', 'guard_name' => 'web']);
         $role_api = Role::create(['name' => 'admin', 'guard_name' => 'api']);
         $permissions_web = Permission::where('guard_name', 'web')->pluck('id')->all();
-        $permissions_api = Permission::where('guard_name', 'web')->pluck('id')->all();
+        $permissions_api = Permission::where('guard_name', 'api')->pluck('id')->all();
         $role_web->syncPermissions($permissions_web);
         $role_api->syncPermissions($permissions_api);
         $user->assignRole($role_web->id, 'web');

@@ -78,12 +78,13 @@ Route::middleware(['auth:api', 'permission'])->group(function(){
     Route::put('modelo/{id}', 'App\Http\Controllers\Api\ModeloController@update')->name('modelo.update');
     Route::delete('modelo/{id}', 'App\Http\Controllers\Api\ModeloController@destroy')->name('modelo.destroy');
 
-    // PESSOAS
+    // EMPRESA
     Route::get('pessoa_juridica', 'App\Http\Controllers\Api\PessoaJuridicaController@index')->name('pessoa_juridica.index');
     Route::get('pessoa_juridica/{id}', 'App\Http\Controllers\Api\PessoaJuridicaController@show')->name('pessoa_juridica.show');
     Route::post('pessoa_juridica', 'App\Http\Controllers\Api\PessoaJuridicaController@store')->name('pessoa_juridica.store');
     Route::put('pessoa_juridica/{id}', 'App\Http\Controllers\Api\PessoaJuridicaController@update')->name('pessoa_juridica.update');
     Route::delete('pessoa_juridica/{id}', 'App\Http\Controllers\Api\PessoaJuridicaController@destroy')->name('pessoa_juridica.destroy');
+    Route::put('pessoa_juridica/{id}/status', 'App\Http\Controllers\Api\PessoaJuridicaController@updateStatus')->name('pessoa_juridica.update_status');
 
     // VEICULOS
     Route::get('veiculo', 'App\Http\Controllers\Api\VeiculoController@index')->name('veiculo.index');

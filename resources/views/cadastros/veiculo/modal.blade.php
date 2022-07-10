@@ -11,7 +11,7 @@
         <div class="row">
           <div class="col-md-12">
             <form id="formVeiculo">
-              <div class="form-row mx-0 my-2">
+              <div class="form-row mx-0 mb-4">
                 <input type="hidden" class="form-control" id="inputId">
                 <div class="form-group col-md-4 align-self-center text-center">
                   <div class="togglebutton">
@@ -40,7 +40,7 @@
                 </div>
               </div>
                 
-              <div class="form-row mx-0 my-2">
+              <div class="form-row mx-0 mb-4">
                 <div class="col-md-4 text-center">
                   <div class="form-group m-0 p-0">
                     <label for="input_modelo_id" class="display-inherit mb-0">Modelo</label>
@@ -69,16 +69,16 @@
                 </div>
               </div>
 
-              <div class="form-row mx-0 my-2">
-                <div class="col-md-6">
-                  <div class="form-group">
+              <div class="form-row mx-0 mb-4">
+                <div class="col-md-6 px-4">
+                  <div class="form-group pb-0">
                     <label for="input_chassis">Chassis</label>
                     <input type="text" class="form-control" id="input_chassis">
                   </div>
                 </div>
 
-                <div class="col-md-6">
-                  <div class="form-group show-label">
+                <div class="col-md-6 px-4">
+                  <div class="form-group show-label pb-0">
                     <label for="input_capacidade_media_carga">Capacidade</label>
                     <input type="text" class="form-control" id="input_capacidade_media_carga">
                     <span class="form-control-feedback">Kg</span>
@@ -86,9 +86,9 @@
                 </div>
               </div>
 
-              <div class="form-row mx-0 my-2">
-                <div class="col-md-6 align-self-center">
-                  <div class="form-group">
+              <div class="form-row mx-0 mb-4">
+                <div class="col-md-6 align-self-center px-4">
+                  <div class="form-group pb-0">
                     <label for="input_renavam">Renavam</label>
                     <input type="text" class="form-control" id="input_renavam">
                   </div>
@@ -104,7 +104,7 @@
                 </div>
               </div>
 
-              <div class="form-row mx-0 my-2">
+              <div class="form-row mx-0">
                 <button type="button" class="btn btn-primary" id="salvarVeiculo">Salvar</button>
               </div>
             </form>
@@ -120,6 +120,5 @@
     $('#formVeiculo').submit(function(event) {
       event.preventDefault()
     })
-
   </script>
 @endpush

@@ -23,7 +23,10 @@ class PessoaJuridicaController extends Controller
         $pessoa_juridica = PessoaJuridica::all();
 
         if ($request->has('usuario_responsavel_cadastro_id')) {
-            $pessoa_juridica = $pessoa_juridica->where('usuario_responsavel_cadastro_id', $request->usuario_responsavel_cadastro_id)->all();
+            $userResponsavel = User::find($request->usuario_responsavel_cadastro_id);
+            if (!$userResponsavel->hasRole('admin')) {
+                $pessoa_juridica = $pessoa_juridica->where('usuario_responsavel_cadastro_id', $request->usuario_responsavel_cadastro_id)->all();
+            }
         }
 
         if ($request->has('tipo_empresa_id')) {
@@ -44,9 +47,7 @@ class PessoaJuridicaController extends Controller
      */
     public function store(PessoaJuridicaRequest $request)
     {
-        
         $pessoa_juridica = PessoaJuridica::create($request->all());
-        // dd($pessoa_juridica);
         return response([
             'data' => new PessoaJuridicaResource($pessoa_juridica),
             'status' => true
@@ -62,7 +63,7 @@ class PessoaJuridicaController extends Controller
      */
     public function show($id)
     {
-         return response([
+        return response([
             'data' => new PessoaJuridicaResource(PessoaJuridica::find($id)),
             'status' => true
         ], 200);
@@ -77,10 +78,9 @@ class PessoaJuridicaController extends Controller
      */
     public function update(PessoaJuridicaRequest $request, $id)
     {
-       
         $pessoa_juridica = PessoaJuridica::find($id);
         $pessoa_juridica->update($request->all());
-           return response([
+        return response([
             'data' => new PessoaJuridicaResource($pessoa_juridica),
             'status' => true
         ], 200);
@@ -96,5 +96,27 @@ class PessoaJuridicaController extends Controller
     {
         PessoaJuridica::findOrFail($id)->delete();
         return response(null, 204);
+    }
+
+    /**
+     * Update status.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateStatus(Request $request, $id)
+    {
+        $status = false;
+        $pessoa_juridica = PessoaJuridica::find($id);
+        if ($request->has('ativo') && in_array($request->ativo, [1, 0])) {
+            $pessoa_juridica->update($request->all());
+            $status = true;
+        }
+
+        return response([
+            'status' => $status
+        ], 200);
+
     }
 }

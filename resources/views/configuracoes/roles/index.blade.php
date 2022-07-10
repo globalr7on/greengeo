@@ -31,7 +31,7 @@
       </div>
     </div>
   </div>
-  @include('roles.modal')
+  @include('configuracoes.roles.modal')
 @endsection
 
 @push('js')

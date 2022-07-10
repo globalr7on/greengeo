@@ -34,7 +34,6 @@ class PessoaJuridicaRequest extends FormRequest
             'latitude' => 'required|string|max:10',
             'longitude' => 'required|string|max:10',
             'contrato' => 'required|string|max:10',
-            'ativo' => 'required',
             'identificador_celular' => 'required|string|max:10',
             'senha_acesso' => 'required|string|max:10',
             'capacidade_media_carga' => 'required|numeric',

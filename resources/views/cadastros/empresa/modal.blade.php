@@ -33,113 +33,140 @@
               <div class="bs-stepper-content">
                 <!-- your steps content here -->
                 <div id="step1" class="content" role="tabpanel" aria-labelledby="step1-trigger">
-                  <h4 class="text-primary font-weight-bold text-uppercase">Informações Básicas</h4>
-                  <div class="row m-0">
-                    <div class="form-group col-md-6 align-self-center">
-                      <div class="togglebutton">
-                        <label>
-                          Ativo?
-                          <input type="checkbox" id="checkAtivo">
-                          <span class="toggle"></span>
-                        </label>
+                  <h4 class="text-primary font-weight-bold text-uppercase mb-4">Informações Básicas</h4>
+                  <div class="row mx-0 mb-4">
+                    <div class="col-md-4 align-self-center">
+                      <div class="form-group pb-0">
+                        <input type="hidden" id="input_id">
+                        <label for="input_contrato">Contrato Nro.</label>
+                        <input type="text" class="form-control" id="input_contrato">
                       </div>
                     </div>
-                    <div class="form-group col-md-6">
-                      <label for="input_contrato" class="position-relative mb-0 font-weight-bold">Contrato Nro.</label>
-                      <input type="text" class="form-control" id="input_contrato">
-                      <input type="hidden" class="form-control" id="input_id">
+
+                    <div class="col-md-4 text-center">
+                      <div class="form-group">
+                        <label for="input_tipo_empresa_id" class="display-inherit mb-0 text-left">Tipo de Empresa</label>
+                        <select id="input_tipo_empresa_id" data-style="btn-warning text-white" name="tipo_empresa_id" >
+                          <option value="" disabled selected>Seleccione</option>
+                        </select>
+                      </div>
+                    </div>
+  
+                    <div class="col-md-4 text-center">
+                      <div class="form-group">
+                        <label for="input_atividade_id" class="display-inherit mb-0 text-left">Tipo de Atividade</label>
+                        <select id="input_atividade_id" data-style="btn btn-warning text-white" name="atividade_id">
+                          <option value="" disabled selected>Atividade</option>
+                        </select>
+                      </div>
                     </div>
                   </div>
 
-                  <div class="row m-0">
-                    <div class="form-group col-md-6 text-center">
-                      <label for="input_tipo_empresa_id" class="display-inherit mb-0">Tipo de Empresa</label>
-                      <select id="input_tipo_empresa_id" data-style="btn-warning text-white" title="Single Select" name="tipo" >
-                        <option value="" disabled selected>Seleccione</option>
-                      </select>
+                  <div class="row mx-0 mb-4">
+                    <div class="col-md-4">
+                      <div class="form-group pb-0">
+                        <input type="hidden" id="input_usuario_responsavel_cadastro_id" value="{{ Auth::user()->id }}">
+                        <label for="input_razao_social">Razão Social</label>
+                        <input type="text" class="form-control" id="input_razao_social">
+                      </div>
                     </div>
-                    <div class="form-group col-md-6">
-                      <label for="input_atividade_id" class="display-inherit mb-0">Tipo de Atividade</label>
-                      <select id="input_atividade_id" data-style="btn btn-warning text-white rounded" title="Single Select" name="input_atividade_id">
-                        <option value="" disabled selected>Atividade</option>
-                      </select>
+
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="input_cnpj">CNPJ</label>
+                        <input type="text" class="form-control maskCnpj" id="input_cnpj">
+                      </div>
                     </div>
-                  </div>
-                  <div class="row m-0">
-                    <div class="form-group col-md-4">
-                      <input type="hidden" class="form-control" id="input_usuario_responsavel_cadastro_id"  value="{{  Auth::user()->id  }}">
-                      <label for="input_razao_social" class="position-relative mb-0 font-weight-bold">Razão Social</label>
-                      <input type="text" class="form-control" id="input_razao_social">
-                    </div>
-                    <div class="form-group col-md-4">
-                      <label for="input_cnpj" class="position-relative mb-0 font-weight-bold " placeholder="00.000.000/0000-00">CNPJ</label>
-                      <input type="text" class="form-control maskCnpj" id="input_cnpj">
-                    </div>  
-                    <div class="form-group col-md-4">
-                      <label for="input_nome_fantasia" class="position-relative mb-0 font-weight-bold">Nome de Fantasia</label>
-                      <input type="text" class="form-control" id="input_nome_fantasia">
+
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="input_nome_fantasia">Nome de Fantasia</label>
+                        <input type="text" class="form-control" id="input_nome_fantasia">
+                      </div>
                     </div>
                   </div>
 
-                  <div class="row m-0">
-                    {{-- <button class="btn btn-warning">Motorista</button>
-                    <button class="btn btn-warning">Veiculo</button> --}}
+                  <div class="row mx-0">
                     <button class="btn btn-primary stepper-next">Próximo</button>
                   </div>
                 </div>
 
                 <div id="step2" class="content" role="tabpanel" aria-labelledby="step2-trigger">
-                  <h4 class="text-primary font-weight-bold text-uppercase">Endereço</h4>
-                  <div class="row m-0">
-                    <div class="form-group col-md-3">
-                      <label for="input_cep" class="position-relative mb-0 font-weight-bold">CEP</label>
-                      <input type="text" class="form-control maskcep" id="input_cep" name="input_cep">
+                  <h4 class="text-primary font-weight-bold text-uppercase mb-4">Endereço</h4>
+                  <div class="row mx-0 mb-4">
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="input_cep">CEP</label>
+                        <input type="text" class="form-control maskcep" id="input_cep" name="cep">
+                      </div>
                     </div>
-                    <div class="form-group col-md-3">
-                      <label for="input_numero" class="position-relative mb-0 font-weight-bold">Número</label>
-                      <input type="text" class="form-control" id="input_numero">
+
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="input_numero">Número</label>
+                        <input type="text" class="form-control" id="input_numero">
+                      </div>
                     </div>
-                    <div class="form-group col-md-6">
-                      <label for="input_complemento" class="position-relative mb-0 font-weight-bold">Complemento</label>
-                      <input type="text" class="form-control" id="input_complemento">
+
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="input_complemento">Complemento</label>
+                        <input type="text" class="form-control" id="input_complemento">
+                      </div>
                     </div>
                   </div>
 
-                  <div class="row m-0">
-                    <div class="form-group col-md-4">
-                      <label for="input_endereco" class="position-relative mb-0 font-weight-bold">Endereço</label>
-                      <input type="text" class="form-control" id="input_endereco">
+                  <div class="row mx-0 mb-4">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="input_endereco">Endereço</label>
+                        <input type="text" class="form-control" id="input_endereco">
+                      </div>
                     </div>
-                    <div class="form-group col-md-3">
-                      <label for="input_bairro" class="position-relative mb-0 font-weight-bold">Bairro</label>
-                      <input type="text" class="form-control" id="input_bairro">
+
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="input_bairro">Bairro</label>
+                        <input type="text" class="form-control" id="input_bairro">
+                      </div>
                     </div>
-                    <div class="form-group col-md-3">
-                      <label for="input_cidade" class="position-relative mb-0 font-weight-bold">Cidade</label>
-                      <input type="text" class="form-control" id="input_cidade">
+
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="input_cidade">Cidade</label>
+                        <input type="text" class="form-control" id="input_cidade">
+                      </div>
                     </div>
-                    <div class="form-group col-md-2">
-                      <label for="input_estado" class="position-relative mb-0 font-weight-bold">Estado</label>
-                      <input type="text" class="form-control" id="input_estado">
+
+                    <div class="col-md-2">
+                      <div class="form-group">
+                        <label for="input_estado">Estado</label>
+                        <input type="text" class="form-control" id="input_estado">
+                      </div>
                     </div>
                   </div>
 
-                  <div class="row m-0">
+                  <div class="row mx-0">
                     <div class="form-group col-md-12">
-                      <label class="position-relative mb-0 font-weight-bold">Coordenadas GPS</label>
+                      <label class="font-weight-bold mb-0">Coordenadas GPS</label>
                     </div>
                   </div>
 
-                  <div class="row m-0">
-                    <div class="form-group col-md-5">
-                      <label for="input_latitude" class="position-relative mb-0 font-weight-bold">Latitude</label>
-                      <input type="text" class="form-control" id="input_latitude">
+                  <div class="row mx-0 mb-4">
+                    <div class="col-md-5">
+                      <div class="form-group">
+                        <label for="input_latitude">Latitude</label>
+                        <input type="text" class="form-control" id="input_latitude">
+                      </div>
                     </div>
-                    <div class="form-group col-md-5">
-                      <label for="input_longitude" class="position-relative mb-0 font-weight-bold">Logintude</label>
-                      <input type="text" class="form-control" id="input_longitude">
+
+                    <div class="col-md-5">
+                      <div class="form-group">
+                        <label for="input_longitude">Logintude</label>
+                        <input type="text" class="form-control" id="input_longitude">
+                      </div>
                     </div>
-                    
+
                     <div class="form-group col-md-2 text-center align-self-center">
                       <a href="#" target="_blank" class="btn btn-link" id="seeMap" data-toggle="tooltip" data-placement="top" title="Veja seu endereço no mapa">
                         <i class="fas fa-map-marked-alt"></i>
@@ -147,76 +174,97 @@
                     </div>
                   </div>
 
-                  <div class="row m-0">
+                  <div class="row mx-0">
                     <button class="btn btn-primary stepper-prev">Anterior</button>
                     <button class="btn btn-primary stepper-next">Pŕoximo</button>
                   </div>
                 </div>
 
                 <div id="step3" class="content" role="tabpanel" aria-labelledby="step3-trigger">
-                  <h4 class="text-primary font-weight-bold text-uppercase">Contato</h4>
-                  <div class="row m-0">
-                    <div class="form-group col-md-4">
-                      <label for="input_contato_1" class="position-relative mb-0 font-weight-bold">Responsável nº 1</label>
-                      <input type="text" class="form-control" id="input_contato_1">
+                  <h4 class="text-primary font-weight-bold text-uppercase mb-4">Contato</h4>
+                  <div class="row mx-0 mb-4">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="input_contato_1">Responsável nº 1</label>
+                        <input type="text" class="form-control" id="input_contato_1">
+                      </div>
                     </div>
-                    <div class="form-group col-md-4">
-                      <label for="input_cargo_contato_1" class="position-relative mb-0 font-weight-bold">Cargo</label>
-                      <input type="text" class="form-control" id="input_cargo_contato_1">
+
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="input_cargo_contato_1">Cargo</label>
+                        <input type="text" class="form-control" id="input_cargo_contato_1">
+                      </div>
                     </div>
-                    <div class="form-group col-md-4">
-                      <label for="input_celular_contato_1" class="position-relative mb-0 font-weight-bold">Celular</label>
-                      <input type="text" class="form-control maskphone1" id="input_celular_contato_1">
+
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="input_celular_contato_1">Celular</label>
+                        <input type="text" class="form-control maskphone1" id="input_celular_contato_1">
+                      </div>
                     </div>
                   </div>
 
-                  <div class="row m-0">
-                    <div class="form-group col-md-4">
-                      <label for="input_contato_2" class="position-relative mb-0 font-weight-bold">Responsável nº 2</label>
-                      <input type="text" class="form-control" id="input_contato_2">
+                  <div class="row mx-0 mb-4">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="input_contato_2">Responsável nº 2</label>
+                        <input type="text" class="form-control" id="input_contato_2">
+                      </div>
                     </div>
-                    <div class="form-group col-md-4">
-                      <label for="input_cargo_contato_2" class="position-relative mb-0 font-weight-bold">Cargo</label>
-                      <input type="text" class="form-control" id="input_cargo_contato_2">
+
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="input_cargo_contato_2">Cargo</label>
+                        <input type="text" class="form-control" id="input_cargo_contato_2">
+                      </div>
                     </div>
-                     <div class="form-group col-md-4">
-                      <label for="input_celular_contato_2" class="position-relative mb-0 font-weight-bold">Celular</label>
-                      <input type="text" class="form-control maskphone2" id="input_celular_contato_2">
-                    </div>          
+
+                     <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="input_celular_contato_2">Celular</label>
+                        <input type="text" class="form-control maskphone2" id="input_celular_contato_2">
+                      </div>
+                    </div>
                   </div>
 
-                  <div class="row m-0">
-                    <div class="form-group col-md-4">
-                      <label for="input_fixo" class="position-relative mb-0 font-weight-bold">Fixo</label>
-                      <input type="text" class="form-control maskfixo" id="input_fixo">
+                  <div class="row mx-0 mb-4">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="input_fixo">Fixo</label>
+                        <input type="text" class="form-control maskfixo" id="input_fixo">
+                      </div>
                     </div>
 
-                    <div class="form-group col-md-4">
-                      <label for="input_whatsapp" class="position-relative mb-0 font-weight-bold">Whatsapp</label>
-                      <input type="text" class="form-control maskwhats" id="input_whatsapp">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="input_whatsapp">Whatsapp</label>
+                        <input type="text" class="form-control maskwhats" id="input_whatsapp">
+                      </div>
                     </div>
                    
-                    <div class="form-group col-md-4">
-                      <label for="input_email" class="position-relative mb-0 font-weight-bold">Email</label>
-                      <input type="text" class="form-control" id="input_email">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="input_email">Email</label>
+                        <input type="text" class="form-control" id="input_email">
+                      </div>
                     </div>
                   </div>
 
-                  <div class="row m-0">
-                    <div class="form-group col-md-6">
-                      <label for="input_capacidade_media_carga" class="position-relative mb-0 font-weight-bold">Capacidade Carga</label>
-                      <input maxlength="12" type="text" class="form-control" id="input_capacidade_media_carga">
-                    </div>
-                    <!-- <div class="col-md-6">
+                  <div class="row mx-0 mb-4">
+                    <div class="col-md-6">
                       <div class="form-group show-label">
-                        <label for="input_capacidade_media_carga" class="bmd-label-floating">Capacidade Carga</label>
+                        <label for="input_capacidade_media_carga">Capacidade Carga</label>
                         <input maxlength="12" type="text" class="form-control" id="input_capacidade_media_carga">
                         <span class="form-control-feedback">Kg</span>
                       </div>
-                    </div> -->
-                    <div class="form-group col-md-6">
-                      <label for="input_senha_acesso" class="position-relative mb-0 font-weight-bold">Senha Acesso</label>
-                      <input type="text" class="form-control" id="input_senha_acesso">
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="input_senha_acesso">Senha Acesso</label>
+                        <input type="text" class="form-control" id="input_senha_acesso">
+                      </div>
                     </div>
                   </div>
 

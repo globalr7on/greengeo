@@ -94,9 +94,11 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $user = User::all();
-
         if ($request->has('usuario_responsavel_cadastro_id')) {
-            $user = $user->where('usuario_responsavel_cadastro_id', $request->usuario_responsavel_cadastro_id)->all();
+            $userResponsavel = User::find($request->usuario_responsavel_cadastro_id);
+            if (!$userResponsavel->hasRole('admin')) {
+                $user = $user->where('usuario_responsavel_cadastro_id', $request->usuario_responsavel_cadastro_id)->all();
+            }
         }
 
         return response([
