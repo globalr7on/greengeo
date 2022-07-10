@@ -96,6 +96,9 @@
         // getAtividade()
       });
 
+        $('body').on('click', '#salvarProduto1', function() {
+          notifyWarning('Módulo em construção ainda, tente novamente mais tarde')
+       })
       // Salvar ''
       $('body').on('click', '#salvarProduto', function() {
         const JSONRequest = {
