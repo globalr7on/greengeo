@@ -19,7 +19,6 @@ class UnidadController extends Controller
     public function index()
     {
         $unidad = Unidade::all();
-
         return response([
             'data' => UnidadeResource::collection($unidad),
             'status' => true
@@ -29,13 +28,12 @@ class UnidadController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\UnidadRequest  $request
+     * @param  \Illuminate\Http\UnidadeRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(UnidadeRequest $request)
     {
         $unidad = Unidade::create($request->all());
-        
         return response([
             'data' => new UnidadeResource($unidad),
             'status' => true
@@ -60,7 +58,7 @@ class UnidadController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\UnidadRequest  $request
+     * @param  \Illuminate\Http\UnidadeRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -83,7 +81,28 @@ class UnidadController extends Controller
      */
     public function destroy($id)
     {
-        Unidad::findOrFail($id)->delete();
+        Unidade::findOrFail($id)->delete();
         return response(null, 204);
+    }
+
+    /**
+     * Update status.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateStatus(Request $request, $id)
+    {
+        $status = false;
+        $unidad = Unidade::find($id);
+        if ($request->has('ativo') && in_array($request->ativo, [1, 0])) {
+            $unidad->update($request->all());
+            $status = true;
+        }
+
+        return response([
+            'status' => $status
+        ], 200);
     }
 }

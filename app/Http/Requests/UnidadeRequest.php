@@ -14,8 +14,6 @@ class UnidadeRequest extends FormRequest
         return [
             'descricao' => 'required|string|max:255|',
             'simbolo' => 'required|string|max:255|',
-            'ativo' => 'required',
-            
         ];
     }
 

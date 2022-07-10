@@ -58,9 +58,12 @@
           { data: "peso_liquido" },
           { data: "estado_fisico" },
           { data: "percentual_composicao" },
-          { 
-            data: "ativo", className: "text-center", render: function (data, type) {
-              return data ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>'
+          {
+            data: "ativo",
+            className: "text-center",
+            orderable: false,
+            render: function (data, type, row) {
+              return `<i class="fas fa-${data ? 'check' : 'times'} cursor-pointer changeStatus" data-id="${row.id}" data-value-old="${data}" title="Deseja atualizar o status?"></i>`
             }
           }
         ],
@@ -78,7 +81,7 @@
         $('#tituloModal').text("Novo Material")
         $('#input_id').val("")
         $('#formMaterial')[0].reset()
-      });
+      })
 
       // Salvar
       $('body').on('click', '#salvarMaterial', function() {
@@ -102,7 +105,6 @@
           clase_material_id: $("#input_clase_material_id").val(),
           unidade_id: $("#input_unidade_id").val(),
           nota_fiscal_iten_id: $("#input_nota_fiscal_iten_id").val(),
-          ativo: $("#checkAtivo").prop("checked") ? 1 : 0
         }
         const id = $('#input_id').val()
         if (id) {
@@ -130,7 +132,7 @@
             notifyDanger('Falha ao criar, tente novamente')
           })
         }
-      });
+      })
 
       // Editar
       $('body').on('click', '.editAction', function() {
@@ -142,33 +144,32 @@
             $('#formProduto')[0].reset()
             $("#modalProduto").modal("show");
             $('#tituloModal').text("Editar Produto")
-            $("#input_ean").val(response.data.ean),
-            $("#input_ibama").val(response.data.ibama),
-            $("#input_denominacao_ibama").val(response.data.denominacao_ibama),
-            $("#input_peso_bruto").val(response.data.peso_bruto),
-            $("#input_peso_liquido").val(response.data.peso_liquido),
-            $("#input_estado_fisico").val(response.data.estado_fisico),
-            $("#input_percentual_composicao").val(response.data.percenteual_composicao),
-            $("#input_dimensoes").val(response.data.dimensoes),
-            $("#input_largura").val(response.data.largura),
-            $("#input_profundidade").val(response.data.profundidade),
-            $("#input_comprimento").val(response.data.comprimento),
-            $("#input_nome_no_fabricante").val(response.data.nome_no_fabricante),
-            $("#input_especie").val(response.data.especie),
-            $("#input_marca").val(response.data.marca),
-            $("#input_gerador_id").val(response.data.gerador_id),
-            $("#input_tipo_material_id").val(response.data.tipo_material_id),
-            $("#input_classe_material_id").val(response.data.clase_material_id),
-            $("#input_unidade_id").val(response.data.unidade_id),
-            $("#input_nota_fiscal_iten_id").val(response.data.nota_fiscal_iten_id),
-            $("#checkAtivo").prop("checked", response.data.ativo)
+            $("#input_ean").val(response.data.ean)
+            $("#input_ibama").val(response.data.ibama)
+            $("#input_denominacao_ibama").val(response.data.denominacao_ibama)
+            $("#input_peso_bruto").val(response.data.peso_bruto)
+            $("#input_peso_liquido").val(response.data.peso_liquido)
+            $("#input_estado_fisico").val(response.data.estado_fisico)
+            $("#input_percentual_composicao").val(response.data.percenteual_composicao)
+            $("#input_dimensoes").val(response.data.dimensoes)
+            $("#input_largura").val(response.data.largura)
+            $("#input_profundidade").val(response.data.profundidade)
+            $("#input_comprimento").val(response.data.comprimento)
+            $("#input_nome_no_fabricante").val(response.data.nome_no_fabricante)
+            $("#input_especie").val(response.data.especie)
+            $("#input_marca").val(response.data.marca)
+            $("#input_gerador_id").val(response.data.gerador_id)
+            $("#input_tipo_material_id").val(response.data.tipo_material_id)
+            $("#input_classe_material_id").val(response.data.clase_material_id)
+            $("#input_unidade_id").val(response.data.unidade_id)
+            $("#input_nota_fiscal_iten_id").val(response.data.nota_fiscal_iten_id)
           }
         })
         .catch(error => notifyDanger('Falha ao obter detalhes do empresa. Tente novamente'))
       })
 
       // Excluir
-      $('body').on('click', '.deleteAction',  function() {
+      $('body').on('click', '.deleteAction', function() {
         const id = $(this).attr('data-id')
         sweetConfirm('Deseja realmente excluir a clase?').then(confirmed => {
           if (confirmed) {
@@ -179,7 +180,26 @@
             .catch(error => notifyDanger('Falha ao excluir. Tente novamente'))
           }
         }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
-      });
-    });
+      })
+
+      // Change status
+      $('body').on('click', '.changeStatus', function() {
+        sweetConfirm('Deseja realmente atualizar?').then(confirmed => {
+          if (confirmed) {
+            const id = $(this).attr('data-id')
+            const valueOld = $(this).attr('data-value-old')
+            app.api.put(`/material/${id}/status`, { ativo: parseInt(valueOld) ? 0 : 1 }).then(response =>  {
+              if (response && response.status) {
+                app.datatable.ajax.reload()
+                notifySuccess('Atualizada com sucesso')
+              } else {
+                notifySuccess('Não foi possível atualizar, tente novamente')
+              }
+            })
+            .catch(error => notifyDanger('Falha ao atualizar. Tente novamente'))
+          }
+        }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
+      })
+    })
   </script>
 @endpush

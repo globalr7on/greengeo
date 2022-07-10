@@ -2,11 +2,9 @@
 
 namespace App\Http\Requests;
 
-
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
-
 
 class AcondicionamentoRequest extends FormRequest
 {
@@ -14,8 +12,6 @@ class AcondicionamentoRequest extends FormRequest
     {
         return [
             'descricao' => 'required|string|max:255|',
-            'ativo' => 'required',
-            
         ];
     }
 

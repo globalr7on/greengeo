@@ -11,9 +11,7 @@ class AtividadeRequest extends FormRequest
     public function rules()
     {
         return [
-            'descricao' => 'required|string|max:255|',
-            'ativo' => 'required',
-            
+            'descricao' => 'required|string|max:255|',  
         ];
     }
 

@@ -8,7 +8,6 @@ use App\Http\Resources\MarcaResource;
 use App\Models\Marca;
 use Illuminate\Http\Request;
 
-
 class MarcaController extends Controller
 {
     /**
@@ -23,7 +22,6 @@ class MarcaController extends Controller
             'data' => MarcaResource::collection($marca),
             'status' => true
         ], 200);
-        // return $acessante;
     }
 
     
@@ -40,8 +38,6 @@ class MarcaController extends Controller
             'data' => new MarcaResource($marca),
             'status' => true
         ], 200);
-
-    
     }
 
    /**
@@ -65,15 +61,14 @@ class MarcaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(MarcaRequest $request, $id)
-        {   
-            $marca = Marca::find($id);
-            $marca->update($request->all());
-            return response([
-                    'data' => new MarcaResource($marca),
-                    'status' => true
-                ], 200);
-    
-        }
+    {   
+        $marca = Marca::find($id);
+        $marca->update($request->all());
+        return response([
+            'data' => new MarcaResource($marca),
+            'status' => true
+        ], 200);
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -85,5 +80,26 @@ class MarcaController extends Controller
     {
         Marca::findOrFail($id)->delete();
         return response(null, 204);
+    }
+
+    /**
+     * Update status.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateStatus(Request $request, $id)
+    {
+        $status = false;
+        $marca = Marca::find($id);
+        if ($request->has('ativo') && in_array($request->ativo, [1, 0])) {
+            $marca->update($request->all());
+            $status = true;
+        }
+
+        return response([
+            'status' => $status
+        ], 200);
     }
 }

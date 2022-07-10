@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class MateriaisRequest extends FormRequest
 {
@@ -28,8 +30,6 @@ class MateriaisRequest extends FormRequest
             'classe_material_id' =>'required',
             'unidade_id' =>'required',
             'nota_fiscal_iten_id' =>'required',
-            'ativo'  => 'required',
-
         ];
     }
 

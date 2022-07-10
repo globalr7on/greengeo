@@ -26,8 +26,6 @@ class VeiculoController extends Controller
       
     }
 
-    
-
     /**
      * Store a newly created resource in storage.
      *
@@ -36,7 +34,6 @@ class VeiculoController extends Controller
      */
     public function store(VeiculoRequest $request)
     {
-
         $veiculo = Veiculo::create($request->all());
         return response([
             'data' => new VeiculoResource($veiculo),
@@ -86,5 +83,26 @@ class VeiculoController extends Controller
     {
         Veiculo::findOrFail($id)->delete();
         return response(null, 204);
+    }
+
+    /**
+     * Update status.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateStatus(Request $request, $id)
+    {
+        $status = false;
+        $veiculo = Veiculo::find($id);
+        if ($request->has('ativo') && in_array($request->ativo, [1, 0])) {
+            $veiculo->update($request->all());
+            $status = true;
+        }
+
+        return response([
+            'status' => $status
+        ], 200);
     }
 }

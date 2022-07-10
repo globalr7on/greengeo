@@ -1,40 +1,33 @@
- <div class="modal fade" id="modalAcondicionamento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-md" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="tituloModal">Criar Novo Acondicionamento</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="row">
+<div class="modal fade" id="modalAcondicionamento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-left" id="tituloModal"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <form id="formAcondicionamento">
+          <div class="row mx-0 mb-4">
             <div class="col-md-12">
-              <form id="formAcondicionamento">
-                <div class="form-row">
-                  <div class="form-group col-md-12">
-                    <div class="togglebutton">
-                      <label>Ativo?
-                        <input type="checkbox" checked="" id="checkAtivo">
-                          <span class="toggle"></span>
-                      </label>
-                    </div>
-                  </div>
-                  <div class="form-group col-md-12">
-                    <input type="hidden" class="form-control" id="inputId">
-                    <label for="inputDescricao">Descrição</label>
-                    <input type="text" class="form-control" id="inputDescricao">
-                  </div>
-                </div>
-                <button type="button" class="btn btn-primary" id="salvarAcond">Salvar</button>
-              </form>
+              <div class="form-group">
+                <input type="hidden" id="inputId">
+                <label for="input_descricao">Descrição</label>
+                <input type="text" class="form-control" id="input_descricao">
+              </div>
             </div>
           </div>
-        </div>
-        </div>
+
+          <div class="row mx-0">
+            <button type="button" class="btn btn-primary" id="salvarAcond">Salvar</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
+</div>
 
   @push('js')
   <script>

@@ -1,6 +1,4 @@
 @extends('layouts.app', ['activePage' => 'tipo_empresa', 'titlePage' => __('Tipo Empresa')])
-@section('css')
-@endsection
 @section('subheaderTitle')
   Administrativo
 @endsection
@@ -18,7 +16,6 @@
               <p class="card-category">Tipo Empresa</p>
             </div>
             <div class="card-body">
-              <!-- <div class="table-responsive"> -->
               <div>
                 <table class="table" id="tipoEmpresaTbl">
                   <thead>
@@ -34,7 +31,7 @@
       </div>
     </div>
   </div>
-   @include('administrativo.tipoEmpresa.modal')
+  @include('administrativo.tipoEmpresa.modal')
 @endsection
 
 @push('js')
@@ -44,9 +41,14 @@
         apiUrl: '/api/tipo_empresa',
         apiDataTableColumns: [
           { data: "descricao" },
-          { data: "ativo", className: "text-center", render: function (data, type) {
-            return data ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>'
-          }},
+          {
+            data: "ativo",
+            className: "text-center",
+            orderable: false,
+            render: function (data, type, row) {
+              return `<i class="fas fa-${data ? 'check' : 'times'} cursor-pointer changeStatus" data-id="${row.id}" data-value-old="${data}" title="Deseja atualizar o status?"></i>`
+            }
+          }
         ],
         datatableSelector: '#tipoEmpresaTbl'
       })
@@ -63,8 +65,7 @@
       // Salvar 
       $('body').on('click', '#salvarTipoEmpresa', function() {
         const JSONRequest = {
-          descricao: $("#inputDescricao").val(),
-          ativo: $("#checkAtivo").prop("checked") ? 1 : 0
+          descricao: $("#input_descricao").val()
         }
         const id = $('#inputId').val()
         if (id) {
@@ -101,18 +102,17 @@
           if (response && response.status) {
             delFormValidationErrors()
             $('#formTipoEmpresa')[0].reset()
-            $("#modalTipoEmpresa").modal("show");
+            $("#modalTipoEmpresa").modal("show")
             $('#tituloModal').text("Editar Tipo Empresa")
-            $('#inputId').val(response.data.id);
-            $("#inputDescricao").val(response.data.descricao);
-            $("#checkAtivo").prop("checked", response.data.ativo)
+            $('#inputId').val(response.data.id)
+            $("#input_descricao").val(response.data.descricao)
           }
         })
         .catch(error => notifyDanger('Falha ao obter detalhes. Tente novamente'))
       })
 
       // Excluir
-      $('body').on('click', '.deleteAction',  function() {
+      $('body').on('click', '.deleteAction', function() {
         const id = $(this).attr('data-id')
         sweetConfirm('Deseja realmente excluir?').then(confirmed => {
           if (confirmed) {
@@ -124,6 +124,25 @@
           }
         }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
       })
+
+      // Change status
+      $('body').on('click', '.changeStatus', function() {
+        sweetConfirm('Deseja realmente atualizar?').then(confirmed => {
+          if (confirmed) {
+            const id = $(this).attr('data-id')
+            const valueOld = $(this).attr('data-value-old')
+            app.api.put(`/tipo_empresa/${id}/status`, { ativo: parseInt(valueOld) ? 0 : 1 }).then(response =>  {
+              if (response && response.status) {
+                app.datatable.ajax.reload()
+                notifySuccess('Atualizada com sucesso')
+              } else {
+                notifySuccess('Não foi possível atualizar, tente novamente')
+              }
+            })
+            .catch(error => notifyDanger('Falha ao atualizar. Tente novamente'))
+          }
+        }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
+      });
     })
   </script>
 @endpush

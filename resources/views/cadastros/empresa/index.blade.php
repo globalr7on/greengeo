@@ -59,12 +59,11 @@
           { data: "celular_contato_1" },
           { data: "fixo" },
           { data: "capacidade_media_carga" },
-          { 
+          {
             data: "ativo",
             className: "text-center",
             orderable: false,
             render: function (data, type, row) {
-              // return data ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>'
               return `<i class="fas fa-${data ? 'check' : 'times'} cursor-pointer changeStatus" data-id="${row.id}" data-value-old="${data}" title="Deseja atualizar o status?"></i>`
             }
           }

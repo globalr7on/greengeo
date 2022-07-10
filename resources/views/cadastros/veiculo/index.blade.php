@@ -58,9 +58,14 @@
           { data: "modelo" },
           { data: "marca" },
           { data: "acondicionamento" },
-          { data: "ativo", render: function (data, type) {
-            return data ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>'
-          } },
+          {
+            data: "ativo",
+            className: "text-center",
+            orderable: false,
+            render: function (data, type, row) {
+              return `<i class="fas fa-${data ? 'check' : 'times'} cursor-pointer changeStatus" data-id="${row.id}" data-value-old="${data}" title="Deseja atualizar o status?"></i>`
+            }
+          }
         ],
         apiDataTableColumnsDefs : [
           { width: "180px", targets: [0,1,2,3,4,5,6,7,8,9,10] },
@@ -82,7 +87,7 @@
         getEmpresa()
         getCombustivel()
         maskPeso("#input_capacidade_media_carga")
-      });
+      })
 
       // Salvar
       $('body').on('click', '#salvarVeiculo', function() {
@@ -96,7 +101,6 @@
           marca_id: $("#input_marca_id").val(),
           acondicionamento_id: $("#input_acondicionamento_id").val(),
           pessoa_juridica_id: $("#input_pessoa_juridica_id").val(),
-          ativo: $("#checkAtivo").prop("checked") ? 1 : 0,
         }
         const id = $('#inputId').val()
         if (id) {
@@ -139,14 +143,13 @@
             getCombustivel(response.data.combustivel)
             delFormValidationErrors()
             $('#formVeiculo')[0].reset()
-            $("#modalVeiculo").modal("show");
+            $("#modalVeiculo").modal("show")
             $('#tituloModal').text("Editar Veiculo")
-            $('#inputId').val(response.data.id);
-            $("#input_placa").val(response.data.placa),
-            $("#input_chassis").val(response.data.chassis),
-            $("#input_renavam").val(response.data.renavam),
-            $("#input_combustivel").val(response.data.combustivel),
-            $("#checkAtivo").prop("checked", response.data.ativo)
+            $('#inputId').val(response.data.id)
+            $("#input_placa").val(response.data.placa)
+            $("#input_chassis").val(response.data.chassis)
+            $("#input_renavam").val(response.data.renavam)
+            $("#input_combustivel").val(response.data.combustivel)
             maskPeso("#input_capacidade_media_carga", formatFloatToString(response.data.capacidade_media_carga))
           }
         })
@@ -164,7 +167,7 @@
             }).catch(error => notifyDanger('Falha ao excluir. Tente novamente'))
           }
         }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
-      });
+      })
 
       function getMarca(value) {
         app.api.get('/marca').then(response =>  {
@@ -224,6 +227,25 @@
           notifyDanger('Falha ao obter acondicionamento, tente novamente')
         })
       }
-    });
+
+      // Change status
+      $('body').on('click', '.changeStatus', function() {
+        sweetConfirm('Deseja realmente atualizar?').then(confirmed => {
+          if (confirmed) {
+            const id = $(this).attr('data-id')
+            const valueOld = $(this).attr('data-value-old')
+            app.api.put(`/veiculo/${id}/status`, { ativo: parseInt(valueOld) ? 0 : 1 }).then(response =>  {
+              if (response && response.status) {
+                app.datatable.ajax.reload()
+                notifySuccess('Atualizada com sucesso')
+              } else {
+                notifySuccess('Não foi possível atualizar, tente novamente')
+              }
+            })
+            .catch(error => notifyDanger('Falha ao atualizar. Tente novamente'))
+          }
+        }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
+      })
+    })
   </script>
 @endpush

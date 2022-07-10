@@ -1,6 +1,4 @@
 @extends('layouts.app', ['activePage' => 'tipo_material', 'titlePage' => __('Tipo Material')])
-@section('css')
-@endsection
 @section('subheaderTitle')
   Administrativo
 @endsection
@@ -8,7 +6,7 @@
   <div class="content">
     <div class="container-fluid">
       <div class="col-12 text-right">
-        <button type="button" class="btn btn-primary" id="novoTipoMaterial">+ Novo Tipo Material </button>
+        <button type="button" class="btn btn-primary" id="novoTipoMaterial">+ Novo Tipo Material</button>
       </div>
       <div class="row">
         <div class="col-md-12">
@@ -18,7 +16,6 @@
               <p class="card-category">Tipo Material</p>
             </div>
             <div class="card-body">
-              <!-- <div class="table-responsive"> -->
               <div>
                 <table class="table" id="tipoMaterialTbl">
                   <thead>
@@ -33,7 +30,7 @@
       </div>
     </div>
   </div>
-   @include('administrativo.tipoMaterial.modal')
+  @include('administrativo.tipoMaterial.modal')
 @endsection
 
 @push('js')
@@ -42,8 +39,7 @@
       let app = new App({
         apiUrl: '/api/tipo_materiais',
         apiDataTableColumns: [
-           { data: "descricao" },
-          
+          { data: "descricao" },
         ],
         datatableSelector: '#tipoMaterialTbl'
       })
@@ -55,12 +51,12 @@
         $('#tituloModal').text("Novo Tipo Material")
         $('#inputId').val("")
         $('#formTipoMaterial')[0].reset()
-      });
+      })
 
       // Salvar 
       $('body').on('click', '#salvarTipoMaterial', function() {
         const JSONRequest = {
-          descricao: $("#inputDescricao").val()
+          descricao: $("#input_descricao").val()
         }
         const id = $('#inputId').val()
         if (id) {
@@ -97,20 +93,17 @@
           if (response && response.status) {
             delFormValidationErrors()
             $('#formTipoMaterial')[0].reset()
-            $("#modalTipoMaterial").modal("show");
+            $("#modalTipoMaterial").modal("show")
             $('#tituloModal').text("Editar tipo material")
-            $('#inputId').val(response.data.id);
-            $("#inputDescricao").val(response.data.descricao);
-            $("#checkAtivo").prop("checked", response.data.ativo)
-
-
+            $('#inputId').val(response.data.id)
+            $("#input_descricao").val(response.data.descricao)
           }
         })
         .catch(error => notifyDanger('Falha ao obter detalhes . Tente novamente'))
       })
 
       // Excluir
-      $('body').on('click', '.deleteAction',  function() {
+      $('body').on('click', '.deleteAction', function() {
         const id = $(this).attr('data-id')
         sweetConfirm('Deseja realmente excluir?').then(confirmed => {
           if (confirmed) {

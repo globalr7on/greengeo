@@ -20,9 +20,9 @@ class EstagiosOsController extends Controller
     {
         $estagios_os = Estagio::all();
         return response([
-                'data' => EstagiosOsResource::collection($estagios_os),
-                'status' => true
-            ], 200);
+            'data' => EstagiosOsResource::collection($estagios_os),
+            'status' => true
+        ], 200);
     }
 
     /**
@@ -35,9 +35,9 @@ class EstagiosOsController extends Controller
     {
         $estagios_os = Estagio::create($request->all());
         return response([
-                'data' => new EstagiosOsResource($estagios_os),
-                'status' => true
-            ], 200);
+            'data' => new EstagiosOsResource($estagios_os),
+            'status' => true
+        ], 200);
     }
 
     /**
@@ -48,7 +48,7 @@ class EstagiosOsController extends Controller
      */
     public function show($id)
     {
-         return response([
+        return response([
             'data' => new EstagiosOsResource(Estagio::find($id)),
             'status' => true
         ], 200);

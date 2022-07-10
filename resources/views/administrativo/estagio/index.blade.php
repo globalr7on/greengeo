@@ -1,6 +1,4 @@
 @extends('layouts.app', ['activePage' => 'estagios', 'titlePage' => __('Estagios OS')])
-@section('css')
-@endsection
 @section('subheaderTitle')
   Administrativo
 @endsection
@@ -18,7 +16,6 @@
               <p class="card-category">Estagios OS</p>
             </div>
             <div class="card-body">
-              <!-- <div class="table-responsive"> -->
               <div>
                 <table class="table" id="estagioTbl">
                   <thead>
@@ -33,7 +30,7 @@
       </div>
     </div>
   </div>
-   @include('administrativo.estagio.modal')
+  @include('administrativo.estagio.modal')
 @endsection
 
 @push('js')
@@ -42,7 +39,7 @@
       let app = new App({
         apiUrl: '/api/estagio_os',
         apiDataTableColumns: [
-           { data: "descricao" },
+          { data: "descricao" },
         ],
         datatableSelector: '#estagioTbl'
       })
@@ -50,19 +47,16 @@
       // Open Modal New
       $('body').on('click', '#novoEstagio', function() {
         delFormValidationErrors()
-        // $('#formEstagio')[0].reset()
+        $('#formEstagio')[0].reset()
         $("#modalEstagio").modal("show")
-         $('#formEstagio')[0].reset()
         $('#tituloModal').text("Novo Estagio")
         $('#inputId').val("")
-        // $('#formEstagio')[0].reset()
-      });
+      })
 
       // Salvar 
       $('body').on('click', '#salvarEstagio', function() {
         const JSONRequest = {
-          descricao: $("#inputDescricao").val(),
-         
+          descricao: $("#input_descricao").val(),
         }
         const id = $('#inputId').val()
         if (id) {
@@ -98,18 +92,18 @@
         app.api.get(`/estagio_os/${id}`).then(response =>  {
           if (response && response.status) {
             delFormValidationErrors()
-            // $('#formEstagio')[0].reset()
+            $('#formEstagio')[0].reset()
             $("#modalEstagio").modal("show");
             $('#tituloModal').text("Editar Estagio")
             $('#inputId').val(response.data.id);
-            $("#inputDescricao").val(response.data.descricao);
+            $("#input_descricao").val(response.data.descricao);
           }
         })
         .catch(error => notifyDanger('Falha ao obter detalhes. Tente novamente'))
       })
 
       // Excluir
-      $('body').on('click', '.deleteAction',  function() {
+      $('body').on('click', '.deleteAction', function() {
         const id = $(this).attr('data-id')
         sweetConfirm('Deseja realmente excluir?').then(confirmed => {
           if (confirmed) {

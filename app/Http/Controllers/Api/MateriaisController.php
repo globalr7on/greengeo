@@ -17,9 +17,8 @@ class MateriaisController extends Controller
      */
     public function index()
     {
-         $material = Material::all();
-        //  dd($material);
-         return response([
+        $material = Material::all();
+        return response([
             'data' => MateriaisResource::collection($material),
             'status' => true
         ], 200);
@@ -49,7 +48,7 @@ class MateriaisController extends Controller
      */
     public function show($id)
     {
-          return response([
+        return response([
             'data' => new MateriaisResource(Material::find($id)),
             'status' => true
         ], 200);
@@ -66,7 +65,7 @@ class MateriaisController extends Controller
     {
         $material = Material::find($id);
         $material->update($request->all());
-           return response([
+        return response([
             'data' => new MaterialResource($material),
             'status' => true
         ], 200);
@@ -82,5 +81,26 @@ class MateriaisController extends Controller
     {
         Material::findOrFail($id)->delete();
         return response(null, 204);
+    }
+
+    /**
+     * Update status.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateStatus(Request $request, $id)
+    {
+        $status = false;
+        $material = Material::find($id);
+        if ($request->has('ativo') && in_array($request->ativo, [1, 0])) {
+            $material->update($request->all());
+            $status = true;
+        }
+
+        return response([
+            'status' => $status
+        ], 200);
     }
 }

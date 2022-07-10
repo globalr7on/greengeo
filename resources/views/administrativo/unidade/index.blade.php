@@ -44,11 +44,16 @@
       let app = new App({
         apiUrl: '/api/unidad',
         apiDataTableColumns: [
-           { data: "descricao" },
-           { data: "simbolo", className: "text-center" },
-           { data: "ativo", className: "text-center", render: function (data, type) {
-             return data ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>'
-            }},
+          { data: "descricao" },
+          { data: "simbolo", className: "text-center" },
+          {
+            data: "ativo",
+            className: "text-center",
+            orderable: false,
+            render: function (data, type, row) {
+              return `<i class="fas fa-${data ? 'check' : 'times'} cursor-pointer changeStatus" data-id="${row.id}" data-value-old="${data}" title="Deseja atualizar o status?"></i>`
+            }
+          }
         ],
         datatableSelector: '#unidadTbl'
       })
@@ -65,11 +70,8 @@
       // Salvar 
       $('body').on('click', '#salvarUnidade', function() {
         const JSONRequest = {
-          descricao: $("#inputDescricao").val(),
-          simbolo: $("#inputSimbolo").val(),
-          ativo: $("#checkAtivo").prop("checked") ? 1 : 0
-          // name: $("#input_name").val(),
-          // guard_name: $("#input_guard_name").val(),
+          descricao: $("#input_descricao").val(),
+          simbolo: $("#input_simbolo").val(),
         }
         const id = $('#inputId').val()
         if (id) {
@@ -106,21 +108,18 @@
           if (response && response.status) {
             delFormValidationErrors()
             $('#formUnidade')[0].reset()
-            $("#modalUnidade").modal("show");
+            $("#modalUnidade").modal("show")
             $('#tituloModal').text("Editar Unidade")
-            $('#inputId').val(response.data.id);
-            $("#inputDescricao").val(response.data.descricao);
-            $("#inputSimbolo").val(response.data.simbolo);
-            $("#checkAtivo").prop("checked", response.data.ativo)
-
+            $('#inputId').val(response.data.id)
+            $("#input_descricao").val(response.data.descricao)
+            $("#input_simbolo").val(response.data.simbolo)
           }
         })
         .catch(error => notifyDanger('Falha ao obter detalhes. Tente novamente'))
       })
 
       // Excluir
-      // Excluir
-      $('body').on('click', '.deleteAction',  function() {
+      $('body').on('click', '.deleteAction', function() {
         const id = $(this).attr('data-id')
         sweetConfirm('Deseja realmente excluir?').then(confirmed => {
           if (confirmed) {
@@ -129,6 +128,25 @@
               notifySuccess('Excluído com sucesso')
             })
             .catch(error => notifyDanger('Falha ao excluir. Tente novamente'))
+          }
+        }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
+      })
+
+      // Change status
+      $('body').on('click', '.changeStatus', function() {
+        sweetConfirm('Deseja realmente atualizar?').then(confirmed => {
+          if (confirmed) {
+            const id = $(this).attr('data-id')
+            const valueOld = $(this).attr('data-value-old')
+            app.api.put(`/unidad/${id}/status`, { ativo: parseInt(valueOld) ? 0 : 1 }).then(response =>  {
+              if (response && response.status) {
+                app.datatable.ajax.reload()
+                notifySuccess('Atualizada com sucesso')
+              } else {
+                notifySuccess('Não foi possível atualizar, tente novamente')
+              }
+            })
+            .catch(error => notifyDanger('Falha ao atualizar. Tente novamente'))
           }
         }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
       })

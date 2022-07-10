@@ -12,8 +12,6 @@ class TratamentoRequest extends FormRequest
     {
         return [
             'descricao' => 'required|string|max:255|',
-            'ativo' => 'required',
-            
         ];
     }
 

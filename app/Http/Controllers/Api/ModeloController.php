@@ -23,7 +23,6 @@ class ModeloController extends Controller
             'data' => ModeloResource::collection($modelo),
             'status' => true
         ], 200);
-        // return $acessante;
     }
 
     
@@ -70,10 +69,9 @@ class ModeloController extends Controller
         $modelo = Modelo::find($id);
         $modelo->update($request->all());
         return response([
-                'data' => new ModeloResource($modelo),
-                'status' => true
-            ], 200);
-  
+            'data' => new ModeloResource($modelo),
+            'status' => true
+        ], 200);
     }
 
     /**
@@ -86,5 +84,26 @@ class ModeloController extends Controller
     {
         Modelo::findOrFail($id)->delete();
         return response(null, 204);
+    }
+
+    /**
+     * Update status.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateStatus(Request $request, $id)
+    {
+        $status = false;
+        $modelo = Modelo::find($id);
+        if ($request->has('ativo') && in_array($request->ativo, [1, 0])) {
+            $modelo->update($request->all());
+            $status = true;
+        }
+
+        return response([
+            'status' => $status
+        ], 200);
     }
 }

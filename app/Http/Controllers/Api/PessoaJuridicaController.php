@@ -117,6 +117,5 @@ class PessoaJuridicaController extends Controller
         return response([
             'status' => $status
         ], 200);
-
     }
 }

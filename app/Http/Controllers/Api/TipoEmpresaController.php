@@ -88,4 +88,25 @@ class TipoEmpresaController extends Controller
         TipoEmpresa::findOrFail($id)->delete();
         return response(null, 204);
     }
+
+    /**
+     * Update status.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateStatus(Request $request, $id)
+    {
+        $status = false;
+        $tipo_empresa = TipoEmpresa::find($id);
+        if ($request->has('ativo') && in_array($request->ativo, [1, 0])) {
+            $tipo_empresa->update($request->all());
+            $status = true;
+        }
+
+        return response([
+            'status' => $status
+        ], 200);
+    }
 }

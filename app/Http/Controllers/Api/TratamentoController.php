@@ -7,7 +7,6 @@ use App\Http\Requests\TratamentoRequest;
 use App\Http\Resources\TratamentoResource;
 use App\Models\Tratamento;
 use Illuminate\Http\Request;
-use Validator;
 
 class TratamentoController extends Controller
 {
@@ -33,7 +32,6 @@ class TratamentoController extends Controller
      */
     public function store(TratamentoRequest $request)
     {
-       
         $tratamento = Tratamento::create($request->all());
         return response([
             'data' => new TratamentoResource($tratamento),
@@ -66,7 +64,6 @@ class TratamentoController extends Controller
      */
     public function update(TratamentoRequest $request, $id)
     {
-        
         $tratamento = Tratamento::find($id);
         $tratamento->update($request->all());
         return response([
@@ -85,5 +82,26 @@ class TratamentoController extends Controller
     {
        Tratamento::findOrFail($id)->delete();
        return response(null, 204);
+    }
+
+    /**
+     * Update status.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateStatus(Request $request, $id)
+    {
+        $status = false;
+        $tratamento = Tratamento::find($id);
+        if ($request->has('ativo') && in_array($request->ativo, [1, 0])) {
+            $tratamento->update($request->all());
+            $status = true;
+        }
+
+        return response([
+            'status' => $status
+        ], 200);
     }
 }

@@ -8,11 +8,10 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 
 class TipoEmpresaRequest extends FormRequest
 {
-     public function rules()
+    public function rules()
     {
         return [
             'descricao' => 'required|string|max:255|',
-            'ativo' => 'required',
         ];
     }
 

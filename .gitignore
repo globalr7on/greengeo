@@ -16,3 +16,4 @@ yarn-error.log
 /my-db 
 /nginx 
 php-make
+composer.lock

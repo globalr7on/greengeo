@@ -42,6 +42,7 @@ Route::middleware(['auth:api', 'permission'])->group(function(){
     Route::post('acondicionamento', 'App\Http\Controllers\Api\AcondicionamentoController@store')->name('acondicionamento.store');
     Route::put('acondicionamento/{id}', 'App\Http\Controllers\Api\AcondicionamentoController@update')->name('acondicionamento.update');
     Route::delete('acondicionamento/{id}', 'App\Http\Controllers\Api\AcondicionamentoController@destroy')->name('acondicionamento.destroy');
+    Route::put('acondicionamento/{id}/status', 'App\Http\Controllers\Api\AcondicionamentoController@updateStatus')->name('acondicionamento.update_status');
 
     // ATIVIDADE
     Route::get('atividade', 'App\Http\Controllers\Api\AtividadeController@index')->name('atividade.index');
@@ -49,6 +50,7 @@ Route::middleware(['auth:api', 'permission'])->group(function(){
     Route::post('atividade', 'App\Http\Controllers\Api\AtividadeController@store')->name('atividade.store');
     Route::put('atividade/{id}', 'App\Http\Controllers\Api\AtividadeController@update')->name('atividade.update');
     Route::delete('atividade/{id}', 'App\Http\Controllers\Api\AtividadeController@destroy')->name('atividade.destroy');
+    Route::put('atividade/{id}/status', 'App\Http\Controllers\Api\AtividadeController@updateStatus')->name('atividade.update_status');
 
     // TRATAMENTO
     Route::get('tratamento', 'App\Http\Controllers\Api\TratamentoController@index')->name('tratamento.index');
@@ -56,6 +58,7 @@ Route::middleware(['auth:api', 'permission'])->group(function(){
     Route::post('tratamento', 'App\Http\Controllers\Api\TratamentoController@store')->name('tratamento.store');
     Route::put('tratamento/{id}', 'App\Http\Controllers\Api\TratamentoController@update')->name('tratamento.update');
     Route::delete('tratamento/{id}', 'App\Http\Controllers\Api\TratamentoController@destroy')->name('tratamento.destroy');
+    Route::put('tratamento/{id}/status', 'App\Http\Controllers\Api\TratamentoController@updateStatus')->name('tratamento.update_status');
 
     // UNIDAD
     Route::get('unidad', 'App\Http\Controllers\Api\UnidadController@index')->name('unidad.index');
@@ -63,6 +66,7 @@ Route::middleware(['auth:api', 'permission'])->group(function(){
     Route::post('unidad', 'App\Http\Controllers\Api\UnidadController@store')->name('unidad.store');
     Route::put('unidad/{id}', 'App\Http\Controllers\Api\UnidadController@update')->name('unidad.update');
     Route::delete('unidad/{id}', 'App\Http\Controllers\Api\UnidadController@destroy')->name('unidad.destroy');
+    Route::put('unidad/{id}/status', 'App\Http\Controllers\Api\UnidadController@updateStatus')->name('unidad.update_status');
 
     // MARCA
     Route::get('marca', 'App\Http\Controllers\Api\MarcaController@index')->name('marca.index');
@@ -70,6 +74,7 @@ Route::middleware(['auth:api', 'permission'])->group(function(){
     Route::post('marca', 'App\Http\Controllers\Api\MarcaController@store')->name('marca.store');
     Route::put('marca/{id}', 'App\Http\Controllers\Api\MarcaController@update')->name('marca.update');
     Route::delete('marca/{id}', 'App\Http\Controllers\Api\MarcaController@destroy')->name('marca.destroy');
+    Route::put('marca/{id}/status', 'App\Http\Controllers\Api\MarcaController@updateStatus')->name('marca.update_status');
 
     // MODELO
     Route::get('modelo', 'App\Http\Controllers\Api\ModeloController@index')->name('modelo.index');
@@ -77,6 +82,7 @@ Route::middleware(['auth:api', 'permission'])->group(function(){
     Route::post('modelo', 'App\Http\Controllers\Api\ModeloController@store')->name('modelo.store');
     Route::put('modelo/{id}', 'App\Http\Controllers\Api\ModeloController@update')->name('modelo.update');
     Route::delete('modelo/{id}', 'App\Http\Controllers\Api\ModeloController@destroy')->name('modelo.destroy');
+    Route::put('modelo/{id}/status', 'App\Http\Controllers\Api\ModeloController@updateStatus')->name('modelo.update_status');
 
     // EMPRESA
     Route::get('pessoa_juridica', 'App\Http\Controllers\Api\PessoaJuridicaController@index')->name('pessoa_juridica.index');
@@ -92,6 +98,7 @@ Route::middleware(['auth:api', 'permission'])->group(function(){
     Route::post('veiculo', 'App\Http\Controllers\Api\VeiculoController@store')->name('veiculo.store');
     Route::put('veiculo/{id}', 'App\Http\Controllers\Api\VeiculoController@update')->name('veiculo.update');
     Route::delete('veiculo/{id}', 'App\Http\Controllers\Api\VeiculoController@destroy')->name('veiculo.destroy');
+    Route::put('veiculo/{id}/status', 'App\Http\Controllers\Api\VeiculoController@updateStatus')->name('veiculo.update_status');
 
     // ESTAGIOS OS
     Route::get('estagio_os', 'App\Http\Controllers\Api\EstagiosOsController@index')->name('estagio_os.index');
@@ -127,7 +134,7 @@ Route::middleware(['auth:api', 'permission'])->group(function(){
     Route::post('tipo_empresa', 'App\Http\Controllers\Api\TipoEmpresaController@store')->name('tipo_empresa.store');
     Route::put('tipo_empresa/{id}', 'App\Http\Controllers\Api\TipoEmpresaController@update')->name('tipo_empresa.update');
     Route::delete('tipo_empresa/{id}', 'App\Http\Controllers\Api\TipoEmpresaController@destroy')->name('tipo_empresa.destroy');
-    
+    Route::put('tipo_empresa/{id}/status', 'App\Http\Controllers\Api\TipoEmpresaController@updateStatus')->name('tipo_empresa.update_status');
     
     // PRODUTO
     Route::get('produto', 'App\Http\Controllers\Api\ProdutoController@index')->name('produto.index');
@@ -142,8 +149,9 @@ Route::middleware(['auth:api', 'permission'])->group(function(){
     Route::post('material', 'App\Http\Controllers\Api\MateriaisController@store')->name('material.store');
     Route::put('material/{id}', 'App\Http\Controllers\Api\MateriaisController@update')->name('material.update');
     Route::delete('material/{id}', 'App\Http\Controllers\Api\MateriaisController@destroy')->name('material.destroy');
+    Route::put('material/{id}/status', 'App\Http\Controllers\Api\MateriaisController@updateStatus')->name('material.update_status');
 
-      // IBAMA
+    // IBAMA
     Route::get('ibama', 'App\Http\Controllers\Api\IbamaController@index')->name('ibama.index');
     Route::get('ibama/{id}', 'App\Http\Controllers\Api\IbamaController@show')->name('ibama.show');
     Route::post('ibama', 'App\Http\Controllers\Api\IbamaController@store')->name('ibama.store');

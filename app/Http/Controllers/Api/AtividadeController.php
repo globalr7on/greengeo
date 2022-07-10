@@ -6,9 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AtividadeRequest;
 use App\Http\Resources\AtividadeResource;
 use App\Models\Atividade;
-// use App\Models\TipoAcessante;
 use Illuminate\Http\Request;
-use Validator;
 
 class AtividadeController extends Controller
 {
@@ -19,7 +17,6 @@ class AtividadeController extends Controller
      */
     public function index()
     {
-        
         $atividade = Atividade::all();
          return response([
             'data' => AtividadeResource::collection($atividade),
@@ -84,5 +81,26 @@ class AtividadeController extends Controller
     {
         Atividade::findOrFail($id)->delete();
         return response(null, 204);
+    }
+
+    /**
+     * Update status.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateStatus(Request $request, $id)
+    {
+        $status = false;
+        $atividade = Atividade::find($id);
+        if ($request->has('ativo') && in_array($request->ativo, [1, 0])) {
+            $atividade->update($request->all());
+            $status = true;
+        }
+
+        return response([
+            'status' => $status
+        ], 200);
     }
 }

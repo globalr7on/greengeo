@@ -12,8 +12,6 @@ class ModeloRequest extends FormRequest
     {
         return [
             'descricao' => 'required|string|max:255|',
-            'ativo' => 'required',
-            
         ];
     }
 

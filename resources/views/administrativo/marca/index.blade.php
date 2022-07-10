@@ -1,6 +1,4 @@
 @extends('layouts.app', ['activePage' => 'marca', 'titlePage' => __('Marca')])
-@section('css')
-@endsection
 @section('subheaderTitle')
   Administrativo
 @endsection
@@ -18,7 +16,6 @@
               <p class="card-category">Marca</p>
             </div>
             <div class="card-body">
-              <!-- <div class="table-responsive"> -->
               <div>
                 <table class="table" id="marcaTbl">
                   <thead>
@@ -34,7 +31,7 @@
       </div>
     </div>
   </div>
-   @include('administrativo.marca.modal')
+  @include('administrativo.marca.modal')
 @endsection
 
 @push('js')
@@ -43,10 +40,15 @@
       let app = new App({
         apiUrl: '/api/marca',
         apiDataTableColumns: [
-           { data: "descricao" },
-           { data: "ativo", className: "text-center", render: function (data, type) {
-             return data ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>'
-            }},
+          { data: "descricao" },
+          {
+            data: "ativo",
+            className: "text-center",
+            orderable: false,
+            render: function (data, type, row) {
+              return `<i class="fas fa-${data ? 'check' : 'times'} cursor-pointer changeStatus" data-id="${row.id}" data-value-old="${data}" title="Deseja atualizar o status?"></i>`
+            }
+          }
         ],
         datatableSelector: '#marcaTbl'
       })
@@ -58,15 +60,12 @@
         $('#tituloModal').text("Nova Marca")
         $('#inputId').val("")
         $('#formMarca')[0].reset()
-      });
+      })
 
       // Salvar 
       $('body').on('click', '#salvarMarca', function() {
         const JSONRequest = {
-          descricao: $("#inputDescricao").val(),
-          ativo: $("#checkAtivo").prop("checked") ? 1 : 0
-          // name: $("#input_name").val(),
-          // guard_name: $("#input_guard_name").val(),
+          descricao: $("#input_descricao").val(),
         }
         const id = $('#inputId').val()
         if (id) {
@@ -94,7 +93,7 @@
             notifyDanger('Falha ao criar, tente novamente')
           })
         }
-      });
+      })
 
      // Editar
       $('body').on('click', '.editAction', function() {
@@ -102,18 +101,18 @@
         app.api.get(`/marca/${id}`).then(response =>  {
           if (response && response.status) {
             delFormValidationErrors()
-            // $('#formMarca')[0].reset()
-            $("#modalMarca").modal("show");
+            $('#formMarca')[0].reset()
+            $("#modalMarca").modal("show")
             $('#tituloModal').text("Editar Marca")
-            $('#inputId').val(response.data.id);
-            $("#inputDescricao").val(response.data.descricao);
-            $("#checkAtivo").prop("checked", response.data.ativo)
+            $('#inputId').val(response.data.id)
+            $("#input_descricao").val(response.data.descricao)
           }
         })
         .catch(error => notifyDanger('Falha ao obter detalhes. Tente novamente'))
       })
+
       // Excluir
-      $('body').on('click', '.deleteAction',  function() {
+      $('body').on('click', '.deleteAction', function() {
         const id = $(this).attr('data-id')
         sweetConfirm('Deseja realmente excluir?').then(confirmed => {
           if (confirmed) {
@@ -122,6 +121,25 @@
               notifySuccess('Marca excluído com sucesso')
             })
             .catch(error => notifyDanger('Falha ao excluir. Tente novamente'))
+          }
+        }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
+      })
+
+      // Change status
+      $('body').on('click', '.changeStatus', function() {
+        sweetConfirm('Deseja realmente atualizar?').then(confirmed => {
+          if (confirmed) {
+            const id = $(this).attr('data-id')
+            const valueOld = $(this).attr('data-value-old')
+            app.api.put(`/marca/${id}/status`, { ativo: parseInt(valueOld) ? 0 : 1 }).then(response =>  {
+              if (response && response.status) {
+                app.datatable.ajax.reload()
+                notifySuccess('Atualizada com sucesso')
+              } else {
+                notifySuccess('Não foi possível atualizar, tente novamente')
+              }
+            })
+            .catch(error => notifyDanger('Falha ao atualizar. Tente novamente'))
           }
         }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
       })

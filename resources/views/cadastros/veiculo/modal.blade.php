@@ -13,17 +13,7 @@
             <form id="formVeiculo">
               <div class="form-row mx-0 mb-4">
                 <input type="hidden" class="form-control" id="inputId">
-                <div class="form-group col-md-4 align-self-center text-center">
-                  <div class="togglebutton">
-                    <label>
-                      Ativo?
-                      <input type="checkbox" id="checkAtivo">
-                      <span class="toggle"></span>
-                    </label>
-                  </div>
-                </div>
-
-                <div class="col-md-4 text-center">
+                <div class="col-md-6 text-center">
                   <div class="form-group m-0 p-0">
                     <label for="input_pessoa_juridica_id" class="display-inherit mb-0">Empresa</label>
                     <select id="input_pessoa_juridica_id" data-style="btn-warning text-white" title="Single Select" name="empresa">
@@ -32,7 +22,7 @@
                   </div>
                 </div>
 
-                <div class="col-md-4 align-self-center">
+                <div class="col-md-6 align-self-center">
                   <div class="form-group">
                     <label for="input_placa">Placa</label>
                     <input type="text" class="form-control" id="input_placa">
