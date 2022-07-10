@@ -48,7 +48,6 @@
 @push('js')
   <script>
     $(document).ready(function () {
-      
       let app = new App({
         apiUrl: '/api/produto',
         apiDataTableColumns: [
@@ -67,25 +66,12 @@
         ],
         apiDataTableColumnsDefs : [
           { targets: 1, orderable: false },
-        
-          { 
-            targets : 8,
-            className: "text-center",
-            render : function (data, type, row) {
-              return `
-                <i class="fa fa-trash cursor-pointer excluirEmpresa" data-id="${row.id}" title="Excluir" ></i>
-                &nbsp;
-                <i class="fa fa-pen cursor-pointer editarEmpresa" data-id="${row.id}"  title="Editar"></i>
-              `
-            }
-          }
         ],
         datatableSelector: '#produtoTbl'
       })
      
       // Open Modal New
       $('body').on('click', '#novoProduto', function() {
-       
         app.stepper()
         delFormValidationErrors()
         $("#modalProduto").modal("show")
@@ -93,10 +79,13 @@
         $('#input_id').val("")
         $('#formProduto')[0].reset()
         getEmpresa()
-        // getAtividade()
       });
 
-      // Salvar ''
+      $('body').on('click', '#salvarProduto1', function() {
+        notifyWarning('Módulo em construção ainda, tente novamente mais tarde')
+      })
+
+      // Salvar
       $('body').on('click', '#salvarProduto', function() {
         const JSONRequest = {
           nome_fabricante: $("#input_nome_fabricante").val(),

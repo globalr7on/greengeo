@@ -40,9 +40,10 @@
                     </div>
                   </div>
                     <div class="form-group col-md-6">
-                    <label for="input_usuario_responsavel_cadastro_id" class="position-relative mb-0 font-weight-bold">Responsavel</label>
+                    <label for="input_usuario_responsavel_cadastro_id" class="position-relative mb-0 font-weight-bold">EAN</label>
                     <input type="hidden" class="form-control" id="input_usuario_responsavel_cadastro_id"  value="{{  Auth::user()->id  }}">
-                    <input type="text" class="form-control" value="{{  Auth::user()->name }}" disabled >
+                    <input type="text" class="form-control" id="input_ean">
+                    {{-- <input type="text" class="form-control" value="{{  Auth::user()->name }}" disabled > --}}
                   </div>
                   
                 </div>
@@ -79,7 +80,7 @@
                 </div>
 
                 <div class="row m-0">
-                  <button class="btn btn-warning">Itens</button>
+                  <button class="btn btn-warning" id="salvarProduto1" >Itens</button>
                   <button class="btn btn-primary stepper-next">Próximo</button>
                 </div>
               </div>
@@ -112,9 +113,9 @@
                 </div>
 
                 <div class="row m-0">
-                  <button class="btn btn-warning">Itens</button>
+                  <button class="btn btn-warning" id="salvarProduto1" >Itens</button>
                   <button class="btn btn-primary stepper-prev">Anterior</button>
-                  <button class="btn btn-primary"  id="salvarProduto" >Salvar</button>
+                  <button class="btn btn-primary"  id="salvarProduto1" >Salvar</button>
                 </div>
               </div>
             </div>

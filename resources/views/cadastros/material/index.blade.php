@@ -23,7 +23,7 @@
               <div>
                 <table class="table" id="materialTbl">
                   <thead>
-                    <th class="text-primary font-weight-bold">Ean</th>
+                    {{-- <th class="text-primary font-weight-bold">Ean</th> --}}
                     <th class="text-primary font-weight-bold">Ibama</th>
                     <th class="text-primary font-weight-bold">Denominação Ibama</th>
                     <th class="text-primary font-weight-bold">Peso Bruto</th>
@@ -51,7 +51,7 @@
       let app = new App({
         apiUrl: '/api/material',
         apiDataTableColumns: [
-          { data: "ean" },
+          // { data: "ean" },
           { data: "ibama" },
           { data: "denominacao_ibama" },
           { data: "peso_bruto" },
@@ -81,12 +81,16 @@
         $('#tituloModal').text("Novo Material")
         $('#input_id').val("")
         $('#formMaterial')[0].reset()
+        getIbama()
       })
 
       // Salvar
+       $('body').on('click', '#salvarMaterial1', function() {
+          notifyWarning('Módulo em construção ainda, tente novamente mais tarde')
+       })
       $('body').on('click', '#salvarMaterial', function() {
         const JSONRequest = {
-          ean: $("#input_ean").val(),
+          // ean: $("#input_ean").val(),
           ibama: $("#input_ibama").val(),
           denominacao_ibama: $("#input_denominacao_ibama").val(),
           peso_bruto: $("#input_peso_bruto").val(),
@@ -200,6 +204,18 @@
           }
         }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
       })
+
+      function getIbama(value) {
+        app.api.get('/ibama').then(response =>  {
+          if (response && response.status) {
+            loadSelect('#input_ibama', response.data, ['id', 'code_ibama'], value)
+          }
+        })
+        .catch(error => {
+          console.log('app.api.get error', error)
+          notifyDanger('Falha ao obter dados, tente novamente')
+        })
+      }
     })
   </script>
 @endpush
