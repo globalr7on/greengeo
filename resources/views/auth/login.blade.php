@@ -4,7 +4,7 @@
 <div class="container" style="height: auto;">
   <div class="row align-items-center">
     <div class="col-md-6 ml-auto mr-auto mb-3 text-center">
-      <h1 class ="text-left">{{ __('Bem-vindo ao sistema de descarte de produtos Electrolux.') }} </h1>
+      <h1 class ="text-left">{{ __('Bem-vindo ao sistema de descarte de produtos.') }} </h1>
     </div>
     <div class="col-lg-4 col-md-6 col-sm-8 ml-auto mr-auto">
       <form class="form" method="POST" action="{{ route('login') }}">
