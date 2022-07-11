@@ -13,8 +13,8 @@ class Ibama extends Model
    use HasApiTokens, HasFactory, Notifiable;
     protected $table = 'ibamas';
     protected $fillable = [
-        'code_ibama',
-        'denominacao_ibama'
+        'codigo',
+        'denominacao'
     ]; 
     protected $guardaded = ['id'];
 }

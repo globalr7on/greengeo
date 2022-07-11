@@ -19,9 +19,9 @@ class IbamaController extends Controller
     {
         $ibama = Ibama::all();
         return response([
-                'data' => IbamaResource::collection($ibama),
-                'status' => true
-            ], 200);
+            'data' => IbamaResource::collection($ibama),
+            'status' => true
+        ], 200);
     }
 
    
@@ -35,9 +35,9 @@ class IbamaController extends Controller
     {
         $ibama = Ibama::create($request->all());
         return response([
-                'data' => new IbamaResource($estagios_os),
-                'status' => true
-            ], 200);
+            'data' => new IbamaResource($ibama),
+            'status' => true
+        ], 200);
     }
 
     /**

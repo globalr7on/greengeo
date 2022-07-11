@@ -240,7 +240,7 @@
         })
         .catch(error => {
           console.log('app.api.get error', error)
-          notifyDanger('Falha ao obter funções, tente novamente')
+          notifyDanger('Falha ao obter empresa, tente novamente')
         })
       }
 
@@ -252,7 +252,7 @@
         })
         .catch(error => {
           console.log('app.api.get error', error)
-          notifyDanger('Falha ao obter funções, tente novamente')
+          notifyDanger('Falha ao obter tipo empresa, tente novamente')
         })
       }
 

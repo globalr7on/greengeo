@@ -1,6 +1,4 @@
 @extends('layouts.app', ['activePage' => 'ibama', 'titlePage' => __('Codigos Ibama')])
-@section('css')
-@endsection
 @section('subheaderTitle')
   Administrativo
 @endsection
@@ -18,7 +16,6 @@
               <p class="card-category">Ibama</p>
             </div>
             <div class="card-body">
-              <!-- <div class="table-responsive"> -->
               <div>
                 <table class="table" id="ibamaTbl">
                   <thead>
@@ -34,7 +31,7 @@
       </div>
     </div>
   </div>
-   @include('administrativo.ibama.modal')
+  @include('administrativo.ibama.modal')
 @endsection
 
 @push('js')
@@ -43,8 +40,8 @@
       let app = new App({
         apiUrl: '/api/ibama',
         apiDataTableColumns: [
-           { data: "code_ibama" },
-           { data: "denominacao_ibama" },
+          { data: "codigo" },
+          { data: "denominacao" },
         ],
         datatableSelector: '#ibamaTbl'
       })
@@ -52,18 +49,17 @@
       // Open Modal New
       $('body').on('click', '#novoIbama', function() {
         delFormValidationErrors()
-        // $('#formEstagio')[0].reset()
         $("#modalIbama").modal("show")
         $('#formIbama')[0].reset()
         $('#tituloModal').text("Novo Ibamna")
         $('#input_id').val("")
-      });
+      })
 
       // Salvar 
       $('body').on('click', '#salvarIbama', function() {
         const JSONRequest = {
-          code_ibama: $("#input_code_ibama").val(),
-          denominacao_ibama: $("#input_denominacao_ibama").val(),
+          codigo: $("#input_codigo").val(),
+          denominacao: $("#input_denominacao").val(),
         }
         const id = $('#input_id').val()
         if (id) {
@@ -81,7 +77,7 @@
         } else {
           app.api.post('/ibama', JSONRequest).then(response => {
             if (response && response.status) {
-              $("#modalEstagio").modal("hide")
+              $("#modalIbama").modal("hide")
               app.datatable.ajax.reload()
               notifySuccess('Criado com sucesso')
             }
@@ -91,7 +87,7 @@
             notifyDanger('Falha ao criar, tente novamente')
           })
         }
-      });
+      })
 
       // Editar
       $('body').on('click', '.editAction', function() {
@@ -99,12 +95,11 @@
         app.api.get(`/ibama/${id}`).then(response =>  {
           if (response && response.status) {
             delFormValidationErrors()
-            
             $("#modalIbama").modal("show");
             $('#tituloModal').text("Editar Ibama")
-            $('#input_id').val(response.data.id);
-            $("#input_code_ibama").val(response.data.code_ibama);
-            $("#input_denominacao_ibama").val(response.data.denominacao_ibama);
+            $('#input_id').val(response.data.id)
+            $("#input_codigo").val(response.data.codigo)
+            $("#input_denominacao").val(response.data.denominacao)
           }
         })
         .catch(error => notifyDanger('Falha ao obter detalhes. Tente novamente'))

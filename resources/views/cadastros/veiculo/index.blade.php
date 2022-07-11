@@ -85,7 +85,7 @@
         getMarca()
         getModelo()
         getAcondicionamento()
-        getEmpresa({{ Auth::user()->pessoa_juridica_id }}, true)
+        getEmpresa("{{ Auth::user()->pessoa_juridica_id }}" || null, true)
         getCombustivel()
         maskPeso("#input_capacidade_media_carga")
       })

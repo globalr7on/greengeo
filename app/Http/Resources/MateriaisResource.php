@@ -17,17 +17,15 @@ class MateriaisResource extends JsonResource
         return [
             'id' => $this->id,
             'ibama_id' => $this->ibama_id,
+            'ibama' => $this->ibama ? $this->ibama->codigo : null,
             'estado_fisico' => $this->estado_fisico, 
             'gerador_id' => $this->gerador_id,
-            'gerador_nome' => $this->gerador ? $this->gerador->nome_fantasia : null,
+            'gerador' => $this->gerador ? $this->gerador->nome_fantasia : null,
             'tipo_material_id' => $this->tipo_material_id,
             'tipo_material'=> $this->tipo_material ? $this->tipo_material->descricao : null,
             'unidade_id' => $this->unidade_id,
-            'unidade_sim' => $this->unidade ? $this->unidade->simbolo : null,
+            'unidade' => $this->unidade ? $this->unidade->simbolo : null,
             'ativo'  =>  $this->ativo,
-            'ibama_id' => $this->ibama_id,
-            'ibama_code' => $this->ibama ? $this->ibama->code_ibama : null,
-            'ibama_denominacao' => $this->ibama ? $this->ibama->denominacao_ibama : null,
             'produtos' => $this->produtos ? $this->produtos->pluck('id') : [],
         ];
     }

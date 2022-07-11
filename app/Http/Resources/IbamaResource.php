@@ -16,8 +16,8 @@ class IbamaResource extends JsonResource
     {
          return [
             'id' => $this->id,
-            'code_ibama' => $this->code_ibama,
-            'denominacao_ibama' => $this->denominacao_ibama,
+            'codigo' => $this->codigo,
+            'denominacao' => $this->denominacao,
         ];
     }
 }

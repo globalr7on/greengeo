@@ -11,7 +11,6 @@ class MateriaisRequest extends FormRequest
      public function rules()
     {
         return [
-            'ean' => 'required|string|max:20',
             'ibama_id' => 'required',
             'estado_fisico'  => 'required|string|max:10',
             'gerador_id' =>'required',

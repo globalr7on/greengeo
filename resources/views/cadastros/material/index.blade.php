@@ -24,7 +24,6 @@
                 <table class="table" id="materialTbl">
                   <thead>
                     <th class="text-primary font-weight-bold">Ibama</th>
-                    <th class="text-primary font-weight-bold">Denominação Ibama</th>
                     <th class="text-primary font-weight-bold">Material</th>
                     <th class="text-primary font-weight-bold">Estado Físico</th>
                     <th class="text-primary font-weight-bold">Unidade</th>
@@ -46,15 +45,14 @@
 @push('js')
   <script>
     $(document).ready(function () {
+      const empresaId = "{{ Auth::user()->pessoa_juridica_id }}" || null
       let app = new App({
         apiUrl: '/api/material',
         apiDataTableColumns: [
-          { data: "ibama_code" },
-          { data: "ibama_denominacao" },
+          { data: "ibama" },
           { data: "tipo_material" },
           { data: "estado_fisico" },
-          { data: "unidade_sim" },
-         
+          { data: "unidade" },
           {
             data: "ativo",
             className: "text-center",
@@ -82,17 +80,13 @@
         getTipoMaterial()
         getUnidade()
         getEstado()
+        getEmpresa(empresaId, empresaId ?  true : false)
       })
 
       // Salvar
-       $('body').on('click', '#salvarMaterial1', function() {
-          notifyWarning('Módulo em construção ainda, tente novamente mais tarde')
-       })
       $('body').on('click', '#salvarMaterial', function() {
         const JSONRequest = {
-          // ean: $("#input_ean").val(),
-          ibama: $("#input_ibama").val(),
-          denominacao_ibama: $("#input_denominacao_ibama").val(),
+          ibama_id: $("#input_ibama_id").val(),
           estado_fisico: $("#input_estado_fisico").val(),
           gerador_id: $("#input_gerador_id").val(),
           tipo_material_id: $("#input_tipo_material_id").val(),
@@ -136,14 +130,14 @@
             $('#formProduto')[0].reset()
             $("#modalProduto").modal("show");
             $('#tituloModal').text("Editar Produto")
-            $("#input_ibama").val(response.data.ibama_code)
-            $("#input_denominacao_ibama").val(response.data.ibama_denominacao)
-            $("#input_estado_fisico").val(response.data.tipo_material)
-            $("#input_gerador_id").val(response.data.gerador_id)
-            $("#input_unidade_id").val(response.data.unidade_id)
+            getIbama(response.data.ibama_id)
+            getTipoMaterial(response.data.tipo_material_id)
+            getUnidade(response.data.unidade_id)
+            getEstado(response.data.estado_fisico)
+            getEmpresa(response.data.gerador_id)
           }
         })
-        .catch(error => notifyDanger('Falha ao obter detalhes do empresa. Tente novamente'))
+        .catch(error => notifyDanger('Falha ao obter detalhes. Tente novamente'))
       })
 
       // Excluir
@@ -179,10 +173,19 @@
         }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
       })
 
+      function addIbamaDenominacao(data, id) {
+        const denominacao = data.find(curr => curr.id == id)?.denominacao || null
+        $('#denominacao').val(denominacao)
+        console.log('addIbamaDenominacao', denominacao)
+      }
+
       function getIbama(value) {
         app.api.get('/ibama').then(response =>  {
           if (response && response.status) {
-            loadSelect('#input_ibama', response.data, ['id', 'code_ibama'], value)
+            loadSelect('#input_ibama_id', response.data, ['id', 'codigo'], value)
+            $('body').on('change', '#input_ibama_id', function(event) {
+              addIbamaDenominacao(response.data, event.target.value);
+            })
           }
         })
         .catch(error => {
@@ -190,6 +193,7 @@
           notifyDanger('Falha ao obter dados, tente novamente')
         })
       }
+
       function getTipoMaterial(value) {
         app.api.get('/tipo_materiais').then(response =>  {
           if (response && response.status) {
@@ -201,6 +205,7 @@
           notifyDanger('Falha ao obter dados, tente novamente')
         })
       }
+
       function getUnidade(value) {
         app.api.get('/unidad').then(response =>  {
           if (response && response.status) {
@@ -213,21 +218,34 @@
         })
       }
 
-       function getEstado(value) {
+      function getEstado(value) {
         const data = [
-          { id: 1, descricao: 'Solido' },
-          { id: 2, descricao: 'Liquido' },
-          { id: 3, descricao: 'Gasoso' }
+          { id: 'solido', descricao: 'Solido' },
+          { id: 'liquido', descricao: 'Liquido' },
+          { id: 'gasoso', descricao: 'Gasoso' }
         ]
         loadSelect('#input_estado_fisico', data, ['id', 'descricao'], value)
-      }      
+      }
+
+      function getEmpresa(value, disabled) {
+        app.api.get('/pessoa_juridica').then(response =>  {
+          if (response && response.status) {
+            loadSelect('#input_gerador_id', response.data, ['id', 'razao_social'], value, disabled)
+          }
+        })
+        .catch(error => {
+          console.log('app.api.get error', error)
+          notifyDanger('Falha ao obter empresa, tente novamente')
+        })
+      }
+
       // Changes Status 
        $('body').on('click', '.changeStatus', function() {
         sweetConfirm('Deseja realmente atualizar?').then(confirmed => {
           if (confirmed) {
             const id = $(this).attr('data-id')
             const valueOld = $(this).attr('data-value-old')
-            app.api.put(`/acondicionamento/${id}/status`, { ativo: parseInt(valueOld) ? 0 : 1 }).then(response =>  {
+            app.api.put(`/material/${id}/status`, { ativo: parseInt(valueOld) ? 0 : 1 }).then(response =>  {
               if (response && response.status) {
                 app.datatable.ajax.reload()
                 notifySuccess('Atualizada com sucesso')

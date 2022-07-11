@@ -37,7 +37,6 @@ class MateriaisController extends Controller
             'data' => new MateriaisResource($material),
             'status' => true
         ], 200);
-
     }
 
     /**
