@@ -2,11 +2,12 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title text-left" id="tituloModal">Nova Produto</h5>
+        <h5 class="modal-title text-left" id="tituloModal"></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+
       <div class="modal-body p-2">
         <div class="bs-stepper">
           <div class="bs-stepper-header" role="tablist">
@@ -28,72 +29,97 @@
             <div class="bs-stepper-content">
               <!-- your steps content here -->
               <div id="step1" class="content" role="tabpanel" aria-labelledby="step1-trigger">
-                {{-- <h4 class="text-primary font-weight-bold text-uppercase">Informações Básicas</h4> --}}
-                <div class="row m-0">
-                  <div class="form-group col-md-4">
-                    <label for="input_ean" class="position-relative mb-0 font-weight-bold">EAN</label>
-                    <input type="hidden" class="form-control" id="input_usuario_responsavel_cadastro_id"  value="{{  Auth::user()->id  }}">
-                    <input type="text" class="form-control" id="input_ean">
+                <div class="row mx-0 mb-4">
+                  <div class="col-md-4 align-self-center">
+                    <div class="form-group">
+                      <input type="hidden" id="input_id">
+                      <input type="hidden" class="form-control" id="input_usuario_responsavel_cadastro_id" value="{{ Auth::user()->id }}">
+                      <label for="input_ean">EAN</label>
+                      <input type="text" class="form-control" id="input_ean">
+                    </div>
                   </div>
-                  <div class="form-group col-md-4">
-                    <label for="input_codigo" class="position-relative mb-0 font-weight-bold">Código Fabricante</label>
-                    <input type="text" class="form-control" id="input_codigo">
-                    <input type="hidden" class="form-control" id="input_id">
+
+                  <div class="col-md-4 align-self-center">
+                    <div class="form-group">
+                      <label for="input_codigo">Código Fabricante</label>
+                      <input type="text" class="form-control" id="input_codigo">
+                    </div>
                   </div>
-                  <div class="form-group col-md-4">
-                    <label for="input_gerador_id" class="display-inherit mb-0 text-left">Nome Fabricante</label>
-                    <select id="input_gerador_id" data-style="btn btn-warning text-white" name="input_gerador_id">
-                      <option value="" disabled selected>Nome Fabricante</option>
-                    </select>
-                    <input type="hidden" class="form-control" id="input_id">
+
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="input_gerador_id" class="display-inherit mb-0">Nome Fabricante</label>
+                      <select id="input_pessoa_juridica_id" data-style="btn btn-warning text-white" name="input_pessoa_juridica_id">
+                        <option value="" disabled selected>Nome Fabricante</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
 
-                <div class="row m-0">
-                  <div class="form-group col-md-4">
-                    <label for="input_dimensoes" class="position-relative mb-0 font-weight-bold">Dimensões</label>
-                    <input type="text" class="form-control" id="input_dimensoes">
+                <div class="row mx-0 mb-4">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="input_dimensoes">Dimensões</label>
+                      <input type="text" class="form-control" id="input_dimensoes">
+                    </div>
                   </div>
-                  <div class="form-group col-md-4">
-                    <label for="input_altura" class="position-relative mb-0 font-weight-bold">Altura</label>
-                    <input type="text" class="form-control" id="input_altura">
-                  </div>  
-                  <div class="form-group col-md-4">
-                    <label for="input_largura" class="position-relative mb-0 font-weight-bold">Largura</label>
-                    <input type="text" class="form-control" id="input_largura">
+
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="input_altura">Altura</label>
+                      <input type="text" class="form-control" id="input_altura">
+                    </div>
+                  </div>
+
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="input_largura">Largura</label>
+                      <input type="text" class="form-control" id="input_largura">
+                    </div>
                   </div>
                 </div>
 
-                <div class="row m-0">
+                <div class="row mx-0">
                   <button class="btn btn-warning">Itens</button>
                   <button class="btn btn-primary stepper-next">Próximo</button>
                 </div>
               </div>
 
               <div id="step2" class="content" role="tabpanel" aria-labelledby="step2-trigger">
-                <div class="row m-0">
-                  <div class="form-group col-md-3">
-                    <label for="input_profundidade" class="position-relative mb-0 font-weight-bold">Profundidade</label>
-                    <input type="text" class="form-control" id="input_profundidade">
+                <div class="row mx-0 mb-4">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="input_profundidade">Profundidade</label>
+                      <input type="text" class="form-control" id="input_profundidade">
+                    </div>
                   </div>
-                  <div class="form-group col-md-3">
-                    <label for="input_comprimento" class="position-relative mb-0 font-weight-bold">Comprimento</label>
-                    <input type="text" class="form-control" id="input_comprimento">
+
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="input_comprimento">Comprimento</label>
+                      <input type="text" class="form-control" id="input_comprimento">
+                    </div>
                   </div>
-                  <div class="form-group col-md-3">
-                    <label for="input_especie" class="position-relative mb-0 font-weight-bold">Especie</label>
-                    <input type="text" class="form-control" id="input_especie">
+
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="input_especie">Especie</label>
+                      <input type="text" class="form-control" id="input_especie">
+                    </div>
                   </div>
-                  <div class="form-group col-md-3">
-                    <label for="input_marca" class="position-relative mb-0 font-weight-bold">Marca</label>
-                    <input type="text" class="form-control" id="input_marca">
+
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="input_marca">Marca</label>
+                      <input type="text" class="form-control" id="input_marca">
+                    </div>
                   </div>
                 </div>
 
-                <div class="row m-0">
+                <div class="row mx-0">
                   <button class="btn btn-warning">Itens</button>
                   <button class="btn btn-primary stepper-prev">Anterior</button>
-                  <button class="btn btn-primary"  id="salvarProduto" >Salvar</button>
+                  <button class="btn btn-primary" id="salvarProduto">Salvar</button>
                 </div>
               </div>
             </div>

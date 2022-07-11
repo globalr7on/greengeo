@@ -1,6 +1,4 @@
 @extends('layouts.app', ['activePage' => 'produto', 'titlePage' => __('Produto Acabado')])
-@section('css')
-@endsection
 @section('subheaderTitle')
   Cadastros
 @endsection
@@ -29,9 +27,10 @@
                     <th class="text-primary font-weight-bold">Dimensões</th>
                     <th class="text-primary font-weight-bold">Largura</th>
                     <th class="text-primary font-weight-bold">Profundidade</th>
-                    <th class="text-primary font-weight-bold">comprimento</th>
+                    <th class="text-primary font-weight-bold">Comprimento</th>
                     <th class="text-primary font-weight-bold">Especie</th>
                     <th class="text-primary font-weight-bold">Marca</th>
+                    <th class="text-primary font-weight-bold">Ativo</th>
                     <th class="text-primary font-weight-bold">Ação</th>
                   </thead>
                 </table>
@@ -42,18 +41,18 @@
       </div>
     </div>
   </div>
-   @include('cadastros.produto.modal')
-  
+  @include('cadastros.produto.modal')
 @endsection
 
 @push('js')
   <script>
     $(document).ready(function () {
+      const empresaId = "{{ Auth::user()->pessoa_juridica_id }}" || null
       let app = new App({
         apiUrl: '/api/produto',
         apiDataTableColumns: [
           { data: "codigo" },  
-          { data: "gerador" },
+          { data: "pessoa_juridica" },
           { data: "ean" },
           { data: "dimensoes" },
           { data: "largura" },
@@ -61,6 +60,14 @@
           { data: "comprimento" },
           { data: "especie" },
           { data: "marca" },
+          {
+            data: "ativo",
+            className: "text-center",
+            orderable: false,
+            render: function (data, type, row) {
+              return `<i class="fas fa-${data ? 'check' : 'times'} cursor-pointer changeStatus" data-id="${row.id}" data-value-old="${data}" title="Deseja atualizar o status?"></i>`
+            }
+          }
         ],
         apiDataTableColumnsDefs : [
           { targets: 1, orderable: false },
@@ -76,23 +83,26 @@
         $('#tituloModal').text("Novo Produto")
         $('#input_id').val("")
         $('#formProduto')[0].reset()
-        getEmpresa()
-      });
+        getEmpresa(empresaId, empresaId ?  true : false)
+        maskPeso("#input_altura")
+        maskPeso("#input_largura")
+        maskPeso("#input_profundidade")
+        maskPeso("#input_comprimento")
+      })
 
       // Salvar
       $('body').on('click', '#salvarProduto', function() {
         const JSONRequest = {
-          gerador: $("#input_gerador_id").val(),
+          pessoa_juridica_id: $("#input_pessoa_juridica_id").val(),
           ean: $("#input_ean").val(),
           codigo: $("#input_codigo").val(),
           dimensoes: $("#input_dimensoes").val(),
-          altura: $("#input_altura").val(),
-          largura: $("#input_largura").val(),
-          profundidade: $("#input_profundidade").val(),
-          comprimento: $("#input_comprimento").val(),
+          altura: formatStringToFloat($("#input_altura").val()),
+          largura: formatStringToFloat($("#input_largura").val()),
+          profundidade: formatStringToFloat($("#input_profundidade").val()),
+          comprimento: formatStringToFloat($("#input_comprimento").val()),
           especie: $("#input_especie").val(),
           marca: $("#input_marca").val(),
-          ativo: $("#checkAtivo").prop("checked") ? 1 : 0
         }
         const id = $('#input_id').val()
         if (id) {
@@ -120,7 +130,7 @@
             notifyDanger('Falha ao criar, tente novamente')
           })
         }
-      });
+      })
 
       // Editar
       $('body').on('click', '.editAction', function() {
@@ -128,29 +138,28 @@
         const id = $(this).attr('data-id');
         app.api.get(`/produto/${id}`).then(response =>  {
           if (response && response.status) {
-            
             delFormValidationErrors()
             $('#formProduto')[0].reset()
             $("#modalProduto").modal("show");
             $('#tituloModal').text("Editar Produto")
-            $("#input_gerador").val(response.data.gerador),
-            $("#input_ean").val(response.data.ean),
-            $("#input_codigo").val(response.data.codigo),
-            $("#input_dimensoes").val(response.data.dimensoes),
-            $("#input_altura").val(response.data.altura),
-            $("#input_largura").val(response.data.altura),
-            $("#input_profundidade").val(response.data.profundidade),
-            $("#input_comprimento").val(response.data.comprimento),
-            $("#input_especie").val(response.data.especie),
-            $("#input_marca").val(response.data.marca),
-            $("#checkAtivo").prop("checked", response.data.ativo)
+            $("#input_id").val(response.data.id)
+            $("#input_ean").val(response.data.ean)
+            $("#input_codigo").val(response.data.codigo)
+            $("#input_dimensoes").val(response.data.dimensoes)
+            $("#input_especie").val(response.data.especie)
+            $("#input_marca").val(response.data.marca)
+            getEmpresa(response.data.pessoa_juridica_id, true)
+            maskPeso("#input_altura", formatFloatToString(response.data.altura))
+            maskPeso("#input_largura", formatFloatToString(response.data.largura))
+            maskPeso("#input_profundidade", formatFloatToString(response.data.profundidade))
+            maskPeso("#input_comprimento", formatFloatToString(response.data.comprimento))
           }
         })
         .catch(error => console.log(error) && notifyDanger('Falha ao obter detalhes do empresa. Tente novamente'))
       })
 
       // Excluir
-      $('body').on('click', '.deleteAction',  function() {
+      $('body').on('click', '.deleteAction', function() {
         const id = $(this).attr('data-id')
         sweetConfirm('Deseja realmente excluir?').then(confirmed => {
           if (confirmed) {
@@ -161,12 +170,12 @@
             .catch(error => notifyDanger('Falha ao excluir. Tente novamente'))
           }
         }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
-      });
+      })
 
-       function getEmpresa(value) {
+      function getEmpresa(value, disabled) {
         app.api.get('/pessoa_juridica').then(response =>  {
           if (response && response.status) {
-            loadSelect('#input_gerador_id', response.data, ['id', 'razao_social'], value)
+            loadSelect('#input_pessoa_juridica_id', response.data, ['id', 'razao_social'], value, disabled)
           }
         })
         .catch(error => {
@@ -174,6 +183,25 @@
           notifyDanger('Falha ao obter funções, tente novamente')
         })
       }
-     });
+
+      // Changes Status 
+      $('body').on('click', '.changeStatus', function() {
+        sweetConfirm('Deseja realmente atualizar?').then(confirmed => {
+          if (confirmed) {
+            const id = $(this).attr('data-id')
+            const valueOld = $(this).attr('data-value-old')
+            app.api.put(`/material/${id}/status`, { ativo: parseInt(valueOld) ? 0 : 1 }).then(response =>  {
+              if (response && response.status) {
+                app.datatable.ajax.reload()
+                notifySuccess('Atualizada com sucesso')
+              } else {
+                notifySuccess('Não foi possível atualizar, tente novamente')
+              }
+            })
+            .catch(error => notifyDanger('Falha ao atualizar. Tente novamente'))
+          }
+        }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
+      })
+    })
   </script>
 @endpush

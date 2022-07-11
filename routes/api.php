@@ -142,6 +142,7 @@ Route::middleware(['auth:api', 'permission'])->group(function(){
     Route::post('produto', 'App\Http\Controllers\Api\ProdutoController@store')->name('produto.store');
     Route::put('produto/{id}', 'App\Http\Controllers\Api\ProdutoController@update')->name('produto.update');
     Route::delete('produto/{id}', 'App\Http\Controllers\Api\ProdutoController@destroy')->name('produto.destroy');
+    Route::put('produto/{id}/status', 'App\Http\Controllers\Api\ProdutoController@updateStatus')->name('produto.update_status');
 
     // MATERIAL
     Route::get('material', 'App\Http\Controllers\Api\MateriaisController@index')->name('material.index');

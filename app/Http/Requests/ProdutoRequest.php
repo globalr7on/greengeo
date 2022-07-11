@@ -15,14 +15,13 @@ class ProdutoRequest extends FormRequest
             'ean' => 'required',
             'codigo' => 'required|string|max:45',
             'dimensoes' =>'required|string|max:30', 
-            'altura'  =>'required',
-            'largura'  =>'required',
-            'profundidade'  =>'required',
-            'comprimento'  =>'required',
+            'altura' =>'required',
+            'largura' =>'required',
+            'profundidade' =>'required',
+            'comprimento' =>'required',
             'especie' => 'required|string|max:45',
             'marca' => 'required|string|max:45',
-            'pessoa_juridica_id'=>'required',
-
+            'pessoa_juridica_id' => 'required',
         ];
     }
 

@@ -19,10 +19,8 @@ class ProdutoController extends Controller
      */
     public function index()
     {
-        
         $produto = Produto::all();
-        // dd($produto);
-         return response([
+        return response([
             'data' => ProdutoResource::collection($produto),
             'status' => true
         ], 200);
@@ -36,9 +34,7 @@ class ProdutoController extends Controller
      */
     public function store(ProdutoRequest $request)
     {
-        
         $produto = Produto::create($request->all());
-        // dd($pessoa_juridica);
         return response([
             'data' => new ProdutoResource($produto),
             'status' => true
@@ -54,7 +50,7 @@ class ProdutoController extends Controller
      */
     public function show($id)
     {
-         return response([
+        return response([
             'data' => new ProdutoResource(Produto::find($id)),
             'status' => true
         ], 200);
@@ -72,7 +68,7 @@ class ProdutoController extends Controller
        
         $produto = Produto::find($id);
         $produto->update($request->all());
-           return response([
+        return response([
             'data' => new ProdutoResource($produto),
             'status' => true
         ], 200);
@@ -88,5 +84,26 @@ class ProdutoController extends Controller
     {
         Produto::findOrFail($id)->delete();
         return response(null, 204);
+    }
+
+    /**
+     * Update status.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateStatus(Request $request, $id)
+    {
+        $status = false;
+        $produto = Produto::find($id);
+        if ($request->has('ativo') && in_array($request->ativo, [1, 0])) {
+            $produto->update($request->all());
+            $status = true;
+        }
+
+        return response([
+            'status' => $status
+        ], 200);
     }
 }

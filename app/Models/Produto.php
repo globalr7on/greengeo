@@ -32,12 +32,12 @@ class Produto extends Model
 
     public function materiais()
     {
-        return $this->belongsToMany('App\Models\Material', 'material_produto')->withPivot('pesso_bruto', 'pesso_liquido', 'percentual_composicao');
+        return $this->belongsToMany('App\Models\Material', 'material_produto')->withPivot('peso_bruto', 'peso_liquido', 'percentual_composicao');
     }
 
-    public function gerador()
+    public function pessoa_juridica()
     {
-        return $this->hasOne('App\Models\PessoaJuridica', 'id', 'gerador_id');
+        return $this->hasOne('App\Models\PessoaJuridica', 'id', 'pessoa_juridica_id');
     }
 
 

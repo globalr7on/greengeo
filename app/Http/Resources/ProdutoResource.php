@@ -16,8 +16,8 @@ class ProdutoResource extends JsonResource
     {
          return [
             'id' => $this->id,
-            'gerador_id' => $this->gerador_id,
-            'gerador' => $this->gerador ? $this->gerador->nome_fantasia : null,
+            'pessoa_juridica_id' => $this->pessoa_juridica_id,
+            'pessoa_juridica' => $this->pessoa_juridica ? $this->pessoa_juridica->nome_fantasia : null,
             'codigo' => $this->codigo,
             'dimensoes' => $this->dimensoes, 
             'altura'  => $this->altura,
@@ -27,9 +27,7 @@ class ProdutoResource extends JsonResource
             'especie' => $this->especie,
             'marca' => $this->marca,
             'ean' => $this->ean,
-            
             'materiais' => $this->materiais ? $this->materiais->pluck('id') : [],
-            // 'ativo'  => $this->ativo,
         ];
     }
 }

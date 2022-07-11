@@ -80,7 +80,7 @@
         getTipoMaterial()
         getUnidade()
         getEstado()
-        getEmpresa(empresaId, empresaId ?  true : false)
+        getEmpresa(empresaId, empresaId ? true : false)
       })
 
       // Salvar
@@ -127,14 +127,14 @@
         app.api.get(`/material/${id}`).then(response =>  {
           if (response && response.status) {
             delFormValidationErrors()
-            $('#formProduto')[0].reset()
-            $("#modalProduto").modal("show");
-            $('#tituloModal').text("Editar Produto")
+            $('#formMaterial')[0].reset()
+            $("#modalMaterial").modal("show");
+            $('#tituloModal').text("Editar Material")
             getIbama(response.data.ibama_id)
             getTipoMaterial(response.data.tipo_material_id)
             getUnidade(response.data.unidade_id)
             getEstado(response.data.estado_fisico)
-            getEmpresa(response.data.gerador_id)
+            getEmpresa(response.data.gerador_id, true)
           }
         })
         .catch(error => notifyDanger('Falha ao obter detalhes. Tente novamente'))
@@ -176,16 +176,15 @@
       function addIbamaDenominacao(data, id) {
         const denominacao = data.find(curr => curr.id == id)?.denominacao || null
         $('#denominacao').val(denominacao)
-        console.log('addIbamaDenominacao', denominacao)
       }
 
       function getIbama(value) {
         app.api.get('/ibama').then(response =>  {
           if (response && response.status) {
-            loadSelect('#input_ibama_id', response.data, ['id', 'codigo'], value)
             $('body').on('change', '#input_ibama_id', function(event) {
               addIbamaDenominacao(response.data, event.target.value);
             })
+            loadSelect('#input_ibama_id', response.data, ['id', 'codigo'], value)
           }
         })
         .catch(error => {
@@ -240,7 +239,7 @@
       }
 
       // Changes Status 
-       $('body').on('click', '.changeStatus', function() {
+      $('body').on('click', '.changeStatus', function() {
         sweetConfirm('Deseja realmente atualizar?').then(confirmed => {
           if (confirmed) {
             const id = $(this).attr('data-id')
