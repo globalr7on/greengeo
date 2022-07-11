@@ -35,5 +35,6 @@ class CreateAdminUserSeeder extends Seeder
         $role_api->syncPermissions($permissions_api);
         $user->assignRole($role_web->id, 'web');
         $user->assignRole($role_api->id, 'api');
+
     }
 }

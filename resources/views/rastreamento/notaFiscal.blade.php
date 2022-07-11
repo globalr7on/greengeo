@@ -8,7 +8,7 @@
   <div class="content">
     <div class="container-fluid">
       <div class="col-12 text-right">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAddNew">+ Novo Fiscal</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAddNew">Nova Nota Fiscal</button>
      
       </div>
       <div class="row">
@@ -379,7 +379,7 @@
       //Excluir
       $('body').on('click', '.excluirNfiscal', function() {
         const acond_id = $(this).attr('data-id');
-        if (confirm('Aviso!,Deseja realmente excluir a nota fiscal?')) {
+        if (confirm('Aviso!,Deseja realmente excluir? ')) {
           $.ajax({
             type: "DELETE",
             url:  `/api/nota_fiscal/${acond_id}`,
