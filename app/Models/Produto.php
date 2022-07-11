@@ -16,9 +16,7 @@ class Produto extends Model
 
     protected $table = 'produto_acabado';
     protected $fillable = [
-        'nome_fabricante',
-        'peso_bruto',
-        'peso_liquido',
+        'codigo',
         'dimensoes',
         'altura',
         'largura',
@@ -26,6 +24,7 @@ class Produto extends Model
         'comprimento',
         'especie',
         'marca',
+        'ean',
         'pessoa_juridica_id',
         'ativo',
     ];
@@ -33,13 +32,15 @@ class Produto extends Model
 
     public function materiais()
     {
-        return $this->belongsToMany('App\Models\Material', 'material_produto');
+       
+        return $this->belongsToMany('App\Models\Material', 'material_produto')->withPivot('pesso_bruto', 'pesso_liquido', 'percentual_composicao');
     }
 
-    // public function tipo_empresa()
-    // {
-    //     return $this->hasOne('App\Models\TipoEmpresa');
-    // }
+    public function gerador()
+    {
+        return $this->hasOne('App\Models\PessoaJuridica', 'id', 'gerador_id');
+    }
+
 
     // public function user()
     // {

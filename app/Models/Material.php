@@ -14,30 +14,36 @@ class Material extends Model
     use HasApiTokens, HasFactory, Notifiable;
     protected $table = 'materiais';
     protected $fillable = [
-        'ean', 
-        'ibama', 
-        'denominacao_ibama',
-        'peso_bruto', 
-        'peso_liquido', 
+        'ibama_id', 
         'estado_fisico', 
-        'percentual_composicao', 
-        'dimensoes', 
-        'largura', 
-        'profundidade', 
-        'comprimento', 
-        'nome_no_fabricante', 
-        'especie', 
-        'marca', 
         'gerador_id', 
         'tipo_material_id', 
-        'classe_material_id', 
         'unidade_id', 
-        'nota_fical_iten_id'];
+    ];
 
     protected $guardaded = ['id'];
 
     public function produtos()
     {
-        return $this->belongsToMany('App\Models\Produto', 'material_produto');
+        return $this->belongsToMany('App\Models\Produto', 'material_produto')->withPivot('pesso_bruto', 'pesso_liquido', 'percentual_composicao');
     }
+    public function gerador()
+    {
+        return $this->hasOne('App\Models\PessoaJuridica', 'id', 'gerador_id');
+    }
+    public function tipo_material()
+    {
+        return $this->hasOne('App\Models\TipoMaterial', 'id', 'tipo_material_id');
+    }
+    public function unidade()
+    {
+        return $this->hasOne('App\Models\PessoaJuridica', 'id', 'unidade_id');
+    }
+
+    public function ibama()
+    {
+        return $this->hasOne('App\Models\PessoaJuridica', 'id', 'ibama_id');
+    }
+    
+
 }
