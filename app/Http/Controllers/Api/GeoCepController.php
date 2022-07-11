@@ -81,8 +81,8 @@ class GeoCepController extends Controller
             "cidade" => $cidade,
             "estado" => $estado,
             "coord" => array(
-                "lat" => $json->results[0]->geometry->location->lat,
-                "lng" => $json->results[0]->geometry->location->lng,
+                "lat" => substr($json->results[0]->geometry->location->lat, 0, 10),
+                "lng" => substr($json->results[0]->geometry->location->lng, 0, 10),
             )
         );
 

@@ -41,10 +41,13 @@ class PessoaJuridicaResource extends JsonResource
             'ativo' => $this->ativo,
             'identificador_celular' => $this->identificador_celular,
             'senha_acesso' => $this->senha_acesso,
-            'capacidade_media_carga' => $this->capacidade_media_carga,
             'usuario_responsavel_cadastro_id' => $this->usuario_responsavel_cadastro_id,
+            'usuario_responsavel_cadastro' => $this->usuario_responsavel_cadastro ? $this->usuario_responsavel_cadastro->name : null,
             'atividade_id' => $this->atividade_id,
+            'atividade' => $this->atividade ? $this->atividade->descricao : null,
             'tipo_empresa_id' => $this->tipo_empresa_id,
+            'tipo_empresa' => $this->tipo_empresa ? $this->tipo_empresa->descricao : null,
+            'capacidade_media_carga' => $this->capacidade_media_carga,
         ];
     }
 }

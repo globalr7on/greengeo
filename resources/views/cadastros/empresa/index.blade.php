@@ -85,7 +85,7 @@
         $('#formEmpresa')[0].reset()
         getTipoEmpresa()
         getAtividade()
-        maskPeso("#input_capacidade_media_carga")
+        $('#capacidadeDiv').hide()
       });
 
       // Salvar
@@ -115,11 +115,9 @@
           contrato: $("#input_contrato").val(),
           identificador_celular: '123456',
           senha_acesso: $("#input_senha_acesso").val(),
-          capacidade_media_carga: formatStringToFloat($("#input_capacidade_media_carga").val()),
           usuario_responsavel_cadastro_id: $("#input_usuario_responsavel_cadastro_id").val(),
           atividade_id: $("#input_atividade_id").val(),
           tipo_empresa_id: $("#input_tipo_empresa_id").val(),
-          // ativo: $("#checkAtivo").prop("checked") ? 1 : 0
         }
         const id = $('#input_id').val()
         if (id) {
@@ -159,36 +157,38 @@
             getAtividade(response.data.atividade_id)
             delFormValidationErrors()
             $('#formEmpresa')[0].reset()
-            $("#modalEmpresa").modal("show");
+            $("#modalEmpresa").modal("show")
             $('#tituloModal').text("Editar Empresa")
-            $('#input_id').val(response.data.id);
-            $("#input_cnpj").val(response.data.cnpj),
-            $("#input_nome_fantasia").val(response.data.nome_fantasia),
-            $("#input_razao_social").val(response.data.razao_social),
-            $("#input_email").val(response.data.email),
-            $("#input_contato_1").val(response.data.contato_1),
-            $("#input_cargo_contato_1").val(response.data.cargo_contato_1),
-            $("#input_contato_2").val(response.data.contato_2),
-            $("#input_cargo_contato_2").val(response.data.cargo_contato_2),
-            $("#input_celular_contato_1").val(response.data.celular_contato_1),
-            $("#input_celular_contato_2").val(response.data.celular_contato_2),
-            $("#input_fixo").val(response.data.fixo),
-            $("#input_whatsapp").val(response.data.whatsapp),
-            $("#input_endereco").val(response.data.endereco),
-            $("#input_numero").val(response.data.numero),
-            $("#input_complemento").val(response.data.complemento),
-            $("#input_cep").val(response.data.cep),
-            $("#input_bairro").val(response.data.bairro),
-            $("#input_cidade").val(response.data.cidade),
-            $("#input_estado").val(response.data.estado),
-            $("#input_latitude").val(response.data.latitude),
-            $("#input_longitude").val(response.data.longitude),
-            $("#input_contrato").val(response.data.contrato),
-            $("#input_identificador_celular").val(response.data.identificador_celular),
-            $("#input_senha_acesso").val(response.data.senha_acesso),
-            $("#input_usuario_responsavel_cadastro_id").val(response.data.usuario_responsavel_cadastro_id),
-            // $("#checkAtivo").prop("checked", response.data.ativo)
-            maskPeso("#input_capacidade_media_carga", formatFloatToString(response.data.capacidade_media_carga))
+            $('#input_id').val(response.data.id)
+            $("#input_cnpj").val(response.data.cnpj)
+            $("#input_nome_fantasia").val(response.data.nome_fantasia)
+            $("#input_razao_social").val(response.data.razao_social)
+            $("#input_email").val(response.data.email)
+            $("#input_contato_1").val(response.data.contato_1)
+            $("#input_cargo_contato_1").val(response.data.cargo_contato_1)
+            $("#input_contato_2").val(response.data.contato_2)
+            $("#input_cargo_contato_2").val(response.data.cargo_contato_2)
+            $("#input_celular_contato_1").val(response.data.celular_contato_1)
+            $("#input_celular_contato_2").val(response.data.celular_contato_2)
+            $("#input_fixo").val(response.data.fixo)
+            $("#input_whatsapp").val(response.data.whatsapp)
+            $("#input_endereco").val(response.data.endereco)
+            $("#input_numero").val(response.data.numero)
+            $("#input_complemento").val(response.data.complemento)
+            $("#input_cep").val(response.data.cep)
+            $("#input_bairro").val(response.data.bairro)
+            $("#input_cidade").val(response.data.cidade)
+            $("#input_estado").val(response.data.estado)
+            $("#input_latitude").val(response.data.latitude)
+            $("#input_longitude").val(response.data.longitude)
+            $("#input_contrato").val(response.data.contrato)
+            $("#input_identificador_celular").val(response.data.identificador_celular)
+            $("#input_senha_acesso").val(response.data.senha_acesso)
+            $("#input_usuario_responsavel_cadastro_id").val(response.data.usuario_responsavel_cadastro_id)
+            if (response.data.capacidade_media_carga && response.data.capacidade_media_carga > 0) {
+              maskPeso("#capacidade_media_carga", formatFloatToString(response.data.capacidade_media_carga))
+              $('#capacidadeDiv').show()
+            }
           }
         })
         .catch(error => notifyDanger('Falha ao obter detalhes. Tente novamente'))
@@ -255,6 +255,7 @@
         var cep = $('#input_cep').val()
         var numero = $('#input_numero').val()
         if(cep && numero) {
+          delFormValidationErrors()
           app.api.get(`/geo?cep=${cep}&numero=${numero}`).then(response =>  {
             if (response.status) {
               $('#input_endereco').val(response.data.endereco)
@@ -263,12 +264,18 @@
               $('#input_estado').val(response.data.estado)
               $('#input_latitude').val(response.data.coord.lat)
               $('#input_longitude').val(response.data.coord.lng)
+              $('#salvarEmpresa').attr('disabled', false)
             } else {
               notifyDanger(response.data)
             }
-          }).catch(error => notifyDanger('Falha ao obter dados de endereço, tente novamente'))
+          })
+          .catch(error => {
+            notifyDanger(error.data)
+            addInputError('input_cep', error.data)
+            $('#salvarEmpresa').attr('disabled', true)
+          })
         }
       })
-    });
+    })
   </script>
 @endpush

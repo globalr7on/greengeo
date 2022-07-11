@@ -182,18 +182,18 @@
                 </fieldset>
 
                 <fieldset>
-                  <h4 class="text-primary font-weight-bold text-uppercase mb-2">Funçãos</h4>
+                  <h4 class="text-primary font-weight-bold text-uppercase mb-2">Funções</h4>
                   <div class="row mx-0">
                     <div class="col-md-3">
                       <div class="form-group">
-                        <label for="input_role_web" class="display-inherit mb-0">Função Web</label>
+                        <label for="input_role_web" class="display-inherit mb-0">Funçõe Web</label>
                         <select data-style="btn-warning text-white" title="Select" name="role_web" id="input_role_web"></select>
                       </div>
                     </div>
 
                     <div class="col-md-3">
                       <div class="form-group">
-                        <label for="input_role_api" class="display-inherit mb-0">Função Api</label>
+                        <label for="input_role_api" class="display-inherit mb-0">Funçõe Api</label>
                         <select data-style="btn-warning text-white" title="Select" name="role_api" id="input_role_api"></select>
                       </div>
                     </div>

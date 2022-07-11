@@ -43,6 +43,7 @@
   </div>
  @include('cadastros.veiculo.modal')
 @endsection
+
 @push('js')
   <script>
     $(document).ready(function () {
@@ -84,7 +85,7 @@
         getMarca()
         getModelo()
         getAcondicionamento()
-        getEmpresa()
+        getEmpresa({{ Auth::user()->pessoa_juridica_id }}, true)
         getCombustivel()
         maskPeso("#input_capacidade_media_carga")
       })
@@ -139,7 +140,7 @@
             getMarca(response.data.marca_id)
             getModelo(response.data.modelo_id)
             getAcondicionamento(response.data.acondicionamento_id)
-            getEmpresa(response.data.pessoa_juridica_id)
+            getEmpresa(response.data.pessoa_juridica_id, true)
             getCombustivel(response.data.combustivel)
             delFormValidationErrors()
             $('#formVeiculo')[0].reset()
@@ -216,10 +217,10 @@
         loadSelect('#input_combustivel', data, ['id', 'descricao'], value)
       }      
 
-      function getEmpresa(value) {
+      function getEmpresa(value, disabled) {
         app.api.get('/pessoa_juridica').then(response =>  {
           if (response && response.status) {
-            loadSelect('#input_pessoa_juridica_id', response.data, ['id', 'razao_social'], value)
+            loadSelect('#input_pessoa_juridica_id', response.data, ['id', 'razao_social'], value, disabled)
           }
         })
         .catch(error => {

@@ -30,8 +30,6 @@ class VeiculoResource extends JsonResource
             'marca_id' => $this->marca_id,
             'acondicionamento' => $this->acondicionamento ? $this->acondicionamento->descricao : null,
             'acondicionamento_id' => $this->acondicionamento_id,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
         ];
     }
 }

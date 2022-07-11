@@ -42,6 +42,10 @@
    
     $(document).ready(function () {
       const id = {{ Auth::user()->id }}
+      const tipoEmpresaId = "{{ Auth::user()->pessoa_juridica ? Auth::user()->pessoa_juridica->tipo_empresa_id : null }}" || null
+      const tipoEmpresa = tipoEmpresaId ? "{{ Auth::user()->pessoa_juridica ? Auth::user()->pessoa_juridica->tipo_empresa->descricao : null }}" : null
+      const isGerador = !tipoEmpresa || tipoEmpresa.toLowerCase() == 'gerador' ? true : false
+      const empresaId = isGerador ? null : "{{ Auth::user()->pessoa_juridica_id }}"
       let app = new App({
         apiUrl: `/api/users${id ? '?usuario_responsavel_cadastro_id='+id : ''}`,
         apiDataTableColumns: [
@@ -68,6 +72,9 @@
       // Open Modal New
       $('body').on('click', '#novoUser', function() {
         app.stepper()
+        if (isGerador) {
+          $('body').on('change', '#input_tipo_empresa_id', updateEmpresaFromTipo)
+        }
         delFormValidationErrors()
         $("#modalFormUser").modal("show")
         $('#modalFormUserTitle').text("Novo Usuario")
@@ -75,8 +82,8 @@
         $('#formUser')[0].reset()
         getRoles(null, 'web')
         getRoles(null, 'api')
-        getEmpresa()
-        getTipoEmpresa({{ Auth::user()->pessoa_juridica ? Auth::user()->pessoa_juridica->tipo_empresa_id : null }})
+        getTipoEmpresa(isGerador ? null : tipoEmpresaId, !isGerador)
+        getEmpresa(!isGerador ? empresaId : null, isGerador ? null : tipoEmpresaId, !isGerador)
       });
 
       // Salvar 
@@ -137,6 +144,7 @@
       // Editar
       $('body').on('click', '.editAction', function() {
         app.stepper()
+        $('body').off('change', '#input_tipo_empresa_id', updateEmpresaFromTipo)
         const id = $(this).attr('data-id');
         app.api.get(`/users/${id}`).then(response =>  {
           if (response && response.status) {
@@ -144,8 +152,6 @@
             $('#formUser')[0].reset()
             $("#modalFormUser").modal("show")
             $('#modalFormUserTitle').text("Editar Usuario")
-            getEmpresa(response.data.pessoa_juridica_id)
-            getTipoEmpresa(response.data.tipo_empresa_id)
             $('#inputId').val(response.data.id)
             $("#input_cpf").val(response.data.cpf)
             $("#input_rg").val(response.data.rg)
@@ -166,6 +172,8 @@
             $("#input_tipo_carteira").val(response.data.tipo_carteira)
             $("#input_validade_carteira").val(response.data.validade_carteira)
             $("#input_identificador_celular").val(response.data.identificador_celular)
+            getTipoEmpresa(response.data.tipo_empresa_id, true)
+            getEmpresa(response.data.pessoa_juridica_id, null, true)
             getRoles(response.data.role_web, 'web')
             getRoles(response.data.role_api, 'api')
           }
@@ -204,24 +212,30 @@
         var cep = $('#input_cep').val()
         var numero = $('#input_numero').val()
         if(cep && numero) {
+          delFormValidationErrors()
           app.api.get(`/geo?cep=${cep}&numero=${numero}`).then(response =>  {
             if (response.status) {
               $('#input_endereco').val(response.data.endereco)
               $('#input_bairro').val(response.data.bairro)
               $('#input_cidade').val(response.data.cidade)
               $('#input_estado').val(response.data.estado)
+              $('#salvarUser').attr('disabled', false)
             } else {
               notifyDanger(response.data)
             }
           })
-          .catch(error => notifyDanger('Falha ao obter dados de endereço, tente novamente'))
+          .catch(error => {
+            notifyDanger(error.data)
+            addInputError('input_cep', error.data)
+            $('#salvarUser').attr('disabled', true)
+          })
         }
       })
       
-      function getEmpresa(value, tipo_empresa_id) {
+      function getEmpresa(value, tipo_empresa_id, disabled) {
         app.api.get(`/pessoa_juridica${tipo_empresa_id ? '?tipo_empresa_id='+tipo_empresa_id : ''}`).then(response =>  {
           if (response && response.status) {
-            loadSelect('#input_pessoa_juridica_id', response.data, ['id', 'razao_social'], value)
+            loadSelect('#input_pessoa_juridica_id', response.data, ['id', 'razao_social'], value, disabled)
           }
         })
         .catch(error => {
@@ -230,10 +244,10 @@
         })
       }
 
-      function getTipoEmpresa(value) {
+      function getTipoEmpresa(value, disabled) {
         app.api.get(`/tipo_empresa${value ? '?id='+value : ''}`).then(response =>  {
           if (response && response.status) {
-            loadSelect('#input_tipo_empresa_id', response.data, ['id', 'descricao'], value)
+            loadSelect('#input_tipo_empresa_id', response.data, ['id', 'descricao'], value, disabled)
           }
         })
         .catch(error => {
@@ -242,9 +256,13 @@
         })
       }
 
-      $('body').on('change', '#input_tipo_empresa_id', function(event) {
+      function updateEmpresaFromTipo(event) {
         getEmpresa(null, event.target.value)
-      })
+      }
+
+      // $('body').on('change', '#input_tipo_empresa_id', function(event) {
+      //   getEmpresa(null, event.target.value)
+      // })
     })
   </script>
 @endpush

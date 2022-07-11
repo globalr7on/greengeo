@@ -4,11 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-
 
 class PessoaJuridica extends Model
 {
@@ -41,12 +39,17 @@ class PessoaJuridica extends Model
         'ativo',
         'identificador_celular',
         'senha_acesso',
-        'capacidade_media_carga',
         'usuario_responsavel_cadastro_id',
         'atividade_id',
         'tipo_empresa_id'
     ];
     protected $guardaded = ['id'];
+    protected $appends = ['capacidade_media_carga'];
+
+    public function getCapacidadeMediaCargaAttribute()
+    {
+        return $this->veiculo ? $this->veiculo->sum('capacidade_media_carga') : null;
+    }
 
     public function usuario_responsavel_cadastro()
     {
@@ -57,6 +60,10 @@ class PessoaJuridica extends Model
     {
         return $this->hasOne('App\Models\TipoEmpresa', 'id', 'tipo_empresa_id');
     }
+    public function atividade()
+    {
+        return $this->hasOne('App\Models\Atividade', 'id', 'atividade_id');
+    }
 
     public function user()
     {
@@ -65,8 +72,6 @@ class PessoaJuridica extends Model
 
     public function veiculo()
     {
-        return $this->belongsTo('App\Models\Veiculo');
+        return $this->belongsTo('App\Models\Veiculo', 'id', 'pessoa_juridica_id');
     }
-
-     
 }

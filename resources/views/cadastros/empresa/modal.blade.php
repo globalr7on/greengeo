@@ -253,24 +253,24 @@
 
                   <div class="row mx-0 mb-4">
                     <div class="col-md-6">
-                      <div class="form-group show-label">
-                        <label for="input_capacidade_media_carga">Capacidade Carga</label>
-                        <input maxlength="12" type="text" class="form-control" id="input_capacidade_media_carga">
-                        <span class="form-control-feedback">Kg</span>
-                      </div>
-                    </div>
-
-                    <div class="col-md-6">
                       <div class="form-group">
                         <label for="input_senha_acesso">Senha Acesso</label>
                         <input type="text" class="form-control" id="input_senha_acesso">
+                      </div>
+                    </div>
+
+                    <div class="col-md-6" id="capacidadeDiv">
+                      <div class="form-group show-label">
+                        <label for="capacidade_media_carga">Capacidade Media Carga</label>
+                        <input maxlength="12" type="text" class="form-control" id="capacidade_media_carga" disabled>
+                        <span class="form-control-feedback">Kg</span>
                       </div>
                     </div>
                   </div>
 
                   <div class="row m-0">
                     <button class="btn btn-primary stepper-prev">Anterior</button>
-                    <button class="btn btn-primary"  id="salvarEmpresa" >Salvar</button>
+                    <button class="btn btn-primary" id="salvarEmpresa" >Salvar</button>
                   </div>
                 </div>
               </div>
@@ -293,6 +293,17 @@
       const lng = $('#input_longitude').val()
       const urlMap = (lat && lng) ? `${urlMapBase}&query=${lat}%2C${lng}` : urlMapBase
       window.open(urlMap, '_blank').focus();
+    })
+    
+    $('body').on('blur', '#input_cnpj', function(event) {
+      const isValid = validarCNPJ(event.target.value)
+      delFormValidationErrors()
+      if (!isValid) {
+        const msg = 'CNPJ Invalido!'
+        notifyDanger(msg)
+        addInputError('input_cnpj', msg)
+      }
+      $('#salvarEmpresa').attr('disabled', !isValid)
     })
   </script>
 @endpush

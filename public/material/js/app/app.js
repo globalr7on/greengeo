@@ -169,11 +169,12 @@ function sweetConfirm(message, title = "Aviso!") {
   })
 }
 
-function loadSelect(selector, data, fields = ['id', 'name'], selected = null) {
+function loadSelect(selector, data, fields = ['id', 'name'], selected = null, disabled = false) {
   $(selector).empty().append('<option disabled selected>Seleccione</option>')
   $.each(data, function(index, value) {
     $(selector).append(`<option value="${value[fields[0]]}">${value[fields[1]]}</option>`)
   })
+  $(selector).prop('disabled', disabled)
   $(selector).selectpicker('refresh')
   if (selected) {
     $(selector).selectpicker('val', selected)
@@ -456,4 +457,44 @@ function formatStringToFloat(value) {
 
 function formatFloatToString(value) {
   return value ? String(value).replace('.', ',') : ''
+}
+//
+
+function validarCNPJ(cnpj) {
+  cnpj = cnpj.replace(/[^\d]+/g,'')
+  if(cnpj == '' || cnpj.length != 14) {
+    return false
+  }
+     
+  // Valida DVs
+  tamanho = cnpj.length - 2
+  numeros = cnpj.substring(0, tamanho)
+  digitos = cnpj.substring(tamanho)
+  soma = 0;
+  pos = tamanho - 7
+  for (i = tamanho; i >= 1; i--) {
+    soma += numeros.charAt(tamanho - i) * pos--
+    if (pos < 2){
+      pos = 9
+    }
+  }
+  resultado = soma % 11 < 2 ? 0 : 11 - soma % 11
+  if (resultado != digitos.charAt(0)) {
+    return false
+  }
+  tamanho = tamanho + 1
+  numeros = cnpj.substring(0, tamanho)
+  soma = 0
+  pos = tamanho - 7
+  for (i = tamanho; i >= 1; i--) {
+    soma += numeros.charAt(tamanho - i) * pos--
+    if (pos < 2) {
+      pos = 9
+    }
+  }
+  resultado = soma % 11 < 2 ? 0 : 11 - soma % 11
+  if (resultado != digitos.charAt(1)) {
+    return false
+  }
+  return true
 }
