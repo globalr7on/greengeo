@@ -16,29 +16,19 @@ class MateriaisResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'ean' => $this->ean,
-            'ibama' => $this->ibama,
-            'denominacao_ibama' => $this->denominacao_ibama, 
-            'peso_bruto' => $this->peso_bruto,
-            'peso_liquido' => $this->peso_liquido,
+            'ibama_id' => $this->ibama_id,
             'estado_fisico' => $this->estado_fisico, 
-            'percentual_composicao'  => $this->percentual_composicao,
-            'dimensoes'  => $this->dimensoes,
-            'largura' => $this->largura,
-            'profundidade' => $this->profundidade,
-            'comprimento'=> $this->comprimento,
-            'nome_no_fabricante' => $this->nome_no_fabricante,
-            'especie' => $this->especie,
-            'marca' => $this->marca,
             'gerador_id' => $this->gerador_id,
+            'gerador_nome' => $this->gerador ? $this->gerador->nome_fantasia : null,
             'tipo_material_id' => $this->tipo_material_id,
-            'classe_material_id' => $this->classe_material_id,
+            'tipo_material'=> $this->tipo_material ? $this->tipo_material->descricao : null,
             'unidade_id' => $this->unidade_id,
-            'nota_fiscal_iten_id' => $this->nota_fiscal_iten_id,
+            'unidade_sim' => $this->unidade ? $this->unidade->simbolo : null,
             'ativo'  =>  $this->ativo,
+            'ibama_id' => $this->ibama_id,
+            'ibama_code' => $this->ibama ? $this->ibama->code_ibama : null,
+            'ibama_denominacao' => $this->ibama ? $this->ibama->denominacao_ibama : null,
             'produtos' => $this->produtos ? $this->produtos->pluck('id') : [],
-         
-
         ];
     }
 }

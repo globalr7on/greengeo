@@ -12,24 +12,11 @@ class MateriaisRequest extends FormRequest
     {
         return [
             'ean' => 'required|string|max:20',
-            'ibama' => 'required',
-            'denominacao_ibama' => 'required|string|max:20',
-            'peso_bruto' =>'required', 
-            'peso_liquido'  =>'required',
+            'ibama_id' => 'required',
             'estado_fisico'  => 'required|string|max:10',
-            'percentual_composicao'  =>'required',
-            'dimensoes'  => 'required|string|max:30',
-            'largura' => 'required',
-            'profundidade' => 'required',
-            'comprimento'=>'required',
-            'nome_no_fabricante' =>'required|string|max:45',
-            'especie' =>'required|string|max:45',
-            'marca' =>'required|string|max:45',
             'gerador_id' =>'required',
             'tipo_material_id' =>'required',
-            'classe_material_id' =>'required',
             'unidade_id' =>'required',
-            'nota_fiscal_iten_id' =>'required',
         ];
     }
 

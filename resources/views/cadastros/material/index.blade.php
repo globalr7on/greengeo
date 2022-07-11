@@ -23,13 +23,11 @@
               <div>
                 <table class="table" id="materialTbl">
                   <thead>
-                    {{-- <th class="text-primary font-weight-bold">Ean</th> --}}
                     <th class="text-primary font-weight-bold">Ibama</th>
                     <th class="text-primary font-weight-bold">Denominação Ibama</th>
-                    <th class="text-primary font-weight-bold">Peso Bruto</th>
-                    <th class="text-primary font-weight-bold">Peso Liquido</th>
+                    <th class="text-primary font-weight-bold">Material</th>
                     <th class="text-primary font-weight-bold">Estado Físico</th>
-                    <th class="text-primary font-weight-bold">Composição Percentual</th>
+                    <th class="text-primary font-weight-bold">Unidade</th>
                     <th class="text-primary font-weight-bold">Ativo</th>
                     <th class="text-primary font-weight-bold">Ação</th>
                   </thead>
@@ -51,13 +49,12 @@
       let app = new App({
         apiUrl: '/api/material',
         apiDataTableColumns: [
-          // { data: "ean" },
-          { data: "ibama" },
-          { data: "denominacao_ibama" },
-          { data: "peso_bruto" },
-          { data: "peso_liquido" },
+          { data: "ibama_code" },
+          { data: "ibama_denominacao" },
+          { data: "tipo_material" },
           { data: "estado_fisico" },
-          { data: "percentual_composicao" },
+          { data: "unidade_sim" },
+         
           {
             data: "ativo",
             className: "text-center",
@@ -82,6 +79,9 @@
         $('#input_id').val("")
         $('#formMaterial')[0].reset()
         getIbama()
+        getTipoMaterial()
+        getUnidade()
+        getEstado()
       })
 
       // Salvar
@@ -93,22 +93,10 @@
           // ean: $("#input_ean").val(),
           ibama: $("#input_ibama").val(),
           denominacao_ibama: $("#input_denominacao_ibama").val(),
-          peso_bruto: $("#input_peso_bruto").val(),
-          peso_liquido: $("#input_peso_liquido").val(),
           estado_fisico: $("#input_estado_fisico").val(),
-          percenteual_composicao: $("#input_percenteual_composicao").val(),
-          dimensoes: $("#input_dimensoes").val(),
-          largura: $("#input_largura").val(),
-          profundidade: $("#input_profundidade").val(),
-          comprimento: $("#input_comprimento").val(),
-          nome_no_fabricante: $("#input_nome_no_fabricante").val(),
-          especie: $("#input_especie").val(),
-          marca: $("#input_marca").val(),
           gerador_id: $("#input_gerador_id").val(),
           tipo_material_id: $("#input_tipo_material_id").val(),
-          clase_material_id: $("#input_clase_material_id").val(),
           unidade_id: $("#input_unidade_id").val(),
-          nota_fiscal_iten_id: $("#input_nota_fiscal_iten_id").val(),
         }
         const id = $('#input_id').val()
         if (id) {
@@ -148,25 +136,11 @@
             $('#formProduto')[0].reset()
             $("#modalProduto").modal("show");
             $('#tituloModal').text("Editar Produto")
-            $("#input_ean").val(response.data.ean)
-            $("#input_ibama").val(response.data.ibama)
-            $("#input_denominacao_ibama").val(response.data.denominacao_ibama)
-            $("#input_peso_bruto").val(response.data.peso_bruto)
-            $("#input_peso_liquido").val(response.data.peso_liquido)
-            $("#input_estado_fisico").val(response.data.estado_fisico)
-            $("#input_percentual_composicao").val(response.data.percenteual_composicao)
-            $("#input_dimensoes").val(response.data.dimensoes)
-            $("#input_largura").val(response.data.largura)
-            $("#input_profundidade").val(response.data.profundidade)
-            $("#input_comprimento").val(response.data.comprimento)
-            $("#input_nome_no_fabricante").val(response.data.nome_no_fabricante)
-            $("#input_especie").val(response.data.especie)
-            $("#input_marca").val(response.data.marca)
+            $("#input_ibama").val(response.data.ibama_code)
+            $("#input_denominacao_ibama").val(response.data.ibama_denominacao)
+            $("#input_estado_fisico").val(response.data.tipo_material)
             $("#input_gerador_id").val(response.data.gerador_id)
-            $("#input_tipo_material_id").val(response.data.tipo_material_id)
-            $("#input_classe_material_id").val(response.data.clase_material_id)
             $("#input_unidade_id").val(response.data.unidade_id)
-            $("#input_nota_fiscal_iten_id").val(response.data.nota_fiscal_iten_id)
           }
         })
         .catch(error => notifyDanger('Falha ao obter detalhes do empresa. Tente novamente'))
@@ -216,6 +190,55 @@
           notifyDanger('Falha ao obter dados, tente novamente')
         })
       }
+      function getTipoMaterial(value) {
+        app.api.get('/tipo_materiais').then(response =>  {
+          if (response && response.status) {
+            loadSelect('#input_tipo_material_id', response.data, ['id', 'descricao'], value)
+          }
+        })
+        .catch(error => {
+          console.log('app.api.get error', error)
+          notifyDanger('Falha ao obter dados, tente novamente')
+        })
+      }
+      function getUnidade(value) {
+        app.api.get('/unidad').then(response =>  {
+          if (response && response.status) {
+            loadSelect('#input_unidade_id', response.data, ['id', 'simbolo'], value)
+          }
+        })
+        .catch(error => {
+          console.log('app.api.get error', error)
+          notifyDanger('Falha ao obter dados, tente novamente')
+        })
+      }
+
+       function getEstado(value) {
+        const data = [
+          { id: 1, descricao: 'Solido' },
+          { id: 2, descricao: 'Liquido' },
+          { id: 3, descricao: 'Gasoso' }
+        ]
+        loadSelect('#input_estado_fisico', data, ['id', 'descricao'], value)
+      }      
+      // Changes Status 
+       $('body').on('click', '.changeStatus', function() {
+        sweetConfirm('Deseja realmente atualizar?').then(confirmed => {
+          if (confirmed) {
+            const id = $(this).attr('data-id')
+            const valueOld = $(this).attr('data-value-old')
+            app.api.put(`/acondicionamento/${id}/status`, { ativo: parseInt(valueOld) ? 0 : 1 }).then(response =>  {
+              if (response && response.status) {
+                app.datatable.ajax.reload()
+                notifySuccess('Atualizada com sucesso')
+              } else {
+                notifySuccess('Não foi possível atualizar, tente novamente')
+              }
+            })
+            .catch(error => notifyDanger('Falha ao atualizar. Tente novamente'))
+          }
+        }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
+      })
     })
   </script>
 @endpush

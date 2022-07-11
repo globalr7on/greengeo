@@ -16,160 +16,44 @@
                 <span class="bs-stepper-circle bg-primary">1</span>
               </button>
             </div>
-            <div class="line"></div>
-            <div class="step" data-target="#step2">
-              <button type="button" class="step-trigger" role="tab" aria-controls="step2" id="step2-trigger">
-                <span class="bs-stepper-circle bg-primary">2</span>
-              </button>
-            </div>
-            <div class="line"></div>
-            <div class="step" data-target="#step3">
-              <button type="button" class="step-trigger" role="tab" aria-controls="step3" id="step3-trigger">
-                <span class="bs-stepper-circle bg-primary">3</span>
-              </button>
-            </div>
           </div>
-
           <form id="formMaterial">
             <div class="bs-stepper-content">
               <!-- your steps content here -->
               <div id="step1" class="content" role="tabpanel" aria-labelledby="step1-trigger">
                 <div class="row m-0">
-                  <div class="form-group col-md-6 align-self-center">
-                    <div class="togglebutton">
-                      <label>
-                        Ativo?
-                        <input type="checkbox" id="checkAtivo">
-                        <span class="toggle"></span>
-                      </label>
-                    </div>
-                  </div>
-                    {{-- <div class="form-group col-md-6">
-                    <label for="input_usuario_responsavel_cadastro_id" class="position-relative mb-0 font-weight-bold">Responsavel</label>
-                    <input type="hidden" class="form-control" id="input_usuario_responsavel_cadastro_id"  value="{{  Auth::user()->id  }}">
-                    <input type="text" class="form-control" value="{{  Auth::user()->name }}" disabled >
-                  </div> --}}
-                </div>
-
-                <div class="row m-0">
-                  {{-- <div class="form-group col-md-4">
-                    <label for="input_ean" class="position-relative mb-0 font-weight-bold">EAN</label>
-                    <input type="text" class="form-control" id="input_ean">
-                    <input type="hidden" class="form-control" id="input_id">
-                  </div> --}}
-                  <div class="form-group col-md-6">
-                     <div class="form-group">
-                        <label for="input_ibama" class="display-inherit mb-0 text-left">Ibama</label>
+                   <div class="form-group  col-md-6">
+                        <label for="input_ibama" class="display-inherit mb-0 text-left">Código Ibama</label>
                         <select id="input_ibama" data-style="btn btn-warning text-white" name="atividade_id">
                           <option value="" disabled selected>Código Ibama</option>
-                        </select>
-                      </div>
-                    {{-- <label for="input_ibama" class="position-relative mb-0 font-weight-bold">Ibama</label>
-                    <input type="text" class="form-control" id="input_ibama"> --}}
+                        </select> 
+                       </div>
+                      <div class="form-group col-md-6">
+                    <label for="input_estado_fisico" class="display-inherit mb-0 text-left">Estado fisico</label>
+                      <select id="input_estado_fisico" data-style="btn btn-warning text-white" name="input_estado_fisico">
+                        <option value="" disabled selected>Estado Fisico</option>
+                      </select>
+                    </div>  
                   </div>
+                 <div class="row m-0">
                   <div class="form-group col-md-6">
-                    <label for="input_denominacao_ibama" class="position-relative mb-0 font-weight-bold">Denominação Ibama</label>
-                    <input type="text" class="form-control" id="input_peso_liquido">
-                  </div>
-                </div>
-
-                <div class="row m-0">
-                  <div class="form-group col-md-4">
-                    <label for="input_peso_bruto" class="position-relative mb-0 font-weight-bold">Peso Bruto</label>
-                    <input type="text" class="form-control" id="input_peso_bruto">
-                  </div>
-                  <div class="form-group col-md-4">
-                    <label for="input_peso_liquido" class="position-relative mb-0 font-weight-bold">Peso Liquido</label>
-                    <input type="text" class="form-control" id="input_peso_liquido">
-                  </div>  
-                  <div class="form-group col-md-4">
-                    <label for="input_estado_fisico" class="position-relative mb-0 font-weight-bold">Estado Físico</label>
-                    <input type="text" class="form-control" id="input_estado_fisico">
-                  </div>  
-                </div>
-
-                <div class="row m-0">
-                  <button class="btn btn-warning" id="salvarMaterial1" >Itens</button>
-                  <button class="btn btn-primary stepper-next">Próximo</button>
-                </div>
-              </div>
-
-              <div id="step2" class="content" role="tabpanel" aria-labelledby="step2-trigger">
-                <div class="row m-0">
-                  <div class="form-group col-md-3">
-                    <label for="input_percenteual_composicao" class="position-relative mb-0 font-weight-bold">Composição Percentual</label>
-                    <input type="text" class="form-control" id="input_percenteual_composicao">
-                  </div>
-                  <div class="form-group col-md-3">
-                    <label for="input_dimensoes" class="position-relative mb-0 font-weight-bold">Dimensões</label>
-                    <input type="text" class="form-control" id="input_dimensoes">
-                  </div>
-                  <div class="form-group col-md-3">
-                    <label for="input_largura" class="position-relative mb-0 font-weight-bold">Largura</label>
-                    <input type="text" class="form-control" id="input_largura">
-                  </div>
-                  <div class="form-group col-md-3">
-                    <label for="input_profundidade" class="position-relative mb-0 font-weight-bold">Profundidade</label>
-                    <input type="text" class="form-control" id="input_profundidade">
-                  </div>
-                </div>
-
-                <div class="row m-0">
-                  <div class="form-group col-md-6">
-                    <label for="input_comprimento" class="position-relative mb-0 font-weight-bold">Comprimento</label>
-                    <input type="text" class="form-control" id="input_comprimento">
-                  </div>
-                  <div class="form-group col-md-6">
-                    <label for="input_nome_no_fabricante" class="position-relative mb-0 font-weight-bold">Nome Fabricante</label>
-                    <input type="text" class="form-control" id="input_nome_no_fabricante">
-                  </div>
-                </div>
-
-                <div class="row m-0">
-                  <button class="btn btn-warning" id="salvarMaterial1" >Itens</button>
-                  <button class="btn btn-primary stepper-prev">Anterior</button>
-                  <button class="btn btn-primary stepper-next">Próximo</button>
-                </div>
-              </div>
-
-              <div id="step3" class="content" role="tabpanel" aria-labelledby="step3-trigger">
-                <div class="row m-0">
-                  <div class="form-group col-md-6">
-                    <label for="input_especie" class="position-relative mb-0 font-weight-bold">Especie</label>
-                    <input type="text" class="form-control" id="input_especie">
-                  </div>
-                  <div class="form-group col-md-6">
-                    <label for="input_marca" class="position-relative mb-0 font-weight-bold">Marca</label>
-                    <input type="text" class="form-control" id="input_marca">
-                  </div>
-                  {{-- <div class="form-group col-md-4">
-                    <label for="input_gerador_id" class="position-relative mb-0 font-weight-bold">Gerador</label>
-                    
-                  </div> --}}
-                </div>
-
-                <div class="row m-0">
-                  <div class="form-group col-md-6">
+                    <label for="input_tipo_material_id" class="display-inherit mb-0 text-left">Tipo Material</label>
+                    <select id="input_tipo_material_id" data-style="btn btn-warning text-white" name="tipo_material_id">
+                      <option value="" disabled selected>Tipo Material</option>
+                    </select>
                     <input type="hidden" class="form-control" id="input_gerador_id">
-                    <input type="hidden" class="form-control" id="input_nota_fiscal_iten_id">
-                    <label for="input_tipo_material_id" class="position-relative mb-0 font-weight-bold">Tipo Material</label>
-                    <input type="text" class="form-control" id="input_tipo_material_id">
                   </div>
                   <div class="form-group col-md-6">
-                    <label for="input_unidade_id" class="position-relative mb-0 font-weight-bold">Unidade</label>
-                    <input type="text" class="form-control" id="input_unidade_id">
+                     <label for="input_unidade_id" class="display-inherit mb-0 text-left">Tipo Unidade</label>
+                        <select id="input_unidade_id" data-style="btn btn-warning text-white" name="input_unidade_id">
+                          <option value="" disabled selected>Tipo Unidade</option>
+                        </select>
                   </div>
-                    {{-- <div class="form-group col-md-4">
-                    <label for="input_nota_fiscal_iten_id" class="position-relative mb-0 font-weight-bold">Nota Fiscal Iten ID</label>
-                    <input type="hidden" class="form-control" id="input_nota_fiscal_iten_id">
-                   </div> --}}
-                </div>
-
+                </div> 
                 <div class="row m-0">
-                  <button class="btn btn-warning" id="salvarMaterial1" >Itens</button>
-                  <button class="btn btn-primary stepper-prev">Anterior</button>
-                  <button class="btn btn-primary"  id="salvarMaterial1" >Salvar</button>
+                  <button class="btn btn-primary stepper-next" id="salvarMaterial">Salvar</button>
                 </div>
+              </div>
               </div>
             </div>
           </form>

@@ -30,37 +30,22 @@
               <div id="step1" class="content" role="tabpanel" aria-labelledby="step1-trigger">
                 {{-- <h4 class="text-primary font-weight-bold text-uppercase">Informações Básicas</h4> --}}
                 <div class="row m-0">
-                  <div class="form-group col-md-6 align-self-center">
-                    <div class="togglebutton">
-                      <label>
-                        Ativo?
-                        <input type="checkbox" id="checkAtivo">
-                        <span class="toggle"></span>
-                      </label>
-                    </div>
-                  </div>
-                    <div class="form-group col-md-6">
-                    <label for="input_usuario_responsavel_cadastro_id" class="position-relative mb-0 font-weight-bold">EAN</label>
+                  <div class="form-group col-md-4">
+                    <label for="input_ean" class="position-relative mb-0 font-weight-bold">EAN</label>
                     <input type="hidden" class="form-control" id="input_usuario_responsavel_cadastro_id"  value="{{  Auth::user()->id  }}">
                     <input type="text" class="form-control" id="input_ean">
-                    {{-- <input type="text" class="form-control" value="{{  Auth::user()->name }}" disabled > --}}
                   </div>
-                  
-                </div>
-
-                <div class="row m-0">
                   <div class="form-group col-md-4">
-                    <label for="input_nome_fabricante" class="position-relative mb-0 font-weight-bold">Nome de Fabricante</label>
-                    <input type="text" class="form-control" id="input_nome_fabricante">
+                    <label for="input_codigo" class="position-relative mb-0 font-weight-bold">Código Fabricante</label>
+                    <input type="text" class="form-control" id="input_codigo">
                     <input type="hidden" class="form-control" id="input_id">
                   </div>
                   <div class="form-group col-md-4">
-                    <label for="input_peso_bruto" class="position-relative mb-0 font-weight-bold">Peso Bruto</label>
-                    <input type="text" class="form-control" id="input_peso_bruto">
-                  </div>
-                  <div class="form-group col-md-4">
-                    <label for="input_peso_liquido" class="position-relative mb-0 font-weight-bold">Peso Liquido</label>
-                    <input type="text" class="form-control" id="input_peso_liquido">
+                    <label for="input_gerador_id" class="display-inherit mb-0 text-left">Nome Fabricante</label>
+                    <select id="input_gerador_id" data-style="btn btn-warning text-white" name="input_gerador_id">
+                      <option value="" disabled selected>Nome Fabricante</option>
+                    </select>
+                    <input type="hidden" class="form-control" id="input_id">
                   </div>
                 </div>
 
@@ -80,7 +65,7 @@
                 </div>
 
                 <div class="row m-0">
-                  <button class="btn btn-warning" id="salvarProduto1" >Itens</button>
+                  <button class="btn btn-warning">Itens</button>
                   <button class="btn btn-primary stepper-next">Próximo</button>
                 </div>
               </div>
@@ -106,16 +91,9 @@
                 </div>
 
                 <div class="row m-0">
-                  <div class="form-group col-md-6">
-                    <label for="input_material_id" class="position-relative mb-0 font-weight-bold">Material</label>
-                    <input type="text" class="form-control" id="input_material_id">
-                  </div>
-                </div>
-
-                <div class="row m-0">
-                  <button class="btn btn-warning" id="salvarProduto1" >Itens</button>
+                  <button class="btn btn-warning">Itens</button>
                   <button class="btn btn-primary stepper-prev">Anterior</button>
-                  <button class="btn btn-primary"  id="salvarProduto1" >Salvar</button>
+                  <button class="btn btn-primary"  id="salvarProduto" >Salvar</button>
                 </div>
               </div>
             </div>

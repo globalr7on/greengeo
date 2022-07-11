@@ -12,9 +12,8 @@ class ProdutoRequest extends FormRequest
    public function rules()
     {
         return [
-            'nome_fabricante' => 'required|string|max:45',
-            'peso_bruto' => 'required',
-            'peso_liquido' => 'required',
+            'ean' => 'required',
+            'codigo' => 'required|string|max:45',
             'dimensoes' =>'required|string|max:30', 
             'altura'  =>'required',
             'largura'  =>'required',
@@ -23,8 +22,6 @@ class ProdutoRequest extends FormRequest
             'especie' => 'required|string|max:45',
             'marca' => 'required|string|max:45',
             'pessoa_juridica_id'=>'required',
-            'material_id' =>'required',
-            'ativo'  => 'required',
 
         ];
     }
