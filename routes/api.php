@@ -6,7 +6,8 @@ use App\Http\Resources\UserReslogoutource;
 
 Route::post('login','App\Http\Controllers\Api\UserController@accessToken')->name('api.login');
 
-Route::middleware(['auth:api', 'permission'])->group(function(){
+// Route::middleware(['auth:api', 'permission'])->group(function(){
+Route::middleware(['auth:api',])->group(function(){
     // AUTHENTICATED USER
     Route::get('logout', 'App\Http\Controllers\Api\UserController@logout')->name('api.logout');
 

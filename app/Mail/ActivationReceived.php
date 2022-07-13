@@ -11,14 +11,16 @@ class ActivationReceived extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $email , $password;
+    public $cpf, $name, $email, $password;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($email, $password) 
+    public function __construct($cpf, $name, $email, $password) 
     {
+        $this->cpf = $cpf;
+        $this->name = $name;
         $this->email = $email;
         $this->password = $password;
     }
@@ -34,6 +36,8 @@ class ActivationReceived extends Mailable
             ->view('mails.activation')
             ->subject("Notificación de asistencia")
             ->with([
+                "cpf" => $this->cpf,
+                "name" => $this->name,
                 "email" => $this->email,
                 "password" => $this->password,
             ]);

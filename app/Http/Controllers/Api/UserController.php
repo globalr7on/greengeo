@@ -8,8 +8,10 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Mail\ActivationReceived;
 use Validator;
 use Hash;
+use Mail;
 
 class UserController extends Controller
 {
@@ -115,7 +117,9 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
+        
         $request->merge(array('password' => 'test010203'));
+        $password = 'test010203';
         $user = User::create($request->except('role_web', 'role_api'));
         $newRoleWeb = intval($request->get('role_web'));
         $newRoleApi = intval($request->get('role_api'));
@@ -125,6 +129,16 @@ class UserController extends Controller
         if ($newRoleApi) {
             $user->assignRole($newRoleApi, 'api'); 
         }
+
+        // dd($user->cpf);
+        $cpf = $user->cpf;
+        $name = $user->name; 
+        $email = $user->email;
+        
+
+        $mailable = new ActivationReceived($cpf, $name, $email, $password);
+        Mail::to($email)->send(new ActivationReceived($cpf, $name, $email, $password ));
+
         return response([
             'data' => new UserResource($user),
             'status' => true

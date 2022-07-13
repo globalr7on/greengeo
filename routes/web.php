@@ -20,10 +20,6 @@ Auth::routes();
 Route::group(['middleware' => ['auth', 'permission']], function () {
 	Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home')->middleware('auth');
 
-	//MAIL 
-	// Route::get('/cadastro/email', function (){
-	// 	return new App\Mail\ActivationReceived();
-	// });
 	Route::get('/cadastro/email', ['as' => 'cadastros.email', 'uses' => 'App\Http\Controllers\EmailController@contact']);
 
 
@@ -58,6 +54,3 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
 	Route::get('configuracoes/permissions', ['as' => 'configuracoes.permissions', 'uses' => 'App\Http\Controllers\PermissionsController@index']);
 });
 
-// Route::get('/cadastro/email', function (){
-// 		return new App\Mail\ActivationReceived();
-// 	});
