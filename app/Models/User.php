@@ -10,7 +10,7 @@ use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Permission\Models\Role;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail 
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 

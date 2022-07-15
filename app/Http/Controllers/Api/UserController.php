@@ -12,6 +12,9 @@ use App\Mail\ActivationReceived;
 use Validator;
 use Hash;
 use Mail;
+use Str;
+use Illuminate\Auth\Events\Registered;
+
 
 class UserController extends Controller
 {
@@ -118,8 +121,9 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         
-        $request->merge(array('password' => 'test010203'));
-        $password = 'test010203';
+        // dd($pass);
+        $request->merge(array('password' => Str::random( 16 )));
+        // dd($request->password);
         $user = User::create($request->except('role_web', 'role_api'));
         $newRoleWeb = intval($request->get('role_web'));
         $newRoleApi = intval($request->get('role_api'));
@@ -134,7 +138,9 @@ class UserController extends Controller
         $cpf = $user->cpf;
         $name = $user->name; 
         $email = $user->email;
+        $password = $request->password;
         
+        event(new Registered($user));
 
         $mailable = new ActivationReceived($cpf, $name, $email, $password);
         Mail::to($email)->send(new ActivationReceived($cpf, $name, $email, $password ));

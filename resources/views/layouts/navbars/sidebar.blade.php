@@ -221,7 +221,7 @@
       </li>
       @endcanany
 
-      @canany(['configuracoes.profile', 'configuracoes.users', 'configuracoes.roles', 'configuracoes.permissions'])
+      @canany(['configuracoes.perfil', 'configuracoes.usuarios', 'configuracoes.funcoes', 'configuracoes.permissoes'])
       <li class="nav-item {{ in_array($activePage, array('profile', 'users', 'funcoes', 'permissions')) ? 'active' : ''}}">
         <a class="nav-link" data-toggle="collapse" href="#settingTab" aria-expanded="{{ in_array($activePage, array('profile', 'users', 'funcoes', 'permissions')) ? 'true' : 'false' }}">
           <i class="fa-solid fa-gear"></i>
@@ -231,36 +231,36 @@
         </a>
         <div class="collapse {{ in_array($activePage, array('profile', 'users', 'funcoes', 'permissions'))  ? 'show' : '' }}" id="settingTab">
           <ul class="nav">
-            @can('configuracoes.profile')
+            @can('configuracoes.perfil')
             <li class="nav-item ml-4 {{ $activePage == 'profile' ? 'active' : '' }}">
-              <a class="nav-link" href="{{ route('configuracoes.profile') }}">
+              <a class="nav-link" href="{{ route('configuracoes.perfil') }}">
                 <i class="fa-solid fa-user"></i>
                 <span class="sidebar-normal">{{ __('Perfil') }}</span>
               </a>
             </li>
             @endcan
             
-            @can('configuracoes.users')            
+            @can('configuracoes.usuarios')            
             <li class="nav-item ml-4 {{ $activePage == 'users' ? 'active' : '' }}">
-              <a class="nav-link" href="{{ route('configuracoes.users') }}">
+              <a class="nav-link" href="{{ route('configuracoes.usuarios') }}">
               <i class="fa-solid fa-users"></i>
                 <span class="sidebar-normal">{{ __('Usuarios') }}</span>
               </a>
             </li>
             @endcan
             
-            @can('configuracoes.roles')
+            @can('configuracoes.funcoes')
             <li class="nav-item ml-4 {{ $activePage == 'funcoes' ? 'active' : '' }}">
-              <a class="nav-link" href="{{ route('configuracoes.roles') }}">
+              <a class="nav-link" href="{{ route('configuracoes.funcoes') }}">
                 <i class="fa-solid fa-user-lock"></i>
                 <span class="sidebar-normal">{{ __('Funções') }}</span>
               </a>
             </li>
             @endcan
 
-            @can('configuracoes.permissions')
+            @can('configuracoes.permissoes')
             <li class="nav-item ml-4 {{ $activePage == 'permissions' ? 'active' : '' }}">
-              <a class="nav-link" href="{{ route('configuracoes.permissions') }}">
+              <a class="nav-link" href="{{ route('configuracoes.permissoes') }}">
               <i class="fa-solid fa-user-shield"></i>
                 <span class="sidebar-normal">{{ __('Permissões') }}</span>
               </a>

@@ -4,17 +4,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Resources\UserReslogoutource;
 
+
+
+
+
 Route::post('login','App\Http\Controllers\Api\UserController@accessToken')->name('api.login');
 
-// Route::middleware(['auth:api', 'permission'])->group(function(){
-Route::middleware(['auth:api',])->group(function(){
+Route::middleware(['auth:api', 'permission'])->group(function(){
+
     // AUTHENTICATED USER
     Route::get('logout', 'App\Http\Controllers\Api\UserController@logout')->name('api.logout');
 
     // PROFILE
     Route::get('profile/me', 'App\Http\Controllers\Api\ProfileController@me')->name('profile.me');
     Route::put('profile/password', 'App\Http\Controllers\Api\ProfileController@password')->name('profile.password');
-    Route::put('profile', 'App\Http\Controllers\Api\ProfileController@update')->name('profile.update');
+    Route::put('profile', 'App\Http\Controllers\Api\ProfileController@update')->name('profile.atualizar');
 
     // USERS
     Route::get('users', 'App\Http\Controllers\Api\UserController@index')->name('users.index');
@@ -38,127 +42,127 @@ Route::middleware(['auth:api',])->group(function(){
     Route::delete('permissions/{id}', 'App\Http\Controllers\Api\PermissionController@destroy')->name('permissions.destroy');
 
     // ACONDICIONAMENTO
-    Route::get('acondicionamento', 'App\Http\Controllers\Api\AcondicionamentoController@index')->name('acondicionamento.index');
-    Route::get('acondicionamento/{id}', 'App\Http\Controllers\Api\AcondicionamentoController@show')->name('acondicionamento.show');
-    Route::post('acondicionamento', 'App\Http\Controllers\Api\AcondicionamentoController@store')->name('acondicionamento.store');
-    Route::put('acondicionamento/{id}', 'App\Http\Controllers\Api\AcondicionamentoController@update')->name('acondicionamento.update');
-    Route::delete('acondicionamento/{id}', 'App\Http\Controllers\Api\AcondicionamentoController@destroy')->name('acondicionamento.destroy');
-    Route::put('acondicionamento/{id}/status', 'App\Http\Controllers\Api\AcondicionamentoController@updateStatus')->name('acondicionamento.update_status');
+    Route::get('acondicionamento', 'App\Http\Controllers\Api\AcondicionamentoController@index')->name('acondicionamento.lista');
+    Route::get('acondicionamento/{id}', 'App\Http\Controllers\Api\AcondicionamentoController@show')->name('acondicionamento.mostrar');
+    Route::post('acondicionamento', 'App\Http\Controllers\Api\AcondicionamentoController@store')->name('acondicionamento.criar');
+    Route::put('acondicionamento/{id}', 'App\Http\Controllers\Api\AcondicionamentoController@update')->name('acondicionamento.atualizar');
+    Route::delete('acondicionamento/{id}', 'App\Http\Controllers\Api\AcondicionamentoController@destroy')->name('acondicionamento.excluir');
+    Route::put('acondicionamento/{id}/status', 'App\Http\Controllers\Api\AcondicionamentoController@updateStatus')->name('acondicionamento.atualizar_status');
 
     // ATIVIDADE
-    Route::get('atividade', 'App\Http\Controllers\Api\AtividadeController@index')->name('atividade.index');
-    Route::get('atividade/{id}', 'App\Http\Controllers\Api\AtividadeController@show')->name('atividade.show');
-    Route::post('atividade', 'App\Http\Controllers\Api\AtividadeController@store')->name('atividade.store');
-    Route::put('atividade/{id}', 'App\Http\Controllers\Api\AtividadeController@update')->name('atividade.update');
-    Route::delete('atividade/{id}', 'App\Http\Controllers\Api\AtividadeController@destroy')->name('atividade.destroy');
-    Route::put('atividade/{id}/status', 'App\Http\Controllers\Api\AtividadeController@updateStatus')->name('atividade.update_status');
+    Route::get('atividade', 'App\Http\Controllers\Api\AtividadeController@index')->name('atividade.lista');
+    Route::get('atividade/{id}', 'App\Http\Controllers\Api\AtividadeController@show')->name('atividade.mostrar');
+    Route::post('atividade', 'App\Http\Controllers\Api\AtividadeController@store')->name('atividade.criar');
+    Route::put('atividade/{id}', 'App\Http\Controllers\Api\AtividadeController@update')->name('atividade.atualizar');
+    Route::delete('atividade/{id}', 'App\Http\Controllers\Api\AtividadeController@destroy')->name('atividade.excluir');
+    Route::put('atividade/{id}/status', 'App\Http\Controllers\Api\AtividadeController@updateStatus')->name('atividade.atualizar_status');
 
     // TRATAMENTO
-    Route::get('tratamento', 'App\Http\Controllers\Api\TratamentoController@index')->name('tratamento.index');
-    Route::get('tratamento/{id}', 'App\Http\Controllers\Api\TratamentoController@show')->name('tratamento.show');
-    Route::post('tratamento', 'App\Http\Controllers\Api\TratamentoController@store')->name('tratamento.store');
-    Route::put('tratamento/{id}', 'App\Http\Controllers\Api\TratamentoController@update')->name('tratamento.update');
-    Route::delete('tratamento/{id}', 'App\Http\Controllers\Api\TratamentoController@destroy')->name('tratamento.destroy');
-    Route::put('tratamento/{id}/status', 'App\Http\Controllers\Api\TratamentoController@updateStatus')->name('tratamento.update_status');
+    Route::get('tratamento', 'App\Http\Controllers\Api\TratamentoController@index')->name('tratamento.lista');
+    Route::get('tratamento/{id}', 'App\Http\Controllers\Api\TratamentoController@show')->name('tratamento.mostrar');
+    Route::post('tratamento', 'App\Http\Controllers\Api\TratamentoController@store')->name('tratamento.criar');
+    Route::put('tratamento/{id}', 'App\Http\Controllers\Api\TratamentoController@update')->name('tratamento.atualizar');
+    Route::delete('tratamento/{id}', 'App\Http\Controllers\Api\TratamentoController@destroy')->name('tratamento.excluir');
+    Route::put('tratamento/{id}/status', 'App\Http\Controllers\Api\TratamentoController@updateStatus')->name('tratamento.atualizar_status');
 
     // UNIDAD
-    Route::get('unidad', 'App\Http\Controllers\Api\UnidadController@index')->name('unidad.index');
-    Route::get('unidad/{id}', 'App\Http\Controllers\Api\UnidadController@show')->name('unidad.show');
-    Route::post('unidad', 'App\Http\Controllers\Api\UnidadController@store')->name('unidad.store');
-    Route::put('unidad/{id}', 'App\Http\Controllers\Api\UnidadController@update')->name('unidad.update');
-    Route::delete('unidad/{id}', 'App\Http\Controllers\Api\UnidadController@destroy')->name('unidad.destroy');
-    Route::put('unidad/{id}/status', 'App\Http\Controllers\Api\UnidadController@updateStatus')->name('unidad.update_status');
+    Route::get('unidad', 'App\Http\Controllers\Api\UnidadController@index')->name('unidad.lista');
+    Route::get('unidad/{id}', 'App\Http\Controllers\Api\UnidadController@show')->name('unidad.mostrar');
+    Route::post('unidad', 'App\Http\Controllers\Api\UnidadController@store')->name('unidad.criar');
+    Route::put('unidad/{id}', 'App\Http\Controllers\Api\UnidadController@update')->name('unidad.atualizar');
+    Route::delete('unidad/{id}', 'App\Http\Controllers\Api\UnidadController@destroy')->name('unidad.excluir');
+    Route::put('unidad/{id}/status', 'App\Http\Controllers\Api\UnidadController@updateStatus')->name('unidad.atualizar_status');
 
     // MARCA
-    Route::get('marca', 'App\Http\Controllers\Api\MarcaController@index')->name('marca.index');
-    Route::get('marca/{id}', 'App\Http\Controllers\Api\MarcaController@show')->name('marca.show');
-    Route::post('marca', 'App\Http\Controllers\Api\MarcaController@store')->name('marca.store');
-    Route::put('marca/{id}', 'App\Http\Controllers\Api\MarcaController@update')->name('marca.update');
-    Route::delete('marca/{id}', 'App\Http\Controllers\Api\MarcaController@destroy')->name('marca.destroy');
-    Route::put('marca/{id}/status', 'App\Http\Controllers\Api\MarcaController@updateStatus')->name('marca.update_status');
+    Route::get('marca', 'App\Http\Controllers\Api\MarcaController@index')->name('marca.lista');
+    Route::get('marca/{id}', 'App\Http\Controllers\Api\MarcaController@show')->name('marca.mostrar');
+    Route::post('marca', 'App\Http\Controllers\Api\MarcaController@store')->name('marca.criar');
+    Route::put('marca/{id}', 'App\Http\Controllers\Api\MarcaController@update')->name('marca.atualizar');
+    Route::delete('marca/{id}', 'App\Http\Controllers\Api\MarcaController@destroy')->name('marca.excluir');
+    Route::put('marca/{id}/status', 'App\Http\Controllers\Api\MarcaController@updateStatus')->name('marca.atualizar_status');
 
     // MODELO
-    Route::get('modelo', 'App\Http\Controllers\Api\ModeloController@index')->name('modelo.index');
-    Route::get('modelo/{id}', 'App\Http\Controllers\Api\ModeloController@show')->name('modelo.show');
-    Route::post('modelo', 'App\Http\Controllers\Api\ModeloController@store')->name('modelo.store');
-    Route::put('modelo/{id}', 'App\Http\Controllers\Api\ModeloController@update')->name('modelo.update');
-    Route::delete('modelo/{id}', 'App\Http\Controllers\Api\ModeloController@destroy')->name('modelo.destroy');
-    Route::put('modelo/{id}/status', 'App\Http\Controllers\Api\ModeloController@updateStatus')->name('modelo.update_status');
+    Route::get('modelo', 'App\Http\Controllers\Api\ModeloController@index')->name('modelo.lista');
+    Route::get('modelo/{id}', 'App\Http\Controllers\Api\ModeloController@show')->name('modelo.mostrar');
+    Route::post('modelo', 'App\Http\Controllers\Api\ModeloController@store')->name('modelo.criar');
+    Route::put('modelo/{id}', 'App\Http\Controllers\Api\ModeloController@update')->name('modelo.atualizar');
+    Route::delete('modelo/{id}', 'App\Http\Controllers\Api\ModeloController@destroy')->name('modelo.excluir');
+    Route::put('modelo/{id}/status', 'App\Http\Controllers\Api\ModeloController@updateStatus')->name('modelo.atualizar_status');
 
     // EMPRESA
-    Route::get('pessoa_juridica', 'App\Http\Controllers\Api\PessoaJuridicaController@index')->name('pessoa_juridica.index');
-    Route::get('pessoa_juridica/{id}', 'App\Http\Controllers\Api\PessoaJuridicaController@show')->name('pessoa_juridica.show');
-    Route::post('pessoa_juridica', 'App\Http\Controllers\Api\PessoaJuridicaController@store')->name('pessoa_juridica.store');
-    Route::put('pessoa_juridica/{id}', 'App\Http\Controllers\Api\PessoaJuridicaController@update')->name('pessoa_juridica.update');
-    Route::delete('pessoa_juridica/{id}', 'App\Http\Controllers\Api\PessoaJuridicaController@destroy')->name('pessoa_juridica.destroy');
-    Route::put('pessoa_juridica/{id}/status', 'App\Http\Controllers\Api\PessoaJuridicaController@updateStatus')->name('pessoa_juridica.update_status');
+    Route::get('pessoa_juridica', 'App\Http\Controllers\Api\PessoaJuridicaController@index')->name('pessoa_juridica.lista');
+    Route::get('pessoa_juridica/{id}', 'App\Http\Controllers\Api\PessoaJuridicaController@show')->name('pessoa_juridica.mostrar');
+    Route::post('pessoa_juridica', 'App\Http\Controllers\Api\PessoaJuridicaController@store')->name('pessoa_juridica.criar');
+    Route::put('pessoa_juridica/{id}', 'App\Http\Controllers\Api\PessoaJuridicaController@update')->name('pessoa_juridica.atualizar');
+    Route::delete('pessoa_juridica/{id}', 'App\Http\Controllers\Api\PessoaJuridicaController@destroy')->name('pessoa_juridica.excluir');
+    Route::put('pessoa_juridica/{id}/status', 'App\Http\Controllers\Api\PessoaJuridicaController@updateStatus')->name('pessoa_juridica.atualizar_status');
 
     // VEICULOS
-    Route::get('veiculo', 'App\Http\Controllers\Api\VeiculoController@index')->name('veiculo.index');
-    Route::get('veiculo/{id}', 'App\Http\Controllers\Api\VeiculoController@show')->name('veiculo.show');
-    Route::post('veiculo', 'App\Http\Controllers\Api\VeiculoController@store')->name('veiculo.store');
-    Route::put('veiculo/{id}', 'App\Http\Controllers\Api\VeiculoController@update')->name('veiculo.update');
-    Route::delete('veiculo/{id}', 'App\Http\Controllers\Api\VeiculoController@destroy')->name('veiculo.destroy');
-    Route::put('veiculo/{id}/status', 'App\Http\Controllers\Api\VeiculoController@updateStatus')->name('veiculo.update_status');
+    Route::get('veiculo', 'App\Http\Controllers\Api\VeiculoController@index')->name('veiculo.lista');
+    Route::get('veiculo/{id}', 'App\Http\Controllers\Api\VeiculoController@show')->name('veiculo.mostrar');
+    Route::post('veiculo', 'App\Http\Controllers\Api\VeiculoController@store')->name('veiculo.criar');
+    Route::put('veiculo/{id}', 'App\Http\Controllers\Api\VeiculoController@update')->name('veiculo.atualizar');
+    Route::delete('veiculo/{id}', 'App\Http\Controllers\Api\VeiculoController@destroy')->name('veiculo.excluir');
+    Route::put('veiculo/{id}/status', 'App\Http\Controllers\Api\VeiculoController@updateStatus')->name('veiculo.atualizar_status');
 
     // ESTAGIOS OS
-    Route::get('estagio_os', 'App\Http\Controllers\Api\EstagiosOsController@index')->name('estagio_os.index');
-    Route::get('estagio_os/{id}', 'App\Http\Controllers\Api\EstagiosOsController@show')->name('estagio_os.show');
-    Route::post('estagio_os', 'App\Http\Controllers\Api\EstagiosOsController@store')->name('estagio_os.store');
-    Route::put('estagio_os/{id}', 'App\Http\Controllers\Api\EstagiosOsController@update')->name('estagio_os.update');
-    Route::delete('estagio_os/{id}', 'App\Http\Controllers\Api\EstagiosOsController@destroy')->name('estagio_os.destroy');
+    Route::get('estagio_os', 'App\Http\Controllers\Api\EstagiosOsController@index')->name('estagio_os.lista');
+    Route::get('estagio_os/{id}', 'App\Http\Controllers\Api\EstagiosOsController@show')->name('estagio_os.mostrar');
+    Route::post('estagio_os', 'App\Http\Controllers\Api\EstagiosOsController@store')->name('estagio_os.criar');
+    Route::put('estagio_os/{id}', 'App\Http\Controllers\Api\EstagiosOsController@update')->name('estagio_os.atualizar');
+    Route::delete('estagio_os/{id}', 'App\Http\Controllers\Api\EstagiosOsController@destroy')->name('estagio_os.excluir');
 
     // TIPO CLASSES DE SUCATAS
-    Route::get('classe_sucata', 'App\Http\Controllers\Api\ClasseSucataController@index')->name('classe_sucata.index');
-    Route::get('classe_sucata/{id}', 'App\Http\Controllers\Api\ClasseSucataController@show')->name('classe_sucata.show');
-    Route::post('classe_sucata', 'App\Http\Controllers\Api\ClasseSucataController@store')->name('classe_sucata.store');
-    Route::put('classe_sucata/{id}', 'App\Http\Controllers\Api\ClasseSucataController@update')->name('classe_sucata.update');
-    Route::delete('classe_sucata/{id}', 'App\Http\Controllers\Api\ClasseSucataController@destroy')->name('classe_sucata.destroy');
+    Route::get('classe_sucata', 'App\Http\Controllers\Api\ClasseSucataController@index')->name('classe_sucata.lista');
+    Route::get('classe_sucata/{id}', 'App\Http\Controllers\Api\ClasseSucataController@show')->name('classe_sucata.mostrar');
+    Route::post('classe_sucata', 'App\Http\Controllers\Api\ClasseSucataController@store')->name('classe_sucata.criar');
+    Route::put('classe_sucata/{id}', 'App\Http\Controllers\Api\ClasseSucataController@update')->name('classe_sucata.atualizar');
+    Route::delete('classe_sucata/{id}', 'App\Http\Controllers\Api\ClasseSucataController@destroy')->name('classe_sucata.excluir');
 
     // TIPO CLASSE DE MATERIAIS
-    Route::get('tipo_materiais', 'App\Http\Controllers\Api\TipoMaterialController@index')->name('tipo_materiais.index');
-    Route::get('tipo_materiais/{id}', 'App\Http\Controllers\Api\TipoMaterialController@show')->name('tipo_materiais.show');
-    Route::post('tipo_materiais', 'App\Http\Controllers\Api\TipoMaterialController@store')->name('tipo_materiais.store');
-    Route::put('tipo_materiais/{id}', 'App\Http\Controllers\Api\TipoMaterialController@update')->name('tipo_materiais.update');
-    Route::delete('tipo_materiais/{id}', 'App\Http\Controllers\Api\TipoMaterialController@destroy')->name('tipo_materiais.destroy');
+    Route::get('tipo_materiais', 'App\Http\Controllers\Api\TipoMaterialController@index')->name('tipo_materiais.lista');
+    Route::get('tipo_materiais/{id}', 'App\Http\Controllers\Api\TipoMaterialController@show')->name('tipo_materiais.mostrar');
+    Route::post('tipo_materiais', 'App\Http\Controllers\Api\TipoMaterialController@store')->name('tipo_materiais.criar');
+    Route::put('tipo_materiais/{id}', 'App\Http\Controllers\Api\TipoMaterialController@update')->name('tipo_materiais.atualizar');
+    Route::delete('tipo_materiais/{id}', 'App\Http\Controllers\Api\TipoMaterialController@destroy')->name('tipo_materiais.excluir');
 
     // OS 
-    Route::get('os', 'App\Http\Controllers\Api\OrdenDeServicoController@index')->name('os.index');
-    Route::get('os/{id}', 'App\Http\Controllers\Api\OrdenDeServicoController@show')->name('os.show');
-    Route::post('os', 'App\Http\Controllers\Api\OrdenDeServicoController@store')->name('os.store');
-    Route::put('os/{id}', 'App\Http\Controllers\Api\OrdenDeServicoController@update')->name('os.update');
-    Route::delete('os/{id}', 'App\Http\Controllers\Api\OrdenDeServicoController@destroy')->name('os.destroy');
+    Route::get('os', 'App\Http\Controllers\Api\OrdenDeServicoController@index')->name('os.lista');
+    Route::get('os/{id}', 'App\Http\Controllers\Api\OrdenDeServicoController@show')->name('os.mostrar');
+    Route::post('os', 'App\Http\Controllers\Api\OrdenDeServicoController@store')->name('os.criar');
+    Route::put('os/{id}', 'App\Http\Controllers\Api\OrdenDeServicoController@update')->name('os.atualizar');
+    Route::delete('os/{id}', 'App\Http\Controllers\Api\OrdenDeServicoController@destroy')->name('os.excluir');
 
     // TIPO EMPRESA
-    Route::get('tipo_empresa', 'App\Http\Controllers\Api\TipoEmpresaController@index')->name('tipo_empresa.index');
-    Route::get('tipo_empresa/{id}', 'App\Http\Controllers\Api\TipoEmpresaController@show')->name('tipo_empresa.show');
-    Route::post('tipo_empresa', 'App\Http\Controllers\Api\TipoEmpresaController@store')->name('tipo_empresa.store');
-    Route::put('tipo_empresa/{id}', 'App\Http\Controllers\Api\TipoEmpresaController@update')->name('tipo_empresa.update');
-    Route::delete('tipo_empresa/{id}', 'App\Http\Controllers\Api\TipoEmpresaController@destroy')->name('tipo_empresa.destroy');
-    Route::put('tipo_empresa/{id}/status', 'App\Http\Controllers\Api\TipoEmpresaController@updateStatus')->name('tipo_empresa.update_status');
+    Route::get('tipo_empresa', 'App\Http\Controllers\Api\TipoEmpresaController@index')->name('tipo_empresa.lista');
+    Route::get('tipo_empresa/{id}', 'App\Http\Controllers\Api\TipoEmpresaController@show')->name('tipo_empresa.mostrar');
+    Route::post('tipo_empresa', 'App\Http\Controllers\Api\TipoEmpresaController@store')->name('tipo_empresa.criar');
+    Route::put('tipo_empresa/{id}', 'App\Http\Controllers\Api\TipoEmpresaController@update')->name('tipo_empresa.atualizar');
+    Route::delete('tipo_empresa/{id}', 'App\Http\Controllers\Api\TipoEmpresaController@destroy')->name('tipo_empresa.excluir');
+    Route::put('tipo_empresa/{id}/status', 'App\Http\Controllers\Api\TipoEmpresaController@updateStatus')->name('tipo_empresa.atualizar_status');
     
     // PRODUTO
     Route::get('produto', 'App\Http\Controllers\Api\ProdutoController@index')->name('produto.index');
-    Route::get('produto/{id}', 'App\Http\Controllers\Api\ProdutoController@show')->name('produto.show');
-    Route::post('produto', 'App\Http\Controllers\Api\ProdutoController@store')->name('produto.store');
-    Route::put('produto/{id}', 'App\Http\Controllers\Api\ProdutoController@update')->name('produto.update');
-    Route::delete('produto/{id}', 'App\Http\Controllers\Api\ProdutoController@destroy')->name('produto.destroy');
-    Route::put('produto/{id}/status', 'App\Http\Controllers\Api\ProdutoController@updateStatus')->name('produto.update_status');
+    Route::get('produto/{id}', 'App\Http\Controllers\Api\ProdutoController@show')->name('produto.mostrar');
+    Route::post('produto', 'App\Http\Controllers\Api\ProdutoController@store')->name('produto.criar');
+    Route::put('produto/{id}', 'App\Http\Controllers\Api\ProdutoController@update')->name('produto.atualizar');
+    Route::delete('produto/{id}', 'App\Http\Controllers\Api\ProdutoController@destroy')->name('produto.excluir');
+    Route::put('produto/{id}/status', 'App\Http\Controllers\Api\ProdutoController@updateStatus')->name('produto.atualizar_status');
 
     // MATERIAL
     Route::get('material', 'App\Http\Controllers\Api\MateriaisController@index')->name('material.index');
-    Route::get('material/{id}', 'App\Http\Controllers\Api\MateriaisController@show')->name('material.show');
-    Route::post('material', 'App\Http\Controllers\Api\MateriaisController@store')->name('material.store');
-    Route::put('material/{id}', 'App\Http\Controllers\Api\MateriaisController@update')->name('material.update');
-    Route::delete('material/{id}', 'App\Http\Controllers\Api\MateriaisController@destroy')->name('material.destroy');
-    Route::put('material/{id}/status', 'App\Http\Controllers\Api\MateriaisController@updateStatus')->name('material.update_status');
+    Route::get('material/{id}', 'App\Http\Controllers\Api\MateriaisController@show')->name('material.mostrar');
+    Route::post('material', 'App\Http\Controllers\Api\MateriaisController@store')->name('material.criar');
+    Route::put('material/{id}', 'App\Http\Controllers\Api\MateriaisController@update')->name('material.atualizar');
+    Route::delete('material/{id}', 'App\Http\Controllers\Api\MateriaisController@destroy')->name('material.excluir');
+    Route::put('material/{id}/status', 'App\Http\Controllers\Api\MateriaisController@updateStatus')->name('material.atualizar_status');
 
     // IBAMA
-    Route::get('ibama', 'App\Http\Controllers\Api\IbamaController@index')->name('ibama.index');
-    Route::get('ibama/{id}', 'App\Http\Controllers\Api\IbamaController@show')->name('ibama.show');
-    Route::post('ibama', 'App\Http\Controllers\Api\IbamaController@store')->name('ibama.store');
-    Route::put('ibama/{id}', 'App\Http\Controllers\Api\IbamaController@update')->name('ibama.update');
-    Route::delete('ibama/{id}', 'App\Http\Controllers\Api\IbamaController@destroy')->name('ibama.destroy');
+    Route::get('ibama', 'App\Http\Controllers\Api\IbamaController@index')->name('ibama.lista');
+    Route::get('ibama/{id}', 'App\Http\Controllers\Api\IbamaController@show')->name('ibama.mostrar');
+    Route::post('ibama', 'App\Http\Controllers\Api\IbamaController@store')->name('ibama.criar');
+    Route::put('ibama/{id}', 'App\Http\Controllers\Api\IbamaController@update')->name('ibama.atualizar');
+    Route::delete('ibama/{id}', 'App\Http\Controllers\Api\IbamaController@destroy')->name('ibama.excluir');
 
     //GEOLOCALIZAÇÃO
     Route::get('geo', 'App\Http\Controllers\Api\GeoCepController@index')->name('geo.index');

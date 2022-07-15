@@ -26,7 +26,7 @@
             </p>
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
-            <a class="dropdown-item" href="{{ route('configuracoes.profile') }}">
+            <a class="dropdown-item" href="{{ route('configuracoes.perfil') }}">
               {{ Auth::user()->pessoa_juridica ? Auth::user()->pessoa_juridica->nome_fantasia.":" : '' }}
               {{ Auth::user()->name }}
               {{ Auth::user()->roles ? "[".Auth::user()->roles->filter(function ($roles) { return $roles->guard_name == 'web'; })->first()->name."]" : '' }}
