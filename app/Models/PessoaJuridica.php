@@ -60,6 +60,7 @@ class PessoaJuridica extends Model
     {
         return $this->hasOne('App\Models\TipoEmpresa', 'id', 'tipo_empresa_id');
     }
+
     public function atividade()
     {
         return $this->hasOne('App\Models\Atividade', 'id', 'atividade_id');

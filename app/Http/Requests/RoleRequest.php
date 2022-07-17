@@ -19,7 +19,6 @@ class RoleRequest extends FormRequest
         $id = $this->id;
         $newGuardName = $this->guard_name;
         return [
-            // 'name' => 'required|string|max:255|unique:roles,name,'.$this->id,
             'name' => [
                 'required',
                 'string',
