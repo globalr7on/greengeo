@@ -16,25 +16,25 @@ Route::middleware(['auth:api', 'permission'])->group(function() {
     Route::put('profile', 'App\Http\Controllers\Api\ProfileController@update')->name('profile.atualizar');
 
     // USERS
-    Route::get('users', 'App\Http\Controllers\Api\UserController@index')->name('users.index');
-    Route::get('users/{id}', 'App\Http\Controllers\Api\UserController@show')->name('users.show');
-    Route::post('users', 'App\Http\Controllers\Api\UserController@store')->name('users.store');
-    Route::put('users/{id}', 'App\Http\Controllers\Api\UserController@update')->name('users.update');
-    Route::delete('users/{id}', 'App\Http\Controllers\Api\UserController@destroy')->name('users.destroy');
+    Route::get('users', 'App\Http\Controllers\Api\UserController@index')->name('usuarios.lista');
+    Route::get('users/{id}', 'App\Http\Controllers\Api\UserController@show')->name('usuarios.mostrar');
+    Route::post('users', 'App\Http\Controllers\Api\UserController@store')->name('usuarios.criar');
+    Route::put('users/{id}', 'App\Http\Controllers\Api\UserController@update')->name('usuarios.atualizar');
+    Route::delete('users/{id}', 'App\Http\Controllers\Api\UserController@destroy')->name('usuarios.excluir');
 
     // ROLES
-    Route::get('roles', 'App\Http\Controllers\Api\RoleController@index')->name('roles.index');
-    Route::get('roles/{id}', 'App\Http\Controllers\Api\RoleController@show')->name('roles.show');
-    Route::post('roles', 'App\Http\Controllers\Api\RoleController@store')->name('roles.store');
-    Route::put('roles/{id}', 'App\Http\Controllers\Api\RoleController@update')->name('roles.update');
-    Route::delete('roles/{id}', 'App\Http\Controllers\Api\RoleController@destroy')->name('roles.destroy');
+    Route::get('roles', 'App\Http\Controllers\Api\RoleController@index')->name('funcoes.lista');
+    Route::get('roles/{id}', 'App\Http\Controllers\Api\RoleController@show')->name('funcoes.mostrar');
+    Route::post('roles', 'App\Http\Controllers\Api\RoleController@store')->name('funcoes.criar');
+    Route::put('roles/{id}', 'App\Http\Controllers\Api\RoleController@update')->name('funcoes.atualizar');
+    Route::delete('roles/{id}', 'App\Http\Controllers\Api\RoleController@destroy')->name('funcoes.excluir');
 
     // PERMISSIONS
-    Route::get('permissions', 'App\Http\Controllers\Api\PermissionController@index')->name('permissions.index');
-    Route::get('permissions/{id}', 'App\Http\Controllers\Api\PermissionController@show')->name('permissions.show');
-    Route::post('permissions', 'App\Http\Controllers\Api\PermissionController@store')->name('permissions.store');
-    Route::put('permissions/{id}', 'App\Http\Controllers\Api\PermissionController@update')->name('permissions.update');
-    Route::delete('permissions/{id}', 'App\Http\Controllers\Api\PermissionController@destroy')->name('permissions.destroy');
+    Route::get('permissions', 'App\Http\Controllers\Api\PermissionController@index')->name('permissoes.lista');
+    Route::get('permissions/{id}', 'App\Http\Controllers\Api\PermissionController@show')->name('permissoes.mostrar');
+    Route::post('permissions', 'App\Http\Controllers\Api\PermissionController@store')->name('permissoes.criar');
+    Route::put('permissions/{id}', 'App\Http\Controllers\Api\PermissionController@update')->name('permissoes.atualizar');
+    Route::delete('permissions/{id}', 'App\Http\Controllers\Api\PermissionController@destroy')->name('permissoes.excluir');
 
     // ACONDICIONAMENTO
     Route::get('acondicionamento', 'App\Http\Controllers\Api\AcondicionamentoController@index')->name('acondicionamento.lista');
@@ -128,7 +128,7 @@ Route::middleware(['auth:api', 'permission'])->group(function() {
     Route::put('os/{id}', 'App\Http\Controllers\Api\OrdenDeServicoController@update')->name('os.atualizar');
     Route::delete('os/{id}', 'App\Http\Controllers\Api\OrdenDeServicoController@destroy')->name('os.excluir');
 
-    // Notas Fiscais 
+    // NOTAS FISCAIS
     Route::get('nota_fiscais', 'App\Http\Controllers\Api\NotaFiscalController@index')->name('nota.lista');
     Route::get('nota_fiscais/{id}', 'App\Http\Controllers\Api\NotaFiscalController@show')->name('nota.mostrar');
     Route::post('nota_fiscais', 'App\Http\Controllers\Api\NotaFiscalController@store')->name('nota.criar');
@@ -144,7 +144,7 @@ Route::middleware(['auth:api', 'permission'])->group(function() {
     Route::put('tipo_empresa/{id}/status', 'App\Http\Controllers\Api\TipoEmpresaController@updateStatus')->name('tipo_empresa.atualizar_status');
     
     // PRODUTO
-    Route::get('produto', 'App\Http\Controllers\Api\ProdutoController@index')->name('produto.index');
+    Route::get('produto', 'App\Http\Controllers\Api\ProdutoController@index')->name('produto.lista');
     Route::get('produto/{id}', 'App\Http\Controllers\Api\ProdutoController@show')->name('produto.mostrar');
     Route::post('produto', 'App\Http\Controllers\Api\ProdutoController@store')->name('produto.criar');
     Route::put('produto/{id}', 'App\Http\Controllers\Api\ProdutoController@update')->name('produto.atualizar');
@@ -152,7 +152,7 @@ Route::middleware(['auth:api', 'permission'])->group(function() {
     Route::put('produto/{id}/status', 'App\Http\Controllers\Api\ProdutoController@updateStatus')->name('produto.atualizar_status');
 
     // MATERIAL
-    Route::get('material', 'App\Http\Controllers\Api\MateriaisController@index')->name('material.index');
+    Route::get('material', 'App\Http\Controllers\Api\MateriaisController@index')->name('material.lista');
     Route::get('material/{id}', 'App\Http\Controllers\Api\MateriaisController@show')->name('material.mostrar');
     Route::post('material', 'App\Http\Controllers\Api\MateriaisController@store')->name('material.criar');
     Route::put('material/{id}', 'App\Http\Controllers\Api\MateriaisController@update')->name('material.atualizar');
@@ -167,5 +167,5 @@ Route::middleware(['auth:api', 'permission'])->group(function() {
     Route::delete('ibama/{id}', 'App\Http\Controllers\Api\IbamaController@destroy')->name('ibama.excluir');
 
     //GEOLOCALIZAÇÃO
-    Route::get('geo', 'App\Http\Controllers\Api\GeoCepController@index')->name('geo.index');
+    Route::get('geo', 'App\Http\Controllers\Api\GeoCepController@index')->name('geo.lista');
 });

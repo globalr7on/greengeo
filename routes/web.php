@@ -14,8 +14,6 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 |
 */
 
-
-
 Auth::routes(['verify' => true]);
 
 // Route::get('/email/verify', function () {
@@ -73,4 +71,3 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
 	Route::get('configuracoes/roles', 'App\Http\Controllers\RolesController@index')->name('configuracoes.funcoes');
 	Route::get('configuracoes/permissions', 'App\Http\Controllers\PermissionsController@index')->name('configuracoes.permissoes');
 });
-

@@ -270,7 +270,8 @@
         </div> 
       </li>
       @endcanany
-      @can('home')
+
+      @can('logout')
       <li class="nav-item">
         <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
           <i class="fa-solid fa-right-from-bracket"></i>
