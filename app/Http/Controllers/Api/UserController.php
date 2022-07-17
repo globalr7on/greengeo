@@ -13,7 +13,7 @@ use Validator;
 use Hash;
 use Mail;
 use Str;
-use Illuminate\Auth\Events\Registered;
+// use Illuminate\Auth\Events\Registered;
 
 
 class UserController extends Controller
@@ -140,7 +140,7 @@ class UserController extends Controller
         $email = $user->email;
         $password = $request->password;
         
-        event(new Registered($user));
+        // event(new Registered($user));
 
         $mailable = new ActivationReceived($cpf, $name, $email, $password);
         Mail::to($email)->send(new ActivationReceived($cpf, $name, $email, $password ));

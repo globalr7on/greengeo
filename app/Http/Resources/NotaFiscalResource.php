@@ -14,6 +14,13 @@ class NotaFiscalResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'numero_total' => $this->numero_total,
+            'serie' => $this->serie,
+            'folha' => $this->folha,
+            'chave_de_acesso' => $this->chave_de_acesso,
+            'pessoa_juridica_id' => $this->pessoa_juridica_id,
+        ];
     }
 }

@@ -39,7 +39,8 @@ class NotaFiscalController extends Controller
 
 
         // dd($nota, $serie, $emisao, $saida, $cnpj, $nome, $empresa, $endereco, $numero, $cep, $fone, $produto,$ean);
-        return view('rastreamento.notaFiscal', compact('nota','serie','emicao','saida', 'cnpj'));
+        // return view('rastreamento.notaFiscal', compact('nota','serie','emicao','saida', 'cnpj'));
+        return view('rastreamento.nota.index', compact('nota','serie','emicao','saida', 'cnpj'));
     }
 
     /**

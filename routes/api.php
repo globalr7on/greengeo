@@ -133,6 +133,16 @@ Route::middleware(['auth:api', 'permission'])->group(function(){
     Route::put('os/{id}', 'App\Http\Controllers\Api\OrdenDeServicoController@update')->name('os.atualizar');
     Route::delete('os/{id}', 'App\Http\Controllers\Api\OrdenDeServicoController@destroy')->name('os.excluir');
 
+     // Notas Fiscais 
+    Route::get('nota_fiscais', 'App\Http\Controllers\Api\NotaFiscalController@index')->name('nota.lista');
+    Route::get('nota_fiscais/{id}', 'App\Http\Controllers\Api\NotaFiscalController@show')->name('nota.mostrar');
+    Route::post('nota_fiscais', 'App\Http\Controllers\Api\NotaFiscalController@store')->name('nota.criar');
+    Route::put('nota_fiscais/{id}', 'App\Http\Controllers\Api\NotaFiscalController@update')->name('nota.atualizar');
+    Route::delete('nota_fiscais/{id}', 'App\Http\Controllers\Api\NotaFiscalController@destroy')->name('nota.excluir');
+
+     // Notas Itens Fiscais 
+    Route::get('iten_fiscais', 'App\Http\Controllers\Api\NotaFiscalController@index')->name('iten.lista');
+
     // TIPO EMPRESA
     Route::get('tipo_empresa', 'App\Http\Controllers\Api\TipoEmpresaController@index')->name('tipo_empresa.lista');
     Route::get('tipo_empresa/{id}', 'App\Http\Controllers\Api\TipoEmpresaController@show')->name('tipo_empresa.mostrar');
