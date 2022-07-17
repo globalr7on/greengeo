@@ -27,14 +27,17 @@ class Material extends Model
     {
         return $this->belongsToMany('App\Models\Produto', 'material_produto')->withPivot('peso_bruto', 'peso_liquido', 'percentual_composicao');
     }
+
     public function gerador()
     {
         return $this->hasOne('App\Models\PessoaJuridica', 'id', 'gerador_id');
     }
+
     public function tipo_material()
     {
         return $this->hasOne('App\Models\TipoMaterial', 'id', 'tipo_material_id');
     }
+
     public function unidade()
     {
         return $this->hasOne('App\Models\Unidade', 'id', 'unidade_id');
@@ -44,6 +47,4 @@ class Material extends Model
     {
         return $this->hasOne('App\Models\Ibama', 'id', 'ibama_id');
     }
-    
-
 }

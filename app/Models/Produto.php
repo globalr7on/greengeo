@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -39,17 +38,4 @@ class Produto extends Model
     {
         return $this->hasOne('App\Models\PessoaJuridica', 'id', 'pessoa_juridica_id');
     }
-
-
-    // public function user()
-    // {
-    //     return $this->belongsTo('App\Models\User', 'usuario_responsavel_cadastro_id', 'id');
-    // }
-
-    // public function veiculo()
-    // {
-    //     return $this->belongsTo('App\Models\Veiculo');
-    // }
-
-     
 }

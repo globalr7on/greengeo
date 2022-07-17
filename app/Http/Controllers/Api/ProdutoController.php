@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProdutoRequest;
 use App\Http\Resources\ProdutoResource;
 use App\Models\Produto;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 
 class ProdutoController extends Controller
 {
@@ -34,7 +33,19 @@ class ProdutoController extends Controller
      */
     public function store(ProdutoRequest $request)
     {
-        $produto = Produto::create($request->all());
+        DB::beginTransaction();
+        try {
+            $produto = Produto::create($request->except('materiais'));
+            $produto->materiais()->attach($request->get('materiais'));
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response([
+                'data' => $e->getMessage(),
+                'status' => false
+            ], 400);
+        }
+
         return response([
             'data' => new ProdutoResource($produto),
             'status' => true
@@ -65,9 +76,20 @@ class ProdutoController extends Controller
      */
     public function update(ProdutoRequest $request, $id)
     {
-       
-        $produto = Produto::find($id);
-        $produto->update($request->all());
+        DB::beginTransaction();
+        try {
+            $produto = Produto::find($id);
+            $produto->update($request->except('materiais'));
+            $produto->materiais()->sync($request->get('materiais'));
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response([
+                'data' => $e->getMessage(),
+                'status' => false
+            ], 400);
+        }
+
         return response([
             'data' => new ProdutoResource($produto),
             'status' => true

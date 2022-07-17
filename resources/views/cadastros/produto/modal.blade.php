@@ -80,7 +80,7 @@
                 </div>
 
                 <div class="row mx-0">
-                  <button class="btn btn-warning">Itens</button>
+                  <!-- <button class="btn btn-warning" id="addMaterials">Materiais</button> -->
                   <button class="btn btn-primary stepper-next">Próximo</button>
                 </div>
               </div>
@@ -117,7 +117,7 @@
                 </div>
 
                 <div class="row mx-0">
-                  <button class="btn btn-warning">Itens</button>
+                  <button class="btn btn-warning" id="addMaterials">Materiais</button>
                   <button class="btn btn-primary stepper-prev">Anterior</button>
                   <button class="btn btn-primary" id="salvarProduto">Salvar</button>
                 </div>
@@ -130,9 +130,92 @@
   </div>
 </div>
 
+<div class="modal fade" id="modalProdutoMaterials" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-left" id="tituloModal">Materiais</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <form id="formMaterials" class="mb-0">
+              <div class="form-row mx-0 mb-4">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <input type="hidden" id="input_position">
+                    <select name="materiais" id="materiais" style="width: 100%">
+                      <option></option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="form-row mx-0 mb-4">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="input_peso_bruto">Peso Bruto</label>
+                    <input type="text" class="form-control" id="input_peso_bruto">
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="input_peso_liquido">Peso Liquido</label>
+                    <input type="text" class="form-control" id="input_peso_liquido">
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="input_percentual_composicao">Percentual Composicao</label>
+                    <input type="text" class="form-control" id="input_percentual_composicao">
+                  </div>
+                </div>
+
+                <div class="col-md-3 text-center">
+                  <button type="button" class="btn btn-primary" id="addMaterial">Novo material</button>
+                </div>
+              </div>
+
+              <div class="form-row mx-0 mb-4">
+                <div class="col-md-12">
+                  <div class="form-group m-0 p-0">
+                    <table class="table" id="materiaisTbl">
+                      <thead>
+                        <th class="text-primary font-weight-bold text-center">#</th>
+                        <th class="text-primary font-weight-bold">Material</th>
+                        <th class="text-primary font-weight-bold text-center">P. Bruto</th>
+                        <th class="text-primary font-weight-bold text-center">P. Liquido</th>
+                        <th class="text-primary font-weight-bold text-center">Percentual Comp.</th>
+                        <th class="text-primary font-weight-bold text-center">Ação</th>
+                      </thead>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row mx-0">
+                <button type="button" class="btn btn-primary" id="salvarMateriais">Salvar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 @push('js')
   <script>
     $('#formProduto').submit(function(event) {
+      event.preventDefault()
+    })
+    $('#formMaterials').submit(function(event) {
       event.preventDefault()
     })
   </script>
