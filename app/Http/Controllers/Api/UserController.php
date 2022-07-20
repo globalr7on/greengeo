@@ -132,7 +132,7 @@ class UserController extends Controller
         }
 
         // event(new Registered($user));
-        Mail::to($email)->send(new ActivationReceived($user->cpf, $user->name, $user->email, $request->password));
+        Mail::to($user->email)->send(new ActivationReceived($user->cpf, $user->name, $user->email, $request->password));
 
         return response([
             'data' => new UserResource($user),

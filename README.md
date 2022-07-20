@@ -6,7 +6,7 @@ Startup
 
 
     Passo 2 Manual cache resest (Permissions)
-        php artisan permission:cache-reset
+        
 
     Passo 3 Laravel/Passport
         php artisan migrate

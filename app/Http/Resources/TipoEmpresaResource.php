@@ -19,5 +19,6 @@ class TipoEmpresaResource extends JsonResource
             'descricao' => $this->descricao,
             'ativo' => $this->ativo,
         ];
+   
     }
 }

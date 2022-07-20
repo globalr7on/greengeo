@@ -45,7 +45,7 @@
 @push('js')
   <script>
     $(document).ready(function () {
-      const empresaId = "{{ Auth::user()->pessoa_juridica_id }}" || null
+      // const empresaId = "{{ Auth::user()->pessoa_juridica_id }}" || null
       let app = new App({
         apiUrl: '/api/material',
         apiDataTableColumns: [

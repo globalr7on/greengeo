@@ -41,7 +41,7 @@ class PermissionMiddleware
         if ($request->is('api/*')) {
             return Response([
                 'status' => false,
-                'data' => 'User does not have the right permissions.'
+                'data' => 'O usuário não tem as permissões corretas.'
             ], 403);
         }
 

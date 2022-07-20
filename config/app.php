@@ -233,4 +233,5 @@ return [
 
     ],
 
+    'rastreamento' => env('RASTREAMENTO', '')
 ];

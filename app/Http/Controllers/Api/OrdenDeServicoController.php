@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Http;
 use App\Http\Requests\OrdenDeServicoRequest;
 use App\Http\Resources\OrdenDeServicoResource;
 use App\Models\OrdensServicos;
+use App\Models\PessoaJuridica;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 
@@ -35,27 +36,29 @@ class OrdenDeServicoController extends Controller
      public function store(OrdenDeServicoRequest $request)
     {
         try {
-            $newOrdenDeServico = new OrdenDeServicoResource(OrdensServicos::create($request->all()));
+            $newOrdenDeServico = OrdensServicos::create($request->all());
+            
             try {
-                $responseRastreo = Http::post(env('RASTREAMENTO').'coordenada/create', [
+                $responseRastreo = Http::post(config('app.rastreamento').'coordenada/create', [
                     "codigo_coordenada" => $newOrdenDeServico->id,
                     "gerador" => [
                         "id" => $newOrdenDeServico->gerador_id,
-                        "latitude" => $newOrdenDeServico->gerador_coord ? $newOrdenDeServico->gerador_coord->lat : null,
-                        "longitude" => $newOrdenDeServico->gerador_coord ? $newOrdenDeServico->gerador_coord->lng : null,
+                        "latitude" => $newOrdenDeServico->gerador ? $newOrdenDeServico->gerador->latitude : null,
+                        "longitude" => $newOrdenDeServico->gerador ? $newOrdenDeServico->gerador->longitude : null,
                     ],
                     "destinador" => [
                         "id" => $newOrdenDeServico->destinador_id,
-                        "latitude" => $newOrdenDeServico->destinador_coord ? $newOrdenDeServico->destinador_coord->lat : null,
-                        "longitude" => $newOrdenDeServico->destinador_coord ? $newOrdenDeServico->destinador_coord->lng : null,
+                        "latitude" => $newOrdenDeServico->destinador ? $newOrdenDeServico->destinador->latitude : null,
+                        "longitude" => $newOrdenDeServico->destinador ? $newOrdenDeServico->destinador->longitude : null,
                     ]
                 ]);
+
             } catch(Exception $e) {
                 echo 'Error Message: ' .$e->getMessage();
             }
 
             return response([
-                'data' =>  $newOrdenDeServico,
+                'data' => new OrdenDeServicoResource($newOrdenDeServico),
                 'status' => true
             ], 200);
         } catch(Exception $error) {

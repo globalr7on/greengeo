@@ -18,6 +18,7 @@ class AcondicionamentoController extends Controller
      */
     public function index(Request $request)
     {
+        
         $acondicionamento = Acondicionamento::all();
       
          return response([

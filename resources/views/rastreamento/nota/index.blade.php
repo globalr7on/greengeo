@@ -22,28 +22,12 @@
                 <table class="table" id="nfiscalTbl">
                   <thead>
                     <tr>
-                      {{-- <th class="text-primary font-weight-bold">Tipo</th>
-                      <th class="text-primary font-weight-bold">CNPJ</th> --}}
                       <th class="text-primary font-weight-bold">Número</th>
                       <th class="text-primary font-weight-bold">Série</th>
                       <th class="text-primary font-weight-bold">Folha</th>
-                      <th class="text-primary font-weight-bold text-center">Chave de Acesso</th>
                       <th class="text-primary font-weight-bold">Ação</th>
                     </tr>
                   </thead>
-                  {{-- <tbody>
-                    <tr>
-                      <td class="text-center">P.J</td>
-                      <td>{{$cnpj}}</td>
-                      <td>000.001.249</td>
-                      <td>{{$serie}}</td>
-                      <td> 1/1</td>
-                      <td class="text-center">4220 1009 3789 2500 0145 5500 2000 0010 4910 0001 0554</td>
-                      <td></td>
-                    </tr>
-                  
-                   
-                  </tbody> --}}
                 </table>
               </div>
             </div>
@@ -65,7 +49,7 @@
           { data: "numero_total" },
           { data: "serie" },
           { data: "folha" },
-          { data: "chave_de_acesso" },
+          
         ],
         apiDataTableColumnsDefs : [
           // { targets: 1, orderable: false },
@@ -73,7 +57,7 @@
           // { width: "200px", targets: [2,3,4,5,6,7,8,9,10,11,12,13,24,25] },
           // { width: "100px", targets: [14,15,16,17,18,20,21,22,23] },
           { 
-            targets : 4,
+            targets : 3,
             className: "text-center",
             render : function (data, type, row) {
               return `
@@ -169,7 +153,7 @@
           if (confirmed) {
             app.api.delete(`/nota_fiscais/${id}`).then(response =>  {
               app.datatable.ajax.reload()
-              notifySuccess('os excluída com sucesso')
+              notifySuccess('excluído com sucesso')
             })
             .catch(error => notifyDanger('Falha ao excluir. Tente novamente'))
           }

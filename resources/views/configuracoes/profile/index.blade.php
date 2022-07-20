@@ -186,14 +186,14 @@
                   <div class="row mx-0">
                     <div class="col-md-3">
                       <div class="form-group">
-                        <label for="input_role_web" class="display-inherit mb-0">Funçõe Web</label>
+                        <label for="input_role_web" class="display-inherit mb-0">Função Web Acesso</label>
                         <select data-style="btn-warning text-white" title="Select" name="role_web" id="input_role_web"></select>
                       </div>
                     </div>
 
                     <div class="col-md-3">
                       <div class="form-group">
-                        <label for="input_role_api" class="display-inherit mb-0">Funçõe Api</label>
+                        <label for="input_role_api" class="display-inherit mb-0">Função de Usuario</label>
                         <select data-style="btn-warning text-white" title="Select" name="role_api" id="input_role_api"></select>
                       </div>
                     </div>

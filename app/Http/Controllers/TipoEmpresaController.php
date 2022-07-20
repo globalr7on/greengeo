@@ -16,4 +16,5 @@ class TipoEmpresaController extends Controller
     {
         return view('administrativo.tipoEmpresa.index');
     }
+
 }

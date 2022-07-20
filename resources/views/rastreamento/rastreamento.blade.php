@@ -8,6 +8,9 @@
   <div class="content">
     <div class="container-fluid">
       <div class="col-12 text-right">
+        <button type="button" class="btn btn-primary" id="novoFiltro">
+          Filtrar pesquisa 
+        </button>
         <button type="button" class="btn btn-primary" id="novoSearch">
           Mostrar OS
         </button>
@@ -79,6 +82,7 @@
 
 @push('js')
 <script>
+
   // Inicialização do mapa
   var map = L.map('map').setView([-25.441105, -49.276855], 12);
   //OMS LAyer 
@@ -88,8 +92,8 @@
   osm.addTo(map);
 
   var truckIcon = L.icon({
-    iconUrl: "{{ asset('material') }}/img/truck.png",
-    iconSize: [40,15]
+    iconUrl: "{{ asset('material') }}/img/green_truck.png",
+    iconSize: [35,25]
   })
 
   var marker = L.marker([-25.441105, -49.276855], {icon:truckIcon}).addTo(map);
@@ -111,7 +115,11 @@
   }
 
   let app = new App({})
-     
+ 
+  $('body').on('click', '#novoFiltro', function() {
+     $("#modalMapaSearch").modal("show")
+     $('#tituloModal').text("Nova Pesquisa");
+  });
   $('body').on('click', '#novoSearch', function() {
    getOsMap()
   });

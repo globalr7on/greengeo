@@ -16,4 +16,5 @@ class TipoMaterialController extends Controller
     {
         return view('administrativo.tipoMaterial.index');
     }
+
 }

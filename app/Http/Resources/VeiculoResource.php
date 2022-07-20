@@ -14,7 +14,7 @@ class VeiculoResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
+         return [
             'id' => $this->id,
             'chassis' => $this->chassis,
             'placa' => $this->placa,

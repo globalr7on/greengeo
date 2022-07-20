@@ -22,28 +22,33 @@
               <div class="tab-pane active" id="nota">
                 <form id="formNota"> 
                   <div class="form-row">
-                    <div class="form-group col-md-6 px-4">
+                    <div class="form-group col-md-6">
                        <input type="hidden" id="input_id">
                       <label for="input_pessoa_juridica_id" class="display-inherit mb-0">Empresa</label>
                       <select id="input_pessoa_juridica_id" data-style="btn-warning text-white" title="Single Select" name="input_pessoa_juridica_id" >
                         <option value="" disabled selected>Seleccione</option>
                       </select>
                     </div>
-                    <div class="form-group col-md-6 px-4">
-                      <input type="text" class="form-control" id="input_numero_total" placeholder="Numero Total">
+                    <div class="form-group col-md-6">
+                       <label for="input_numero_total" class="display-inherit mb-4 text-left">Numero Total</label>
+                      <input type="text" class="form-control" id="input_numero_total">
                     </div>
                   </div>
                   <div class="form-row">
-                    <div class="form-group col-md-6 px-4">
-                      <input type="text" class="form-control" id="input_serie" placeholder="Serie">
+                    <div class="form-group col-md-6">
+                      <label for="input_serie" class="display-inherit mb-4 text-left">Serie</label>
+                      <input type="text" class="form-control" id="input_serie">
                     </div>
-                    <div class="form-group col-md-6 px-4">
-                      <input type="text" class="form-control" id="input_folha" placeholder="Folha">
+                    <div class="form-group col-md-6">
+                       <label for="input_folha" class="display-inherit mb-4 text-left">Folha</label>
+                      <input type="text" class="form-control" id="input_folha">
                     </div>
                   </div>
+                  <br>
                   <div class="form-row">
-                    <div class="form-group col-md-12 px-4">
-                      <input type="text" class="form-control" id="input_chave_de_acesso" placeholder="Chave de Acesso">
+                    <div class="form-group col-md-12">
+                      <label for="input_chave_de_acesso" class="display-inherit mb-4">Chave de Acesso</label>
+                      <input type="text" class="form-control" id="input_chave_de_acesso">
                     </div>
                   </div>
                 </form>
