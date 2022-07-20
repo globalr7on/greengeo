@@ -29,4 +29,5 @@ class NotaFiscal extends Model
     {
         return $this->hasOne('App\Models\NotaFiscalIten', 'id', 'nota_fiscal_id');
     }
+
 }

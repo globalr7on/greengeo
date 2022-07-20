@@ -38,4 +38,11 @@ class Produto extends Model
     {
         return $this->hasOne('App\Models\PessoaJuridica', 'id', 'pessoa_juridica_id');
     }
+     
+    public function item()
+    {
+        return $this->morphOne(NotaFiscalItem::class, 'item');
+    }
+
+     
 }

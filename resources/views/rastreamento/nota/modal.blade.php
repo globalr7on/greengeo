@@ -55,12 +55,51 @@
               </div>
               <div>
                 <div class="col-12 text-right">
-                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAddItem">
-                    Adicionar Item
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAddProduto">
+                    Produto Acabado
                   </button>
-                  <!-- <button type="button" class="btn btn-primary"  id="addItems">Adicionar Item</button> -->
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAddSegregados">
+                    Produto Segregado
+                  </button>
+                  
                 </div>
-                <table id="itemTbl" class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-md-6 px-4">
+              <button type="button" class="btn btn-primary" id="salvarNfiscal">Salvar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Item Produto Acabado -->
+  <div class="modal fade" id="modalAddProduto" tabindex="-1" role="dialog" aria-labelledby="modalAddItem" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+        <h5 class="modal-title text-left" id="tituloModal">Produtos</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        <div class="card-body ">
+          <!-- <h5 class="modal-title" id="exampleModalLabel">Adicionar Items </h5> -->
+          <form id="formAddItem">
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <input type="hidden" id="input_usuario_responsavel_cadastro_id" value="{{ Auth::user()->id }}">
+              </div>
+            </div>
+            <div class="form-row mx-0 mb-4">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <input type="hidden" id="input_position">
+                    <select name="produtos" id="produtos" style="width: 100%">
+                      <option></option>
+                    </select>
+                  </div>
+                 <table id="itemTbl" class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                       <tr>
                           <th> EAN </th>
@@ -72,98 +111,61 @@
                           <th> Data Fabricação </th>
                       </tr>
                   </thead>
-                            {{-- <tbody>
-                            <tr>
-                                <td> {{$nota}} </td>
-                                <td> {{$serie}} </td>
-                                <td> {{$emicao}} </td>
-                                <td> {{$saida}} </td>
-                            </tr>
-                            <tr>
-                                <td> {{$nota}} </td>
-                                <td> {{$serie}} </td>
-                                <td> {{$emicao}} </td>
-                                <td> {{$saida}} </td>
-                            </tr>
-                            </tbody> --}}
-
                     </table>
-             
+                  </div>
+              </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <button type="button" class="btn btn-primary" id="submitAddItem">Salvar</button>
               </div>
             </div>
-          </div>
-          <div class="form-group col-md-6 px-4">
-              <button type="button" class="btn btn-primary" id="salvarNfiscal">Salvar</button>
-          </div>
+          </form>
         </div>
       </div>
     </div>
   </div>
-  <!-- Item modal -->
-  <div class="modal fade" id="modalAddItem" tabindex="-1" role="dialog" aria-labelledby="modalAddItem" aria-hidden="true">
+
+  <!-- Item Segregados -->
+  <div class="modal fade" id="modalAddSegregados" tabindex="-1" role="dialog" aria-labelledby="modalAddItem" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
+         <div class="modal-header">
+        <h5 class="modal-title text-left" id="tituloModal">Segregados</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
         <div class="card-body ">
           <!-- <h5 class="modal-title" id="exampleModalLabel">Adicionar Items </h5> -->
           <form id="formAddItem">
             <div class="form-row">
               <div class="form-group col-md-6">
-                <div class="col-lg-5 col-md-4 col-sm-3">
-                    <input type="hidden" id="input_usuario_responsavel_cadastro_id" value="{{ Auth::user()->id }}">
-                  <select  id="input_unidade_id" data-style="btn btn-primary btn-round" title="Single Select" name="unidad">
-                    <option value="" disabled selected>Unidad</option>
-                  </select>
-                </div>
+                <input type="hidden" id="input_usuario_responsavel_cadastro_id" value="{{ Auth::user()->id }}">
               </div>
             </div>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <input type="text" class="form-control" id="inputEan" name="ean" placeholder="EAN">
+            <div class="form-row mx-0 mb-4">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <input type="hidden" id="input_position">
+                    <select name="produtos" id="produtos" style="width: 100%">
+                      <option></option>
+                    </select>
+                  </div>
+                 <table id="itemTbl" class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                      <tr>
+                          <th> EAN </th>
+                          <th> Descrição </th>
+                          <th> Peso </th>
+                          <th> Largura </th>
+                          <th> Codigo Fabricante </th>
+                          <th> Serie </th>
+                          <th> Data Fabricação </th>
+                      </tr>
+                  </thead>
+                    </table>
+                  </div>
               </div>
-              <div class="form-group col-md-6">
-                <input type="text" class="form-control" id="inputDescicao" name="descricao" placeholder="Descrição">
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <input type="text" class="form-control" id="inputPeso" name="peso" placeholder="Peso">
-              </div>
-              <div class="form-group col-md-6">
-                <input type="text" class="form-control" id="inputLargura" name="largura" placeholder="Largura">
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <input type="text" class="form-control" id="inputProfundidade" name="profundidade" placeholder="Profundidade">
-              </div>
-              <div class="form-group col-md-6">
-                <input type="text" class="form-control" id="inputComprimento" name="comprimento" placeholder="Comprimento">
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <input type="text" class="form-control" id="inputQuantidade" name="quantidade" placeholder="Quantidade">
-              </div>
-              <div class="form-group col-md-6">
-                <input type="text" class="form-control" id="inputEspecie" name="especie" placeholder="Especie">
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <input type="text" class="form-control" id="inputMarca" name="marca" placeholder="Marca">
-              </div>
-              <div class="form-group col-md-6">
-                <input type="text" class="form-control" id="inputCodigoFabricante" name="codigoFabricante" placeholder="Codigo de Fabricante">
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <input type="text" class="form-control" id="inputNumeroSeria" name="numeroSeria" placeholder="Numero de Serie">
-              </div>
-              <div class="form-group col-md-6">
-                <input type="text" class="form-control datetimepicker" name="dataFabricacao" placeholder="Data de Fabricação" />
-              </div>
-            </div>
             <div class="form-row">
               <div class="form-group col-md-6">
                 <button type="button" class="btn btn-primary" id="submitAddItem">Salvar</button>

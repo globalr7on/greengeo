@@ -77,7 +77,7 @@
         // app.stepper()
         delFormValidationErrors()
         $("#modalNota").modal("show")
-        $('#tituloModal').text("Nova Nota")
+        $('#tituloModal').text("Produto")
         $('#input_id').val("")
         $('#formNota')[0].reset()
         getPessoaJuridica()
@@ -86,6 +86,22 @@
         // getMotorista()
         // getEstagio()
       });
+
+      //   $('body').on('click', '#novaNota', function() {
+      //   // app.stepper()
+      //   delFormValidationErrors()
+      //   $("#modalNota").modal("show")
+      //   $('#tituloModal').text("Produto fff")
+      //   $('#input_id').val("")
+      //   $('#formNota')[0].reset()
+      //   getPessoaJuridica()
+      //   getUnidade()
+      //   // getVeiculo()
+      //   // getMotorista()
+      //   // getEstagio()
+      // });
+
+      
 
       //Salvar 
       $('body').on('click', '#salvarNfiscal', function() {
@@ -239,42 +255,41 @@
         }
       });
 
-    //   //openFile will read XML file and input it into text field
-    //   var openFile = function(event) {
-    //     var input = event.target;
-    //   var text = "";
-    //     var reader = new FileReader();
-    //     var onload = function(event) {
-    //       text = reader.result;
-    //       parseFile(text);
+    function loadSelect(selector, data) {
+      $.each(data, function(index, value) {
+        $(selector).append(new Option(value.descricao, value.id));
+      });
+      $(selector).selectpicker()
+    }
 
-    //     };
-
-    //     reader.onload = onload;
-    //     reader.readAsText(input.files[0]);
-
-    //   };
-
-    //   //this will parse XML file and output it to website
-    //   var parseFile = function(text) {
-    //     var xmlDoc = $.parseXML(text),
-    //       $xml = $(xmlDoc),
-    //       $options = $xml.find("option");
-
-    //     $.each($options, function() {
-    //       $("#output").append("<li>" + $(this).text() + "</li >");
-    //     });
-
-    //   };
-
-    //   //
-
-    // function loadSelect(selector, data) {
-    //   $.each(data, function(index, value) {
-    //     $(selector).append(new Option(value.descricao, value.id));
-    //   });
-    //   $(selector).selectpicker()
-    // }
+    function getProduto() {
+        return new Promise(resolve => {
+          if (!$('#produtos').hasClass("select2-hidden-accessible")) {
+            app.api.get('/produtos').then(response =>  {
+              if (response && response.status) {
+                const data = response.data.map(curr => ({
+                  id: curr.id,
+                  text: `[${curr.ibama}] ${curr.tipo_material}: ${curr.estado_fisico} (${curr.unidade})`
+                }))
+                $('#materiais').select2({
+                  dropdownParent: $('#modalProdutoMaterials'),
+                  placeholder: 'Pesquisar um Produto',
+                  allowClear: true,
+                  width: 'resolve',
+                  data: data
+                })
+              }
+              resolve()
+            })
+            .catch(error => {
+              notifyDanger('Falha ao obter materiais, tente novamente')
+              resolve()
+            })
+          } else {
+            resolve()
+          }
+        })
+      }
 
     function getPessoaJuridica(value) {
         app.api.get('/pessoa_juridica').then(response =>  {
