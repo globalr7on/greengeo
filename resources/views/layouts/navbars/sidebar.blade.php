@@ -190,11 +190,11 @@
         </a>
         <div class="collapse {{ in_array($activePage, array('rastreamento', 'os', 'nota_fiscal')) ? 'show' : '' }}" id="rasTab">
           <ul class="nav">
-            @can('rastreamento.rastreamento')
-            <li class="nav-item ml-4 {{ $activePage == 'rastreamento' ? 'active' : '' }}">
-              <a class="nav-link" href="{{ route('rastreamento.rastreamento') }}">
-                <i class="fas fa-map-marker-alt"></i>
-                <span class="sidebar-normal">{{ __('Rastreamento') }}</span>
+            @can('rastreamento.notaFiscal')
+            <li class="nav-item ml-4 {{ $activePage == 'nota_fiscal' ? 'active' : '' }}">
+              <a class="nav-link" href="{{ route('rastreamento.notaFiscal') }}">
+                <i class="fa-solid fa-file-circle-check"></i>
+                <span class="sidebar-normal">{{ __('Nota Fiscal') }}</span>
               </a>
             </li>
             @endcan
@@ -206,13 +206,13 @@
                 <span class="sidebar-normal">{{ __('Ordem de Serviço') }}</span>
               </a>
             </li>
-            @endcan 
+            @endcan
 
-            @can('rastreamento.notaFiscal')
-            <li class="nav-item ml-4 {{ $activePage == 'nota_fiscal' ? 'active' : '' }}">
-              <a class="nav-link" href="{{ route('rastreamento.notaFiscal') }}">
-                <i class="fa-solid fa-file-circle-check"></i>
-                <span class="sidebar-normal">{{ __('Nota Fiscal') }}</span>
+            @can('rastreamento.rastreamento')
+            <li class="nav-item ml-4 {{ $activePage == 'rastreamento' ? 'active' : '' }}">
+              <a class="nav-link" href="{{ route('rastreamento.rastreamento') }}">
+                <i class="fas fa-map-marker-alt"></i>
+                <span class="sidebar-normal">{{ __('Rastreamento') }}</span>
               </a>
             </li>
             @endcan

@@ -71,7 +71,6 @@ class UserController extends Controller
             'data' => $data,
             'status' => $status
         ], $status_code);
-       
     }
 
     /**

@@ -39,10 +39,8 @@ class Produto extends Model
         return $this->hasOne('App\Models\PessoaJuridica', 'id', 'pessoa_juridica_id');
     }
      
-    public function item()
+    public function nota_fiscal_iten()
     {
-        return $this->morphOne(NotaFiscalItem::class, 'item');
-    }
-
-     
+        return $this->morphOne('App\Models\NotaFiscalIten', 'item');
+    }     
 }

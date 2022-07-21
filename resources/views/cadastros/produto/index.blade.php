@@ -3,7 +3,7 @@
   Cadastros
 @endsection
 @section('content')
-   <div class="content mt-0">
+  <div class="content mt-0">
     <div class="container-fluid">
       <div class="col-12 text-right">
         <button type="button" class="btn btn-primary" id="novoProduto">
@@ -81,7 +81,7 @@
         app.stepper()
         delFormValidationErrors()
         $("#modalProduto").modal("show")
-        $('#tituloModal').text("Novo Produto")
+        $('#tituloProduto').text("Novo Produto")
         $('#input_id').val("")
         $('#formProduto')[0].reset()
         getEmpresa(empresaId, empresaId ?  true : false)
@@ -154,7 +154,7 @@
             delFormValidationErrors()
             $('#formProduto')[0].reset()
             $("#modalProduto").modal("show");
-            $('#tituloModal').text("Editar Produto")
+            $('#tituloProduto').text("Editar Produto")
             $("#input_id").val(response.data.id)
             $("#input_ean").val(response.data.ean)
             $("#input_codigo").val(response.data.codigo)
@@ -304,7 +304,7 @@
         setMaterialPesos()
       })
 
-      $('#materiais').on('select2:clear', function (e) {
+      $('#materiais').on('select2:clear', function(e) {
         $('#addMaterial').text('Novo material')
         $('#input_position').val('')
         setMaterialPesos()
@@ -337,11 +337,11 @@
         $('#materiais').val(null).trigger('change')
       })
 
-      $('body').on('click', '.deleteItem', function () {
+      $('body').on('click', '.deleteItem', function() {
         materiaisTbl.row($(this).parents('tr')).remove().draw(false)
       })
 
-      $('body').on('click', '.editItem', function () {
+      $('body').on('click', '.editItem', function() {
         $('#addMaterial').text('Salvar material')
         const position = $(this).attr('data-position')
         $('#input_position').val(position)
@@ -352,7 +352,7 @@
         maskPeso("#input_percentual_composicao", oldData.percentualComposicao)
       })
 
-      $('body').on('click', '#salvarMateriais', function () {
+      $('body').on('click', '#salvarMateriais', function() {
         $("#modalProdutoMaterials").modal("hide")
       })
     })

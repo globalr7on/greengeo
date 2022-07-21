@@ -1,178 +1,266 @@
-<div class="modal fade" id="modalNota" tabindex="-1" role="dialog" aria-labelledby="modalAddNew" aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
-      <div class="modal-content">
-        <div class="card card-nav-tabs card-plain">
-          <div class="card-header card-header-primary">
-              <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
-            <div class="nav-tabs-navigation">
-              <div class="nav-tabs-wrapper">
-                <ul class="nav nav-tabs" data-tabs="tabs">
-                  <li class="nav-item">
-                    <a class="nav-link active" href="#nota" data-toggle="tab">Nota Fiscal</a>
-                  </li>
-                  {{-- <li class="nav-item">
-                    <a class="nav-link" href="#items" data-toggle="tab">Items</a>
-                  </li> --}}
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="card-body m-4">
-            <div class="tab-content text-center">
-              <div class="tab-pane active" id="nota">
-                <form id="formNota"> 
-                  <div class="form-row">
-                    <div class="form-group col-md-6">
-                       <input type="hidden" id="input_id">
-                      <label for="input_pessoa_juridica_id" class="display-inherit mb-0">Empresa</label>
-                      <select id="input_pessoa_juridica_id" data-style="btn-warning text-white" title="Single Select" name="input_pessoa_juridica_id" >
-                        <option value="" disabled selected>Seleccione</option>
-                      </select>
-                    </div>
-                    <div class="form-group col-md-6">
-                       <label for="input_numero_total" class="display-inherit mb-4 text-left">Numero Total</label>
-                      <input type="text" class="form-control" id="input_numero_total">
-                    </div>
+<div class="modal fade" id="modalNota" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-left" id="tituloNota"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <form id="formNota">
+              <div class="row mx-0 mb-4">
+                <div class="col-md-6 text-center">
+                  <div class="form-group m-0 p-0">
+                    <input type="hidden" id="input_id">
+                    <label for="input_pessoa_juridica_id" class="display-inherit mb-0">Empresa</label>
+                    <select id="input_pessoa_juridica_id" data-style="btn-warning text-white" name="input_pessoa_juridica_id">
+                      <option value="" disabled selected>Seleccione</option>
+                    </select>
                   </div>
-                  <div class="form-row">
-                    <div class="form-group col-md-6">
-                      <label for="input_serie" class="display-inherit mb-4 text-left">Serie</label>
-                      <input type="text" class="form-control" id="input_serie">
-                    </div>
-                    <div class="form-group col-md-6">
-                       <label for="input_folha" class="display-inherit mb-4 text-left">Folha</label>
-                      <input type="text" class="form-control" id="input_folha">
-                    </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group mb-0">
+                    <label for="input_numero_total">Numero Total</label>
+                    <input type="text" class="form-control" id="input_numero_total">
                   </div>
-                  <br>
-                  <div class="form-row">
-                    <div class="form-group col-md-12">
-                      <label for="input_chave_de_acesso" class="display-inherit mb-4">Chave de Acesso</label>
-                      <input type="text" class="form-control" id="input_chave_de_acesso">
-                    </div>
-                  </div>
-                </form>
-              </div>
-              <div>
-                <div class="col-12 text-right">
-                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAddProduto">
-                    Produto Acabado
-                  </button>
-                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAddSegregados">
-                    Produto Segregado
-                  </button>
-                  
                 </div>
               </div>
-            </div>
-          </div>
-          <div class="form-group col-md-6 px-4">
-              <button type="button" class="btn btn-primary" id="salvarNfiscal">Salvar</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Item Produto Acabado -->
-  <div class="modal fade" id="modalAddProduto" tabindex="-1" role="dialog" aria-labelledby="modalAddItem" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
-         <div class="modal-header">
-        <h5 class="modal-title text-left" id="tituloModal">Produtos</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-        <div class="card-body ">
-          <!-- <h5 class="modal-title" id="exampleModalLabel">Adicionar Items </h5> -->
-          <form id="formAddItem">
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <input type="hidden" id="input_usuario_responsavel_cadastro_id" value="{{ Auth::user()->id }}">
-              </div>
-            </div>
-            <div class="form-row mx-0 mb-4">
-                <div class="col-md-12">
+              
+              <div class="row mx-0 mb-4">
+                <div class="col-md-4">
                   <div class="form-group">
-                    <input type="hidden" id="input_position">
-                    <select name="produtos" id="produtos" style="width: 100%">
-                      <option></option>
-                    </select>
+                    <label for="input_serie">Serie</label>
+                    <input type="text" class="form-control" id="input_serie">
                   </div>
-                 <table id="itemTbl" class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                  <thead>
-                      <tr>
-                          <th> EAN </th>
-                          <th> Descrição </th>
-                          <th> Peso </th>
-                          <th> Largura </th>
-                          <th> Codigo Fabricante </th>
-                          <th> Serie </th>
-                          <th> Data Fabricação </th>
-                      </tr>
-                  </thead>
-                    </table>
+                </div>
+  
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="input_folha">Folha</label>
+                    <input type="number" class="form-control" id="input_folha">
                   </div>
+                </div>
+  
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="input_chave_de_acesso">Chave de Acesso</label>
+                    <input type="text" class="form-control" id="input_chave_de_acesso">
+                  </div>
+                </div>
               </div>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <button type="button" class="btn btn-primary" id="submitAddItem">Salvar</button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Item Segregados -->
-  <div class="modal fade" id="modalAddSegregados" tabindex="-1" role="dialog" aria-labelledby="modalAddItem" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
-         <div class="modal-header">
-        <h5 class="modal-title text-left" id="tituloModal">Segregados</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-        <div class="card-body ">
-          <!-- <h5 class="modal-title" id="exampleModalLabel">Adicionar Items </h5> -->
-          <form id="formAddItem">
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <input type="hidden" id="input_usuario_responsavel_cadastro_id" value="{{ Auth::user()->id }}">
+              <div class="row mx-0">
+                <button type="button" class="btn btn-primary" id="addProdutoAcabado">Produto Acabado</button>
+                <button type="button" class="btn btn-primary" id="addProdutoSegregado">Produto Segregado</button>
+                <button type="button" class="btn btn-primary" id="salvarNotafiscal">Salvar</button>
               </div>
-            </div>
-            <div class="form-row mx-0 mb-4">
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <input type="hidden" id="input_position">
-                    <select name="produtos" id="produtos" style="width: 100%">
-                      <option></option>
-                    </select>
-                  </div>
-                 <table id="itemTbl" class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                  <thead>
-                      <tr>
-                          <th> EAN </th>
-                          <th> Descrição </th>
-                          <th> Peso </th>
-                          <th> Largura </th>
-                          <th> Codigo Fabricante </th>
-                          <th> Serie </th>
-                          <th> Data Fabricação </th>
-                      </tr>
-                  </thead>
-                    </table>
-                  </div>
-              </div>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <button type="button" class="btn btn-primary" id="submitAddItem">Salvar</button>
-              </div>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
     </div>
   </div>
+</div>
+
+<!-- Item Produto Acabado -->
+<div class="modal fade" id="modalProdutoAcabado" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-left">Produtos Acabados</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <form id="formProdutoAcabado" class="mb-0">
+              <div class="form-row mx-0 mb-4">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <input type="hidden" id="produtoAcabadoPosition">
+                    <select name="produtosAcabados" id="produtosAcabados" style="width: 100%">
+                      <option></option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row mx-0 mb-4">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="produtoAcabadoDescricao">Descricao</label>
+                    <input type="text" class="form-control" id="produtoAcabadoDescricao">
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row mx-0 mb-4">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="produtoAcabadoQuantidade">Quantidade</label>
+                    <input type="number" class="form-control" id="produtoAcabadoQuantidade">
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="produtoAcabadoNumeroSerie">Numero de serie</label>
+                    <input type="text" class="form-control" id="produtoAcabadoNumeroSerie">
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="produtoAcabadoDataFabricacao">Data de Fabricação</label>
+                    <input type="text" class="form-control datepicker" id="produtoAcabadoDataFabricacao">
+                  </div>
+                </div>
+
+                <div class="col-md-3 text-center">
+                  <button type="button" class="btn btn-primary" id="addProduto">Novo producto</button>
+                </div>
+              </div>
+
+              <div class="form-row mx-0 mb-4">
+                <div class="col-md-12">
+                  <div class="form-group m-0 p-0">
+                    <table class="table" id="produtoAcabadoTbl">
+                      <thead>
+                        <th class="text-primary font-weight-bold text-center">#</th>
+                        <th class="text-primary font-weight-bold text-center">Produto</th>
+                        <th class="text-primary font-weight-bold text-center">Descricao</th>
+                        <th class="text-primary font-weight-bold text-center">Quantidade</th>
+                        <th class="text-primary font-weight-bold text-center">Numero Serie</th>
+                        <th class="text-primary font-weight-bold text-center">Data Fabricação</th>
+                        <th class="text-primary font-weight-bold text-center">Ação</th>
+                      </thead>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row mx-0">
+                <button type="button" class="btn btn-primary" id="salvarProdutoAcabado">Salvar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Item Segregados -->
+<div class="modal fade" id="modalSegregados" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-left">Produtos Segregados</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <form id="formMaterials" class="mb-0">
+              <div class="form-row mx-0 mb-4">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <input type="hidden" id="segregadosPosition">
+                    <select name="materiais" id="materiais" style="width: 100%">
+                      <option></option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="form-row mx-0 mb-4">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="segregadosPesoBruto">Peso Bruto</label>
+                    <input type="text" class="form-control" id="segregadosPesoBruto">
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="segregadosPesoLiquido">Peso Liquido</label>
+                    <input type="text" class="form-control" id="segregadosPesoLiquido">
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="segregadosPercentualComposicao">Percentual Composicao</label>
+                    <input type="text" class="form-control" id="segregadosPercentualComposicao">
+                  </div>
+                </div>
+
+                <div class="col-md-3 text-center">
+                  <button type="button" class="btn btn-primary" id="addSegregados">Novo material</button>
+                </div>
+              </div>
+
+              <div class="form-row mx-0 mb-4">
+                <div class="col-md-12">
+                  <div class="form-group m-0 p-0">
+                    <table class="table" id="materiaisTbl">
+                      <thead>
+                        <th class="text-primary font-weight-bold text-center">#</th>
+                        <th class="text-primary font-weight-bold">Material</th>
+                        <th class="text-primary font-weight-bold text-center">P. Bruto</th>
+                        <th class="text-primary font-weight-bold text-center">P. Liquido</th>
+                        <th class="text-primary font-weight-bold text-center">Percentual Comp.</th>
+                        <th class="text-primary font-weight-bold text-center">Ação</th>
+                      </thead>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row mx-0">
+                <button type="button" class="btn btn-primary" id="salvarSegregados">Salvar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+@push('js')
+  <script>
+    $('#formNota').submit(function(event) {
+      event.preventDefault()
+    })
+    $('#formProdutoAcabado').submit(function(event) {
+      event.preventDefault()
+    })
+
+    $('.datepicker').datetimepicker({
+      format: "YYYY-MM-DD",
+      icons: {
+        time: "fa fa-clock-o",
+        date: "fa fa-calendar",
+        up: "fa fa-chevron-up",
+        down: "fa fa-chevron-down",
+        previous: 'fa fa-chevron-left',
+        next: 'fa fa-chevron-right',
+        today: 'fa fa-screenshot',
+        clear: 'fa fa-trash',
+        close: 'fa fa-remove'
+      }
+    })
+  </script>
+@endpush

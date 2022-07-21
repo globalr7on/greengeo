@@ -14,7 +14,7 @@ class TratamentoResource extends JsonResource
      */
     public function toArray($request)
     {
-         return [
+        return [
             'id' => $this->id,
             'descricao' => $this->descricao,
             'ativo' => $this->ativo,

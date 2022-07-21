@@ -16,7 +16,6 @@ class NotaFiscal extends Model
         'folha',
         'chave_de_acesso',
         'pessoa_juridica_id'
-
     ];
     protected $guardaded = ['id'];
 
@@ -29,5 +28,4 @@ class NotaFiscal extends Model
     {
         return $this->hasOne('App\Models\NotaFiscalIten', 'id', 'nota_fiscal_id');
     }
-
 }

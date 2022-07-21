@@ -14,8 +14,6 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 |
 */
 
-
-
 Auth::routes(['verify' => true]);
 
 // Route::get('/email/verify', function () {
@@ -24,7 +22,6 @@ Auth::routes(['verify' => true]);
 
 
 // Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-//     dd("Pasando por aqui mi pana ");
 // 	$request->fulfill();
  
 //     return redirect('/home');
@@ -41,11 +38,8 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-
 Route::group(['middleware' => ['auth', 'permission']], function () {
 	Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home')->middleware('auth');
-
-	
 	Route::get('/cadastro/email', 'App\Http\Controllers\EmailController@contact')->name('cadastros.email');
 
 	// Cadastro
@@ -78,4 +72,3 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
 	Route::get('configuracoes/roles', 'App\Http\Controllers\RolesController@index')->name('configuracoes.funcoes');
 	Route::get('configuracoes/permissions', 'App\Http\Controllers\PermissionsController@index')->name('configuracoes.permissoes');
 });
-

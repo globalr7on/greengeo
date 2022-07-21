@@ -15,12 +15,11 @@ class ProdutoSegregados extends Model
         'peso_bruto',
         'peso_liquido', 
         'percentual_composicao',
-        
     ];
     protected $guardaded = ['id'];
     
-    public function item()
+    public function nota_fiscal_iten()
     {
-        return $this->morphOne(NotaFiscalItem::class, 'item');
+        return $this->morphOne('App\Models\NotaFiscalIten', 'item');
     }
 }
