@@ -28,6 +28,7 @@ class ProdutoResource extends JsonResource
             'especie' => $this->especie,
             'marca' => $this->marca,
             'ean' => $this->ean,
+            'descricao' => $this->descricao,
             'materiais' => $this->materiais->map(function ($material) {
                 return $material->only(['pivot']);
             })->pluck('pivot')

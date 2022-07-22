@@ -13,6 +13,7 @@ class ProdutoRequest extends FormRequest
     {
         return [
             'ean' => 'required',
+            'descricao', => 'required',
             'codigo' => 'required|string|max:45',
             'dimensoes' =>'required|string|max:30', 
             'altura' =>'required',

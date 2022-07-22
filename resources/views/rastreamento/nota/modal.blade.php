@@ -16,6 +16,7 @@
                 <div class="col-md-6 text-center">
                   <div class="form-group m-0 p-0">
                     <input type="hidden" id="input_id">
+                    <input type="hidden" id="input_usuario_responsavel_cadastro_id" value="{{ Auth::user()->id }}">
                     <label for="input_pessoa_juridica_id" class="display-inherit mb-0">Empresa</label>
                     <select id="input_pessoa_juridica_id" data-style="btn-warning text-white" name="input_pessoa_juridica_id">
                       <option value="" disabled selected>Seleccione</option>
@@ -69,7 +70,7 @@
 
 <!-- Item Produto Acabado -->
 <div class="modal fade" id="modalProdutoAcabado" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title text-left">Produtos Acabados</h5>
@@ -89,15 +90,6 @@
                     <select name="produtosAcabados" id="produtosAcabados" style="width: 100%">
                       <option></option>
                     </select>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row mx-0 mb-4">
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <label for="produtoAcabadoDescricao">Descricao</label>
-                    <input type="text" class="form-control" id="produtoAcabadoDescricao">
                   </div>
                 </div>
               </div>
@@ -136,7 +128,6 @@
                       <thead>
                         <th class="text-primary font-weight-bold text-center">#</th>
                         <th class="text-primary font-weight-bold text-center">Produto</th>
-                        <th class="text-primary font-weight-bold text-center">Descricao</th>
                         <th class="text-primary font-weight-bold text-center">Quantidade</th>
                         <th class="text-primary font-weight-bold text-center">Numero Serie</th>
                         <th class="text-primary font-weight-bold text-center">Data Fabricação</th>

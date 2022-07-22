@@ -11,12 +11,11 @@ class NotaFiscalIten extends Model
     use HasFactory, Notifiable;
     protected $table = 'nota_fiscal_itens';
     protected $fillable = [
-        'descricao',
         'quantidade',
         'numero_de_serie',
         'data_de_fabricacao',
-        'item_id',
-        'item_type',
+        'itenable_id',
+        'itenable_type',
         'nota_fiscal_id',
         'usuario_responsavel_cadastro_id'
     ];
@@ -29,10 +28,10 @@ class NotaFiscalIten extends Model
 
     public function usuario_responsavel_cadastro()
     {
-        return $this->hasOne('App\Models\User', 'usuario_responsavel_cadastro_id', 'id');
+        return $this->hasOne('App\Models\User', 'id', 'usuario_responsavel_cadastro_id');
     }
 
-    public function item()
+    public function itenable()
     {
         return $this->morphTo();
     }

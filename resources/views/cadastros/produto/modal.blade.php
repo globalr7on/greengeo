@@ -57,6 +57,22 @@
                 </div>
 
                 <div class="row mx-0 mb-4">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="input_descricao">Descricao</label>
+                      <textarea class="form-control" id="input_descricao" rows="3"></textarea>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="row mx-0">
+                  <button class="btn btn-primary stepper-next">Próximo</button>
+                </div>
+              </div>
+
+              <div id="step2" class="content" role="tabpanel" aria-labelledby="step2-trigger">
+                <div class="row mx-0 mb-4">
                   <div class="col-md-4">
                     <div class="form-group">
                       <label for="input_dimensoes">Dimensões</label>
@@ -77,15 +93,8 @@
                       <input type="text" class="form-control" id="input_largura">
                     </div>
                   </div>
-                </div>
+                </div>  
 
-                <div class="row mx-0">
-                  <!-- <button class="btn btn-warning" id="addMaterials">Materiais</button> -->
-                  <button class="btn btn-primary stepper-next">Próximo</button>
-                </div>
-              </div>
-
-              <div id="step2" class="content" role="tabpanel" aria-labelledby="step2-trigger">
                 <div class="row mx-0 mb-4">
                   <div class="col-md-3">
                     <div class="form-group">

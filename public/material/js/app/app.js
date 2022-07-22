@@ -76,7 +76,7 @@ class App {
         }
       },
       columns: this.config.apiDataTableColumns,
-      columnDefs : [
+      columnDefs: [
         ...this.config.apiDataTableColumnDefs,
         ...this.config.useDefaultDataTableColumnDefs ? this.default.apiDataTableColumnDefs : {},
       ]

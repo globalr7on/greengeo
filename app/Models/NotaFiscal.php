@@ -19,13 +19,13 @@ class NotaFiscal extends Model
     ];
     protected $guardaded = ['id'];
 
-    public function pessoa_juridica_id()
+    public function pessoa_juridica()
     {
         return $this->hasOne('App\Models\PessoaJuridica', 'id', 'pessoa_juridica_id');
     }
 
-    public function nota_fiscal_iten()
+    public function nota_fiscal_itens()
     {
-        return $this->hasOne('App\Models\NotaFiscalIten', 'id', 'nota_fiscal_id');
+        return $this->hasMany('App\Models\NotaFiscalIten', 'nota_fiscal_id', 'id');
     }
 }

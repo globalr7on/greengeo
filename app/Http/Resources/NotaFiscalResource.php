@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\NotaFiscalItenResource;
 
 class NotaFiscalResource extends JsonResource
 {
@@ -21,6 +22,8 @@ class NotaFiscalResource extends JsonResource
             'folha' => $this->folha,
             'chave_de_acesso' => $this->chave_de_acesso,
             'pessoa_juridica_id' => $this->pessoa_juridica_id,
+            'pessoa_juridica' => $this->pessoa_juridica ? $this->pessoa_juridica->razao_social : null,
+            'itens' => NotaFiscalItenResource::collection($this->nota_fiscal_itens),
         ];
     }
 }

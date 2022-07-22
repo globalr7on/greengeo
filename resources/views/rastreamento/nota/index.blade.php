@@ -22,9 +22,11 @@
                 <table class="table" id="nfiscalTbl">
                   <thead>
                     <tr>
+                      <th class="text-primary font-weight-bold">Pessoa juridica</th>
                       <th class="text-primary font-weight-bold">Número</th>
                       <th class="text-primary font-weight-bold">Série</th>
                       <th class="text-primary font-weight-bold">Folha</th>
+                      <th class="text-primary font-weight-bold">Numero Total</th>
                       <th class="text-primary font-weight-bold">Ação</th>
                     </tr>
                   </thead>
@@ -46,23 +48,12 @@
       let app = new App({
         apiUrl: '/api/nota_fiscais',
         apiDataTableColumns: [
+          { data: "pessoa_juridica" },
           { data: "numero_total" },
           { data: "serie" },
           { data: "folha" },
+          { data: "numero_total" },
         ],
-        // apiDataTableColumnsDefs: [
-        //   { 
-        //     targets: 3,
-        //     className: "text-center",
-        //     render: function (data, type, row) {
-        //       return `
-        //         <i class="fa fa-trash cursor-pointer excluirEmpresa" data-id="${row.id}" title="Excluir" ></i>
-        //         &nbsp;
-        //         <i class="fa fa-pen cursor-pointer editarEmpresa" data-id="${row.id}"  title="Editar"></i>
-        //       `
-        //     }
-        //   }
-        // ],
         datatableSelector: '#nfiscalTbl',
       }) 
 
@@ -80,18 +71,20 @@
 
       //Salvar 
       $('body').on('click', '#salvarNotafiscal', function() {
+        usuarioResponsavelCadastro = $("#input_usuario_responsavel_cadastro_id").val()
         var produtoAcabadoData = produtoAcabadoTbl?.rows()?.data()?.toArray()?.map(curr => ({
           producto_id: parseInt(curr.productoId),
           quantidade: parseInt(curr.quantidade),
-          descricao: curr.descricao,
           numero_de_serie: curr.numeroSerie,
           data_de_fabricacao: curr.dataFabricacao,
+          usuario_responsavel_cadastro_id: usuarioResponsavelCadastro,
         }))
         var produtoSegregadoData = materiaisTbl?.rows()?.data()?.toArray()?.map(curr => ({
           material_id: parseInt(curr.materialId),
           peso_bruto: formatStringToFloat(curr.pesoBruto),
           peso_liquido: formatStringToFloat(curr.pesoLiquido),
           percentual_composicao: formatStringToFloat(curr.percentualComposicao),
+          usuario_responsavel_cadastro_id: usuarioResponsavelCadastro,
         }))
         if (!produtoAcabadoData?.length && !produtoSegregadoData?.length) {
           return notifyDanger('Falta adicionar Produtos Acabados/Segregados')
@@ -124,17 +117,17 @@
           })
         } else {
           console.log('JSONRequest', JSONRequest)
-          // app.api.post('/nota_fiscais', JSONRequest).then(response => {
-          //   if (response && response.status) {
-          //     $("#modalNota").modal("hide")
-          //     app.datatable.ajax.reload()
-          //     notifySuccess('Criado com sucesso')
-          //   }
-          // })
-          // .catch(error => {
-          //   addFormValidationErrors(error?.data)
-          //   notifyDanger('Falha ao criar, tente novamente')
-          // })
+          app.api.post('/nota_fiscais', JSONRequest).then(response => {
+            if (response && response.status) {
+              $("#modalNota").modal("hide")
+              app.datatable.ajax.reload()
+              notifySuccess('Criado com sucesso')
+            }
+          })
+          .catch(error => {
+            addFormValidationErrors(error?.data)
+            notifyDanger('Falha ao criar, tente novamente')
+          })
         }
       })
 
@@ -155,6 +148,15 @@
             $("#input_folha").val(response.data.folha),
             $("#input_chave_de_acesso").val(response.data.chave_de_acesso),
             $('#input_id').val(response.data.id);
+            initProdutAcabadoDataTable()
+            getProdutosAcabados().then(() => {
+              loadSavedProducts(response.data.itens.filter(curr => curr.numero_de_serie))
+            })
+
+            initMaterialDataTable()
+            getMateriais().then(() => {
+              loadSavedMaterials(response.data.itens.filter(curr => !curr.numero_de_serie))
+            })
           }
         })
         .catch(error => notifyDanger('Falha ao obter detalhes. Tente novamente'))
@@ -184,6 +186,17 @@
       }
 
       // Produto acabado
+      function loadSavedProducts(data) {
+        data.map(curr => {
+          $('#produtosAcabados').val(curr.produto.id)
+          $('#produtosAcabados').trigger('change')
+          $('#produtoAcabadoQuantidade').val(curr.quantidade)
+          $('#produtoAcabadoNumeroSerie').val(curr.numero_de_serie)
+          $('#produtoAcabadoDataFabricacao').val(curr.data_de_fabricacao)
+          $('#addProduto').trigger('click')
+        })
+      }
+
       function getProdutosAcabados() {
         return new Promise(resolve => {
           if (!$('#produtosAcabados').hasClass("select2-hidden-accessible")) {
@@ -225,18 +238,17 @@
             columns: [
               { data: 'position' },
               { data: 'producto' },
-              { data: 'descricao' },
               { data: 'quantidade' },
               { data: 'numeroSerie' },
               { data: 'dataFabricacao' },
             ],
             columnDefs: [
               {
-                targets: [0,3,4,5],
+                targets: [0,2,3,4],
                 className: 'text-center',
               },
               {
-                targets: 6,
+                targets: 5,
                 className: 'text-center',
                 render: function (data, type, row) {
                   return `<i class="fa fa-trash cursor-pointer deleteProductoAcabadoItem" title="Excluir"></i>&nbsp;<i class="fa fa-pen cursor-pointer editProductoAcabadoItem" data-position="${row.position}" title="Editar"></i>`
@@ -260,7 +272,6 @@
       $('#produtosAcabados').on('select2:clear', function(e) {
         $('#addProduto').text('Novo produto')
         $('#produtoAcabadoPosition').val('')
-        $('#produtoAcabadoDescricao').val('')
         $('#produtoAcabadoQuantidade').val('')
         $('#produtoAcabadoNumeroSerie').val('')
         $('#produtoAcabadoDataFabricacao').val('')
@@ -272,7 +283,6 @@
           position: parseInt($('#produtoAcabadoPosition').val()) || (produtoAcabadoTbl.rows(dataInTable.length -1 ).data()[0] ? produtoAcabadoTbl.rows(dataInTable.length -1 ).data()[0].position + 1 : 1),
           producto: $('#produtosAcabados option:selected').text().split(']')[0]+']',
           productoId: $('#produtosAcabados option:selected').val(),
-          descricao: $('#produtoAcabadoDescricao').val(),
           quantidade: $('#produtoAcabadoQuantidade').val(),
           numeroSerie: $('#produtoAcabadoNumeroSerie').val(),
           dataFabricacao: $('#produtoAcabadoDataFabricacao').val()
@@ -280,7 +290,7 @@
         if (!newProducto.producto) {
           return notifyDanger('Você tem que selecionar um produto acabado')
         }
-        if (!newProducto.descricao || !newProducto.quantidade || !newProducto.numeroSerie || !newProducto.dataFabricacao) {
+        if (!newProducto.quantidade || !newProducto.numeroSerie || !newProducto.dataFabricacao) {
           return notifyDanger('Você tem que adicionar os campos faltantes')
         }
         if (produtoAcabadoTbl.row(newProducto.position - 1).data()) {
@@ -291,7 +301,6 @@
         }
         $('#produtoAcabadoPosition').val('')
         $('#produtosAcabados').val(null).trigger('change')
-        $('#produtoAcabadoDescricao').val('')
         $('#produtoAcabadoQuantidade').val('')
         $('#produtoAcabadoNumeroSerie').val('')
         $('#produtoAcabadoDataFabricacao').val('')
@@ -307,7 +316,6 @@
         $('#produtoAcabadoPosition').val(position)
         const oldData = produtoAcabadoTbl.row(position - 1).data()
         $('#produtosAcabados').val(oldData.productoId).trigger('change')
-        $('#produtoAcabadoDescricao').val(oldData.descricao)
         $('#produtoAcabadoQuantidade').val(oldData.quantidade)
         $('#produtoAcabadoNumeroSerie').val(oldData.numeroSerie)
         $('#produtoAcabadoDataFabricacao').val(oldData.dataFabricacao)
@@ -315,6 +323,17 @@
       // Produto acabado
 
       // Produto segregado
+      function loadSavedMaterials(data) {
+        data.map(curr => {
+          $('#materiais').val(curr.produto.material_id)
+          $('#materiais').trigger('change')
+          maskPeso("#segregadosPesoBruto", curr.produto.peso_bruto)
+          maskPeso("#segregadosPesoLiquido", curr.produto.peso_liquido)
+          maskPeso("#segregadosPercentualComposicao", curr.produto.percentual_composicao)
+          $('#addSegregados').trigger('click')
+        })
+      }
+
       function getMateriais() {
         return new Promise(resolve => {
           if (!$('#materiais').hasClass("select2-hidden-accessible")) {

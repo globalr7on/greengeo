@@ -15,6 +15,7 @@ class Produto extends Model
 
     protected $table = 'produto_acabado';
     protected $fillable = [
+        'descricao',
         'codigo',
         'dimensoes',
         'altura',
@@ -41,6 +42,6 @@ class Produto extends Model
      
     public function nota_fiscal_iten()
     {
-        return $this->morphOne('App\Models\NotaFiscalIten', 'item');
+        return $this->morphOne('App\Models\NotaFiscalIten', 'itenable');
     }     
 }

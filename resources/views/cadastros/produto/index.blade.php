@@ -114,6 +114,7 @@
           comprimento: formatStringToFloat($("#input_comprimento").val()),
           especie: $("#input_especie").val(),
           marca: $("#input_marca").val(),
+          descricao: $("#input_descricao").val(),
           materiais: materiaisData
         }
         const id = $('#input_id').val()
@@ -161,6 +162,7 @@
             $("#input_dimensoes").val(response.data.dimensoes)
             $("#input_especie").val(response.data.especie)
             $("#input_marca").val(response.data.marca)
+            $("#input_descricao").val(response.data.descricao)
             getEmpresa(response.data.pessoa_juridica_id, true)
             maskPeso("#input_altura", formatFloatToString(response.data.altura))
             maskPeso("#input_largura", formatFloatToString(response.data.largura))

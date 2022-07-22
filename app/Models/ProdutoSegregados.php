@@ -20,6 +20,6 @@ class ProdutoSegregados extends Model
     
     public function nota_fiscal_iten()
     {
-        return $this->morphOne('App\Models\NotaFiscalIten', 'item');
+        return $this->morphOne('App\Models\NotaFiscalIten', 'itenable');
     }
 }
