@@ -117,7 +117,7 @@
                 </div>
 
                 <div class="col-md-3 text-center">
-                  <button type="button" class="btn btn-primary" id="addProduto">Novo producto</button>
+                  <button type="button" class="btn btn-primary" id="addProduto">Novo produto</button>
                 </div>
               </div>
 

@@ -127,6 +127,7 @@
   function getOsMap(value) {
     app.api.get('/os').then(response =>  {
       if (response && response.status) {
+        console.log(response);
         for (let i = 0; i < response.data.length; i++) {
           getOs(response.data[i].gerador_coord, response.data[i].destinador_coord)
         }

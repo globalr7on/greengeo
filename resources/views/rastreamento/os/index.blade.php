@@ -31,7 +31,7 @@
                     <th class="text-primary font-weight-bold">Destinador</th>
                     <th class="text-primary font-weight-bold">Emissão</th>
                     <th class="text-primary font-weight-bold">MTR</th>
-                    <th class="text-primary font-weight-bold">Ação</th>
+                    <th class="text-primary font-weight-bold text-center">Ação</th>
                   </thead>
                 </table>
               </div>
@@ -42,6 +42,7 @@
     </div>
   </div>
    @include('rastreamento.os.modal')
+   @include('rastreamento.os.modalFotos')
   
 @endsection
 
@@ -60,7 +61,7 @@
           { data: "emissao" },
           { data: "mtr" },
         ],
-        apiDataTableColumnsDefs : [
+        apiDataTableColumnDefs : [
           // { targets: 1, orderable: false },
           // { width: "70px", targets: [0,19,26] },
           // { width: "200px", targets: [2,3,4,5,6,7,8,9,10,11,12,13,24,25] },
@@ -70,13 +71,16 @@
             className: "text-center",
             render : function (data, type, row) {
               return `
-                <i class="fa fa-trash cursor-pointer excluirEmpresa" data-id="${row.id}" title="Excluir" ></i>
+                <i class="fa fa-trash cursor-pointer deleteAction" data-id="${row.id}"  title="Excluir" ></i>
                 &nbsp;
-                <i class="fa fa-pen cursor-pointer editarEmpresa" data-id="${row.id}"  title="Editar"></i>
+                <i class="fa fa-pen cursor-pointer editAction" data-id="${row.id}"  title="Editar"></i>
+                &nbsp;
+                <i class="fa-solid fa-cloud-arrow-up cursor-pointer novaFoto" data-id="${row.id}"  title="Adicionar Foto"></i>
               `
             }
           }
         ],
+        useDefaultDataTableColumnDefs: false,
         datatableSelector: '#osTbl'
       })
      
@@ -92,6 +96,11 @@
         getVeiculo()
         getMotorista()
         getEstagio()
+      });
+
+      // Open Modal New
+      $('body').on('click', '.novaFoto', function() {
+        $("#modalFoto").modal("show")
       });
 
       // Salvar ''

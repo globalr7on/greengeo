@@ -150,6 +150,7 @@
                   <button class="btn btn-warning">Gerar MTR</button>
                   <button class="btn btn-warning">Gerar CDF</button>
                   <button class="btn btn-danger">Cancelar MTR</button>
+                  <button class="btn btn-danger">Fotos</button>
                   <button class="btn btn-primary stepper-prev">Anterior</button>
                   <button class="btn btn-primary"  id="salvarOs" >Salvar</button>
                 </div>

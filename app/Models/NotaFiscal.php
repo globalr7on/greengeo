@@ -26,6 +26,6 @@ class NotaFiscal extends Model
 
     public function nota_fiscal_itens()
     {
-        return $this->hasMany('App\Models\NotaFiscalIten', 'nota_fiscal_id', 'id');
+        return $this->hasMany('App\Models\NotaFiscalIten', 'id', 'nota_fiscal_id');
     }
 }

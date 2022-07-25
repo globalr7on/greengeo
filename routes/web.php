@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,24 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 |
 */
 
+
+
+
+
+
+// Route::post('upload', function (){
+	
+// 	request()->file('file')->store(
+		
+// 		'my-file',
+// 		'do'
+
+// 	);
+
+// 	return back();
+// })->name('upload');
+
+
 Auth::routes(['verify' => true]);
 
 // Route::get('/email/verify', function () {
@@ -22,6 +41,7 @@ Auth::routes(['verify' => true]);
 
 
 // Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+//     dd("Pasando por aqui mi pana ");
 // 	$request->fulfill();
  
 //     return redirect('/home');
@@ -38,8 +58,11 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
+
 Route::group(['middleware' => ['auth', 'permission']], function () {
 	Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home')->middleware('auth');
+
+	
 	Route::get('/cadastro/email', 'App\Http\Controllers\EmailController@contact')->name('cadastros.email');
 
 	// Cadastro
@@ -65,6 +88,7 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
 	Route::get('/or/rastreamento',  'App\Http\Controllers\RastreamentoController@index')->name('rastreamento.rastreamento');
 	Route::get('/or/nota_fiscal', 'App\Http\Controllers\NotaFiscalController@index')->name('rastreamento.notaFiscal');
 	Route::get('/or/ordem_servico', 'App\Http\Controllers\OrdemDeServicoController@index')->name('rastreamento.os');
+	Route::get('/or/fotos', 'App\Http\Controllers\ImagensController@index')->name('imagens');
 
 	// Configuracoes
 	Route::get('meu_cadastro', 'App\Http\Controllers\ProfileController@index')->name('configuracoes.perfil');
@@ -72,3 +96,4 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
 	Route::get('configuracoes/roles', 'App\Http\Controllers\RolesController@index')->name('configuracoes.funcoes');
 	Route::get('configuracoes/permissions', 'App\Http\Controllers\PermissionsController@index')->name('configuracoes.permissoes');
 });
+
