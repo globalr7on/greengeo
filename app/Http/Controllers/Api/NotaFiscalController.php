@@ -109,31 +109,48 @@ class NotaFiscalController extends Controller
         try {
             $nota = NotaFiscal::find($id);
             $nota->update($request->except('produtos_acabados', 'produtos_segregados'));
-            // if ($request->get('produtos_acabados')) {
-            //     foreach ($request->get('produtos_acabados') as $produto_acabado) {
-            //         $produto = Produto::find($produto_acabado['producto_id']);
-            //         $produto->nota_fiscal_iten()->updateOrCreate([
-            //             'quantidade' => $produto_acabado['quantidade'],
-            //             'numero_de_serie' => $produto_acabado['numero_de_serie'],
-            //             'data_de_fabricacao' => $produto_acabado['data_de_fabricacao'],
-            //             'nota_fiscal_id' => $nota->id,
-            //             'usuario_responsavel_cadastro_id' => $produto_acabado['usuario_responsavel_cadastro_id']
-            //         ]);
-            //     }
-            // }
+            if ($request->get('produtos_acabados')) {
+                $produtoClass = get_class(Produto::getModel());
+                $produtoIds = array_column($request->get('produtos_acabados'), 'id');
+                $produtoToDelete = $nota->nota_fiscal_itens->where('itenable_type', $produtoClass)->whereNotIn('id', $produtoIds);
+                if (count($produtoToDelete->all()) > 0) {
+                    $produtoToDelete->each->delete();
+                }
+                foreach ($request->get('produtos_acabados') as $produto_acabado) {
+                    $produto = Produto::find($produto_acabado['producto_id']);
+                    $produto->nota_fiscal_iten()->updateOrCreate([
+                        'id' => $produto_acabado['id']
+                    ], [
+                        'quantidade' => $produto_acabado['quantidade'],
+                        'numero_de_serie' => $produto_acabado['numero_de_serie'],
+                        'data_de_fabricacao' => $produto_acabado['data_de_fabricacao'],
+                        'nota_fiscal_id' => $nota->id,
+                        'usuario_responsavel_cadastro_id' => $produto_acabado['usuario_responsavel_cadastro_id']
+                    ]);
+                }
+            }
 
-            // if ($request->get('produtos_segregados')) {
-            //     foreach ($request->get('produtos_segregados') as $produto_segregado) {
-            //         $segregado = ProdutoSegregados::create($produto_segregado);
-            //         $segregado->nota_fiscal_iten()->create([
-            //             'quantidade' => 1,
-            //             'numero_de_serie' => null,
-            //             'data_de_fabricacao' => null,
-            //             'nota_fiscal_id' => $nota->id,
-            //             'usuario_responsavel_cadastro_id' => $produto_segregado['usuario_responsavel_cadastro_id']
-            //         ]);
-            //     }
-            // }
+            if ($request->get('produtos_segregados')) {
+                $segregadoClass = get_class(ProdutoSegregados::getModel());
+                $segregadoIds = array_column($request->get('produtos_segregados'), 'parentId');
+                $segregadoToDelete = $nota->nota_fiscal_itens->where('itenable_type', $segregadoClass)->whereNotIn('id', $segregadoIds);
+                if (count($segregadoToDelete->all()) > 0) {
+                    $segregadoToDelete->each->delete();
+                    ProdutoSegregados::whereIn('id', $segregadoToDelete->pluck('itenable_id')->all())->delete();
+                }
+                foreach ($request->get('produtos_segregados') as $produto_segregado) {
+                    $segregado = ProdutoSegregados::updateOrCreate(['id' => $produto_segregado['id']], $produto_segregado);
+                    $segregado->nota_fiscal_iten()->updateOrCreate([
+                        'id' => $produto_segregado['parentId']
+                    ], [
+                        'quantidade' => 1,
+                        'numero_de_serie' => null,
+                        'data_de_fabricacao' => null,
+                        'nota_fiscal_id' => $nota->id,
+                        'usuario_responsavel_cadastro_id' => $produto_segregado['usuario_responsavel_cadastro_id']
+                    ]);
+                }
+            }
 
             DB::commit();
 

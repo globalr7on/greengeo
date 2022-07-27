@@ -23,7 +23,7 @@ class NotaFiscalIten extends Model
     
     public function nota_fiscal()
     {
-        return $this->hasOne('App\Models\NotaFiscal', 'id', 'nota_fiscal_id');
+        return $this->belongsTo('App\Models\NotaFiscal', 'id', 'nota_fiscal_id');
     }
 
     public function usuario_responsavel_cadastro()

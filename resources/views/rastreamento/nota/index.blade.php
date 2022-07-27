@@ -22,7 +22,7 @@
                 <table class="table" id="nfiscalTbl">
                   <thead>
                     <tr>
-                      <th class="text-primary font-weight-bold">Pessoa juridica</th>
+                      <th class="text-primary font-weight-bold">Empresa</th>
                       <th class="text-primary font-weight-bold">Número</th>
                       <th class="text-primary font-weight-bold">Série</th>
                       <th class="text-primary font-weight-bold">Folha</th>
@@ -73,6 +73,7 @@
       $('body').on('click', '#salvarNotafiscal', function() {
         usuarioResponsavelCadastro = $("#input_usuario_responsavel_cadastro_id").val()
         var produtoAcabadoData = produtoAcabadoTbl?.rows()?.data()?.toArray()?.map(curr => ({
+          id: parseInt(curr.id),
           producto_id: parseInt(curr.productoId),
           quantidade: parseInt(curr.quantidade),
           numero_de_serie: curr.numeroSerie,
@@ -80,6 +81,8 @@
           usuario_responsavel_cadastro_id: usuarioResponsavelCadastro,
         }))
         var produtoSegregadoData = materiaisTbl?.rows()?.data()?.toArray()?.map(curr => ({
+          parentId: parseInt(curr.parentId),
+          id: parseInt(curr.id),
           material_id: parseInt(curr.materialId),
           peso_bruto: formatStringToFloat(curr.pesoBruto),
           peso_liquido: formatStringToFloat(curr.pesoLiquido),
@@ -152,7 +155,6 @@
             getProdutosAcabados().then(() => {
               loadSavedProducts(response.data.itens.filter(curr => curr.numero_de_serie))
             })
-
             initMaterialDataTable()
             getMateriais().then(() => {
               loadSavedMaterials(response.data.itens.filter(curr => !curr.numero_de_serie))
@@ -190,6 +192,7 @@
         data.map(curr => {
           $('#produtosAcabados').val(curr.produto.id)
           $('#produtosAcabados').trigger('change')
+          $('#produtoAcabadoId').val(curr.id)
           $('#produtoAcabadoQuantidade').val(curr.quantidade)
           $('#produtoAcabadoNumeroSerie').val(curr.numero_de_serie)
           $('#produtoAcabadoDataFabricacao').val(curr.data_de_fabricacao)
@@ -271,6 +274,7 @@
 
       $('#produtosAcabados').on('select2:clear', function(e) {
         $('#addProduto').text('Novo produto')
+        $('#produtoAcabadoId').val('')
         $('#produtoAcabadoPosition').val('')
         $('#produtoAcabadoQuantidade').val('')
         $('#produtoAcabadoNumeroSerie').val('')
@@ -279,8 +283,10 @@
 
       $('body').on('click', '#addProduto', function(event) {
         const dataInTable = produtoAcabadoTbl.rows().data().toArray()
+        const newPosition = produtoAcabadoTbl.rows(dataInTable.length -1 ).data()[0] ? produtoAcabadoTbl.rows(dataInTable.length -1 ).data()[0].position + 1 : 1
         const newProducto = {
-          position: parseInt($('#produtoAcabadoPosition').val()) || (produtoAcabadoTbl.rows(dataInTable.length -1 ).data()[0] ? produtoAcabadoTbl.rows(dataInTable.length -1 ).data()[0].position + 1 : 1),
+          id: $('#produtoAcabadoId').val(),
+          position: parseInt($('#produtoAcabadoPosition').val()) || newPosition,
           producto: $('#produtosAcabados option:selected').text().split(']')[0]+']',
           productoId: $('#produtosAcabados option:selected').val(),
           quantidade: $('#produtoAcabadoQuantidade').val(),
@@ -299,6 +305,7 @@
         } else {
           produtoAcabadoTbl.row.add(newProducto).draw(false)
         }
+        $('#produtoAcabadoId').val('')
         $('#produtoAcabadoPosition').val('')
         $('#produtosAcabados').val(null).trigger('change')
         $('#produtoAcabadoQuantidade').val('')
@@ -316,6 +323,7 @@
         $('#produtoAcabadoPosition').val(position)
         const oldData = produtoAcabadoTbl.row(position - 1).data()
         $('#produtosAcabados').val(oldData.productoId).trigger('change')
+        $('#produtoAcabadoId').val(oldData.id)
         $('#produtoAcabadoQuantidade').val(oldData.quantidade)
         $('#produtoAcabadoNumeroSerie').val(oldData.numeroSerie)
         $('#produtoAcabadoDataFabricacao').val(oldData.dataFabricacao)
@@ -325,6 +333,8 @@
       // Produto segregado
       function loadSavedMaterials(data) {
         data.map(curr => {
+          $('#segregadosParentId').val(curr.id)
+          $('#segregadosId').val(curr.produto.id)
           $('#materiais').val(curr.produto.material_id)
           $('#materiais').trigger('change')
           maskPeso("#segregadosPesoBruto", curr.produto.peso_bruto)
@@ -415,14 +425,19 @@
 
       $('#materiais').on('select2:clear', function(e) {
         $('#addSegregados').text('Novo material')
+        $('#segregadosParentId').val('')
+        $('#segregadosId').val('')
         $('#segregadosPosition').val('')
         setSegregadosPesos()
       })
 
       $('body').on('click', '#addSegregados', function(event) {
         const dataInTable = materiaisTbl.rows().data().toArray()
+        const newPosition = materiaisTbl.rows(dataInTable.length -1 ).data()[0] ? materiaisTbl.rows(dataInTable.length -1 ).data()[0].position + 1 : 1
         const newMaterial = {
-          position: parseInt($('#segregadosPosition').val()) || (materiaisTbl.rows(dataInTable.length -1 ).data()[0] ? materiaisTbl.rows(dataInTable.length -1 ).data()[0].position + 1 : 1),
+          parentId: $('#segregadosParentId').val(),
+          id: $('#segregadosId').val(),
+          position: parseInt($('#segregadosPosition').val()) || newPosition,
           material: $('#materiais option:selected').text(),
           materialId: $('#materiais option:selected').val(),
           pesoBruto: $('#segregadosPesoBruto').val(),
@@ -441,6 +456,8 @@
         } else {
           materiaisTbl.row.add(newMaterial).draw(false)
         }
+        $('#segregadosParentId').val('')
+        $('#segregadosId').val('')
         $('#segregadosPosition').val('')
         setSegregadosPesos()
         $('#materiais').val(null).trigger('change')
@@ -456,6 +473,8 @@
         $('#segregadosPosition').val(position)
         const oldData = materiaisTbl.row(position - 1).data()
         $('#materiais').val(oldData.materialId).trigger('change')
+        $('#segregadosParentId').val(oldData.parentId)
+        $('#segregadosId').val(oldData.id)
         maskPeso("#segregadosPesoBruto", oldData.pesoBruto)
         maskPeso("#segregadosPesoLiquido", oldData.pesoLiquido)
         maskPeso("#segregadosPercentualComposicao", oldData.percentualComposicao)

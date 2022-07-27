@@ -13,7 +13,7 @@
           <div class="col-md-12">
             <form id="formNota">
               <div class="row mx-0 mb-4">
-                <div class="col-md-6 text-center">
+                <div class="col-md-5 text-center">
                   <div class="form-group m-0 p-0">
                     <input type="hidden" id="input_id">
                     <input type="hidden" id="input_usuario_responsavel_cadastro_id" value="{{ Auth::user()->id }}">
@@ -24,30 +24,30 @@
                   </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-3 align-self-center">
                   <div class="form-group mb-0">
                     <label for="input_numero_total">Numero Total</label>
                     <input type="text" class="form-control" id="input_numero_total">
                   </div>
                 </div>
-              </div>
-              
-              <div class="row mx-0 mb-4">
-                <div class="col-md-4">
+
+                <div class="col-md-2 align-self-center">
                   <div class="form-group">
                     <label for="input_serie">Serie</label>
                     <input type="text" class="form-control" id="input_serie">
                   </div>
                 </div>
   
-                <div class="col-md-4">
+                <div class="col-md-2 align-self-center">
                   <div class="form-group">
                     <label for="input_folha">Folha</label>
                     <input type="number" class="form-control" id="input_folha">
                   </div>
                 </div>
-  
-                <div class="col-md-4">
+              </div>
+              
+              <div class="row mx-0 mb-4">
+                <div class="col-md-12">
                   <div class="form-group">
                     <label for="input_chave_de_acesso">Chave de Acesso</label>
                     <input type="text" class="form-control" id="input_chave_de_acesso">
@@ -56,8 +56,8 @@
               </div>
 
               <div class="row mx-0">
-                <button type="button" class="btn btn-primary" id="addProdutoAcabado">Produto Acabado</button>
-                <button type="button" class="btn btn-primary" id="addProdutoSegregado">Produto Segregado</button>
+                <button type="button" class="btn btn-default" id="addProdutoAcabado">Produto Acabado</button>
+                <button type="button" class="btn btn-default" id="addProdutoSegregado">Produto Segregado</button>
                 <button type="button" class="btn btn-primary" id="salvarNotafiscal">Salvar</button>
               </div>
             </form>
@@ -86,6 +86,7 @@
               <div class="form-row mx-0 mb-4">
                 <div class="col-md-12">
                   <div class="form-group">
+                    <input type="hidden" id="produtoAcabadoId">
                     <input type="hidden" id="produtoAcabadoPosition">
                     <select name="produtosAcabados" id="produtosAcabados" style="width: 100%">
                       <option></option>
@@ -167,6 +168,8 @@
               <div class="form-row mx-0 mb-4">
                 <div class="col-md-12">
                   <div class="form-group">
+                    <input type="hidden" id="segregadosParentId">
+                    <input type="hidden" id="segregadosId">
                     <input type="hidden" id="segregadosPosition">
                     <select name="materiais" id="materiais" style="width: 100%">
                       <option></option>
