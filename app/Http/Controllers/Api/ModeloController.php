@@ -35,7 +35,7 @@ class ModeloController extends Controller
     public function store(ModeloRequest $request)
     {
         $modelo = Modelo::create($request->all());
-         return response([
+        return response([
             'data' => new ModeloResource($modelo),
             'status' => true
         ], 200);

@@ -20,20 +20,23 @@ class PessoaJuridicaController extends Controller
      */
     public function index(Request $request)
     {
+        $current_user_pessoa_juridica = PessoaJuridica::find(auth()->user()->pessoa_juridica_id);
         $pessoa_juridica = PessoaJuridica::all();
 
         if ($request->has('usuario_responsavel_cadastro_id')) {
             $userResponsavel = User::find($request->usuario_responsavel_cadastro_id);
             if (!$userResponsavel->hasRole('admin')) {
-                $pessoa_juridica = $pessoa_juridica->where('usuario_responsavel_cadastro_id', $request->usuario_responsavel_cadastro_id)->all();
+                $pessoa_juridica = $pessoa_juridica->where('usuario_responsavel_cadastro_id', $request->usuario_responsavel_cadastro_id);
             }
         }
 
         if ($request->has('tipo_empresa_id')) {
-            $pessoa_juridica = $pessoa_juridica->where('tipo_empresa_id', $request->tipo_empresa_id)->all();
+            $pessoa_juridica = $pessoa_juridica->where('tipo_empresa_id', $request->tipo_empresa_id);
         }
 
-         return response([
+        $pessoa_juridica = collect($pessoa_juridica)->merge(collect([$current_user_pessoa_juridica]))->unique();
+
+        return response([
             'data' => PessoaJuridicaResource::collection($pessoa_juridica),
             'status' => true
         ], 200);

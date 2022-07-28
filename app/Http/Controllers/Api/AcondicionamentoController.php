@@ -18,10 +18,8 @@ class AcondicionamentoController extends Controller
      */
     public function index(Request $request)
     {
-        
         $acondicionamento = Acondicionamento::all();
-      
-         return response([
+        return response([
             'data' => AcondicionamentoResource::collection($acondicionamento),
             'status' => true
         ], 200);
@@ -52,7 +50,7 @@ class AcondicionamentoController extends Controller
      */
     public function show($id)
     {
-         return response([
+        return response([
             'data' => new AcondicionamentoResource(Acondicionamento::find($id)),
             'status' => true
         ], 200);
@@ -70,7 +68,7 @@ class AcondicionamentoController extends Controller
     {
         $acondicionamento = Acondicionamento::find($id);
         $acondicionamento->update($request->all());
-         return response([
+        return response([
             'data' => new AcondicionamentoResource($acondicionamento),
             'status' => true
         ], 200);

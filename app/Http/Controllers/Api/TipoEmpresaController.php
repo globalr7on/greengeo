@@ -39,9 +39,8 @@ class TipoEmpresaController extends Controller
      */
     public function store(TipoEmpresaRequest $request)
     {
-        
         $tipo_empresa = TipoEmpresa::create($request->all());
-          return response([
+        return response([
             'data' => new TipoEmpresaResource($tipo_empresa),
             'status' => true
         ], 200);
@@ -72,7 +71,7 @@ class TipoEmpresaController extends Controller
     { 
         $tipo_empresa = TipoEmpresa::find($id);
         $tipo_empresa->update($request->all());
-         return response([
+        return response([
             'data' => new TipoEmpresaResource($tipo_empresa),
             'status' => true
         ], 200);

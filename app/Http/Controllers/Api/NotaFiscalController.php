@@ -23,7 +23,6 @@ class NotaFiscalController extends Controller
     public function index(Request $request)
     {
         $nota = NotaFiscal::all();
-
         return response([
             'data' => NotaFiscalResource::collection($nota),
             'status' => true

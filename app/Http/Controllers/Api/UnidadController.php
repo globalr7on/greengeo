@@ -66,7 +66,7 @@ class UnidadController extends Controller
     {
         $unidad = Unidade::find($id);
         $unidad->update($request->all());
-         return response([
+        return response([
             'data' => new UnidadeResource($unidad),
             'status' => true
         ], 200);

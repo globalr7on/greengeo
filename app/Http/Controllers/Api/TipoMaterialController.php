@@ -20,8 +20,7 @@ class TipoMaterialController extends Controller
     public function index()
     {
         $tipo_material = TipoMaterial::all();
-       
-          return response([
+        return response([
             'data' => TipoMaterialResource::collection($tipo_material),
             'status' => true
         ], 200);
@@ -37,7 +36,7 @@ class TipoMaterialController extends Controller
     {
         
         $tipo_material = TipoMaterial::create($request->all());
-          return response([
+        return response([
             'data' => new TipoMaterialResource($tipo_material),
             'status' => true
         ], 200);
@@ -51,7 +50,7 @@ class TipoMaterialController extends Controller
      */
     public function show($id)
     {
-       return response([
+        return response([
             'data' => new TipoMaterialResource(TipoMaterial::find($id)),
             'status' => true
         ], 200);
@@ -68,7 +67,7 @@ class TipoMaterialController extends Controller
     { 
         $tipo_material = TipoMaterial::find($id);
         $tipo_material->update($request->all());
-         return response([
+        return response([
             'data' => new TipoMaterialResource($tipo_material),
             'status' => true
         ], 200);

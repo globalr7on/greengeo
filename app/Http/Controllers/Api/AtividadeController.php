@@ -18,7 +18,7 @@ class AtividadeController extends Controller
     public function index()
     {
         $atividade = Atividade::all();
-         return response([
+        return response([
             'data' => AtividadeResource::collection($atividade),
             'status' => true
         ], 200);
@@ -65,7 +65,7 @@ class AtividadeController extends Controller
     {
         $atividade = Atividade::find($id);
         $atividade->update($request->all());
-         return response([
+        return response([
             'data' => new AtividadeResource($atividade),
             'status' => true
         ], 200);

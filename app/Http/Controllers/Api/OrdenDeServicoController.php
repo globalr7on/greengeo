@@ -95,7 +95,7 @@ class OrdenDeServicoController extends Controller
     {
         $orden_servico = OrdensServicos::find($id);
         $orden_servico->update($request->all());
-           return response([
+        return response([
             'data' => new OrdenDeServicoResource($orden_servico),
             'status' => true
         ], 200);

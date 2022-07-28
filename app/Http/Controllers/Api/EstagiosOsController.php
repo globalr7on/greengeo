@@ -64,7 +64,6 @@ class EstagiosOsController extends Controller
      */
     public function update(EstagiosOsRequest $request, $id)
     {
-        
         $estagios_os = Estagio::find($id);
         $estagios_os->update($request->all());
         return response([
