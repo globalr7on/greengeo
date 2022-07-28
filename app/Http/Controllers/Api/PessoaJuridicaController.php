@@ -9,6 +9,7 @@ use App\Http\Resources\PessoaJuridicaResource;
 use App\Models\PessoaJuridica;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 
 class PessoaJuridicaController extends Controller
@@ -17,24 +18,24 @@ class PessoaJuridicaController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
-     */
+     */  
     public function index(Request $request)
     {
-        $current_user_pessoa_juridica = PessoaJuridica::find(auth()->user()->pessoa_juridica_id);
+        $current_pessoa_juridica_id = auth()->user()->pessoa_juridica_id;
+        $current_user_pessoa_juridica = $current_pessoa_juridica_id ? PessoaJuridica::find($current_pessoa_juridica_id) : new PessoaJuridica;
         $pessoa_juridica = PessoaJuridica::all();
-
+        
         if ($request->has('usuario_responsavel_cadastro_id')) {
             $userResponsavel = User::find($request->usuario_responsavel_cadastro_id);
             if (!$userResponsavel->hasRole('admin')) {
                 $pessoa_juridica = $pessoa_juridica->where('usuario_responsavel_cadastro_id', $request->usuario_responsavel_cadastro_id);
             }
         }
-
+        
         if ($request->has('tipo_empresa_id')) {
             $pessoa_juridica = $pessoa_juridica->where('tipo_empresa_id', $request->tipo_empresa_id);
         }
-
-        $pessoa_juridica = collect($pessoa_juridica)->merge(collect([$current_user_pessoa_juridica]))->unique();
+        $pessoa_juridica = collect($pessoa_juridica)->merge(collect([$current_user_pessoa_juridica]))->unique()->filter(function ($value) { return $value->id; });
 
         return response([
             'data' => PessoaJuridicaResource::collection($pessoa_juridica),

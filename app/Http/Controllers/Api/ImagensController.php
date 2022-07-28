@@ -36,15 +36,13 @@ class ImagensController extends Controller
         try {
             $orden_servicio_id = $request->get('orden_servicio_id');
             foreach ($request->file('uploaded_file') as $image) {
-                $tempName = time().'.'.$image->extension();
+                $tempName = time().rand().'.'.$image->extension();
                 $imageName = Storage::disk('do')->putFileAs('uploads', $image, $tempName, 'public');
                 $imageUrl = DO_S3_PATH.$imageName;
 
                 $ima = new Imagen;
                 $ima->url = $imageUrl;
-                $ima->nome_arquivo = $image->getClientOriginalName();
-                // $ima->orden_servico_iten_id = $orden_servicio_id;
-                $ima->orden_servico_iten_id = null;
+                $ima->ordens_servicos_id = $orden_servicio_id;
                 $ima->save();
             }
 

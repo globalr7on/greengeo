@@ -13,9 +13,9 @@
             <form action="{{ route('imagens.criar') }}" method="post" enctype="multipart/form-data">
               {{ @csrf_field() }}
               <input type="hidden" name="orden_servicio_id" id="orden_servicio_id">
-              <!-- <input type="file" name="uploaded_file[]" id="uploaded_file[]" multiple oninput='UpdatePreview()'> -->
+               <input type="file" name="uploaded_file[]" id="uploaded_file[]" multiple oninput='UpdatePreview()'> 
 
-              <div class="fileinput fileinput-new text-center mx-2" data-provides="fileinput">
+              {{-- <div class="fileinput fileinput-new text-center mx-2" data-provides="fileinput">
                 <div class="fileinput-new thumbnail img-raised">
                   <img src="{{ asset('material') }}/img/image_placeholder.jpeg" style="width: 200px;">
                 </div>
@@ -64,7 +64,7 @@
                     <i class="fa fa-times"></i> Remove
                   </a>
                 </div>
-              </div>
+              </div> --}}
 
               <input type="submit" class="btn btn-primary">
             </form>

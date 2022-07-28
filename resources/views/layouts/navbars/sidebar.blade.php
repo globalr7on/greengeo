@@ -126,7 +126,7 @@
             <li class="nav-item ml-4 {{ $activePage == 'modelo' ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('administrativo.modelo') }}">
                 <i class="fa-solid fa-shuffle"></i>
-                <span class="sidebar-normal">{{ __('Modelo de Veiculos') }}</span>
+                <span class="sidebar-normal">{{ __('Modelo Veiculos') }}</span>
               </a>
             </li>
             @endcan
@@ -135,7 +135,7 @@
             <li class="nav-item ml-4 {{ $activePage == 'marca' ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('administrativo.marca') }}">
                 <i class="fa-solid fa-shuffle"></i>
-                <span class="sidebar-normal">{{ __('Marcas de Veiculos') }}</span>
+                <span class="sidebar-normal">{{ __('Marcas Veiculos') }}</span>
               </a>
             </li>
             @endcan

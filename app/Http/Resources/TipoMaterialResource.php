@@ -18,5 +18,6 @@ class TipoMaterialResource extends JsonResource
             'id' => $this->id,
             'descricao' => $this->descricao,
         ];
+   
     }
 }
