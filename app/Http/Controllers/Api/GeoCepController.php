@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class GeoCepController extends Controller
 {
@@ -17,14 +18,10 @@ class GeoCepController extends Controller
         $cep = $request->get("cep");
         $numero = $request->get("numero");
         $api = "https://cep.awesomeapi.com.br/json/{$cep}";
-        $json = null;
+        $http = Http::get($api);
+        $json = $http->object();
 
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, $api);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, True);
-        $json = json_decode(curl_exec($curl));
-
-        if (isset($json->status) && $json->status >= 400) {
+        if (!$http->ok()) {
             return response([
                 'data' => $json->message,
                 'status' => false
@@ -35,11 +32,10 @@ class GeoCepController extends Controller
         $district = urlencode($json->district);
         $state = urlencode($json->state);
         $api = "https://maps.google.com/maps/api/geocode/json?address={$address}+{$numero}+{$district}+{$state}&key=AIzaSyBft2z2KNOr72oPM4SUnRHyLSH_d_HrOek";
-        curl_setopt($curl, CURLOPT_URL, $api);
-        $json = json_decode(curl_exec($curl));
-        curl_close($curl);
+        $http = Http::get($api);
+        $json = $http->object();
 
-        if ($json->status != 'OK') {
+        if (!$http->ok()) {
             return response([
                 'data' => $json->error_message,
                 'status' => false
@@ -53,10 +49,7 @@ class GeoCepController extends Controller
             ], 400);
         }
 
-        $endereco = null;
-        $bairro = null;
-        $cidade = null;
-        $estado = null;
+        $endereco = $bairro = $cidade = $estado = null;
 
         foreach ($json->results[0]->address_components as $addressComponent) {
             if (in_array("route", $addressComponent->types)) {
