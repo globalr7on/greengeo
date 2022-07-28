@@ -1,6 +1,4 @@
 @extends('layouts.app', ['activePage' => 'os', 'titlePage' => __('Ordem de Serviço')])
-@section('css')
-@endsection
 @section('subheaderTitle')
   Administrativo
 @endsection
@@ -43,7 +41,6 @@
   </div>
    @include('rastreamento.os.modal')
    @include('rastreamento.os.modalFotos')
-  
 @endsection
 
 @push('js')
@@ -62,11 +59,7 @@
           { data: "mtr" },
         ],
         apiDataTableColumnDefs : [
-          // { targets: 1, orderable: false },
-          // { width: "70px", targets: [0,19,26] },
-          // { width: "200px", targets: [2,3,4,5,6,7,8,9,10,11,12,13,24,25] },
-          // { width: "100px", targets: [14,15,16,17,18,20,21,22,23] },
-          { 
+          {
             targets : 8,
             className: "text-center",
             render : function (data, type, row) {
@@ -96,17 +89,18 @@
         getVeiculo()
         getMotorista()
         getEstagio()
-      });
+      })
 
-      // Open Modal New
+      // Open Modal novaFoto
       $('body').on('click', '.novaFoto', function() {
+        const id = $(this).attr('data-id');
+        $('#orden_servicio_id').val(id);
         $("#modalFoto").modal("show")
-      });
+      })
 
-      // Salvar ''
+      // Salvar
       $('body').on('click', '#salvarOs', function() {
         const JSONRequest = {
-          
           estagio_id: $("#input_estagio_id").val(),
           gerador_id: $("#input_gerador_id").val(), 
           destinador_id: $("#input_destinador_id").val(),
@@ -126,7 +120,6 @@
           area_total: '13456.22',
           peso_de_controle:'23456.2',
           nota_fiscal_id: 1,
-
         }
         const id = $('#input_id').val()
         if (id) {
@@ -154,7 +147,7 @@
             notifyDanger('Falha ao criar, tente novamente')
           })
         }
-      });
+      })
 
       // Editar
       $('body').on('click', '.editAction', function() {
@@ -178,14 +171,13 @@
             $("#input_description").val(response.data.description)
             $("#input_data_estagio").val(response.data.data_estagio)
             $("#input_preenchimento").val(response.data.preenchimento)
-           
           }
         })
         .catch(error => notifyDanger('Falha ao obter detalhes. Tente novamente'))
       })
 
       // Excluir
-      $('body').on('click', '.deleteAction',  function() {
+      $('body').on('click', '.deleteAction', function() {
         const id = $(this).attr('data-id')
         sweetConfirm('Deseja realmente excluir?').then(confirmed => {
           if (confirmed) {
@@ -196,7 +188,7 @@
             .catch(error => notifyDanger('Falha ao excluir. Tente novamente'))
           }
         }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
-      });
+      })
 
       function getPessoaJuridica(valueGerador, valueDestinador, valueTransportador) {
         app.api.get('/pessoa_juridica').then(response =>  {
@@ -223,6 +215,7 @@
           notifyDanger('Falha ao obter dados, tente novamente')
         })
       }
+
       function getMotorista(value) {
         app.api.get('/users').then(response =>  {
           if (response && response.status) {
@@ -234,7 +227,8 @@
           notifyDanger('Falha ao obter dados, tente novamente')
         })
       }
-       function getEstagio(value) {
+
+      function getEstagio(value) {
         app.api.get('/estagio_os').then(response =>  {
           if (response && response.status) {
             loadSelect('#input_estagio_id', response.data, ['id', 'descricao'], value)
@@ -245,8 +239,6 @@
           notifyDanger('Falha ao obter dados, tente novamente')
         })
       }
-      
-    });
-
+    })
   </script>
 @endpush
