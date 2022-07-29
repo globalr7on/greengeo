@@ -14,58 +14,6 @@
               {{ @csrf_field() }}
               <input type="hidden" name="orden_servicio_id" id="orden_servicio_id">
                <input type="file" name="uploaded_file[]" id="uploaded_file[]" multiple oninput='UpdatePreview()'> 
-
-              {{-- <div class="fileinput fileinput-new text-center mx-2" data-provides="fileinput">
-                <div class="fileinput-new thumbnail img-raised">
-                  <img src="{{ asset('material') }}/img/image_placeholder.jpeg" style="width: 200px;">
-                </div>
-                <div class="fileinput-preview fileinput-exists thumbnail img-raised" style="width:200px; height:150px;"></div>
-                <div>
-                  <span class="btn btn-raised btn-round btn-default btn-file">
-                    <span class="fileinput-new">Select image</span>
-                    <span class="fileinput-exists">Change</span>
-                    <input type="file" name="uploaded_file[]" />
-                  </span>
-                  <a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput">
-                    <i class="fa fa-times"></i> Remove
-                  </a>
-                </div>
-              </div>
-
-              <div class="fileinput fileinput-new text-center mx-2" data-provides="fileinput">
-                <div class="fileinput-new thumbnail img-raised">
-                  <img src="{{ asset('material') }}/img/image_placeholder.jpeg" style="width: 200px;">
-                </div>
-                <div class="fileinput-preview fileinput-exists thumbnail img-raised" style="width:200px; height:150px;"></div>
-                <div>
-                  <span class="btn btn-raised btn-round btn-default btn-file">
-                    <span class="fileinput-new">Select image</span>
-                    <span class="fileinput-exists">Change</span>
-                    <input type="file" name="uploaded_file[]" />
-                  </span>
-                  <a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput">
-                    <i class="fa fa-times"></i> Remove
-                  </a>
-                </div>
-              </div>
-
-              <div class="fileinput fileinput-new text-center mx-2" data-provides="fileinput">
-                <div class="fileinput-new thumbnail img-raised">
-                  <img src="{{ asset('material') }}/img/image_placeholder.jpeg" style="width: 200px;">
-                </div>
-                <div class="fileinput-preview fileinput-exists thumbnail img-raised" style="width:200px; height:150px;"></div>
-                <div>
-                  <span class="btn btn-raised btn-round btn-default btn-file">
-                    <span class="fileinput-new">Select image</span>
-                    <span class="fileinput-exists">Change</span>
-                    <input type="file" name="uploaded_file[]" />
-                  </span>
-                  <a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput">
-                    <i class="fa fa-times"></i> Remove
-                  </a>
-                </div>
-              </div> --}}
-
               <input type="submit" class="btn btn-primary">
             </form>
           </div>

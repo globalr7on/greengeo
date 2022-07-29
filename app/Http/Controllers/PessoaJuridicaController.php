@@ -17,17 +17,4 @@ class PessoaJuridicaController extends Controller
         return view('cadastros.empresa.index');
     }
 
-    // /**
-    //  * Store a new user.
-    //  *
-    //  * @param  Request  $request
-    //  * @return Response
-    //  */
-    // public function store(Request $request)
-    // {
-    //      $cep = $request->input('input_cep');
-    //      dd($cep);
-    // }
-
-
 }
