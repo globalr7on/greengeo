@@ -24,7 +24,7 @@ class RoleRequest extends FormRequest
                 'string',
                 'max:255',
                 Rule::unique('roles')->where(function ($query) use ($newGuardName, $id) {
-                    return $query->where('guard_name', $newGuardName)->whereNotIn('id', [$id]);
+                    return $id ? $query->where('guard_name', $newGuardName)->whereNotIn('id', [$id]) : $query->where('guard_name', $newGuardName);
                 })
             ],
             'guard_name' => 'required|string|max:255',

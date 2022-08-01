@@ -28,14 +28,34 @@
           </div>
 
           <h4 class="text-primary font-weight-bold mx-3 my-2">Permissões</h4>
-          <div class="row mx-4" id="permissions"></div>
+          <div class="row mx-4">
+            <div class="col-md-12 px-0">
+              <table class="table" id="permissionsTbl">
+                <thead>
+                  <th class="text-primary font-weight-bold" style="width:5%">
+                    <div class="form-check mb-0">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" id="selectAll">
+                        <span class="form-check-sign" style="left:12px">
+                          <span class="check"></span>
+                        </span>
+                      </label>
+                    </div>
+                  </th>
+                  <th class="text-primary font-weight-bold" style="width:auto">Permissão</th>
+                  <th class="text-primary font-weight-bold" style="width:15%">Acesso</th>
+                </thead>
+              </table>
+            </div>
+          </div>
+
           <div class="row mx-4">
             <div class="form-group m-0 p-0">
               <input type="hidden" class="form-control" id="input_permissions" value="{}">
             </div>
           </div>
 
-          <div class="row mx-4">
+          <div class="row mx-4 mt-2">
             <button class="btn btn-primary" id="salvarRole">Salvar</button>
           </div>
         </form>

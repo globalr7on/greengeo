@@ -37,6 +37,7 @@
 @push('js')
   <script>
     $(document).ready(function () {
+      var permissionsTbl
       let app = new App({
         apiUrl: '/api/roles',
         apiDataTableColumns: [
@@ -48,19 +49,19 @@
 
       // Open Modal New
       $('body').on('click', '#novaFuncao', function() {
-        removePermissions('#permissions', '#input_permissions')
+        removePermissionsInput()
         getGuardNames()
         delFormValidationErrors()
         $("#modalFormRole").modal("show")
         $('#modalFormRoleTitle').text("Nova Função")
         $('#inputId').val("")
         $('#formRole')[0].reset()
+        initPermissionsDataTable()
       });
 
       // Salvar 
       $('body').on('click', '#salvarRole', function() {
-        const permissions = []
-        $('#permissions input:checkbox:checked').each(function () { permissions.push(parseInt($(this).val())) })
+        const permissions = (permissionsTbl?.rows('.selected')?.data()?.toArray() || []).map(curr => curr.id)
         const JSONRequest = {
           name: $("#input_name").val(),
           guard_name: $("#input_guard_name").val(),
@@ -88,11 +89,11 @@
             }
           })
           .catch(error => {
-            addFormValidationErrors(error?.data)
+            error?.data && addFormValidationErrors(error?.data)
             notifyDanger('Falha ao criar função, tente novamente')
           })
         }
-      });
+      })
 
       // Editar
       $('body').on('click', '.editAction', function() {
@@ -100,12 +101,13 @@
         app.api.get(`/roles/${id}`).then(response =>  {
           if (response && response.status) {
             delFormValidationErrors()
+            initPermissionsDataTable()
             $('#formRole')[0].reset()
             $("#modalFormRole").modal("show")
             $('#modalFormRoleTitle').text("Editar função")
             $('#inputId').val(response.data.id)
             $("#input_name").val(response.data.name)
-            setPermissions('#input_permissions', response.data.permissions, response.data.guard_name)
+            setPermissionsInput('#input_permissions', response.data.permissions, response.data.guard_name)
             getGuardNames(response.data.guard_name)
           }
         })
@@ -142,14 +144,14 @@
         ]
         loadSelect('#input_guard_name', data, ['id', 'name'], guardValue)
         if (!guardValue) {
-          removePermissions('#permissions', '#input_permissions')
+          removePermissionsInput()
         }
       }
 
       function getPermissions(values, guard) {
         app.api.get(`/permissions?guard=${guard}`).then(response => {
           if (response && response.status) {
-            addPermissionsCheck('#permissions', response.data, values)
+            setPermissionsDataTable(response.data, values)
           }
         })
         .catch(error => {
@@ -157,30 +159,66 @@
           $("#modalFormRole").modal("hide")
         })
       }
-     function removePermissions(selector, inputSelector) {
-        $(selector).empty()
-        $(inputSelector).val("{}")
+
+      function removePermissionsInput() {
+        $('#input_permissions').val("{}")
       }
 
-      function setPermissions(selector, permissions, guardName) {
+      function setPermissionsInput(selector, permissions, guardName) {
         $(selector).val(JSON.stringify({permissions, guardName}))
       }
-  
-      function addPermissionsCheck(selector, data, values = []) {
-        $(selector).empty()
-        data.map(curr => {
-          const isChecked = values.find(val => val == curr.id) ? true : false
-          $(selector).append(
-            `<div class="form-check col-md-6 my-2">
-              <label class="form-check-label">
-                <input class="form-check-input" type="checkbox" value="${curr.id}" name="permissions[${curr.name}]" ${isChecked ? 'checked' : ''}>
-                [${curr.guard_name}] ${curr.name}
-                <span class="form-check-sign"><span class="check"></span></span>
-              </label>
-            </div>`
-          )
-        })
+
+      function initPermissionsDataTable() {
+        if (!$.fn.dataTable.isDataTable('#permissionsTbl')) {
+          permissionsTbl = $('#permissionsTbl').DataTable({
+            language: app.dataTableConfig.language,
+            autoWidth: false,
+            pageLength: 10,
+            lengthChange: false,
+            order: [1],
+            columns: [
+              { data: null, defaultContent: '', orderable: false },
+              { data: 'name' },
+              { data: 'guard_name', orderable: false },
+            ],
+            columnDefs: [
+              {
+                targets: 0,
+                className: 'select-checkbox',
+              },
+              {
+                targets: 2,
+                className: 'text-center',
+              },
+            ],
+            select: {
+              style: 'multi',
+              selector: 'td:first-child'
+            },
+          })
+        } else {
+          permissionsTbl.clear().draw()
+        }
       }
+
+      function setPermissionsDataTable(data, values) {
+        permissionsTbl.clear().rows.add(data).draw()
+        values && permissionsTbl.rows().data().map((curr, index) => {
+          if (values.includes(curr.id)) {
+            permissionsTbl.rows(`:eq(${index})`).select()
+          }
+        })
+        $('#selectAll').prop("checked", permissionsTbl.rows({selected: true}).count() == permissionsTbl.rows().count())
+      }
+
+      $('body').on('change', '#selectAll',  function(event) {
+        const selectAll = event.target.checked
+        if (selectAll) {
+          permissionsTbl.rows({search: 'applied'}).select()
+        } else {
+          permissionsTbl.rows({search: 'applied'}).deselect()
+        }
+      })
     })
   </script>
 @endpush
