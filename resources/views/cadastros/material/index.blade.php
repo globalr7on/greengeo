@@ -23,12 +23,12 @@
               <div>
                 <table class="table" id="materialTbl">
                   <thead>
-                    <th class="text-primary font-weight-bold">Ibama</th>
-                    <th class="text-primary font-weight-bold">Material</th>
-                    <th class="text-primary font-weight-bold">Estado Físico</th>
-                    <th class="text-primary font-weight-bold">Unidade</th>
-                    <th class="text-primary font-weight-bold">Ativo</th>
-                    <th class="text-primary font-weight-bold">Ação</th>
+                    <th class="text-primary font-weight-bold" style="width:10%">Ibama</th>
+                    <th class="text-primary font-weight-bold" style="width:auto">Material</th>
+                    <th class="text-primary font-weight-bold" style="width:auto">Estado Físico</th>
+                    <th class="text-primary font-weight-bold" style="width:10%">Unidade</th>
+                    <th class="text-primary font-weight-bold" style="width:5%">Ativo</th>
+                    <th class="text-primary font-weight-bold" style="width:5%">Ação</th>
                   </thead>
                 </table>
               </div>

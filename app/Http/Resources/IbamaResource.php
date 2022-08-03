@@ -18,6 +18,8 @@ class IbamaResource extends JsonResource
             'id' => $this->id,
             'codigo' => $this->codigo,
             'denominacao' => $this->denominacao,
+            'classe_sucata_id' => $this->classe_sucata_id,
+            'classe_sucata' => $this->classe_sucata ? $this->classe_sucata->descricao : null,
         ];
     }
 }

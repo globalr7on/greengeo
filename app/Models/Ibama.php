@@ -14,7 +14,13 @@ class Ibama extends Model
     protected $table = 'ibamas';
     protected $fillable = [
         'codigo',
-        'denominacao'
+        'denominacao',
+        'classe_sucata_id',
     ]; 
     protected $guardaded = ['id'];
+
+    public function classe_sucata()
+    {
+        return $this->belongsTo('App\Models\ClasseSucata', 'classe_sucata_id', 'id');
+    }
 }

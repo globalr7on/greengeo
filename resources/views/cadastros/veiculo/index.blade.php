@@ -21,17 +21,17 @@
               <div>
                 <table class="table" id="veiculoTbl">
                   <thead>
-                    <th class="text-primary font-weight-bold">Empresa</th>
-                    <th class="text-primary font-weight-bold">Placa</th>
-                    <th class="text-primary font-weight-bold">Chassis</th>
-                    <th class="text-primary font-weight-bold">Capacidade</th>
-                    <th class="text-primary font-weight-bold">Renavam</th>
-                    <th class="text-primary font-weight-bold">Combustivel</th>
-                    <th class="text-primary font-weight-bold">Modelo</th>
-                    <th class="text-primary font-weight-bold">Marca</th>
-                    <th class="text-primary font-weight-bold">Acondicionamento</th>
-                    <th class="text-primary font-weight-bold">Ativo</th>
-                    <th class="text-primary font-weight-bold">Ação</th>
+                    <th class="text-primary font-weight-bold" style="width:auto">Empresa</th>
+                    <th class="text-primary font-weight-bold" style="width:auto">Placa</th>
+                    <th class="text-primary font-weight-bold" style="width:auto">Chassis</th>
+                    <th class="text-primary font-weight-bold" style="width:10%">Capacidade</th>
+                    <th class="text-primary font-weight-bold" style="width:10%">Renavam</th>
+                    <th class="text-primary font-weight-bold" style="width:10%">Combustivel</th>
+                    <th class="text-primary font-weight-bold" style="width:8%">Modelo</th>
+                    <th class="text-primary font-weight-bold" style="width:8%">Marca</th>
+                    <th class="text-primary font-weight-bold" style="width:13%">Acondicionamento</th>
+                    <th class="text-primary font-weight-bold" style="width:5%">Ativo</th>
+                    <th class="text-primary font-weight-bold" style="width:5%">Ação</th>
                   </thead>
                 </table>
               </div>

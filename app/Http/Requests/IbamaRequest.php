@@ -11,8 +11,9 @@ class IbamaRequest extends FormRequest
     public function rules()
     {
         return [
-            'codigo' => 'required',
-            'denominacao' => 'required|string|max:250',
+            'codigo' => 'required|string|max:10',
+            'denominacao' => 'required',
+            'classe_sucata_id' => 'required',
         ];
     }
 

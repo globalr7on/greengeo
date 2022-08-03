@@ -17,4 +17,9 @@ class ClasseSucata extends Model
         'descricao',
     ];
     protected $guardaded = ['id'];
+
+    public function ibamas()
+    {
+        return $this->hasMany('App\Models\Ibama', 'classe_sucata_id', 'id');
+    }
 }

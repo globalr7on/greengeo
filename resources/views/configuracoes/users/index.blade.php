@@ -19,12 +19,12 @@
               <div>
                 <table class="table" id="usersTbl">
                   <thead>
-                    <th class="text-primary font-weight-bold">CPF</th>
-                    <th class="text-primary font-weight-bold">Nome</th>
-                    <th class="text-primary font-weight-bold">Email</th>
-                    <th class="text-primary font-weight-bold">Cargo</th>
-                    <th class="text-primary font-weight-bold">Funções</th>
-                    <th class="text-primary font-weight-bold">Ação</th>
+                    <th class="text-primary font-weight-bold" style="width:10%">CPF</th>
+                    <th class="text-primary font-weight-bold" style="width:auto">Nome</th>
+                    <th class="text-primary font-weight-bold" style="width:auto">Email</th>
+                    <th class="text-primary font-weight-bold" style="width:10%">Cargo</th>
+                    <th class="text-primary font-weight-bold" style="width:20%">Funções</th>
+                    <th class="text-primary font-weight-bold" style="width:5%">Ação</th>
                   </thead>
                 </table>
               </div>

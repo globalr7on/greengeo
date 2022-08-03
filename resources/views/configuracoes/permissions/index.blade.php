@@ -19,9 +19,9 @@
               <div>
                 <table class="table" id="permissionsTbl">
                   <thead>
-                    <th class="text-primary font-weight-bold">Permissão</th>
-                    <th class="text-primary font-weight-bold">Acesso</th>
-                    <th class="text-primary font-weight-bold">Ação</th>
+                    <th class="text-primary font-weight-bold" style="width:auto">Permissão</th>
+                    <th class="text-primary font-weight-bold" style="width:10%">Acesso</th>
+                    <th class="text-primary font-weight-bold" style="width:5%">Ação</th>
                   </thead>
                 </table>
               </div>

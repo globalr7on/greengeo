@@ -21,17 +21,17 @@
               <div>
                 <table class="table" id="produtoTbl">
                   <thead>
-                    <th class="text-primary font-weight-bold">Código Fabricante</th>
-                    <th class="text-primary font-weight-bold">Nome Fabricante</th>
-                    <th class="text-primary font-weight-bold">EAN</th>
-                    <th class="text-primary font-weight-bold">Dimensões</th>
-                    <th class="text-primary font-weight-bold">Largura</th>
-                    <th class="text-primary font-weight-bold">Profundidade</th>
-                    <th class="text-primary font-weight-bold">Comprimento</th>
-                    <th class="text-primary font-weight-bold">Especie</th>
-                    <th class="text-primary font-weight-bold">Marca</th>
-                    <th class="text-primary font-weight-bold">Ativo</th>
-                    <th class="text-primary font-weight-bold">Ação</th>
+                    <th class="text-primary font-weight-bold" style="width:10%">Fabricante</th>
+                    <th class="text-primary font-weight-bold" style="width:auto">Nome Fabricante</th>
+                    <th class="text-primary font-weight-bold" style="width:8%">EAN</th>
+                    <th class="text-primary font-weight-bold" style="width:10%">Dimensões</th>
+                    <th class="text-primary font-weight-bold" style="width:8%">Largura</th>
+                    <th class="text-primary font-weight-bold" style="width:10%">Profundidade</th>
+                    <th class="text-primary font-weight-bold" style="width:10%">Comprimento</th>
+                    <th class="text-primary font-weight-bold" style="width:8%">Especie</th>
+                    <th class="text-primary font-weight-bold" style="width:8%">Marca</th>
+                    <th class="text-primary font-weight-bold" style="width:5%">Ativo</th>
+                    <th class="text-primary font-weight-bold" style="width:5%">Ação</th>
                   </thead>
                 </table>
               </div>

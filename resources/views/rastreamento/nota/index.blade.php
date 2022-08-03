@@ -22,12 +22,11 @@
                 <table class="table" id="nfiscalTbl">
                   <thead>
                     <tr>
-                      <th class="text-primary font-weight-bold">Empresa</th>
-                      <th class="text-primary font-weight-bold">Número</th>
-                      <th class="text-primary font-weight-bold">Série</th>
-                      <th class="text-primary font-weight-bold">Folha</th>
-                      <th class="text-primary font-weight-bold">Numero Total</th>
-                      <th class="text-primary font-weight-bold">Ação</th>
+                      <th class="text-primary font-weight-bold" style="width:auto">Empresa</th>
+                      <th class="text-primary font-weight-bold" style="width:5%">Série</th>
+                      <th class="text-primary font-weight-bold" style="width:5%">Folha</th>
+                      <th class="text-primary font-weight-bold" style="width:10%">Numero Total</th>
+                      <th class="text-primary font-weight-bold" style="width:5%">Ação</th>
                     </tr>
                   </thead>
                 </table>
@@ -49,7 +48,6 @@
         apiUrl: '/api/nota_fiscais',
         apiDataTableColumns: [
           { data: "pessoa_juridica" },
-          { data: "numero_total" },
           { data: "serie" },
           { data: "folha" },
           { data: "numero_total" },

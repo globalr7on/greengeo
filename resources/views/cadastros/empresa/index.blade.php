@@ -23,15 +23,15 @@
               <div>
                 <table class="table" id="empresaTbl">
                   <thead>
-                    <th class="text-primary font-weight-bold">CNPJ</th>
-                    <th class="text-primary font-weight-bold">Razao Social</th>
-                    <th class="text-primary font-weight-bold">Email</th>
-                    <th class="text-primary font-weight-bold">Contato1</th>
-                    <th class="text-primary font-weight-bold">Celular Contato1</th>
-                    <th class="text-primary font-weight-bold">Fixo</th>
-                    <th class="text-primary font-weight-bold">Capacidade Media Carga</th>
-                    <th class="text-primary font-weight-bold">Ativo</th>
-                    <th class="text-primary font-weight-bold">Ação</th>
+                    <th class="text-primary font-weight-bold" style="width:12%">CNPJ</th>
+                    <th class="text-primary font-weight-bold" style="width:auto">Razao Social</th>
+                    <th class="text-primary font-weight-bold" style="width:auto">Email</th>
+                    <th class="text-primary font-weight-bold" style="width:auto">Contato 1</th>
+                    <th class="text-primary font-weight-bold" style="width:12%">Celular Contato 1</th>
+                    <th class="text-primary font-weight-bold" style="width:10%">Fixo</th>
+                    <th class="text-primary font-weight-bold" style="width:12%">Cap. Media Carga</th>
+                    <th class="text-primary font-weight-bold" style="width:5%">Ativo</th>
+                    <th class="text-primary font-weight-bold" style="width:5%">Ação</th>
                   </thead>
                 </table>
               </div>

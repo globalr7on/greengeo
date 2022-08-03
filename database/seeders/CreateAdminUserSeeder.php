@@ -2,12 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use App\Models\PessoaJuridica;
 use Illuminate\Database\Seeder;
+use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use Illuminate\Support\Facades\Hash;
 
 class CreateAdminUserSeeder extends Seeder
 {
@@ -35,6 +33,5 @@ class CreateAdminUserSeeder extends Seeder
         $role_api->syncPermissions($permissions_api);
         $user->assignRole($role_web->id, 'web');
         $user->assignRole($role_api->id, 'api');
-
     }
 }

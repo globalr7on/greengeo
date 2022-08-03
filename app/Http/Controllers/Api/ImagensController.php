@@ -42,7 +42,7 @@ class ImagensController extends Controller
 
                 $ima = new Imagen;
                 $ima->url = $imageUrl;
-                $ima->ordens_servicos_id = $orden_servicio_id;
+                $ima->orden_servico_id = $orden_servicio_id;
                 $ima->save();
             }
 
