@@ -10,6 +10,7 @@ use App\Models\OrdensServicos;
 use App\Models\PessoaJuridica;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Auth;
 
 class OrdenDeServicoController extends Controller
 {
@@ -18,12 +19,37 @@ class OrdenDeServicoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if (auth()->user()->hasRole('admin')) {
+            $orden_servico = OrdensServicos::all();
+        }else {
+            $current_usuario_id = auth()->user()->id;
+            if (auth()->user()->hasRole('motorista')) {
+                
+                $orden_servico = OrdensServicos::where('motorista_id', $current_usuario_id)->get();
+            } else {
+                $current_empresa_id = auth()->user()->pessoa_juridica_id;
+                $current_tipo_empresa = auth()->user()->pessoa_juridica && auth()->user()->pessoa_juridica->tipo_empresa ?  auth()->user()->pessoa_juridica->tipo_empresa->descricao : null;
+                if ($current_tipo_empresa == 'Gerador') {
+                    $orden_servico = OrdensServicos::where('gerador_id', $current_empresa_id)->get();
+                } elseif ($current_tipo_empresa == 'Destinador') {
+                    $orden_servico = OrdensServicos::where('destinador_id', $current_empresa_id)->get();
+                } elseif ($current_tipo_empresa == 'Transportador') {
+                    $orden_servico = OrdensServicos::where('transportador_id', $current_empresa_id)->get();
+                } elseif ($current_tipo_empresa == 'GDT') {
+                    $orden_servico = OrdensServicos::where('gerador_id', $current_empresa_id)
+                                            ->orWhere('destinador_id', $current_empresa)
+                                            ->orWhere('transportador_id',  $current_empresa)
+                                            ->get();
+                }
+            }
+        }
+       
         return response([
-            'data' => OrdenDeServicoResource::collection(OrdensServicos::all()),
+            'data' =>OrdenDeServicoResource::collection($orden_servico),
             'status' => true
-        ], 200);
+        ], 200);      
     }
 
     /**

@@ -16,4 +16,9 @@ class Estagio extends Model
         'descricao'
     ]; 
     protected $guardaded = ['id'];
+
+    public function ordens_servicos()
+    {
+        return $this->belongsTo('App\Models\OrdensServicos', 'estagio_id', 'id');
+    }
 }

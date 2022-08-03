@@ -74,7 +74,7 @@
           }
         ],
         useDefaultDataTableColumnDefs: false,
-        datatableSelector: '#osTbl'
+        datatableSelector: '#osTbl',
       })
      
       // Open Modal New

@@ -29,7 +29,7 @@ class OrdenDeServicoResource extends JsonResource
             'area_total' => $this->area_total,
             'peso_de_controle' => $this->peso_de_controle,
             'estagio_id' => $this->estagio_id,
-            'estagio' => $this->estagio->descricao,
+            'estagio' => $this->estagio ? $this->estagio->descricao : null,
             'gerador_id' => $this->gerador_id,
             'gerador' => $this->gerador ? $this->gerador->razao_social : null,
             'gerador_coord' => $this->gerador ? [
