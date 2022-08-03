@@ -223,7 +223,7 @@ class IbamasSeeder extends Seeder
             array('codigo' => '07 02 12', 'denominacao' => 'Lodos do tratamento local de efluentes não abrangidas em 07 02 11', 'classe_sucata_id' => $classeII),
             array('codigo' => '07 02 13', 'denominacao' => 'Resíduos e refugos de plásticos', 'classe_sucata_id' => $classeII),
             array('codigo' => '07 02 14', 'denominacao' => '(*) Resíduos de aditivos contendo substâncias perigosas', 'classe_sucata_id' => $classeI),
-            '07 02 15 Resíduos de aditivos não abrangidos em 07 02 14',2,2
+            array('codigo' => '07 02 15', 'denominacao' => 'Resíduos de aditivos não abrangidos em 07 02 14', 'classe_sucata_id' => $classeII),
             array('codigo' => '07 02 16', 'denominacao' => '(*) Resíduos contendo silicones perigosos', 'classe_sucata_id' => $classeI),
             array('codigo' => '07 02 17', 'denominacao' => 'Resíduos contendo silicones que não os mencionados na rubrica 07 02 16', 'classe_sucata_id' => $classeII),
             array('codigo' => '07 02 99', 'denominacao' => 'Outros resíduos não anteriormente especificados', 'classe_sucata_id' => $classeII),

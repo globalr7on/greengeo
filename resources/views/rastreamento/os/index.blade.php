@@ -39,8 +39,8 @@
       </div>
     </div>
   </div>
-   @include('rastreamento.os.modal')
-   @include('rastreamento.os.modalFotos')
+  @include('rastreamento.os.modal')
+  @include('rastreamento.os.modalFotos')
 @endsection
 
 @push('js')
