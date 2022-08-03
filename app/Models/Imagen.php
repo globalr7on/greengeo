@@ -12,8 +12,12 @@ class Imagen extends Model
     protected $table = 'imagens';
     protected $fillable = [
         'url',
-        'nome_arquivo',
-        'orden_servico_iten_id'
+        'orden_servico_id'
     ];
     protected $guardaded = ['id'];
+
+    public function orden_servico()
+    {
+        return $this->belongsTo('App\Models\OrdensServicos', 'id', 'orden_servico_id');
+    }
 }

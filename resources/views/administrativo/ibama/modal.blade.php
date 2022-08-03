@@ -28,6 +28,17 @@
               </div>
             </div>
           </div>
+          
+          <div class="row mx-0 mb-4">
+            <div class="col-md-12 text-center">
+              <div class="form-group">
+                <label for="input_classe_sucata_id" class="display-inherit mb-0 text-left">Classe de Sucata</label>
+                <select id="input_classe_sucata_id" data-style="btn-warning text-white" name="classe_sucata_id" >
+                  <option value="" disabled selected>Seleccione</option>
+                </select>
+              </div>
+            </div>
+          </div>
 
           <div class="row mx-0">
             <button type="button" class="btn btn-primary" id="salvarIbama">Salvar</button>

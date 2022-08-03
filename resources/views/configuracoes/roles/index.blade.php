@@ -19,9 +19,9 @@
               <div>
                 <table class="table" id="rolesTbl">
                   <thead>
-                    <th class="text-primary font-weight-bold">Função</th>
-                    <th class="text-primary font-weight-bold">Acesso</th>
-                    <th class="text-primary font-weight-bold">Ação</th>
+                    <th class="text-primary font-weight-bold" style="width:auto">Função</th>
+                    <th class="text-primary font-weight-bold" style="width:5%">Acesso</th>
+                    <th class="text-primary font-weight-bold" style="width:5%">Ação</th>
                   </thead>
                 </table>
               </div>

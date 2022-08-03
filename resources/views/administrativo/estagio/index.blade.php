@@ -19,8 +19,8 @@
               <div>
                 <table class="table" id="estagioTbl">
                   <thead>
-                    <th class="text-primary font-weight-bold">Descrição</th>
-                    <th class="text-primary font-weight-bold text-center">Ação</th>
+                    <th class="text-primary font-weight-bold" style="width:auto">Descrição</th>
+                    <th class="text-primary font-weight-bold text-center" style="width:5%">Ação</th>
                   </thead>
                 </table>
               </div>

@@ -19,9 +19,10 @@
               <div>
                 <table class="table" id="ibamaTbl">
                   <thead>
-                    <th class="text-primary font-weight-bold">Código</th>
-                    <th class="text-primary font-weight-bold">Denominação</th>
-                    <th class="text-primary font-weight-bold text-center">Ação</th>
+                    <th class="text-primary font-weight-bold" style="width:8%">Código</th>
+                    <th class="text-primary font-weight-bold" style="width:auto">Denominação</th>
+                    <th class="text-primary font-weight-bold" style="width:12%">Classe Sucata</th>
+                    <th class="text-primary font-weight-bold text-center" style="width:5%">Ação</th>
                   </thead>
                 </table>
               </div>
@@ -40,8 +41,9 @@
       let app = new App({
         apiUrl: '/api/ibama',
         apiDataTableColumns: [
-          { data: "codigo" },
+          { data: "codigo", className: "text-center" },
           { data: "denominacao" },
+          { data: "classe_sucata" },
         ],
         datatableSelector: '#ibamaTbl'
       })
@@ -53,6 +55,7 @@
         $('#formIbama')[0].reset()
         $('#tituloModal').text("Novo Ibamna")
         $('#input_id').val("")
+        getClaseSucata()
       })
 
       // Salvar 
@@ -60,6 +63,7 @@
         const JSONRequest = {
           codigo: $("#input_codigo").val(),
           denominacao: $("#input_denominacao").val(),
+          classe_sucata_id: $("#input_classe_sucata_id").val(),
         }
         const id = $('#input_id').val()
         if (id) {
@@ -100,6 +104,7 @@
             $('#input_id').val(response.data.id)
             $("#input_codigo").val(response.data.codigo)
             $("#input_denominacao").val(response.data.denominacao)
+            getClaseSucata(response.data.classe_sucata_id)
           }
         })
         .catch(error => notifyDanger('Falha ao obter detalhes. Tente novamente'))
@@ -118,6 +123,18 @@
           }
         }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
       })
+
+      function getClaseSucata(value) {
+        app.api.get('/classe_sucata').then(response =>  {
+          if (response && response.status) {
+            loadSelect('#input_classe_sucata_id', response.data, ['id', 'descricao'], value)
+          }
+        })
+        .catch(error => {
+          console.log('app.api.get error', error)
+          notifyDanger('Falha ao obter dados de classe de sucata, tente novamente')
+        })
+      }
     })
   </script>
 @endpush

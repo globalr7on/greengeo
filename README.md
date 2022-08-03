@@ -2,7 +2,8 @@ Startup
     Passo 1 Comandos para o novo serviço
         php artisan migrate
         php artisan permission:create-permission-routes
-        php artisan db:seed
+        (all seeders) php artisan db:seed
+        (single seeder) php artisan db:seed --class=NameSeeder
 
     Passo 2 Manual cache resest (Permissions)
         php artisan permission:cache-reset
