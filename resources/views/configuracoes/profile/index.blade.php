@@ -262,10 +262,10 @@
         event.preventDefault()
       })
 
-      function getRoles(value, guard) {
+      function getRoles(value, guard, disabled) {
         app.api.get(`/roles?guard=${guard}`).then(response =>  {
           if (response && response.status) {
-            loadSelect(`#input_role_${guard}`, response.data, ['id', 'name'], value)
+            loadSelect(`#input_role_${guard}`, response.data, ['id', 'name'], value, disabled)
           }
         })
         .catch(error => notifyDanger('Falha ao obter funções, tente novamente'))
@@ -274,27 +274,27 @@
       // Get profile
       app.api.get('/profile/me').then(response =>  {
         if (response && response.status) {
-          $('#input_name').val(response.data.name);
-          $('#input_email').val(response.data.email);
-          $('#input_cargo').val(response.data.cargo);
-          $('#input_cpf').val(response.data.cpf);
-          $("#input_rg").val(response.data.rg);
-          $("#input_celular").val(response.data.celular);
-          $("#input_fixo").val(response.data.fixo);
-          $("#input_whats").val(response.data.whats);
-          $("#input_endereco").val(response.data.endereco);
-          $("#input_numero").val(response.data.numero);
-          $("#input_complemento").val(response.data.complemento);
-          $("#input_cep").val(response.data.cep);
-          $("#input_bairro").val(response.data.bairro);
-          $("#input_cidade").val(response.data.cidade);
-          $("#input_estado").val(response.data.estado);
-          $("#input_registro_carteira").val(response.data.registro_carteira);
-          $("#input_tipo_carteira").val(response.data.tipo_carteira);
-          $("#input_validade_carteira").val(response.data.validade_carteira);
-          $("#input_identificador_celular").val(response.data.identificador_celular);
-          getRoles(response.data.role_web, 'web');
-          getRoles(response.data.role_api, 'api');
+          $('#input_name').val(response.data.name)
+          $('#input_email').val(response.data.email)
+          $('#input_cargo').val(response.data.cargo)
+          $('#input_cpf').val(response.data.cpf)
+          $("#input_rg").val(response.data.rg)
+          $("#input_celular").val(response.data.celular)
+          $("#input_fixo").val(response.data.fixo)
+          $("#input_whats").val(response.data.whats)
+          $("#input_endereco").val(response.data.endereco)
+          $("#input_numero").val(response.data.numero)
+          $("#input_complemento").val(response.data.complemento)
+          $("#input_cep").val(response.data.cep)
+          $("#input_bairro").val(response.data.bairro)
+          $("#input_cidade").val(response.data.cidade)
+          $("#input_estado").val(response.data.estado)
+          $("#input_registro_carteira").val(response.data.registro_carteira)
+          $("#input_tipo_carteira").val(response.data.tipo_carteira)
+          $("#input_validade_carteira").val(response.data.validade_carteira)
+          $("#input_identificador_celular").val(response.data.identificador_celular)
+          getRoles(response.data.role_web, 'web', true)
+          getRoles(response.data.role_api, 'api', true)
           $('#salvarProfile').attr('disabled', false)
           $('#motorista').hide()
         }
@@ -384,6 +384,7 @@
         } else {
           $('#motorista').hide()
         }
+        $('#input_role_web').prop('disabled', role != "admin").selectpicker('refresh')
         syncRoleApi(role)
       })
 
