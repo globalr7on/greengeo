@@ -277,15 +277,15 @@ function getMaskRg(val) {
   let mask = "";    
   switch (val.length) {
     case 10:
-      mask = "aa-99.999.999";
+      mask = "a-99.999.999";
     break;
 
     case 11:
-      mask = "aa-99.999.999";
+      mask = "a-99.999.999";
     break;
 
     default:
-      mask = "aa-99.999.999";
+      mask = "a-99.999.999";
   }
   return mask;
 }
@@ -338,6 +338,32 @@ setTimeout(() => {
     });
   });
 }, 500);
+
+// MaskCep 
+const maskcarteira = "99999999999";
+$(".maskcarteira").each(function () {
+  $(this).inputmask({
+    mask: maskcarteira,
+    clearIncomplete: true,
+    removeMaskOnSubmit: true,
+    autoUnmask: true,
+  });
+});
+setTimeout(() => {
+  $(".maskcarteira").focus(function () {
+    $(this).inputmask("remove");
+    return false;
+  }).blur(function () {
+    $(this).inputmask("remove");
+    $(this).inputmask({
+      mask: maskcarteira,
+      clearIncomplete: true,
+      removeMaskOnSubmit: true,
+      autoUnmask: true,
+    });
+  });
+}, 500);
+
 
 // MaskWhats
 const maskwhats = "(99)99999-9999";

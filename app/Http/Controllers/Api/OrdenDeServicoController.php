@@ -26,7 +26,6 @@ class OrdenDeServicoController extends Controller
         }else {
             $current_usuario_id = auth()->user()->id;
             if (auth()->user()->hasRole('motorista')) {
-                
                 $orden_servico = OrdensServicos::where('motorista_id', $current_usuario_id)->get();
             } else {
                 $current_empresa_id = auth()->user()->pessoa_juridica_id;
