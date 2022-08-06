@@ -155,7 +155,7 @@
                   </div>
                 </fieldset>
 
-                <fieldset>
+                <fieldset id="motorista">
                   <h4 class="text-primary font-weight-bold text-uppercase mb-4">Carteira</h4>
                   <div class="row mx-0 mb-4">
                     <div class="col-md-4">
@@ -182,19 +182,13 @@
                 </fieldset>
 
                 <fieldset>
-                  <h4 class="text-primary font-weight-bold text-uppercase mb-2">Funções</h4>
+                  <h4 class="text-primary font-weight-bold text-uppercase mb-2">Função</h4>
                   <div class="row mx-0">
                     <div class="col-md-3">
                       <div class="form-group">
-                        <label for="input_role_web" class="display-inherit mb-0">Função Web Acesso</label>
+                        <label for="input_role_web" class="display-inherit mb-0">Função Acesso</label>
                         <select data-style="btn-warning text-white" title="Select" name="role_web" id="input_role_web"></select>
-                      </div>
-                    </div>
-
-                    <div class="col-md-3">
-                      <div class="form-group">
-                        <label for="input_role_api" class="display-inherit mb-0">Função de Usuario</label>
-                        <select data-style="btn-warning text-white" title="Select" name="role_api" id="input_role_api"></select>
+                        <select class="d-none" data-style="btn-warning text-white" title="Select" name="role_api" id="input_role_api"></select>
                       </div>
                     </div>
                   </div>
@@ -302,8 +296,9 @@
           getRoles(response.data.role_web, 'web');
           getRoles(response.data.role_api, 'api');
           $('#salvarProfile').attr('disabled', false)
+          $('#motorista').hide()
         }
-      });
+      })
 
       $('body').on('blur', '#input_cep , #input_numero', function() {
         var cep = $('#input_cep').val()
@@ -359,7 +354,7 @@
           addFormValidationErrors(error?.data)
           notifyDanger('Falha ao atualizar, tente novamente')
         })
-      });
+      })
 
       // Update password 
       $('body').on('click', '#salvarPassword', function() {
@@ -380,7 +375,25 @@
           addFormValidationErrors(error?.data)
           notifyDanger('Falha ao atualizar, tente novamente')
         })
-      });
-    });
+      })
+
+      $('body').on('change', '#input_role_web', function(event) {
+        let role = event.target.options[event.target.options.selectedIndex].text
+        if (role == "motorista") {
+          $('#motorista').show()
+        } else {
+          $('#motorista').hide()
+        }
+        syncRoleApi(role)
+      })
+
+      function syncRoleApi(value) {
+        $('#input_role_api').find('option').each(function () {
+          if ($(this).text() == value) {
+            $('#input_role_api').selectpicker('val', $(this).val())
+          }
+        })
+      }
+    })
   </script>
 @endpush
