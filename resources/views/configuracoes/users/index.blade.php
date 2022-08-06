@@ -84,6 +84,8 @@
         getRoles(null, 'api')
         getTipoEmpresa(isGerador ? null : tipoEmpresaId, !isGerador)
         getEmpresa(!isGerador ? empresaId : null, isGerador ? null : tipoEmpresaId, !isGerador)
+        getTipoCarteira()
+        // exibir_ocultar_motorista()
       });
 
       // Salvar 
@@ -169,13 +171,13 @@
             $("#input_fixo").val(response.data.fixo)
             $("#input_whats").val(response.data.whats)
             $("#input_registro_carteira").val(response.data.registro_carteira)
-            $("#input_tipo_carteira").val(response.data.tipo_carteira)
             $("#input_validade_carteira").val(response.data.validade_carteira)
             $("#input_identificador_celular").val(response.data.identificador_celular)
             getTipoEmpresa(response.data.tipo_empresa_id, true)
             getEmpresa(response.data.pessoa_juridica_id, null, true)
             getRoles(response.data.role_web, 'web')
             getRoles(response.data.role_api, 'api')
+            getTipoCarteira(response.data.tipo_carteira, true)
           }
         })
         .catch(error => notifyDanger('Falha ao obter detalhes do usuário, tente novamente'))
@@ -207,6 +209,22 @@
           notifyDanger('Falha ao obter funções, tente novamente')
         })
       }
+
+      
+      
+      // $('body').on('change', '#input_role_web',  function(evento) {
+      //   var select = document.getElementById('motorista');
+      //   var web = select.options[select.selectedIndex].text;
+      //   if(web == "motorista"){
+      //     console.log('web é motorista') 
+      //     $('#motorista').show();
+      //   } else {
+      //     console.log('web não é motorista') 
+      //     $('#motorista').hide();
+      //   }
+      // })
+
+     
 
       $('body').on('blur', '#input_cep , #input_numero', function() {
         var cep = $('#input_cep').val()
@@ -255,6 +273,17 @@
           notifyDanger('Falha ao obter tipo empresa, tente novamente')
         })
       }
+
+      function getTipoCarteira(value) {
+        const data = [
+          { id: 1, descricao: 'A - Motos e triciclos' },
+          { id: 2, descricao: 'B - Carros de Passeio' },
+          { id: 3, descricao: 'C - Veiculos de Carga Acima 3,5 ton' },
+          { id: 4, descricao: 'D - Veiculos com + de 8 Passageiros' },
+          { id: 5, descricao: 'E - Veiculos com unidade acoplada Acima de 6 ton' }
+        ]
+        loadSelect('#input_tipo_carteira', data, ['id', 'descricao'], value)
+      }      
 
       function updateEmpresaFromTipo(event) {
         getEmpresa(null, event.target.value)
