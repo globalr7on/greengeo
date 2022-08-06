@@ -91,7 +91,7 @@
                 </div>
 
                 <div class="row mx-0 mb-4">
-                  <div class="col-md-4 align-self-center">
+                  <div class="col-md-8 align-self-center">
                     <div class="form-group">
                       <label for="input_cargo">Cargo</label>
                       <input type="text" class="form-control" id="input_cargo" placeholder="Cargo do usuario">
@@ -100,15 +100,9 @@
 
                   <div class="col-md-4 text-center">
                     <div class="form-group">
-                      <label for="input_role_web" class="display-inherit mb-0 text-left">Função Web</label>
+                      <label for="input_role_web" class="display-inherit mb-0 text-left">Função</label>
                       <select data-style="btn-warning text-white" title="Select" name="role_web" id="input_role_web"></select>
-                    </div>
-                  </div>
-
-                  <div class="col-md-4 text-center">
-                    <div class="form-group">
-                      <label for="input_role_api" class="display-inherit mb-0 text-left">Função Api</label>
-                      <select data-style="btn-warning text-white" title="Select" name="role_api" id="input_role_api"></select>
+                      <select class="d-none" data-style="btn-warning text-white" title="Select" name="role_api" id="input_role_api"></select>
                     </div>
                   </div>
                 </div>
@@ -206,25 +200,24 @@
                   </div>
                 </div>
 
-       
                 <div class="row mx-0 mb-4" id="motorista">
                   <div class="col-md-4 text-center" >
-                  <div class="form-group m-0 p-0">
-                    <label for="input_tipo_carteira" class="display-inherit mb-0">Tipo de Carteira</label>
-                    <select id="input_tipo_carteira" data-style="btn-warning text-white" title="Single Select" name="tipo_carteira">
-                      <option value="" disabled selected>Seleccione</option>
-                    </select>
+                    <div class="form-group m-0 p-0">
+                      <label for="input_tipo_carteira" class="display-inherit mb-0">Tipo de Carteira</label>
+                      <select id="input_tipo_carteira" data-style="btn-warning text-white" title="Single Select" name="tipo_carteira">
+                        <option value="" disabled selected>Seleccione</option>
+                      </select>
+                    </div>
                   </div>
-                </div>
 
-                  <div class="col-md-4 align-self-center ">
+                  <div class="col-md-4 align-self-center">
                     <div class="form-group">
                       <label for="input_registro_carteira">Registros Carteira</label>
                       <input type="text" class="form-control maskcarteira" id="input_registro_carteira" placeholder="...">
                     </div>
                   </div>
 
-                  <div class="col-md-4 align-self-center  ">
+                  <div class="col-md-4 align-self-center">
                     <div class="form-group">
                       <label for="input_validade_carteira">Validade de Carteira</label>
                       <input type="text" class="form-control datepicker" id="input_validade_carteira" placeholder="...">

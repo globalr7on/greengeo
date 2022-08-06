@@ -39,7 +39,6 @@
 
 @push('js')
   <script>
-   
     $(document).ready(function () {
       const id = {{ Auth::user()->id }}
       const tipoEmpresaId = "{{ Auth::user()->pessoa_juridica ? Auth::user()->pessoa_juridica->tipo_empresa_id : null }}" || null
@@ -85,7 +84,7 @@
         getTipoEmpresa(isGerador ? null : tipoEmpresaId, !isGerador)
         getEmpresa(!isGerador ? empresaId : null, isGerador ? null : tipoEmpresaId, !isGerador)
         getTipoCarteira()
-        // exibir_ocultar_motorista()
+        $('#motorista').hide()
       });
 
       // Salvar 
@@ -178,6 +177,7 @@
             getRoles(response.data.role_web, 'web')
             getRoles(response.data.role_api, 'api')
             getTipoCarteira(response.data.tipo_carteira, true)
+            $('#motorista').hide()
           }
         })
         .catch(error => notifyDanger('Falha ao obter detalhes do usuário, tente novamente'))
@@ -210,25 +210,19 @@
         })
       }
 
-      
-      
-      // $('body').on('change', '#input_role_web',  function(evento) {
-      //   var select = document.getElementById('motorista');
-      //   var web = select.options[select.selectedIndex].text;
-      //   if(web == "motorista"){
-      //     console.log('web é motorista') 
-      //     $('#motorista').show();
-      //   } else {
-      //     console.log('web não é motorista') 
-      //     $('#motorista').hide();
-      //   }
-      // })
-
-     
+      $('body').on('change', '#input_role_web', function(event) {
+        let role = event.target.options[event.target.options.selectedIndex].text
+        if (role == "motorista") {
+          $('#motorista').show()
+        } else {
+          $('#motorista').hide()
+        }
+        syncRoleApi(role)
+      })
 
       $('body').on('blur', '#input_cep , #input_numero', function() {
-        var cep = $('#input_cep').val()
-        var numero = $('#input_numero').val()
+        let cep = $('#input_cep').val()
+        let numero = $('#input_numero').val()
         if(cep && numero) {
           delFormValidationErrors()
           app.api.get(`/geo?cep=${cep}&numero=${numero}`).then(response =>  {
@@ -289,9 +283,13 @@
         getEmpresa(null, event.target.value)
       }
 
-      // $('body').on('change', '#input_tipo_empresa_id', function(event) {
-      //   getEmpresa(null, event.target.value)
-      // })
+      function syncRoleApi(value) {
+        $('#input_role_api').find('option').each(function () {
+          if ($(this).text() == value) {
+            $('#input_role_api').selectpicker('val', $(this).val())
+          }
+        })
+      }
     })
   </script>
 @endpush
