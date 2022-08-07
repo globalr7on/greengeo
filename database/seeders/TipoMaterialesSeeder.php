@@ -15,10 +15,12 @@ class TipoMaterialesSeeder extends Seeder
     public function run()
     {
         $tipoMateriales = [
-            'Emitida',
-            'Aguardando Coleta',
-            'Transporte',
-            'Entregue',
+            'Ferro',
+            'Cobre',
+            'Ouro',
+            'Borracha',
+            'Polietileno',
+            'Espuma',
         ];
         foreach ($tipoMateriales as $current) {
             TipoMaterial::create(['descricao' => $current]);

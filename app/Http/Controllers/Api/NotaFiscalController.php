@@ -175,7 +175,26 @@ class NotaFiscalController extends Controller
      */
     public function destroy($id)
     {
-        NotaFiscal::findOrFail($id)->delete();
-        return response(null, 204);
+        DB::beginTransaction();
+        try {
+            $nota = NotaFiscal::findOrFail($id);
+            $nota->nota_fiscal_itens->where('itenable_type', get_class(Produto::getModel()))->each->delete();
+            $segregadoToDelete = $nota->nota_fiscal_itens->where('itenable_type', get_class(ProdutoSegregados::getModel()));
+            if (count($segregadoToDelete->all()) > 0) {
+                $segregadoToDelete->each->delete();
+                ProdutoSegregados::whereIn('id', $segregadoToDelete->pluck('itenable_id')->all())->delete();
+            }
+            $nota->nota_fiscal_itens->each->delete();
+            $nota->delete();
+            DB::commit();
+
+            return response(null, 204);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response([
+                'data' => $e->getMessage(),
+                'status' => false
+            ], 400);
+        }
     }
 }
