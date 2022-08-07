@@ -280,7 +280,8 @@
       }      
 
       function updateEmpresaFromTipo(event) {
-        getEmpresa(null, event.target.value, false)
+        let currentTipoEmpresa = event.target.options[event.target.options.selectedIndex].text
+        getEmpresa(null, event.target.value, tipoEmpresa == currentTipoEmpresa)
       }
 
       function syncRoleApi(value) {
