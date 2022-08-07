@@ -82,7 +82,7 @@
         getRoles(null, 'web')
         getRoles(null, 'api')
         getTipoEmpresa(isGerador ? null : tipoEmpresaId, !isGerador)
-        getEmpresa(!isGerador ? empresaId : null, isGerador ? null : tipoEmpresaId, !isGerador)
+        getEmpresa(!isGerador ? empresaId : null, isGerador ? null : tipoEmpresaId, true, !isGerador)
         getTipoCarteira()
         $('#motorista').hide()
       });
@@ -173,7 +173,7 @@
             $("#input_validade_carteira").val(response.data.validade_carteira)
             $("#input_identificador_celular").val(response.data.identificador_celular)
             getTipoEmpresa(response.data.tipo_empresa_id, true)
-            getEmpresa(response.data.pessoa_juridica_id, null, true)
+            getEmpresa(response.data.pessoa_juridica_id, null, true, true)
             getRoles(response.data.role_web, 'web')
             getRoles(response.data.role_api, 'api')
             getTipoCarteira(response.data.tipo_carteira, true)
@@ -244,8 +244,8 @@
         }
       })
       
-      function getEmpresa(value, tipo_empresa_id, disabled) {
-        app.api.get(`/pessoa_juridica${tipo_empresa_id ? '?tipo_empresa_id='+tipo_empresa_id : ''}`).then(response =>  {
+      function getEmpresa(value, tipoEmpresaId, showCurrentEmpresa, disabled) {
+        app.api.get(`/pessoa_juridica?show_current_empresa=${showCurrentEmpresa}${tipoEmpresaId ? '&tipo_empresa_id='+tipoEmpresaId : ''}`).then(response =>  {
           if (response && response.status) {
             loadSelect('#input_pessoa_juridica_id', response.data, ['id', 'razao_social'], value, disabled)
           }
@@ -280,7 +280,7 @@
       }      
 
       function updateEmpresaFromTipo(event) {
-        getEmpresa(null, event.target.value)
+        getEmpresa(null, event.target.value, false)
       }
 
       function syncRoleApi(value) {

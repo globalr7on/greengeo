@@ -19,8 +19,9 @@ class PessoaJuridicaController extends Controller
      */  
     public function index(Request $request)
     {
+        $show_current_empresa = $request->boolean('show_current_empresa', true);
         $current_pessoa_juridica_id = auth()->user()->pessoa_juridica_id;
-        $current_user_pessoa_juridica = $current_pessoa_juridica_id ? PessoaJuridica::find($current_pessoa_juridica_id) : new PessoaJuridica;
+        $current_user_pessoa_juridica = $current_pessoa_juridica_id && $show_current_empresa ? PessoaJuridica::find($current_pessoa_juridica_id) : new PessoaJuridica;
         $pessoa_juridica = PessoaJuridica::all();
 
         if ($request->has('usuario_responsavel_cadastro_id')) {
