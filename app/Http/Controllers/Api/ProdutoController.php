@@ -18,7 +18,12 @@ class ProdutoController extends Controller
      */
     public function index()
     {
-        $produto = Produto::all();
+        $currentUser = auth()->user();
+        if ($currentUser->hasRole('admin')) {
+            $produto = Produto::all();
+        } else {
+            $produto = Produto::where('pessoa_juridica_id', $currentUser->pessoa_juridica_id);
+        }
         return response([
             'data' => ProdutoResource::collection($produto),
             'status' => true

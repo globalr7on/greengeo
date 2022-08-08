@@ -58,18 +58,19 @@
           { data: "emissao" },
           { data: "mtr" },
         ],
+        useDefaultDataTableColumnDefs: false,
         apiDataTableColumnDefs : [
           {
             targets : 8,
             className: "text-center",
             render : function (data, type, row) {
-              return `
-                <i class="fa fa-trash cursor-pointer deleteAction" data-id="${row.id}"  title="Excluir" ></i>
-                &nbsp;
-                <i class="fa fa-pen cursor-pointer editAction" data-id="${row.id}"  title="Editar"></i>
-                &nbsp;
-                <i class="fa-solid fa-cloud-arrow-up cursor-pointer novaFoto" data-id="${row.id}"  title="Adicionar Foto"></i>
-              `
+              $deleteBtn = `<i class="fa fa-trash cursor-pointer deleteAction" data-id="${row.id}" title="Excluir"></i>&nbsp;`
+              $editBtn = `<i class="fa fa-pen cursor-pointer editAction" data-id="${row.id}" title="Editar"></i>&nbsp;`
+              $addPhotoBtn = `<i class="fa-solid fa-cloud-arrow-up cursor-pointer novaFoto" data-id="${row.id}" title="Adicionar Foto"></i>&nbsp;`
+              $updateStatusColetaBtn = `<i class="fas fa-hourglass-half cursor-pointer updateStatusColeta" data-id="${row.id} title="Aguardando Coleta"></i>&nbsp;`
+              $updateStatusTransporteBtn = `<i class="fas fa-truck cursor-pointer updateStatusTransporte" data-id="${row.id} title="Transporte"></i>&nbsp;`
+              $updateStatusEntregueBtn = `<i class="fas fa-truck-loading cursor-pointer updateStatusEntregue" data-id="${row.id} title="Entregue"></i>&nbsp;`
+              return `${$deleteBtn}${$editBtn}${$addPhotoBtn}${updateStatusColetaBtn}${$updateStatusTransporteBtn}${$updateStatusEntregueBtn}`
             }
           }
         ],
@@ -88,7 +89,7 @@
         getPessoaJuridica()
         getVeiculo()
         getMotorista()
-        getEstagio()
+        getEstagio('Emitida', true, true)
       })
 
       // Open Modal novaFoto
@@ -158,7 +159,7 @@
             getPessoaJuridica(response.data.gerador_id, response.data.destinador_id, response.data.transportador_id)
             getVeiculo(response.data.veiculo_id)
             getMotorista(response.data.motorista_id)
-            getEstagio(response.data.estagio_id)
+            getEstagio(response.data.estagio_id, true)
             delFormValidationErrors()
             $('#formOs')[0].reset()
             $("#modalOs").modal("show");
@@ -228,10 +229,13 @@
         })
       }
 
-      function getEstagio(value) {
+      function getEstagio(value, disabled, byText) {
         app.api.get('/estagio_os').then(response =>  {
           if (response && response.status) {
-            loadSelect('#input_estagio_id', response.data, ['id', 'descricao'], value)
+            if (byText) {
+              value = response.data.find(curr => curr.descricao == value)?.id
+            }
+            loadSelect('#input_estagio_id', response.data, ['id', 'descricao'], value, disabled)
           }
         })
         .catch(error => {
