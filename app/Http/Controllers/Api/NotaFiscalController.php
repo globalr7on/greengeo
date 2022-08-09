@@ -22,12 +22,8 @@ class NotaFiscalController extends Controller
   
     public function index(Request $request)
     {
-        $currentUser = auth()->user();
-        if ($currentUser->hasRole('admin')) {
-            $nota = NotaFiscal::all();
-        } else {
-            $nota = NotaFiscal::where('pessoa_juridica_id', $currentUser->pessoa_juridica_id);
-        }
+        $nota = NotaFiscal::all();
+
         return response([
             'data' => NotaFiscalResource::collection($nota),
             'status' => true
@@ -179,26 +175,7 @@ class NotaFiscalController extends Controller
      */
     public function destroy($id)
     {
-        DB::beginTransaction();
-        try {
-            $nota = NotaFiscal::findOrFail($id);
-            $nota->nota_fiscal_itens->where('itenable_type', get_class(Produto::getModel()))->each->delete();
-            $segregadoToDelete = $nota->nota_fiscal_itens->where('itenable_type', get_class(ProdutoSegregados::getModel()));
-            if (count($segregadoToDelete->all()) > 0) {
-                $segregadoToDelete->each->delete();
-                ProdutoSegregados::whereIn('id', $segregadoToDelete->pluck('itenable_id')->all())->delete();
-            }
-            $nota->nota_fiscal_itens->each->delete();
-            $nota->delete();
-            DB::commit();
-
-            return response(null, 204);
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return response([
-                'data' => $e->getMessage(),
-                'status' => false
-            ], 400);
-        }
+        NotaFiscal::findOrFail($id)->delete();
+        return response(null, 204);
     }
 }

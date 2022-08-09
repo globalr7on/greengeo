@@ -64,13 +64,14 @@
             targets : 8,
             className: "text-center",
             render : function (data, type, row) {
-              $deleteBtn = `<i class="fa fa-trash cursor-pointer deleteAction" data-id="${row.id}" title="Excluir"></i>&nbsp;`
-              $editBtn = `<i class="fa fa-pen cursor-pointer editAction" data-id="${row.id}" title="Editar"></i>&nbsp;`
-              $addPhotoBtn = `<i class="fa-solid fa-cloud-arrow-up cursor-pointer novaFoto" data-id="${row.id}" title="Adicionar Foto"></i>&nbsp;`
-              $updateStatusColetaBtn = `<i class="fas fa-hourglass-half cursor-pointer updateStatusColeta" data-id="${row.id} title="Aguardando Coleta"></i>&nbsp;`
-              $updateStatusTransporteBtn = `<i class="fas fa-truck cursor-pointer updateStatusTransporte" data-id="${row.id} title="Transporte"></i>&nbsp;`
-              $updateStatusEntregueBtn = `<i class="fas fa-truck-loading cursor-pointer updateStatusEntregue" data-id="${row.id} title="Entregue"></i>&nbsp;`
-              return `${$deleteBtn}${$editBtn}${$addPhotoBtn}${updateStatusColetaBtn}${$updateStatusTransporteBtn}${$updateStatusEntregueBtn}`
+              let deleteBtn = `<i class="fa fa-trash cursor-pointer deleteAction" data-id="${row.id}" title="Excluir"></i>&nbsp;`
+              let editBtn = `<i class="fa fa-pen cursor-pointer editAction" data-id="${row.id}" title="Editar"></i>&nbsp;`
+              let addPhotoBtn = `<i class="fa-solid fa-cloud-arrow-up cursor-pointer novaFoto" data-id="${row.id}" title="Adicionar Foto"></i>&nbsp;`
+              let updateStatusColetaBtn = `<i class="fas fa-hourglass-half cursor-pointer updateStatusColeta" data-id="${row.id}" title="Aguardando Coleta"></i>&nbsp;`
+              let updateStatusTransporteBtn = `<i class="fas fa-truck cursor-pointer updateStatusTransporte" data-id="${row.id}" title="Transporte"></i>&nbsp;`
+              let updateStatusEntregueBtn = `<i class="fas fa-truck-loading cursor-pointer updateStatusEntregue" data-id="${row.id}" title="Entregue"></i>&nbsp;`
+              return `${deleteBtn}${editBtn}${addPhotoBtn}${updateStatusColetaBtn}${updateStatusTransporteBtn}${updateStatusEntregueBtn}`
+             
             }
           }
         ],

@@ -17,13 +17,7 @@ class MateriaisController extends Controller
      */
     public function index()
     {
-        $currentUser = auth()->user();
-        if ($currentUser->hasRole('admin')) {
-            $material = Material::all();
-        } else {
-            $material = Material::where('gerador_id', $currentUser->pessoa_juridica_id);
-        }
-
+        $material = Material::all();
         return response([
             'data' => MateriaisResource::collection($material),
             'status' => true

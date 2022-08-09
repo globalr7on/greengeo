@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PessoaJuridicaRequest;
 use App\Http\Resources\PessoaJuridicaResource;
@@ -9,6 +10,7 @@ use App\Models\PessoaJuridica;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 
 class PessoaJuridicaController extends Controller
 {
@@ -19,20 +21,19 @@ class PessoaJuridicaController extends Controller
      */  
     public function index(Request $request)
     {
-        $show_current_empresa = $request->boolean('show_current_empresa', true);
         $current_pessoa_juridica_id = auth()->user()->pessoa_juridica_id;
-        $current_user_pessoa_juridica = $current_pessoa_juridica_id && $show_current_empresa ? PessoaJuridica::find($current_pessoa_juridica_id) : new PessoaJuridica;
+        $current_user_pessoa_juridica = $current_pessoa_juridica_id ? PessoaJuridica::find($current_pessoa_juridica_id) : new PessoaJuridica;
         $pessoa_juridica = PessoaJuridica::all();
-
+        
         if ($request->has('usuario_responsavel_cadastro_id')) {
             $userResponsavel = User::find($request->usuario_responsavel_cadastro_id);
             if (!$userResponsavel->hasRole('admin')) {
                 $pessoa_juridica = $pessoa_juridica->where('usuario_responsavel_cadastro_id', $request->usuario_responsavel_cadastro_id);
             }
         }
-
+        
         if ($request->has('tipo_empresa_id')) {
-            $pessoa_juridica = $pessoa_juridica->where('tipo_empresa_id', $request->tipo_empresa_id)->where('usuario_responsavel_cadastro_id', auth()->user()->id);
+            $pessoa_juridica = $pessoa_juridica->where('tipo_empresa_id', $request->tipo_empresa_id);
         }
         $pessoa_juridica = collect($pessoa_juridica)->merge(collect([$current_user_pessoa_juridica]))->unique()->filter(function ($value) { return $value->id; });
 
@@ -55,6 +56,7 @@ class PessoaJuridicaController extends Controller
             'data' => new PessoaJuridicaResource($pessoa_juridica),
             'status' => true
         ], 200);
+
     }
 
     /**
