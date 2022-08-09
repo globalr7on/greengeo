@@ -18,7 +18,12 @@ class ProdutoController extends Controller
      */
     public function index()
     {
-        $produto = Produto::all();
+        $currentUser = auth()->user();
+        if ($currentUser->hasRole('admin')) {
+            $produto = Produto::all();
+        } else {
+            $produto = Produto::where('pessoa_juridica_id', $currentUser->pessoa_juridica_id);
+        }
         return response([
             'data' => ProdutoResource::collection($produto),
             'status' => true
@@ -104,7 +109,19 @@ class ProdutoController extends Controller
      */
     public function destroy($id)
     {
-        Produto::findOrFail($id)->delete();
+        DB::beginTransaction();
+        try {
+            $produto = Produto::findOrFail($id);
+            $produto->materiais()->detach();
+            $produto->delete();
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response([
+                'data' => $e->getMessage(),
+                'status' => false
+            ], 400);
+        }
         return response(null, 204);
     }
 

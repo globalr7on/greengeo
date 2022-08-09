@@ -21,24 +21,25 @@ class PessoaJuridicaController extends Controller
      */  
     public function index(Request $request)
     {
-        $current_pessoa_juridica_id = auth()->user()->pessoa_juridica_id;
-        $current_user_pessoa_juridica = $current_pessoa_juridica_id ? PessoaJuridica::find($current_pessoa_juridica_id) : new PessoaJuridica;
-        $pessoa_juridica = PessoaJuridica::all();
-        
+        $currentUser = auth()->user()
+        $showCurrentEmpresa = $request->boolean('show_current_empresa', true);
+        $currentPessoaJuridicaId = $currentUser->pessoa_juridica_id;
+        $currentUserPessoaJuridica = $currentPessoaJuridicaId && $showCurrentEmpresa ? PessoaJuridica::find($currentPessoaJuridicaId) : new PessoaJuridica;
+        $pessoaJuridica = PessoaJuridica::all();
         if ($request->has('usuario_responsavel_cadastro_id')) {
             $userResponsavel = User::find($request->usuario_responsavel_cadastro_id);
             if (!$userResponsavel->hasRole('admin')) {
-                $pessoa_juridica = $pessoa_juridica->where('usuario_responsavel_cadastro_id', $request->usuario_responsavel_cadastro_id);
+                $pessoaJuridica = $pessoaJuridica->where('usuario_responsavel_cadastro_id', $request->usuario_responsavel_cadastro_id);
             }
         }
         
         if ($request->has('tipo_empresa_id')) {
-            $pessoa_juridica = $pessoa_juridica->where('tipo_empresa_id', $request->tipo_empresa_id);
+            $pessoaJuridica = $pessoaJuridica->where('tipo_empresa_id', $request->tipo_empresa_id)->where('usuario_responsavel_cadastro_id', $currentUser->id);;
         }
-        $pessoa_juridica = collect($pessoa_juridica)->merge(collect([$current_user_pessoa_juridica]))->unique()->filter(function ($value) { return $value->id; });
+        $pessoaJuridica = collect($pessoaJuridica)->merge(collect([$currentUserPessoaJuridica]))->unique()->filter(function ($value) { return $value->id; });
 
         return response([
-            'data' => PessoaJuridicaResource::collection($pessoa_juridica),
+            'data' => PessoaJuridicaResource::collection($pessoaJuridica),
             'status' => true
         ], 200);
     }
@@ -51,9 +52,9 @@ class PessoaJuridicaController extends Controller
      */
     public function store(PessoaJuridicaRequest $request)
     {
-        $pessoa_juridica = PessoaJuridica::create($request->all());
+        $pessoaJuridica = PessoaJuridica::create($request->all());
         return response([
-            'data' => new PessoaJuridicaResource($pessoa_juridica),
+            'data' => new PessoaJuridicaResource($pessoaJuridica),
             'status' => true
         ], 200);
 
@@ -82,10 +83,10 @@ class PessoaJuridicaController extends Controller
      */
     public function update(PessoaJuridicaRequest $request, $id)
     {
-        $pessoa_juridica = PessoaJuridica::find($id);
-        $pessoa_juridica->update($request->all());
+        $pessoaJuridica = PessoaJuridica::find($id);
+        $pessoaJuridica->update($request->all());
         return response([
-            'data' => new PessoaJuridicaResource($pessoa_juridica),
+            'data' => new PessoaJuridicaResource($pessoaJuridica),
             'status' => true
         ], 200);
     }
@@ -112,9 +113,9 @@ class PessoaJuridicaController extends Controller
     public function updateStatus(Request $request, $id)
     {
         $status = false;
-        $pessoa_juridica = PessoaJuridica::find($id);
+        $pessoaJuridica = PessoaJuridica::find($id);
         if ($request->has('ativo') && in_array($request->ativo, [1, 0])) {
-            $pessoa_juridica->update($request->all());
+            $pessoaJuridica->update($request->all());
             $status = true;
         }
 

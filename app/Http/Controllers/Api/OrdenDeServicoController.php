@@ -21,23 +21,23 @@ class OrdenDeServicoController extends Controller
      */
     public function index(Request $request)
     {
-        if (auth()->user()->hasRole('admin')) {
-            $orden_servico = OrdensServicos::all();
+        $currentUser = auth()->user();
+        if ($currentUser->hasRole('admin')) {
+            $ordenServico = OrdensServicos::all();
         }else {
-            $current_usuario_id = auth()->user()->id;
-            if (auth()->user()->hasRole('motorista')) {
-                $orden_servico = OrdensServicos::where('motorista_id', $current_usuario_id)->get();
+            if ($currentUser->hasRole('motorista')) {
+                $ordenServico = OrdensServicos::where('motorista_id', $currentUser->id)->get();
             } else {
-                $current_empresa_id = auth()->user()->pessoa_juridica_id;
-                $current_tipo_empresa = auth()->user()->pessoa_juridica && auth()->user()->pessoa_juridica->tipo_empresa ?  auth()->user()->pessoa_juridica->tipo_empresa->descricao : null;
-                if ($current_tipo_empresa == 'Gerador') {
-                    $orden_servico = OrdensServicos::where('gerador_id', $current_empresa_id)->get();
-                } elseif ($current_tipo_empresa == 'Destinador') {
-                    $orden_servico = OrdensServicos::where('destinador_id', $current_empresa_id)->get();
-                } elseif ($current_tipo_empresa == 'Transportador') {
-                    $orden_servico = OrdensServicos::where('transportador_id', $current_empresa_id)->get();
-                } elseif ($current_tipo_empresa == 'GDT') {
-                    $orden_servico = OrdensServicos::where('gerador_id', $current_empresa_id)
+                $currentEmpresaId = $currentUser->pessoa_juridica_id;
+                $currentTipoEmpresa = $currentUser->pessoa_juridica && $currentUser->pessoa_juridica->tipo_empresa ?  $currentUser->pessoa_juridica->tipo_empresa->descricao : null;
+                if ($currentTipoEmpresa == 'Gerador') {
+                    $ordenServico = OrdensServicos::where('gerador_id', $currentEmpresaId)->get();
+                } elseif ($currentTipoEmpresa == 'Destinador') {
+                    $ordenServico = OrdensServicos::where('destinador_id', $currentEmpresaId)->get();
+                } elseif ($currentTipoEmpresa == 'Transportador') {
+                    $ordenServico = OrdensServicos::where('transportador_id', $currentEmpresaId)->get();
+                } elseif ($currentTipoEmpresa == 'GDT') {
+                    $ordenServico = OrdensServicos::where('gerador_id', $currentEmpresaId)
                                             ->orWhere('destinador_id', $current_empresa)
                                             ->orWhere('transportador_id',  $current_empresa)
                                             ->get();
@@ -46,7 +46,7 @@ class OrdenDeServicoController extends Controller
         }
        
         return response([
-            'data' =>OrdenDeServicoResource::collection($orden_servico),
+            'data' =>OrdenDeServicoResource::collection($ordenServico),
             'status' => true
         ], 200);      
     }
@@ -62,7 +62,6 @@ class OrdenDeServicoController extends Controller
     {
         try {
             $newOrdenDeServico = OrdensServicos::create($request->all());
-            
             try {
                 $responseRastreo = Http::post(config('app.rastreamento').'coordenada/create', [
                     "codigo_coordenada" => $newOrdenDeServico->id,
@@ -77,7 +76,6 @@ class OrdenDeServicoController extends Controller
                         "longitude" => $newOrdenDeServico->destinador ? $newOrdenDeServico->destinador->longitude : null,
                     ]
                 ]);
-
             } catch(Exception $e) {
                 echo 'Error Message: ' .$e->getMessage();
             }
@@ -118,10 +116,10 @@ class OrdenDeServicoController extends Controller
      */
     public function update(OrdenDeServicoRequest $request, $id)
     {
-        $orden_servico = OrdensServicos::find($id);
-        $orden_servico->update($request->all());
+        $ordenServico = OrdensServicos::find($id);
+        $ordenServico->update($request->all());
         return response([
-            'data' => new OrdenDeServicoResource($orden_servico),
+            'data' => new OrdenDeServicoResource($ordenServico),
             'status' => true
         ], 200);
     }

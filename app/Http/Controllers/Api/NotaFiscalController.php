@@ -22,8 +22,12 @@ class NotaFiscalController extends Controller
   
     public function index(Request $request)
     {
-        $nota = NotaFiscal::all();
-
+        $currentUser = auth()->user();
+        if ($currentUser->hasRole('admin')) {
+            $nota = NotaFiscal::all();
+        } else {
+            $nota = NotaFiscal::where('pessoa_juridica_id', $currentUser->pessoa_juridica_id);
+        }
         return response([
             'data' => NotaFiscalResource::collection($nota),
             'status' => true

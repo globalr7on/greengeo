@@ -47,6 +47,7 @@
 @push('js')
   <script>
     $(document).ready(function () {
+      const currentEmpresaId = "{{ Auth::user()->pessoa_juridica_id }}" || null
       let app = new App({
         apiUrl: '/api/veiculo',
         apiDataTableColumns: [
@@ -85,7 +86,7 @@
         getMarca()
         getModelo()
         getAcondicionamento()
-        getEmpresa("{{ Auth::user()->pessoa_juridica_id }}" || null, true)
+        getEmpresa(currentEmpresaId, currentEmpresaId ? true : false)
         getCombustivel()
         maskPeso("#input_capacidade_media_carga")
       })
