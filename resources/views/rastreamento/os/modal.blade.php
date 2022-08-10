@@ -23,12 +23,12 @@
                   <span class="bs-stepper-circle bg-primary">2</span>
                 </button>
               </div>
-              {{-- <div class="line"></div>
+              <div class="line"></div>
               <div class="step" data-target="#step3">
                 <button type="button" class="step-trigger" role="tab" aria-controls="step3" id="step3-trigger">
                   <span class="bs-stepper-circle bg-primary">3</span>
                 </button>
-              </div> --}}
+              </div>
             </div>
 
             <form id="formOs">
@@ -167,6 +167,48 @@
                     <button class="btn btn-danger">Cancelar MTR</button>
                     <button class="btn btn-danger">Fotos</button>
                     <button class="btn btn-primary stepper-prev">Anterior</button>
+                    <button class="btn btn-primary stepper-next">Próximo</button>
+
+                  </div>
+                </div>
+                <div id="step3" class="content" role="tabpanel" aria-labelledby="step3-trigger">
+                  <h4 class="text-primary font-weight-bold text-uppercase">Produtos Acabados</h4>
+                  <div class="row mx-0 mb-4">
+                    <div class="col-md-12">
+                    <table class="table" id="itemsOS">
+                      <thead>
+                        <th class="text-primary font-weight-bold" style="width:10%">EAN</th>
+                        <th class="text-primary font-weight-bold" style="width:auto">Material</th>
+                        <th class="text-primary font-weight-bold" style="width:auto">Estado Físico</th>
+                        <th class="text-primary font-weight-bold" style="width:10%">Unidade</th>
+                        <th class="text-primary font-weight-bold" style="width:5%">Ativo</th>
+                        <th class="text-primary font-weight-bold" style="width:5%">Ação</th>
+                      </thead>
+                    </table>
+                    </div>
+                  </div>
+                  <h4 class="text-primary font-weight-bold text-uppercase">Items Sucatas</h4>
+                  <div class="row mx-0 mb-4">
+                    <div class="col-md-12">
+                    <table class="table" id="produtosAcabados">
+                      <thead>
+                        <th class="text-primary font-weight-bold" style="width:10%">Ibama</th>
+                        <th class="text-primary font-weight-bold" style="width:auto">Material</th>
+                        <th class="text-primary font-weight-bold" style="width:auto">Estado Físico</th>
+                        <th class="text-primary font-weight-bold" style="width:10%">Unidade</th>
+                        <th class="text-primary font-weight-bold" style="width:5%">Ativo</th>
+                        <th class="text-primary font-weight-bold" style="width:5%">Ação</th>
+                      </thead>
+                    </table>
+                    </div>
+                  </div>
+
+                  <div class="row mx-0">
+                    <button class="btn btn-warning">Gerar MTR</button>
+                    <button class="btn btn-warning">Gerar CDF</button>
+                    <button class="btn btn-danger">Cancelar MTR</button>
+                    <button class="btn btn-danger">Fotos</button>
+                    <button class="btn btn-primary stepper-prev">Anterior</button>
                     <button class="btn btn-primary" id="salvarOs" >Salvar</button>
                   </div>
                 </div>
@@ -198,5 +240,16 @@
         close: 'fa fa-remove'
       }
     })
+    $('#itemsOS').DataTable( {
+    language: {
+        url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/pt-BR.json'
+    }
+    });
+
+    $('#produtosAcabados').DataTable( {
+    language: {
+        url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/pt-BR.json'
+    }
+});
   </script>
 @endpush
