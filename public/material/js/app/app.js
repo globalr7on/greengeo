@@ -169,10 +169,15 @@ function sweetConfirm(message, title = "Aviso!") {
   })
 }
 
-function loadSelect(selector, data, fields = ['id', 'name'], selected = null, disabled = false) {
+function loadSelect(selector, data, fields = ['id', 'name'], selected = null, disabled = false, callback = undefined) {
   $(selector).empty().append('<option disabled selected>Seleccione</option>')
   $.each(data, function(index, value) {
-    $(selector).append(`<option value="${value[fields[0]]}">${value[fields[1]]}</option>`)
+    if (callback) {
+      const [optionValue, optionText] = callback(value)
+      $(selector).append(`<option value="${optionValue}">${optionText}</option>`)
+    } else {
+      $(selector).append(`<option value="${value[fields[0]]}">${value[fields[1]]}</option>`)
+    }
   })
   $(selector).prop('disabled', disabled)
   $(selector).selectpicker('refresh')

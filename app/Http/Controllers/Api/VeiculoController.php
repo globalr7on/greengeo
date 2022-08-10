@@ -14,13 +14,17 @@ class VeiculoController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  app\Http\Requests\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $veiculo = Veiculo::all();
+        $veiculos = Veiculo::all();
+        if ($request->has('pessoa_juridica_id')) {
+            $veiculos = $veiculos->where('pessoa_juridica_id', $request->pessoa_juridica_id)->all();
+        }
         return response([
-            'data' => VeiculoResource::collection($veiculo),
+            'data' => VeiculoResource::collection($veiculos),
             'status' => true
         ], 200);
       

@@ -21,7 +21,7 @@ class MateriaisController extends Controller
         if ($currentUser->hasRole('admin')) {
             $material = Material::all();
         } else {
-            $material = Material::where('gerador_id', $currentUser->pessoa_juridica_id);
+            $material = Material::where('gerador_id', $currentUser->pessoa_juridica_id)->get();
         }
         return response([
             'data' => MateriaisResource::collection($material),

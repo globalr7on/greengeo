@@ -26,7 +26,7 @@ class NotaFiscalController extends Controller
         if ($currentUser->hasRole('admin')) {
             $nota = NotaFiscal::all();
         } else {
-            $nota = NotaFiscal::where('pessoa_juridica_id', $currentUser->pessoa_juridica_id);
+            $nota = NotaFiscal::where('pessoa_juridica_id', $currentUser->pessoa_juridica_id)->get();
         }
         return response([
             'data' => NotaFiscalResource::collection($nota),

@@ -98,16 +98,30 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $user = User::all();
+        $users = User::all();
         if ($request->has('usuario_responsavel_cadastro_id')) {
             $userResponsavel = User::find($request->usuario_responsavel_cadastro_id);
             if (!$userResponsavel->hasRole('admin')) {
-                $user = $user->where('usuario_responsavel_cadastro_id', $request->usuario_responsavel_cadastro_id)->all();
+                $users = $users->where('usuario_responsavel_cadastro_id', $request->usuario_responsavel_cadastro_id)->all();
             }
         }
 
+        if ($request->has('pessoa_juridica_id')) {
+            $users = $users->where('pessoa_juridica_id', $request->pessoa_juridica_id)->all();
+        }
+
+        if ($request->has('funcao')) {
+            $filteredUsers = [];
+            foreach ($users as $user) {
+                if ($user->hasRole($request->funcao)) {
+                    array_push($filteredUsers, $user);
+                }
+            }
+            $users = $filteredUsers;
+        }
+
         return response([
-            'data' => UserResource::collection($user),
+            'data' => UserResource::collection($users),
             'status' => true
         ], 200);
     }

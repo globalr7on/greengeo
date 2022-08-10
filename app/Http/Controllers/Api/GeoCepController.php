@@ -44,7 +44,7 @@ class GeoCepController extends Controller
 
         if (count($json->results) < 1) {
             return response([
-                'data' => $json,
+                'data' => 'Sem resultados',
                 'status' => false
             ], 400);
         }

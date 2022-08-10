@@ -15,24 +15,6 @@ use Illuminate\Http\Request;
 |
 */
 
-
-
-
-
-
-// Route::post('upload', function (){
-	
-// 	request()->file('file')->store(
-		
-// 		'my-file',
-// 		'do'
-
-// 	);
-
-// 	return back();
-// })->name('upload');
-
-
 Auth::routes(['verify' => true]);
 
 // Route::get('/email/verify', function () {
@@ -58,11 +40,8 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-
 Route::group(['middleware' => ['auth', 'permission']], function () {
 	Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home')->middleware('auth');
-
-	
 	Route::get('/cadastro/email', 'App\Http\Controllers\EmailController@contact')->name('cadastros.email');
 
 	// Cadastro
@@ -75,17 +54,17 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
 	Route::get('/administrativo/acondicionamento', 'App\Http\Controllers\AcondicionamentoController@index')->name('administrativo.acondicionamento');
 	Route::get('/administrativo/tratamento', 'App\Http\Controllers\TratamentoController@index')->name('administrativo.tratamento');
 	Route::get('/administrativo/classe_sucata', 'App\Http\Controllers\ClasseSucataController@index')->name('administrativo.classeSucata');
-	Route::get('/administrativo/unidad',  'App\Http\Controllers\UnidadController@index')->name('administrativo.unidad');
-	Route::get('/administrativo/modelo',  'App\Http\Controllers\ModeloController@index')->name('administrativo.modelo');
+	Route::get('/administrativo/unidad', 'App\Http\Controllers\UnidadController@index')->name('administrativo.unidad');
+	Route::get('/administrativo/modelo', 'App\Http\Controllers\ModeloController@index')->name('administrativo.modelo');
 	Route::get('/administrativo/marca', 'App\Http\Controllers\MarcaController@index')->name('administrativo.marca');
-	Route::get('/administrativo/estagios_os',  'App\Http\Controllers\EstagiosOsController@index')->name('administrativo.estagiosOs');
-	Route::get('/administrativo/atividade',  'App\Http\Controllers\AtividadeController@index')->name('administrativo.atividade');
+	Route::get('/administrativo/estagios_os', 'App\Http\Controllers\EstagiosOsController@index')->name('administrativo.estagiosOs');
+	Route::get('/administrativo/atividade', 'App\Http\Controllers\AtividadeController@index')->name('administrativo.atividade');
 	Route::get('/administrativo/tipo_material', 'App\Http\Controllers\TipoMaterialController@index')->name('administrativo.tipoMaterial');
 	Route::get('/administrativo/tipo_empresa','App\Http\Controllers\TipoEmpresaController@index')->name('administrativo.tipoEmpresa');
 	Route::get('/administrativo/ibama', 'App\Http\Controllers\IbamaController@index')->name('administrativo.ibama');
 	
 	// OS E Rastreamento
-	Route::get('/or/rastreamento',  'App\Http\Controllers\RastreamentoController@index')->name('rastreamento.rastreamento');
+	Route::get('/or/rastreamento', 'App\Http\Controllers\RastreamentoController@index')->name('rastreamento.rastreamento');
 	Route::get('/or/nota_fiscal', 'App\Http\Controllers\NotaFiscalController@index')->name('rastreamento.notaFiscal');
 	Route::get('/or/ordem_servico', 'App\Http\Controllers\OrdemDeServicoController@index')->name('rastreamento.os');
 	Route::get('/or/fotos', 'App\Http\Controllers\ImagensController@index')->name('imagens');
@@ -96,4 +75,3 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
 	Route::get('configuracoes/roles', 'App\Http\Controllers\RolesController@index')->name('configuracoes.funcoes');
 	Route::get('configuracoes/permissions', 'App\Http\Controllers\PermissionsController@index')->name('configuracoes.permissoes');
 });
-

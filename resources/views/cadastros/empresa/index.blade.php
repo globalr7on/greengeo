@@ -27,9 +27,9 @@
                     <th class="text-primary font-weight-bold" style="width:auto">Razao Social</th>
                     <th class="text-primary font-weight-bold" style="width:auto">Email</th>
                     <th class="text-primary font-weight-bold" style="width:auto">Contato 1</th>
-                    <th class="text-primary font-weight-bold" style="width:12%">Celular Contato 1</th>
-                    <th class="text-primary font-weight-bold" style="width:10%">Fixo</th>
-                    <th class="text-primary font-weight-bold" style="width:12%">Cap. Media Carga</th>
+                    <th class="text-primary font-weight-bold" style="width:13%">Celular Contato 1</th>
+                    <th class="text-primary font-weight-bold" style="width:9%">Fixo</th>
+                    <th class="text-primary font-weight-bold" style="width:13%">Cap. Media Carga</th>
                     <th class="text-primary font-weight-bold" style="width:5%">Ativo</th>
                     <th class="text-primary font-weight-bold" style="width:5%">Ação</th>
                   </thead>

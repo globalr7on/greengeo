@@ -21,15 +21,15 @@
               <div>
                 <table class="table" id="osTbl">
                   <thead>
-                  <th class="text-primary font-weight-bold">OS</th>
-                    <th class="text-primary font-weight-bold">Integração</th>
-                    <th class="text-primary font-weight-bold">Gerador</th>
-                    <th class="text-primary font-weight-bold">Transportador</th>
-                    <th class="text-primary font-weight-bold">Estágio</th>
-                    <th class="text-primary font-weight-bold">Destinador</th>
-                    <th class="text-primary font-weight-bold">Emissão</th>
-                    <th class="text-primary font-weight-bold">MTR</th>
-                    <th class="text-primary font-weight-bold text-center">Ação</th>
+                    <th class="text-primary font-weight-bold" style="width:5%">OS</th>
+                    <th class="text-primary font-weight-bold" style="width:10%">Emissão</th>
+                    <th class="text-primary font-weight-bold" style="width:10%">Integração</th>
+                    <th class="text-primary font-weight-bold" style="width:auto">Gerador</th>
+                    <th class="text-primary font-weight-bold" style="width:auto">Transportador</th>
+                    <th class="text-primary font-weight-bold" style="width:auto">Destinador</th>
+                    <th class="text-primary font-weight-bold" style="width:5%">MTR</th>
+                    <th class="text-primary font-weight-bold" style="width:7%">Estágio</th>
+                    <th class="text-primary font-weight-bold text-center" style="width:10%">Ação</th>
                   </thead>
                 </table>
               </div>
@@ -50,13 +50,13 @@
         apiUrl: '/api/os',
         apiDataTableColumns: [
           { data: 'id'},
+          { data: "emissao" },
           { data: "integracao" },
           { data: "gerador" },
           { data: "transportador" },
-          { data: "estagio" },
           { data: "destinador" },
-          { data: "emissao" },
           { data: "mtr" },
+          { data: "estagio" },
         ],
         useDefaultDataTableColumnDefs: false,
         apiDataTableColumnDefs : [
@@ -64,33 +64,50 @@
             targets : 8,
             className: "text-center",
             render : function (data, type, row) {
-              let deleteBtn = `<i class="fa fa-trash cursor-pointer deleteAction" data-id="${row.id}" title="Excluir"></i>&nbsp;`
-              let editBtn = `<i class="fa fa-pen cursor-pointer editAction" data-id="${row.id}" title="Editar"></i>&nbsp;`
-              let addPhotoBtn = `<i class="fa-solid fa-cloud-arrow-up cursor-pointer novaFoto" data-id="${row.id}" title="Adicionar Foto"></i>&nbsp;`
-              let updateStatusColetaBtn = `<i class="fas fa-hourglass-half cursor-pointer updateStatusColeta" data-id="${row.id}" title="Aguardando Coleta"></i>&nbsp;`
-              let updateStatusTransporteBtn = `<i class="fas fa-truck cursor-pointer updateStatusTransporte" data-id="${row.id}" title="Transporte"></i>&nbsp;`
-              let updateStatusEntregueBtn = `<i class="fas fa-truck-loading cursor-pointer updateStatusEntregue" data-id="${row.id}" title="Entregue"></i>&nbsp;`
+              const deleteBtn = row.estagio == 'Emitida' ? `<i class="fa fa-trash cursor-pointer deleteAction" data-id="${row.id}" title="Excluir"></i>&nbsp;` : ''
+              const editBtn = row.estagio == 'Emitida' ? `<i class="fa fa-pen cursor-pointer editAction" data-id="${row.id}" title="Editar"></i>&nbsp;` : ''
+              const addPhotoBtn = `<i class="fa-solid fa-cloud-arrow-up cursor-pointer novaFoto" data-id="${row.id}" title="Adicionar Foto"></i>&nbsp;`
+              const updateStatusColetaBtn = row.estagio == 'Emitida'
+                ? `<i class="fas fa-hourglass-half cursor-pointer updateStatusColeta" data-id="${row.id}" title="Aguardando Coleta"></i>&nbsp;`
+                : ''
+              const updateStatusTransporteBtn = row.estagio == 'Aguardando Coleta'
+                ? `<i class="fas fa-truck cursor-pointer updateStatusTransporte" data-id="${row.id}" title="Transporte"></i>&nbsp;`
+                : ''
+              const updateStatusEntregueBtn = row.estagio == 'Transporte'
+                ? `<i class="fas fa-truck-loading cursor-pointer updateStatusEntregue" data-id="${row.id}" title="Entregue"></i>&nbsp;`
+                : ''
+
               return `${deleteBtn}${editBtn}${addPhotoBtn}${updateStatusColetaBtn}${updateStatusTransporteBtn}${updateStatusEntregueBtn}`
-             
             }
           }
         ],
         useDefaultDataTableColumnDefs: false,
         datatableSelector: '#osTbl',
       })
+
+      let tipoEmpresaData = []
+      app.api.get('/tipo_empresa').then(response => {
+        (response && response.status) && (tipoEmpresaData = response.data)
+      }).catch(error => notifyDanger('Falha ao obter dados. Tente novamente'))
      
       // Open Modal New
       $('body').on('click', '#novaOs', function() {
+        $('body').on('change', '#input_gerador_id', updateTransportadorFromGerador)
+        $('body').on('change', '#input_transportador_id', updateMotoristaFromTransportador)
         app.stepper()
         delFormValidationErrors()
         $("#modalOs").modal("show")
         $('#tituloModal').text("Nova OS")
         $('#input_id').val("")
         $('#formOs')[0].reset()
-        getPessoaJuridica()
-        getVeiculo()
-        getMotorista()
         getEstagio('Emitida', true, true)
+        const usuarioResponsavelCadastroId = $('#input_usuario_responsavel_cadastro_id').val()
+        const tipoEmpresaGerador = tipoEmpresaData.find(curr => curr.descricao.toLowerCase() == 'gerador')?.id
+        getEmpresa(null, '#input_gerador_id', usuarioResponsavelCadastroId, tipoEmpresaGerador, true)
+        getEmpresa(null, '#input_destinador_id', null, null, false, true, true)
+        getEmpresa(null, '#input_transportador_id', null, null, false, true, true)
+        getMotorista(null, null, true, true)
+        getVeiculo(null, null, true, true)
       })
 
       // Open Modal novaFoto
@@ -153,13 +170,17 @@
 
       // Editar
       $('body').on('click', '.editAction', function() {
+        $('body').off('change', '#input_gerador_id', updateTransportadorFromGerador)
+        $('body').off('change', '#input_transportador_id', updateMotoristaFromTransportador)
         app.stepper()
         const id = $(this).attr('data-id');
         app.api.get(`/os/${id}`).then(response =>  {
           if (response && response.status) {
-            getPessoaJuridica(response.data.gerador_id, response.data.destinador_id, response.data.transportador_id)
-            getVeiculo(response.data.veiculo_id)
-            getMotorista(response.data.motorista_id)
+            getEmpresa(response.data.gerador_id, '#input_gerador_id', null, null, false, false, true)
+            getEmpresa(response.data.destinador_id, '#input_destinador_id', null, null, false, false, true)
+            getEmpresa(response.data.transportador_id, '#input_transportador_id', null, null, false, false, true)
+            getMotorista(response.data.motorista_id, null, false, true)
+            getVeiculo(response.data.veiculo_id, null, false, true)
             getEstagio(response.data.estagio_id, true)
             delFormValidationErrors()
             $('#formOs')[0].reset()
@@ -192,42 +213,54 @@
         }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
       })
 
-      function getPessoaJuridica(valueGerador, valueDestinador, valueTransportador) {
-        app.api.get('/pessoa_juridica').then(response =>  {
-          if (response && response.status) {
-            loadSelect('#input_gerador_id', response.data, ['id', 'razao_social'], valueGerador)
-            loadSelect('#input_destinador_id', response.data, ['id', 'razao_social'], valueDestinador)
-            loadSelect('#input_transportador_id', response.data, ['id', 'razao_social'], valueTransportador)
-          }
-        })
-        .catch(error => {
-          console.log('app.api.get error', error)
-          notifyDanger('Falha ao obter dados, tente novamente')
-        })
+      function getEmpresa(value, selector, usuarioResponsavelId, tipoEmpresaId, showCurrentEmpresa = false, withoutData, disabled) {
+        if (withoutData) {
+          loadSelect(selector, [], [], null, disabled)
+        } else {
+          const usuarioResponsavel = usuarioResponsavelId ? `&usuario_responsavel_cadastro_id=${usuarioResponsavelId}` : ''
+          const tipoEmpresa = tipoEmpresaId ? `&tipo_empresa_id=${tipoEmpresaId}` : ''
+          const url = `/pessoa_juridica?show_current_empresa=${showCurrentEmpresa}${tipoEmpresa}${usuarioResponsavel}`
+          app.api.get(url).then(response =>  {
+            if (response && response.status) {
+              loadSelect(selector, response.data, ['id', 'razao_social'], value, disabled)
+            }
+          })
+          .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
+        }
       }
 
-      function getVeiculo(value) {
-        app.api.get('/veiculo').then(response =>  {
-          if (response && response.status) {
-            loadSelect('#input_veiculo_id', response.data, ['id', 'placa'], value)
-          }
-        })
-        .catch(error => {
-          console.log('app.api.get error', error)
-          notifyDanger('Falha ao obter dados, tente novamente')
-        })
+      function getMotorista(value, empresaId, withoutData, disabled) {
+        if (withoutData) {
+          loadSelect('#input_motorista_id', [], [], null, disabled)
+        } else {
+          const empresa = empresaId ? `?pessoa_juridica_id=${empresaId}&funcao=motorista` : ''
+          app.api.get(`/users${empresa}`).then(response =>  {
+            if (response && response.status) {
+              loadSelect('#input_motorista_id', response.data, ['id', 'name'], value, disabled)
+            }
+          })
+          .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
+        }
       }
 
-      function getMotorista(value) {
-        app.api.get('/users').then(response =>  {
-          if (response && response.status) {
-            loadSelect('#input_motorista_id', response.data, ['id', 'name'], value)
-          }
-        })
-        .catch(error => {
-          console.log('app.api.get error', error)
-          notifyDanger('Falha ao obter dados, tente novamente')
-        })
+      function mergeVeiculoOption(value) {
+        const optionValue = value.id
+        const optionText = `${value.marca} [${value.modelo}]: ${value.placa} - ${value.capacidade_media_carga}Kg`
+        return [optionValue, optionText]
+      }
+
+      function getVeiculo(value, empresaId, withoutData, disabled = false) {
+        if (withoutData) {
+          loadSelect('#input_veiculo_id', [], [], null, disabled)
+        } else {
+          const empresa = empresaId ? `?pessoa_juridica_id=${empresaId}` : ''
+          app.api.get(`/veiculo${empresa}`).then(response =>  {
+            if (response && response.status) {
+              loadSelect('#input_veiculo_id', response.data, ['id', 'placa'], value, disabled, mergeVeiculoOption)
+            }
+          })
+          .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
+        }
       }
 
       function getEstagio(value, disabled, byText) {
@@ -239,10 +272,21 @@
             loadSelect('#input_estagio_id', response.data, ['id', 'descricao'], value, disabled)
           }
         })
-        .catch(error => {
-          console.log('app.api.get error', error)
-          notifyDanger('Falha ao obter dados, tente novamente')
-        })
+        .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
+      }
+
+      function updateTransportadorFromGerador() {
+        const tipoEmpresaDestinadorId = tipoEmpresaData.find(curr => curr.descricao.toLowerCase() == 'destinador')?.id
+        const tipoEmpresaTransportadorId = tipoEmpresaData.find(curr => curr.descricao.toLowerCase() == 'transportador')?.id
+        const usuarioResponsavelCadastroId = $('#input_usuario_responsavel_cadastro_id').val()
+        getEmpresa(null, '#input_destinador_id', usuarioResponsavelCadastroId, tipoEmpresaDestinadorId)
+        getEmpresa(null, '#input_transportador_id', usuarioResponsavelCadastroId, tipoEmpresaTransportadorId)
+      }
+
+      function updateMotoristaFromTransportador() {
+        const transportadorId = $('#input_transportador_id').val()
+        getMotorista(null, transportadorId)
+        getVeiculo(null, transportadorId)
       }
     })
   </script>

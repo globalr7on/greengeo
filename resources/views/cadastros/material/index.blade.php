@@ -178,13 +178,19 @@
         $('#denominacao').val(denominacao)
       }
 
+      function mergeIbamaOption(value) {
+        const optionValue = value.id
+        const optionText = `${value.codigo} - ${value.classe_sucata}`
+        return [optionValue, optionText]
+      }
+
       function getIbama(value) {
         app.api.get('/ibama').then(response =>  {
           if (response && response.status) {
             $('body').on('change', '#input_ibama_id', function(event) {
               addIbamaDenominacao(response.data, event.target.value);
             })
-            loadSelect('#input_ibama_id', response.data, ['id', 'codigo'], value)
+            loadSelect('#input_ibama_id', response.data, ['id', 'codigo'], value, false, mergeIbamaOption)
           }
         })
         .catch(error => {

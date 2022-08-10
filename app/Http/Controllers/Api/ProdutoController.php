@@ -22,7 +22,7 @@ class ProdutoController extends Controller
         if ($currentUser->hasRole('admin')) {
             $produto = Produto::all();
         } else {
-            $produto = Produto::where('pessoa_juridica_id', $currentUser->pessoa_juridica_id);
+            $produto = Produto::where('pessoa_juridica_id', $currentUser->pessoa_juridica_id)->get();
         }
         return response([
             'data' => ProdutoResource::collection($produto),
