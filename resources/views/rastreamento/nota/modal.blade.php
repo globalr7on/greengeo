@@ -50,7 +50,7 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <label for="input_chave_de_acesso">Chave de Acesso</label>
-                    <input type="text" class="form-control" id="input_chave_de_acesso">
+                    <input type="text" class="form-control maskchave" id="input_chave_de_acesso">
                   </div>
                 </div>
               </div>

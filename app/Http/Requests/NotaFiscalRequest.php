@@ -14,7 +14,7 @@ class NotaFiscalRequest extends FormRequest
             'numero_total' => 'required|string|max:10',
             'serie' => 'required|string|max:2',
             'folha' => 'required|integer',
-            'chave_de_acesso' => 'required|string|max:45',
+            'chave_de_acesso' => 'required|string|max:60',
             'pessoa_juridica_id' => 'required',
             'produtos_acabados' => 'required_without_all:produtos_segregados|nullable',
             'produtos_segregados' => 'required_without_all:produtos_acabados|nullable',

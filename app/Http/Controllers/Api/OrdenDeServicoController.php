@@ -11,6 +11,11 @@ use App\Models\PessoaJuridica;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
+use App\Mail\Ordem;
+// use Validator;
+// use Hash;
+use Mail;
+// use Str;
 
 class OrdenDeServicoController extends Controller
 {
@@ -22,6 +27,7 @@ class OrdenDeServicoController extends Controller
     public function index(Request $request)
     {
         $currentUser = auth()->user();
+        // dd($currentUser->pessoa_juridica_id);
         if ($currentUser->hasRole('admin')) {
             $ordenServico = OrdensServicos::all();
         }else {
@@ -29,6 +35,7 @@ class OrdenDeServicoController extends Controller
                 $ordenServico = OrdensServicos::where('motorista_id', $currentUser->id)->get();
             } else {
                 $currentEmpresaId = $currentUser->pessoa_juridica_id;
+                // dd($currentEmpresaId);
                 $currentTipoEmpresa = $currentUser->pessoa_juridica && $currentUser->pessoa_juridica->tipo_empresa ?  $currentUser->pessoa_juridica->tipo_empresa->descricao : null;
                 if ($currentTipoEmpresa == 'Gerador') {
                     $ordenServico = OrdensServicos::where('gerador_id', $currentEmpresaId)->get();
@@ -44,7 +51,8 @@ class OrdenDeServicoController extends Controller
                 }
             }
         }
-       
+
+        // event(new Registered($user));
         return response([
             'data' =>OrdenDeServicoResource::collection($ordenServico),
             'status' => true
@@ -62,6 +70,7 @@ class OrdenDeServicoController extends Controller
     {
         try {
             $newOrdenDeServico = OrdensServicos::create($request->all());
+            // dd($newOrdenDeServico->destinador, $newOrdenDeServico->motorista );
             try {
                 $responseRastreo = Http::post(config('app.rastreamento').'coordenada/create', [
                     "codigo_coordenada" => $newOrdenDeServico->id,
@@ -79,6 +88,9 @@ class OrdenDeServicoController extends Controller
             } catch(Exception $e) {
                 echo 'Error Message: ' .$e->getMessage();
             }
+
+            // dd($ordenServico);
+            Mail::to($newOrdenDeServico->destinador->email, $newOrdenDeServico->motorista->email)->send(new Ordem($newOrdenDeServico->destinador->nome_fantasia, $newOrdenDeServico->gerador->nome_fantasia));
 
             return response([
                 'data' => new OrdenDeServicoResource($newOrdenDeServico),

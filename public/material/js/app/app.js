@@ -369,6 +369,31 @@ setTimeout(() => {
   });
 }, 500);
 
+// MaskChaveAcesso 
+const maskchave = "9999-9999-9999-9999-9999-9999-9999-9999-9999-9999";
+$(".maskchave").each(function () {
+  $(this).inputmask({
+    mask: maskchave,
+    clearIncomplete: true,
+    removeMaskOnSubmit: true,
+    autoUnmask: true,
+  });
+});
+setTimeout(() => {
+  $(".maskchave").focus(function () {
+    $(this).inputmask("remove");
+    return false;
+  }).blur(function () {
+    $(this).inputmask("remove");
+    $(this).inputmask({
+      mask: maskchave,
+      clearIncomplete: true,
+      removeMaskOnSubmit: true,
+      autoUnmask: true,
+    });
+  });
+}, 500);
+
 
 // MaskWhats
 const maskwhats = "(99)99999-9999";

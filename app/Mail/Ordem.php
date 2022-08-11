@@ -7,40 +7,38 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ActivationReceived extends Mailable
+class Ordem extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $cpf, $name, $email, $password;
+    public  $tipo_empresa, $email;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($cpf, $name, $email , $password) 
+    public function __construct( $tipo_empresa, $email)
     {
-        $this->cpf = $cpf;
-        $this->name = $name;
+        
+        $this->tipo_empresa = $tipo_empresa;
         $this->email = $email;
-        $this->password = $password;
-
     }
 
     /**
      * Build the message.
      *
-     * @return $this
+     * @return $thiss
      */
     public function build()
     {
+
         return $this
-            ->view('mails.activation')
-            ->subject("Notificación de asistencia")
+            ->view('mails.ordem')
+            ->subject("Nova Ordem de Serviço")
             ->with([
-                "cpf" => $this->cpf,
-                "name" => $this->name,
+                "tipo_empresa" => $this->tipo_empresa,
                 "email" => $this->email,
-                "password" => $this->password,
             ]);
     }
 }
