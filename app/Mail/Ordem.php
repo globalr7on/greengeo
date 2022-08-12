@@ -11,17 +11,19 @@ class Ordem extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public  $tipo_empresa, $email;
+    public  $tipoA, $tipoB, $tipoC, $email;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct( $tipo_empresa, $email)
+    public function __construct( $tipoA, $tipoB, $tipoC, $email)
     {
         
-        $this->tipo_empresa = $tipo_empresa;
+        $this->tipoA = $tipoA;
+        $this->tipoB = $tipoB;
+        $this->tipoC = $tipoC;
         $this->email = $email;
     }
 
@@ -37,8 +39,11 @@ class Ordem extends Mailable
             ->view('mails.ordem')
             ->subject("Nova Ordem de Serviço")
             ->with([
-                "tipo_empresa" => $this->tipo_empresa,
+                "tipoA" => $this->tipoA,
+                "tipoB" => $this->tipoB,
+                "tipoC" => $this->tipoC,
                 "email" => $this->email,
+                
             ]);
     }
 }

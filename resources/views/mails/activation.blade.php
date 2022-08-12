@@ -6,10 +6,11 @@
     <title>Ativação para acesso na greenbeat</title>
 </head>
 <body>
-    <h3> Seja Bem-vindo na Greenbeat <strong> {{ $name }} </strong> | <strong>{{ $email }}</strong> agora pode entrar com seu CPF e a senha temporal criada para voce</h3>
-    <ul>
-       <p>Usuario: {{ $cpf }}</p>
-       <p>Senha Temporal: <strong>{{ $password }}</strong></p>
-    </ul>
+    <h1>Olá</h1>
+    <h3> Seja Bem-vindo na Greenbeat <strong> {{ $name }} </strong> | <strong>{{ $email }}</h3>
+    <p>
+        Sua empresa foi cadastrada como <strong>Destinador</strong> para os produtos ou sucatas de nossa empresa. Por gentileza complete o cadastro.<br> Seus dados de acesso são: <br><br> CPF: <strong>{{ $cpf }} </strong> <br>Senha temporária: <strong>{{ $password  }}</strong> <br><br>Também informe os usuários autorizados ao uso do sistema, atribuindo as permissões de cada um. No caso de tramsportadoras os dados dos veículos da frota deverão ser informados. Para maiores informações, acesse nosso guia em www.guia.greenbeat.com.br
+    </p>
+    <p>
 </body>
 </html>

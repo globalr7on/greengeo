@@ -89,8 +89,15 @@ class OrdenDeServicoController extends Controller
                 echo 'Error Message: ' .$e->getMessage();
             }
 
+            $tipoA = $newOrdenDeServico->gerador->nome_fantasia;
+            $tipoB = $newOrdenDeServico->destinador->nome_fantasia;
+            $tipoC = $newOrdenDeServico->transportador->nome_fantasia;
+            $email = $newOrdenDeServico->destinador->email;
             // dd($ordenServico);
-            Mail::to($newOrdenDeServico->destinador->email, $newOrdenDeServico->motorista->email)->send(new Ordem($newOrdenDeServico->destinador->nome_fantasia, $newOrdenDeServico->gerador->nome_fantasia));
+            Mail::to($email)->send(new Ordem($tipoA, $tipoB, $tipoC, $email));
+
+            // Mail::to($newOrdenDeServico->motorista->email)->send(new Ordem($tipoA, $tipoB));
+            
 
             return response([
                 'data' => new OrdenDeServicoResource($newOrdenDeServico),
