@@ -59,7 +59,7 @@
       $('body').on('click', '#novaNota', function() {
         delFormValidationErrors()
         $("#modalNota").modal("show")
-        $('#tituloNota').text("Nota Fiscal")
+        $('#tituloNota').text("Nova Nota Fiscal")
         $('#input_id').val("")
         $('#formNota')[0].reset()
         getPessoaJuridica()
@@ -143,7 +143,7 @@
             delFormValidationErrors()
             $('#formNota')[0].reset()
             $("#modalNota").modal("show");
-            $('#tituloModal').text("Editar Nota")
+            $('#tituloNota').text("Editar Nota Fiscal")
             $("#input_numero_total").val(response.data.numero_total),
             $("#input_serie").val(response.data.serie),
             $("#input_folha").val(response.data.folha),

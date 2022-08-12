@@ -119,6 +119,7 @@
                   <!-- <button class="btn btn-warning">Gerar MTR</button> -->
                   <!-- <button class="btn btn-warning">Gerar CDF</button> -->
                   <!-- <button class="btn btn-danger">Cancelar MTR</button> -->
+                  <button class="btn btn-default showFotos">Fotos</button>
                   <button class="btn btn-primary stepper-next">Próximo</button>
                 </div>
               </div>
@@ -165,7 +166,7 @@
                   <!-- <button class="btn btn-warning">Gerar MTR</button> -->
                   <!-- <button class="btn btn-warning">Gerar CDF</button> -->
                   <!-- <button class="btn btn-danger">Cancelar MTR</button> -->
-                  <button class="btn btn-danger">Fotos</button>
+                  <button class="btn btn-default showFotos">Fotos</button>
                   <button class="btn btn-primary stepper-prev">Anterior</button>
                   <button class="btn btn-primary stepper-next">Próximo</button>
 
@@ -209,7 +210,7 @@
                   <!-- <button class="btn btn-warning">Gerar MTR</button> -->
                   <!-- <button class="btn btn-warning">Gerar CDF</button> -->
                   <!-- <button class="btn btn-danger">Cancelar MTR</button> -->
-                  <button class="btn btn-danger">Fotos</button>
+                  <button class="btn btn-default showFotos">Fotos</button>
                   <button class="btn btn-primary stepper-prev">Anterior</button>
                   <button class="btn btn-primary" id="salvarOs" >Salvar</button>
                 </div>

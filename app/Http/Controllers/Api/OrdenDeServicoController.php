@@ -12,10 +12,7 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
 use App\Mail\Ordem;
-// use Validator;
-// use Hash;
 use Mail;
-// use Str;
 
 class OrdenDeServicoController extends Controller
 {
@@ -27,7 +24,6 @@ class OrdenDeServicoController extends Controller
     public function index(Request $request)
     {
         $currentUser = auth()->user();
-        // dd($currentUser->pessoa_juridica_id);
         if ($currentUser->hasRole('admin')) {
             $ordenServico = OrdensServicos::all();
         }else {
@@ -35,7 +31,6 @@ class OrdenDeServicoController extends Controller
                 $ordenServico = OrdensServicos::where('motorista_id', $currentUser->id)->get();
             } else {
                 $currentEmpresaId = $currentUser->pessoa_juridica_id;
-                // dd($currentEmpresaId);
                 $currentTipoEmpresa = $currentUser->pessoa_juridica && $currentUser->pessoa_juridica->tipo_empresa ?  $currentUser->pessoa_juridica->tipo_empresa->descricao : null;
                 if ($currentTipoEmpresa == 'Gerador') {
                     $ordenServico = OrdensServicos::where('gerador_id', $currentEmpresaId)->get();
@@ -44,15 +39,11 @@ class OrdenDeServicoController extends Controller
                 } elseif ($currentTipoEmpresa == 'Transportador') {
                     $ordenServico = OrdensServicos::where('transportador_id', $currentEmpresaId)->get();
                 } elseif ($currentTipoEmpresa == 'GDT') {
-                    $ordenServico = OrdensServicos::where('gerador_id', $currentEmpresaId)
-                                            ->orWhere('destinador_id', $current_empresa)
-                                            ->orWhere('transportador_id',  $current_empresa)
-                                            ->get();
+                    $ordenServico = OrdensServicos::where('gerador_id', $currentEmpresaId)->orWhere('destinador_id', $current_empresa)->orWhere('transportador_id',  $current_empresa)->get();
                 }
             }
         }
 
-        // event(new Registered($user));
         return response([
             'data' =>OrdenDeServicoResource::collection($ordenServico),
             'status' => true
@@ -66,38 +57,33 @@ class OrdenDeServicoController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     public function store(OrdenDeServicoRequest $request)
+    public function store(OrdenDeServicoRequest $request)
     {
         try {
             $newOrdenDeServico = OrdensServicos::create($request->all());
-            // dd($newOrdenDeServico->destinador, $newOrdenDeServico->motorista );
-            try {
-                $responseRastreo = Http::post(config('app.rastreamento').'coordenada/create', [
-                    "codigo_coordenada" => $newOrdenDeServico->id,
-                    "gerador" => [
-                        "id" => $newOrdenDeServico->gerador_id,
-                        "latitude" => $newOrdenDeServico->gerador ? $newOrdenDeServico->gerador->latitude : null,
-                        "longitude" => $newOrdenDeServico->gerador ? $newOrdenDeServico->gerador->longitude : null,
-                    ],
-                    "destinador" => [
-                        "id" => $newOrdenDeServico->destinador_id,
-                        "latitude" => $newOrdenDeServico->destinador ? $newOrdenDeServico->destinador->latitude : null,
-                        "longitude" => $newOrdenDeServico->destinador ? $newOrdenDeServico->destinador->longitude : null,
-                    ]
-                ]);
-            } catch(Exception $e) {
-                echo 'Error Message: ' .$e->getMessage();
-            }
+            // try {
+            //     $responseRastreo = Http::post(config('app.rastreamento').'coordenada/create', [
+            //         "codigo_coordenada" => $newOrdenDeServico->id,
+            //         "gerador" => [
+            //             "id" => $newOrdenDeServico->gerador_id,
+            //             "latitude" => $newOrdenDeServico->gerador ? $newOrdenDeServico->gerador->latitude : null,
+            //             "longitude" => $newOrdenDeServico->gerador ? $newOrdenDeServico->gerador->longitude : null,
+            //         ],
+            //         "destinador" => [
+            //             "id" => $newOrdenDeServico->destinador_id,
+            //             "latitude" => $newOrdenDeServico->destinador ? $newOrdenDeServico->destinador->latitude : null,
+            //             "longitude" => $newOrdenDeServico->destinador ? $newOrdenDeServico->destinador->longitude : null,
+            //         ]
+            //     ]);
+            // } catch(Exception $e) {
+            //     echo 'Error Message: ' .$e->getMessage();
+            // }
 
             $tipoA = $newOrdenDeServico->gerador->nome_fantasia;
             $tipoB = $newOrdenDeServico->destinador->nome_fantasia;
             $tipoC = $newOrdenDeServico->transportador->nome_fantasia;
             $email = $newOrdenDeServico->destinador->email;
-            // dd($ordenServico);
             Mail::to($email)->send(new Ordem($tipoA, $tipoB, $tipoC, $email));
-
-            // Mail::to($newOrdenDeServico->motorista->email)->send(new Ordem($tipoA, $tipoB));
-            
 
             return response([
                 'data' => new OrdenDeServicoResource($newOrdenDeServico),

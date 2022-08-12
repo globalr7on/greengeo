@@ -41,6 +41,7 @@
   </div>
   @include('rastreamento.os.modal')
   @include('rastreamento.os.modalFotos')
+  @include('rastreamento.os.modalGalleryFotos')
 @endsection
 
 @push('js')
@@ -94,6 +95,8 @@
       $('body').on('click', '#novaOs', function() {
         $('body').on('change', '#input_gerador_id', updateTransportadorFromGerador)
         $('body').on('change', '#input_transportador_id', updateMotoristaFromTransportador)
+        $("#imagensData").val('')
+        $('.showFotos').hide()
         app.stepper()
         delFormValidationErrors()
         $("#modalOs").modal("show")
@@ -112,8 +115,10 @@
 
       // Open Modal novaFoto
       $('body').on('click', '.novaFoto', function() {
-        const id = $(this).attr('data-id');
-        $('#orden_servicio_id').val(id);
+        const id = $(this).attr('data-id')
+        $('#imagensPreview').empty()
+        $('#formImagens')[0].reset()
+        $('#input_orden_servicio_id').val(id)
         $("#modalFoto").modal("show")
       })
 
@@ -176,6 +181,7 @@
         const id = $(this).attr('data-id');
         app.api.get(`/os/${id}`).then(response =>  {
           if (response && response.status) {
+            $('.showFotos').show()
             getEmpresa(response.data.gerador_id, '#input_gerador_id', null, null, false, false, true)
             getEmpresa(response.data.destinador_id, '#input_destinador_id', null, null, false, false, true)
             getEmpresa(response.data.transportador_id, '#input_transportador_id', null, null, false, false, true)
@@ -185,7 +191,7 @@
             delFormValidationErrors()
             $('#formOs')[0].reset()
             $("#modalOs").modal("show");
-            $('#tituloModal').text("Editar Os")
+            $('#tituloModal').text("Editar OS")
             $('#input_id').val(response.data.id);
             $("#input_integracao").val(response.data.integracao)
             $("#input_emissao").val(response.data.emissao)
@@ -194,6 +200,7 @@
             $("#input_description").val(response.data.description)
             $("#input_data_estagio").val(response.data.data_estagio)
             $("#input_preenchimento").val(response.data.preenchimento)
+            $("#imagensData").val(JSON.stringify(response.data.imagens))
           }
         })
         .catch(error => notifyDanger('Falha ao obter detalhes. Tente novamente'))
@@ -288,6 +295,25 @@
         getMotorista(null, transportadorId)
         getVeiculo(null, transportadorId)
       }
+      
+      // Salvar imagens
+      $('body').on('click', '#salvarImagens', function() {
+        const ordenServicioId = $('#input_orden_servicio_id').val()
+        const imagens = $('form#formImagens input[type="file"]')[0].files
+        const data = new FormData()
+        data.append('orden_servicio_id', ordenServicioId)
+        for (let i = 0; i < imagens.length; i++) {
+          data.append('imagens[]', imagens[i])
+        }
+
+        app.api.post('/imagens', data, true).then(response => {
+          if (response && response.status) {
+            $("#modalFoto").modal("hide")
+            notifySuccess('Salvado com sucesso')
+          }
+        })
+        .catch(error => Object.keys(error?.data).map(curr => error.data[curr].map(error => notifyDanger(error))))
+      })
     })
   </script>
 @endpush

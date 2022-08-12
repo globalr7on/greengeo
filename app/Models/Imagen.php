@@ -18,6 +18,6 @@ class Imagen extends Model
 
     public function orden_servico()
     {
-        return $this->belongsTo('App\Models\OrdensServicos', 'id', 'orden_servico_id');
+        return $this->belongsTo('App\Models\OrdensServicos', 'orden_servico_id', 'id');
     }
 }

@@ -70,4 +70,9 @@ class OrdensServicos extends Model
     {
         return $this->hasOne('App\Models\NotaFiscal', 'id', 'nota_fiscal_id');
     }
+
+    public function imagens()
+    {
+        return $this->hasMany('App\Models\Imagen', 'orden_servico_id', 'id');
+    }
 }

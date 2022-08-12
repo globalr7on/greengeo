@@ -4,7 +4,9 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class AtividadeResource extends JsonResource
+const DO_S3_PATH = "https://greenbeat-images.nyc3.digitaloceanspaces.com/";
+
+class ImagenResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,11 +16,11 @@ class AtividadeResource extends JsonResource
      */
     public function toArray($request)
     {
-          return [
+        return [
             'id' => $this->id,
-            'url' => $this->url,
-            'nome_arquivo' => $this->nome_arquivo,
-            'orden_servico_iten_id' => $this->orden_servico_iten_id,
+            'url' => $this->url ? DO_S3_PATH.$this->url : null,
+            'orden_servico_id' => $this->orden_servico_id,
+            'orden_servico' => $this->orden_servico ? $this->orden_servico->id : null,
         ];
     }
 }

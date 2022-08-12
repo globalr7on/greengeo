@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\ImagenResource;
 
 class OrdenDeServicoResource extends JsonResource
 {
@@ -50,6 +51,7 @@ class OrdenDeServicoResource extends JsonResource
             'veiculo' => $this->veiculo ? $this->veiculo->placa : null,
             'nota_fiscal_id' => $this->nota_fiscal_id,
             'nota_fiscal' => $this->nota_fiscal ? $this->nota_fiscal->serie : null,
+            'imagens' => ImagenResource::collection($this->imagens),
         ];
     }
 }

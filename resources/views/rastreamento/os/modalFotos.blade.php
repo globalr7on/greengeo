@@ -2,36 +2,51 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title text-left" id="tituloModal"></h5>
+        <h5 class="modal-title text-left">Addicionar fotos</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-md-12 text-center">
-            <form action="{{ route('imagens.criar') }}" method="post" enctype="multipart/form-data">
-              {{ @csrf_field() }}
-              <input type="hidden" name="orden_servicio_id" id="orden_servicio_id">
-               <input type="file" name="uploaded_file[]" id="uploaded_file[]" multiple oninput='UpdatePreview()'> 
-              <input type="submit" class="btn btn-primary">
-            </form>
-          </div>
-        </div>
 
-        <div class="row">
-          <div class="col-md-12" id="imagensPreview"></div>
-        </div>
+      <div class="modal-body">
+        <form id="formImagens">
+          <div class="row">
+            <div class="col-md-3 align-self-center">
+              <div class="form-group">
+                <label for="input_orden_servicio_id">Ordem de Servico</label>
+                <input type="text" class="form-control" name="orden_servicio_id" id="input_orden_servicio_id" disabled readonly>
+              </div>
+            </div>
+
+            <div class="col-md-7 align-self-center">
+              <input type="file" name="imagens[]" id="input_imagens[]" multiple accept="image/*" oninput='UpdatePreview()'>
+            </div>
+
+            <div class="col-md-2 align-self-center">
+              <button type="button" class="btn btn-primary" id="salvarImagens">Enviar</button>
+            </div>
+          </div>
+            
+          <div class="row">
+            <div class="col-md-12" id="imagensPreview"></div>
+          </div>
+        </form>
       </div>
     </div>
   </div>
 </div>
 
-<script>
-  function UpdatePreview() {
-    let images = event.target.files || []
-    for (let i = 0; i < images.length; i++) {
-      $('#imagensPreview').append(`<img src="${URL.createObjectURL(images[i])}" title="${images[i].name}" width="128" height="128" class="mx-2" />`)
+@push('js')
+  <script>
+    $('#formImagens').submit(function(event) {
+      event.preventDefault()
+    })
+
+    function UpdatePreview() {
+      let images = event.target.files || []
+      for (let i = 0; i < images.length; i++) {
+        $('#imagensPreview').append(`<img src="${URL.createObjectURL(images[i])}" title="${images[i].name}" width="128" height="128" class="mx-2" />`)
+      }
     }
-  }
-</script>
+  </script>
+@endpush

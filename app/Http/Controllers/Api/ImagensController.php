@@ -3,14 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-// use App\Http\Requests\ImagensRequest;
-// use App\Http\Resources\ImagensResource;
+use App\Http\Requests\ImagenRequest;
+use App\Http\Resources\ImagenResource;
 use App\Models\Imagen;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
-
-const DO_S3_PATH = "https://greenbeat-images.nyc3.digitaloceanspaces.com/";
 
 class ImagensController extends Controller
 {
@@ -20,8 +18,12 @@ class ImagensController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   
-        $imagen = Imagen::all();
+    {
+        $imagens = Imagen::all();
+        return response([
+            'data' => ImagenResource::collection($imagens),
+            'status' => true
+        ], 200);
     }
 
     /**
@@ -30,32 +32,50 @@ class ImagensController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ImagenRequest $request)
     {
         DB::beginTransaction();
+        $imagesStorage = [];
         try {
+            $imagesCollection = collect();
             $orden_servicio_id = $request->get('orden_servicio_id');
-            foreach ($request->file('uploaded_file') as $image) {
+            foreach ($request->file('imagens') as $image) {
                 $tempName = time().rand().'.'.$image->extension();
                 $imageName = Storage::disk('do')->putFileAs('uploads', $image, $tempName, 'public');
-                $imageUrl = DO_S3_PATH.$imageName;
+                array_push($imagesStorage, $imageName);
+                $imagen = Imagen::create([
+                    'url' => $imageName,
+                    'orden_servico_id' => $orden_servicio_id,
+                ]);
+                $imagesCollection->add($imagen);
+            }
+            DB::commit();
 
-                $ima = new Imagen;
-                $ima->url = $imageUrl;
-                $ima->orden_servico_id = $orden_servicio_id;
-                $ima->save();
+            return response([
+                'data' => ImagenResource::collection($imagesCollection),
+                'status' => true
+            ], 200);
+        } catch (\Illuminate\Database\QueryException $e) {
+            DB::rollBack();
+            foreach ($imagesStorage as $image) {
+                Storage::disk('do')->delete($image);
             }
 
-            DB::commit();
+            return response([
+                'data' => "Ocorreu um problema ao salvar, tente novamente",
+                'status' => false
+            ], 400);
         } catch (\Exception $e) {
             DB::rollBack();
+            foreach ($imagesStorage as $image) {
+                Storage::disk('do')->delete($image);
+            }
+
             return response([
                 'data' => $e->getMessage(),
                 'status' => false
             ], 400);
         }
-
-        return back()->with('success_message', 'Carregar com sucesso');
     }
 
     /**
@@ -70,7 +90,6 @@ class ImagensController extends Controller
             'data' => new ImagenResource(Imagen::find($id)),
             'status' => true
         ], 200);
-    
     }
 
     /**
@@ -93,6 +112,10 @@ class ImagensController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $imagen = Imagen::findOrFail($id);
+        Storage::disk('do')->delete($imagen->url);
+        $imagen->delete();
+        
+        return response(null, 204);
     }
 }

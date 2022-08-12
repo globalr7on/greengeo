@@ -4,9 +4,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Resources\UserReslogoutource;
 
-Route::post('upload', 'App\Http\Controllers\Api\ImagensController@store')->name('imagens.criar');
-
-
 Route::post('login','App\Http\Controllers\Api\UserController@accessToken')->name('api.login');
 
 Route::middleware(['auth:api', 'permission'])->group(function() {
@@ -169,9 +166,13 @@ Route::middleware(['auth:api', 'permission'])->group(function() {
     Route::put('ibama/{id}', 'App\Http\Controllers\Api\IbamaController@update')->name('ibama.atualizar');
     Route::delete('ibama/{id}', 'App\Http\Controllers\Api\IbamaController@destroy')->name('ibama.excluir');
 
-    //GEOLOCALIZAÇÃO
+    // GEOLOCALIZAÇÃO
     Route::get('geo', 'App\Http\Controllers\Api\GeoCepController@index')->name('geo.lista');
 
-    //Imagens 
-    Route::get('mostrar', 'App\Http\Controllers\Api\ImagensController@show')->name('imagens.show');
+    // IMAGENS 
+    Route::get('imagens', 'App\Http\Controllers\Api\ImagensController@index')->name('imagens.lista');
+    Route::get('imagens/{id}', 'App\Http\Controllers\Api\ImagensController@show')->name('imagens.mostrar');
+    Route::post('imagens', 'App\Http\Controllers\Api\ImagensController@store')->name('imagens.criar');
+    // Route::put('imagens/{id}', 'App\Http\Controllers\Api\ImagensController@update')->name('imagens.atualizar');
+    Route::delete('imagens/{id}', 'App\Http\Controllers\Api\ImagensController@destroy')->name('imagens.excluir');
 });

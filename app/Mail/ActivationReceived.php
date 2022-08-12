@@ -17,13 +17,12 @@ class ActivationReceived extends Mailable
      *
      * @return void
      */
-    public function __construct($cpf, $name, $email , $password) 
+    public function __construct($cpf, $name, $email, $password) 
     {
         $this->cpf = $cpf;
         $this->name = $name;
         $this->email = $email;
         $this->password = $password;
-
     }
 
     /**
