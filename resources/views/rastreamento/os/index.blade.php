@@ -21,14 +21,14 @@
               <div>
                 <table class="table" id="osTbl">
                   <thead>
-                    <th class="text-primary font-weight-bold" style="width:5%">OS</th>
-                    <th class="text-primary font-weight-bold" style="width:10%">Emissão</th>
-                    <th class="text-primary font-weight-bold" style="width:10%">Integração</th>
+                    <th class="text-primary font-weight-bold text-center" style="width:10%">Codigo</th>
+                    <th class="text-primary font-weight-bold" style="width:7%">Emissão</th>
+                    <th class="text-primary font-weight-bold" style="width:9%">Integração</th>
                     <th class="text-primary font-weight-bold" style="width:auto">Gerador</th>
                     <th class="text-primary font-weight-bold" style="width:auto">Transportador</th>
                     <th class="text-primary font-weight-bold" style="width:auto">Destinador</th>
-                    <th class="text-primary font-weight-bold" style="width:5%">MTR</th>
-                    <th class="text-primary font-weight-bold" style="width:7%">Estágio</th>
+                    <th class="text-primary font-weight-bold" style="width:7%">MTR</th>
+                    <th class="text-primary font-weight-bold" style="width:10%">Estágio</th>
                     <th class="text-primary font-weight-bold text-center" style="width:10%">Ação</th>
                   </thead>
                 </table>
@@ -50,7 +50,7 @@
       let app = new App({
         apiUrl: '/api/os',
         apiDataTableColumns: [
-          { data: 'id'},
+          { data: 'codigo'},
           { data: "emissao" },
           { data: "integracao" },
           { data: "gerador" },
@@ -60,25 +60,30 @@
           { data: "estagio" },
         ],
         useDefaultDataTableColumnDefs: false,
-        apiDataTableColumnDefs : [
+        apiDataTableColumnDefs: [
           {
-            targets : 8,
+            targets: [0,7],
             className: "text-center",
-            render : function (data, type, row) {
+          },
+          {
+            targets: 8,
+            className: "text-center",
+            render: function (data, type, row) {
               const deleteBtn = row.estagio == 'Emitida' ? `<i class="fa fa-trash cursor-pointer deleteAction" data-id="${row.id}" title="Excluir"></i>&nbsp;` : ''
               const editBtn = row.estagio == 'Emitida' ? `<i class="fa fa-pen cursor-pointer editAction" data-id="${row.id}" title="Editar"></i>&nbsp;` : ''
+              const showBtn = row.estagio !== 'Emitida' ? `<i class="fas fa-list-alt cursor-pointer showAction" data-id="${row.id}" title="Mostrar"></i>&nbsp;` : ''
               const addPhotoBtn = `<i class="fa-solid fa-cloud-arrow-up cursor-pointer novaFoto" data-id="${row.id}" title="Adicionar Foto"></i>&nbsp;`
               const updateStatusColetaBtn = row.estagio == 'Emitida'
-                ? `<i class="fas fa-hourglass-half cursor-pointer updateStatusColeta" data-id="${row.id}" title="Aguardando Coleta"></i>&nbsp;`
+                ? `<i class="fas fa-hourglass-half cursor-pointer updateEstagio" data-id="${row.id}" title="Atualizar a Aguardando Coleta"></i>&nbsp;`
                 : ''
               const updateStatusTransporteBtn = row.estagio == 'Aguardando Coleta'
-                ? `<i class="fas fa-truck cursor-pointer updateStatusTransporte" data-id="${row.id}" title="Transporte"></i>&nbsp;`
+                ? `<i class="fas fa-truck cursor-pointer updateEstagio" data-id="${row.id}" title="Atualizar a Transporte"></i>&nbsp;`
                 : ''
               const updateStatusEntregueBtn = row.estagio == 'Transporte'
-                ? `<i class="fas fa-truck-loading cursor-pointer updateStatusEntregue" data-id="${row.id}" title="Entregue"></i>&nbsp;`
+                ? `<i class="fas fa-truck-loading cursor-pointer updateEstagio" data-id="${row.id}" title="Atualizar a Entregue"></i>&nbsp;`
                 : ''
 
-              return `${deleteBtn}${editBtn}${addPhotoBtn}${updateStatusColetaBtn}${updateStatusTransporteBtn}${updateStatusEntregueBtn}`
+              return `${deleteBtn}${editBtn}${showBtn}${addPhotoBtn}${updateStatusColetaBtn}${updateStatusTransporteBtn}${updateStatusEntregueBtn}`
             }
           }
         ],
@@ -174,7 +179,8 @@
       })
 
       // Editar
-      $('body').on('click', '.editAction', function() {
+      $('body').on('click', '.editAction, .showAction', function() {
+        const onlyShow = $(this).hasClass("showAction")
         $('body').off('change', '#input_gerador_id', updateTransportadorFromGerador)
         $('body').off('change', '#input_transportador_id', updateMotoristaFromTransportador)
         app.stepper()
@@ -201,6 +207,10 @@
             $("#input_data_estagio").val(response.data.data_estagio)
             $("#input_preenchimento").val(response.data.preenchimento)
             $("#imagensData").val(JSON.stringify(response.data.imagens))
+            if (onlyShow) {
+              $("#formOs input").prop("disabled", true)
+              $("#salvarOs").hide()
+            }
           }
         })
         .catch(error => notifyDanger('Falha ao obter detalhes. Tente novamente'))
@@ -313,6 +323,23 @@
           }
         })
         .catch(error => Object.keys(error?.data).map(curr => error.data[curr].map(error => notifyDanger(error))))
+      })
+
+      // Update estagio
+      $('body').on('click', '.updateEstagio', function() {
+        const title = $(this).attr('title')?.toLowerCase()
+        sweetConfirm(`Deseja realmente ${title}?`).then(confirmed => {
+          if (confirmed) {
+            const id = $(this).attr('data-id')
+            app.api.put(`/os/${id}/estagio`).then(response => {
+              if (response && response.status) {
+                app.datatable.ajax.reload()
+                notifySuccess('Atualizada com sucesso')
+              }
+            })
+            .catch(error => notifyDanger('Falha ao atualizar, tente novamente'))
+          }
+        })
       })
     })
   </script>

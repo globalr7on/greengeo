@@ -13,9 +13,11 @@ use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
 use App\Mail\Ordem;
 use Mail;
+use App\Traits\OrdenServicoTrait;
 
 class OrdenDeServicoController extends Controller
 {
+    use OrdenServicoTrait;
     /**
      * Display a listing of the resource.
      *
@@ -60,6 +62,7 @@ class OrdenDeServicoController extends Controller
     public function store(OrdenDeServicoRequest $request)
     {
         try {
+            $request->merge(array('codigo' => $this->generateCode(OrdensServicos::class)));
             $newOrdenDeServico = OrdensServicos::create($request->all());
             // try {
             //     $responseRastreo = Http::post(config('app.rastreamento').'coordenada/create', [
@@ -91,7 +94,7 @@ class OrdenDeServicoController extends Controller
             ], 200);
         } catch(Exception $error) {
             return response([
-                'data' =>  $error->getMessage(),
+                'data' => $error->getMessage(),
                 'status' => false
             ], 400);
         }
@@ -139,5 +142,29 @@ class OrdenDeServicoController extends Controller
     {
         OrdensServicos::findOrFail($id)->delete();
         return response(null, 204);
+    }
+
+    /**
+     * Update the estagio
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateEstagio(Request $request, $id)
+    {
+        try {
+            $ordenServico = OrdensServicos::find($id);
+            $ordenServico->update(["estagio_id" => $this->getNextEstagio($ordenServico->estagio_id)]);
+            return response([
+                'data' => new OrdenDeServicoResource($ordenServico),
+                'status' => true
+            ], 200);
+        } catch (\Exception $error) {
+            return response([
+                'data' => $error->getMessage(),
+                'status' => false
+            ], 400);
+        }
     }
 }

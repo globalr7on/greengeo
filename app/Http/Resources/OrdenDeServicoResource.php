@@ -17,6 +17,7 @@ class OrdenDeServicoResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'codigo' => $this->codigo,
             'data_estagio' => $this->data_estagio,
             'mtr' => $this->mtr,
             'emissao' => $this->emissao,

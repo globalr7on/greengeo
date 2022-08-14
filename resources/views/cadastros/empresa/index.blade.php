@@ -68,7 +68,7 @@
             }
           }
         ],
-        apiDataTableColumnsDefs : [
+        apiDataTableColumnsDefs: [
           { targets: 1, orderable: false },
           { targets: 0, width: "70px" },
         ],

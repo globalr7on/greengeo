@@ -56,7 +56,7 @@
         ],
         apiDataTableColumnDefs: [
           {
-            targets : 4,
+            targets: 4,
             render: function (data, type, row) {
               const roleWeb = row.role_name_web ? `<span class="badge bg-primary">[Web] ${row.role_name_web}</span>` : ''
               const roleApi = row.role_name_api ? `<span class="badge bg-danger">[Api] ${row.role_name_api}</span>` : ''

@@ -62,7 +62,7 @@
             }
           }
         ],
-        apiDataTableColumnsDefs : [
+        apiDataTableColumnsDefs: [
           { targets: 1, orderable: false },
         ],
         datatableSelector: '#materialTbl'

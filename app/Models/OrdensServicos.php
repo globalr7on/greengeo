@@ -14,8 +14,9 @@ class OrdensServicos extends Model
     use  HasFactory, Notifiable;
     protected $table = 'ordens_servicos';
     protected $fillable = [
-        'data_estagio',
+        'codigo',
         'mtr',
+        'data_estagio',
         'emissao',
         'preenchimento',
         'integracao',
