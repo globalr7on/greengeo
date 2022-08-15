@@ -7,23 +7,24 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ActivationReceived extends Mailable
+class ActivationMotorista extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $cpf, $name, $email, $password, $tipo;
+    public $cpf, $name, $email, $password, $funcao, $transportadora;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($cpf, $name, $email, $password, $tipo) 
+    public function __construct($cpf, $name, $email, $password, $funcao, $transportadora ) 
     {
         $this->cpf = $cpf;
         $this->name = $name;
         $this->email = $email;
         $this->password = $password;
-        $this->tipo = $tipo;
+        $this->funcao = $funcao;
+        $this->transportadora = $transportadora;
     }
 
     /**
@@ -34,14 +35,15 @@ class ActivationReceived extends Mailable
     public function build()
     {
         return $this
-            ->view('mails.activation')
+            ->view('mails.activationMotorista')
             ->subject("Notificação de novo acesso")
             ->with([
                 "cpf" => $this->cpf,
                 "name" => $this->name,
                 "email" => $this->email,
                 "password" => $this->password,
-                "tipo" => $this->tipo,
+                "funcao" => $this->funcao,
+                "transportadora" => $this->transportadora,
 
             ]);
     }

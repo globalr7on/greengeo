@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ActivationReceived extends Mailable
+class ActivationTransportador extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -34,7 +34,7 @@ class ActivationReceived extends Mailable
     public function build()
     {
         return $this
-            ->view('mails.activation')
+            ->view('mails.activationTransportador')
             ->subject("Notificação de novo acesso")
             ->with([
                 "cpf" => $this->cpf,

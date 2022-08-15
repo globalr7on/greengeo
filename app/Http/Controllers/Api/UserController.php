@@ -9,6 +9,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Mail\ActivationReceived;
+use App\Mail\ActivationGerador;
+use App\Mail\ActivationTransportador;
+use App\Mail\ActivationMotorista;
 use Validator;
 use Hash;
 use Mail;
@@ -118,8 +121,8 @@ class UserController extends Controller
                 }
             }
             $users = $filteredUsers;
+           
         }
-
         return response([
             'data' => UserResource::collection($users),
             'status' => true
@@ -128,14 +131,16 @@ class UserController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
+     *  
      * @param  app\Http\Requests\UserRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(UserRequest $request)
     {
+
         $request->merge(array('password' => Str::random(16)));
         $user = User::create($request->except('role_web', 'role_api'));
+        // $user->tipo
         $newRoleWeb = intval($request->get('role_web'));
         $newRoleApi = intval($request->get('role_api'));
         if ($newRoleWeb) {
@@ -145,9 +150,30 @@ class UserController extends Controller
             $user->assignRole($newRoleApi, 'api'); 
         }
 
+       
+    
         // event(new Registered($user));
-        Mail::to($user->email)->send(new ActivationReceived($user->cpf, $user->name, $user->email, $request->password));
+        $tipo = $user->pessoa_juridica->tipo_empresa->descricao;
+        $funcao = $user->cargo; 
+        // dd($funcao);
 
+        $transportadora = $user->pessoa_juridica->nome_fantasia;
+        // dd($transportadora);
+        if($tipo == 'Gerador'){
+            Mail::to($user->email)->send(new ActivationGerador($user->cpf, $user->name, $user->email, $request->password, $tipo));
+        }elseif($tipo == 'Destinador'){
+            Mail::to($user->email)->send(new ActivationReceived($user->cpf, $user->name, $user->email, $request->password, $tipo));
+        }elseif($tipo == 'Transportador'){
+            Mail::to($user->email)->send(new ActivationTransportador($user->cpf, $user->name, $user->email, $request->password, $tipo));
+        }
+        
+        if($funcao == 'Motorista'){
+            // $transportadora = $user->pessoa_juridica->nome_fantasia;
+            Mail::to($user->email)->send(new ActivationMotorista($user->cpf, $user->name, $user->email, $request->password, $funcao, $transportadora));
+        }
+
+
+       
         return response([
             'data' => new UserResource($user),
             'status' => true
