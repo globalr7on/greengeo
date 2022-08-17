@@ -369,6 +369,58 @@ setTimeout(() => {
   });
 }, 500);
 
+// Maskrenavam
+const maskrenavam = "99999999999";
+$(".maskrenavam").each(function () {
+  $(this).inputmask({
+    mask: maskrenavam,
+    clearIncomplete: true,
+    removeMaskOnSubmit: true,
+    autoUnmask: true,
+  });
+});
+setTimeout(() => {
+  $(".maskrenavam").focus(function () {
+    $(this).inputmask("remove");
+    return false;
+  }).blur(function () {
+    $(this).inputmask("remove");
+    $(this).inputmask({
+      mask: maskrenavam,
+      clearIncomplete: true,
+      removeMaskOnSubmit: true,
+      autoUnmask: true,
+    });
+  });
+}, 500);
+
+// MaskPlaca
+
+const maskplaca = "aaa-9a99";
+$(".maskplaca").each(function () {
+  $(this).inputmask({
+    mask: maskplaca,
+    clearIncomplete: true,
+    removeMaskOnSubmit: true,
+    autoUnmask: true,
+  });
+});
+setTimeout(() => {
+  $(".maskplaca").focus(function () {
+    $(this).inputmask("remove");
+    return false;
+  }).blur(function () {
+    $(this).inputmask("remove");
+    $(this).inputmask({
+      mask: maskplaca,
+      clearIncomplete: true,
+      removeMaskOnSubmit: true,
+      autoUnmask: true,
+    });
+  });
+}, 500);
+
+
 // MaskChaveAcesso 
 const maskchave = "9999-9999-9999-9999-9999-9999-9999-9999-9999-9999";
 $(".maskchave").each(function () {

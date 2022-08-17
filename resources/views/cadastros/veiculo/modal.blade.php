@@ -25,7 +25,7 @@
                 <div class="col-md-6 align-self-center">
                   <div class="form-group">
                     <label for="input_placa">Placa</label>
-                    <input type="text" class="form-control" id="input_placa">
+                    <input type="text" class="form-control maskplaca" id="input_placa">
                   </div>
                 </div>
               </div>
@@ -80,7 +80,7 @@
                 <div class="col-md-6 align-self-center px-4">
                   <div class="form-group pb-0">
                     <label for="input_renavam">Renavam</label>
-                    <input type="text" class="form-control" id="input_renavam">
+                    <input type="text" class="form-control maskrenavam" id="input_renavam">
                   </div>
                 </div>
 
