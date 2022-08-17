@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Resources\UserReslogoutource;
 
+
+
 Route::post('login','App\Http\Controllers\Api\UserController@accessToken')->name('api.login');
 
 Route::middleware(['auth:api', 'permission'])->group(function() {
@@ -169,6 +171,7 @@ Route::middleware(['auth:api', 'permission'])->group(function() {
 
     // GEOLOCALIZAÇÃO
     Route::get('geo', 'App\Http\Controllers\Api\GeoCepController@index')->name('geo.lista');
+    Route::post('map','App\Http\Controllers\Api\GeoCepController@SendGeo')->name('geo.enviar');
 
     // IMAGENS 
     Route::get('imagens', 'App\Http\Controllers\Api\ImagensController@index')->name('imagens.lista');

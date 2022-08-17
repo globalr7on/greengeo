@@ -82,6 +82,16 @@
 
 @push('js')
 <script>
+  const beamsClient = new PusherPushNotifications.Client({
+    instanceId: 'f6b53984-06ed-4901-9dc1-c6b13e152dde',
+  });
+
+  beamsClient.start()
+    .then(() => beamsClient.addDeviceInterest('hello'))
+    .then(() => console.log('Successfully registered and subscribed!'))
+    .catch(console.error);
+</script>
+<script>
 
   // Inicialização do mapa
   var map = L.map('map').setView([-25.441105, -49.276855], 12);
