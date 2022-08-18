@@ -30,8 +30,16 @@ class ProdutoResource extends JsonResource
             'ean' => $this->ean,
             'descricao' => $this->descricao,
             'materiais' => $this->materiais->map(function ($material) {
-                return $material->only(['pivot']);
-            })->pluck('pivot')
+                $material->material_id = $material->pivot->material_id;
+                $material->peso_bruto = $material->pivot->peso_bruto;
+                $material->peso_liquido = $material->pivot->peso_liquido;
+                $material->percentual_composicao = $material->pivot->percentual_composicao;
+                $material->ibama;
+                $material->tipo_material;
+                $material->unidade;
+
+                return $material;
+            })->makeHidden('pivot')
         ];
     }
 }

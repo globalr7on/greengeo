@@ -16,8 +16,6 @@ use Validator;
 use Hash;
 use Mail;
 use Str;
-// use Illuminate\Auth\Events\Registered;
-
 
 class UserController extends Controller
 {
@@ -137,10 +135,8 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-
         $request->merge(array('password' => Str::random(16)));
         $user = User::create($request->except('role_web', 'role_api'));
-        // $user->tipo
         $newRoleWeb = intval($request->get('role_web'));
         $newRoleApi = intval($request->get('role_api'));
         if ($newRoleWeb) {
@@ -149,31 +145,21 @@ class UserController extends Controller
         if ($newRoleApi) {
             $user->assignRole($newRoleApi, 'api'); 
         }
-
-       
-    
-        // event(new Registered($user));
         $tipo = $user->pessoa_juridica->tipo_empresa->descricao;
         $funcao = $user->cargo; 
-        // dd($funcao);
-
         $transportadora = $user->pessoa_juridica->nome_fantasia;
-        // dd($transportadora);
-        if($tipo == 'Gerador'){
+        if ($tipo == 'Gerador') {
             Mail::to($user->email)->send(new ActivationGerador($user->cpf, $user->name, $user->email, $request->password, $tipo));
-        }elseif($tipo == 'Destinador'){
+        } elseif ($tipo == 'Destinador') {
             Mail::to($user->email)->send(new ActivationReceived($user->cpf, $user->name, $user->email, $request->password, $tipo));
-        }elseif($tipo == 'Transportador'){
+        } elseif ($tipo == 'Transportador') {
             Mail::to($user->email)->send(new ActivationTransportador($user->cpf, $user->name, $user->email, $request->password, $tipo));
         }
         
-        if($funcao == 'Motorista'){
-            // $transportadora = $user->pessoa_juridica->nome_fantasia;
+        if ($funcao == 'Motorista') {
             Mail::to($user->email)->send(new ActivationMotorista($user->cpf, $user->name, $user->email, $request->password, $funcao, $transportadora));
         }
 
-
-       
         return response([
             'data' => new UserResource($user),
             'status' => true

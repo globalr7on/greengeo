@@ -27,8 +27,8 @@ class OrdenDeServicoRequest extends FormRequest
             'gerador_id' => 'required',
             'transportador_id'  => 'required',
             'destinador_id' => 'required',
-            'motorista_id' => 'required',
-            'veiculo_id' => 'required',
+            // 'motorista_id' => 'required',
+            // 'veiculo_id' => 'required',
             'nota_fiscal_id' => 'required',
         ];
     }

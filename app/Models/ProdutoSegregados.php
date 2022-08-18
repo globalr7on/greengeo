@@ -22,4 +22,9 @@ class ProdutoSegregados extends Model
     {
         return $this->morphOne('App\Models\NotaFiscalIten', 'itenable');
     }
+
+    public function material()
+    {
+        return $this->hasOne('App\Models\Material', 'id', 'material_id');
+    }
 }

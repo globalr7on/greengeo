@@ -28,6 +28,11 @@ class Material extends Model
         return $this->belongsToMany('App\Models\Produto', 'material_produto')->withPivot('peso_bruto', 'peso_liquido', 'percentual_composicao');
     }
 
+    public function produtoSegregado()
+    {
+        return $this->belongsTo('App\Models\ProdutoSegregados', 'material_id', 'id');
+    }
+
     public function gerador()
     {
         return $this->hasOne('App\Models\PessoaJuridica', 'id', 'gerador_id');

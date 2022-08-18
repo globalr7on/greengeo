@@ -28,8 +28,8 @@
                     <th class="text-primary font-weight-bold" style="width:auto">Transportador</th>
                     <th class="text-primary font-weight-bold" style="width:auto">Destinador</th>
                     <th class="text-primary font-weight-bold" style="width:7%">MTR</th>
-                    <th class="text-primary font-weight-bold" style="width:10%">Estágio</th>
-                    <th class="text-primary font-weight-bold text-center" style="width:10%">Ação</th>
+                    <th class="text-primary font-weight-bold" style="width:12%">Estágio</th>
+                    <th class="text-primary font-weight-bold text-center" style="width:8%">Ação</th>
                   </thead>
                 </table>
               </div>
@@ -47,6 +47,7 @@
 @push('js')
   <script>
     $(document).ready(function () {
+      let notaFiscalsData = []
       let app = new App({
         apiUrl: '/api/os',
         apiDataTableColumns: [
@@ -67,7 +68,6 @@
           },
           {
             targets: 8,
-            className: "text-center",
             render: function (data, type, row) {
               const deleteBtn = row.estagio == 'Emitida' ? `<i class="fa fa-trash cursor-pointer deleteAction" data-id="${row.id}" title="Excluir"></i>&nbsp;` : ''
               const editBtn = row.estagio == 'Emitida' ? `<i class="fa fa-pen cursor-pointer editAction" data-id="${row.id}" title="Editar"></i>&nbsp;` : ''
@@ -102,6 +102,7 @@
         $('body').on('change', '#input_transportador_id', updateMotoristaFromTransportador)
         $("#imagensData").val('')
         $('.showFotos').hide()
+        $('.addMaterials').attr('disabled', true)
         app.stepper()
         delFormValidationErrors()
         $("#modalOs").modal("show")
@@ -116,6 +117,7 @@
         getEmpresa(null, '#input_transportador_id', null, null, false, true, true)
         getMotorista(null, null, true, true)
         getVeiculo(null, null, true, true)
+        getNotasFiscais()
       })
 
       // Open Modal novaFoto
@@ -143,12 +145,12 @@
           veiculo_id: $("#input_veiculo_id").val(),
           serie: $("#input_serie").val(),
           description: $("#input_description").val(),
+          nota_fiscal_id: $("#input_nota_fiscal").val(),
           cdf_serial: '123456',
-          cdf_ano:'2022',
+          cdf_ano: '2022',
           peso_total_os: '1234.21',
           area_total: '13456.22',
-          peso_de_controle:'23456.2',
-          nota_fiscal_id: 1,
+          peso_de_controle: '23456.2',
         }
         const id = $('#input_id').val()
         if (id) {
@@ -191,9 +193,10 @@
             getEmpresa(response.data.gerador_id, '#input_gerador_id', null, null, false, false, true)
             getEmpresa(response.data.destinador_id, '#input_destinador_id', null, null, false, false, true)
             getEmpresa(response.data.transportador_id, '#input_transportador_id', null, null, false, false, true)
-            getMotorista(response.data.motorista_id, null, false, true)
-            getVeiculo(response.data.veiculo_id, null, false, true)
+            getMotorista(response.data.motorista_id, response.data.transportador_id, false, response.data.motorista_id ? true : false)
+            getVeiculo(response.data.veiculo_id, response.data.transportador_id, false, response.data.veiculo_id ? true : false)
             getEstagio(response.data.estagio_id, true)
+            getNotasFiscais(response.data.nota_fiscal_id, true)
             delFormValidationErrors()
             $('#formOs')[0].reset()
             $("#modalOs").modal("show");
@@ -210,6 +213,9 @@
             if (onlyShow) {
               $("#formOs input").prop("disabled", true)
               $("#salvarOs").hide()
+            } else {
+              $("#formOs input").prop("disabled", false)
+              $("#salvarOs").show()
             }
           }
         })
@@ -273,7 +279,7 @@
           const empresa = empresaId ? `?pessoa_juridica_id=${empresaId}` : ''
           app.api.get(`/veiculo${empresa}`).then(response =>  {
             if (response && response.status) {
-              loadSelect('#input_veiculo_id', response.data, ['id', 'placa'], value, disabled, mergeVeiculoOption)
+              loadSelect('#input_veiculo_id', response.data, [], value, disabled, mergeVeiculoOption)
             }
           })
           .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
@@ -341,6 +347,119 @@
           }
         })
       })
+
+      function mergetNotasFiscaisOption(value) {
+        const optionValue = value.id
+        const optionText = `${value.pessoa_juridica} ${value.serie}:${value.folha} - ${value.numero_total}`
+        return [optionValue, optionText]
+      }
+
+      function getNotasFiscais(value, disabled) {
+        app.api.get('/nota_fiscais').then(response =>  {
+          if (response && response.status) {
+            notaFiscalsData = response.data
+            loadSelect('#input_nota_fiscal', response.data, [], value, disabled, mergetNotasFiscaisOption)
+          }
+        })
+        .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
+      }
+
+      $('body').on('change', '#input_nota_fiscal', function(event) {
+        $('.addMaterials').attr('disabled', false)
+        const currentId = event.target.value
+        const currentNotaFiscal = notaFiscalsData.find(curr => curr.id == currentId)
+        $('#materiaisData').text(JSON.stringify(currentNotaFiscal?.itens || []))
+      })
+
+      $('body').on('click', '.addMaterials', function() {
+        $("#modalSegregados").modal("show")
+        const materiaisData = JSON.parse($('#materiaisData').text())
+        const data = materiaisData.map(curr => {
+          if (curr.numero_de_serie) {
+            // Produto Acabado
+            return curr.produto.materiais.map(mat => ({
+              quantidade: curr.quantidade,
+              produto_id: curr.produto.id,
+              produto: `${curr.produto.ean}:${curr.produto.codigo}`,
+              altura: parseFloat(curr.produto.altura).toFixed(2),
+              largura: parseFloat(curr.produto.largura).toFixed(2),
+              profundidade: parseFloat(curr.produto.profundidade).toFixed(2),
+              material_id: mat.id,
+              material: `[${mat.ibama.codigo}] ${mat.tipo_material.descricao}: ${mat.estado_fisico} (${mat.unidade.simbolo})`,
+              peso_bruto: parseFloat(mat.peso_bruto).toFixed(2),
+              peso_liquido: parseFloat(mat.peso_liquido).toFixed(2),
+            }))
+          } else {
+            // Produto Segregado
+            return {
+              quantidade: curr.quantidade,
+              produto_id: curr.produto.id,
+              produto: null,
+              altura: null,
+              largura: null,
+              profundidade: null,
+              material_id: curr.produto.material.id,
+              material: `[${curr.produto.material.ibama}] ${curr.produto.material.tipo_material}: ${curr.produto.material.estado_fisico} (${curr.produto.material.unidade})`,
+              peso_bruto: parseFloat(curr.produto.peso_bruto).toFixed(2),
+              peso_liquido: parseFloat(curr.produto.peso_liquido).toFixed(2),
+            }
+          }
+        }).flat()
+        initMaterialDataTable(data)
+      })
+
+      function initMaterialDataTable(data) {
+        if ($.fn.dataTable.isDataTable('#materiaisTbl')) {
+          $('#materiaisTbl').DataTable().clear().draw()
+          $('#materiaisTbl').DataTable().rows.add(data).draw()
+        } else {
+          $('#materiaisTbl').DataTable({
+            language: app.dataTableConfig.language,
+            data: data,
+            autoWidth: false,
+            pageLength: 10,
+            ordering: false,
+            info: false,
+            lengthChange: false,
+            columns: [
+              { data: 'position' },
+              { data: 'produto' },
+              { data: 'quantidade' },
+              { data: 'material' },
+              { data: 'altura' },
+              { data: 'largura' },
+              { data: 'profundidade' },
+              { data: 'peso_bruto' },
+              { data: 'peso_liquido' },
+            ],
+            columnDefs: [
+              {
+                targets: 0,
+                className: 'text-center',
+                render: function (data, type, row, meta) {
+                  return meta.row + 1;
+                }
+              },
+              {
+                targets: [2,4,5,6,7,8],
+                className: 'text-center',
+              },
+            ],
+            rowGroup: {
+              dataSrc: function(row) {
+                return row.produto ? row.produto : 'Segregados'
+              },
+            },
+            footerCallback: function (row, data, start, end, display) {
+              const api = this.api()
+              totalPesoBruto = api.column(7).data().reduce((a, b) => parseFloat(a) + parseFloat(b), 0)
+              totalPesoLiquido = api.column(8).data().reduce((a, b) => parseFloat(a) + parseFloat(b), 0)
+              $(api.column(7).footer()).html(totalPesoBruto.toFixed(2))
+              $(api.column(8).footer()).html(totalPesoLiquido.toFixed(2))
+            },
+          })
+        }
+      }
     })
   </script>
 @endpush

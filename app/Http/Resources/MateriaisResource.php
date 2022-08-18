@@ -25,7 +25,7 @@ class MateriaisResource extends JsonResource
             'tipo_material'=> $this->tipo_material ? $this->tipo_material->descricao : null,
             'unidade_id' => $this->unidade_id,
             'unidade' => $this->unidade ? $this->unidade->simbolo : null,
-            'ativo'  =>  $this->ativo,
+            'ativo' =>  $this->ativo,
             'produtos' => $this->produtos ? $this->produtos->pluck('id') : [],
         ];
     }

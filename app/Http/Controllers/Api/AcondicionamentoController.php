@@ -23,7 +23,6 @@ class AcondicionamentoController extends Controller
             'data' => AcondicionamentoResource::collection($acondicionamento),
             'status' => true
         ], 200);
-        // return $acessante;
     }
 
      /**
@@ -39,7 +38,6 @@ class AcondicionamentoController extends Controller
             'data' => new AcondicionamentoResource($acondicionamento),
             'status' => true
         ], 200);
-
     }
 
     /**
