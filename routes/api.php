@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Resources\UserReslogoutource;
 
+
+
 Route::post('login','App\Http\Controllers\Api\UserController@accessToken')->name('api.login');
 
 Route::middleware(['auth:api', 'permission'])->group(function() {
@@ -168,7 +170,10 @@ Route::middleware(['auth:api', 'permission'])->group(function() {
     Route::delete('ibama/{id}', 'App\Http\Controllers\Api\IbamaController@destroy')->name('ibama.excluir');
 
     // GEOLOCALIZAÇÃO
-    Route::get('geo', 'App\Http\Controllers\Api\GeoCepController@index')->name('geo.lista');
+    Route::get('geo/cep', 'App\Http\Controllers\Api\GeoCepController@index')->name('geo.lista');
+    Route::post('map','App\Http\Controllers\Api\GeoCepController@criarGeo')->name('geo.criar');
+    // Route::get('map','App\Http\Controllers\Api\GeoCepController@ReceiveGeo')->name('geo.mostrar');
+    
 
     // IMAGENS 
     Route::get('imagens', 'App\Http\Controllers\Api\ImagensController@index')->name('imagens.lista');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use App\Events\SendPosition;
 
 class GeoCepController extends Controller
 {
@@ -84,4 +85,24 @@ class GeoCepController extends Controller
             'status' => true
         ], 200);
     }  
+
+    public function criarGeo(Request $request){
+        $lat = $request->input('lat');
+        // dd($lat);
+        $long = $request->input('long');
+    
+        $location = ["lat" => $lat, "long" => $long];
+     
+        event(new SendPosition($location));
+        // dd($location);
+
+        // $rastreamento = ::create($lat);
+        
+        return response()->json(['status' => 'success', 'data' => $location]);
+
+    }  
+
+    public function ReceiveGeo($location){
+        dd($location);
+    }
 }
