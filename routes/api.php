@@ -170,8 +170,10 @@ Route::middleware(['auth:api', 'permission'])->group(function() {
     Route::delete('ibama/{id}', 'App\Http\Controllers\Api\IbamaController@destroy')->name('ibama.excluir');
 
     // GEOLOCALIZAÇÃO
-    Route::get('geo', 'App\Http\Controllers\Api\GeoCepController@index')->name('geo.lista');
-    Route::post('map','App\Http\Controllers\Api\GeoCepController@SendGeo')->name('geo.enviar');
+    Route::get('geo/cep', 'App\Http\Controllers\Api\GeoCepController@index')->name('geo.lista');
+    Route::post('map','App\Http\Controllers\Api\GeoCepController@criarGeo')->name('geo.criar');
+    // Route::get('map','App\Http\Controllers\Api\GeoCepController@ReceiveGeo')->name('geo.mostrar');
+    
 
     // IMAGENS 
     Route::get('imagens', 'App\Http\Controllers\Api\ImagensController@index')->name('imagens.lista');
