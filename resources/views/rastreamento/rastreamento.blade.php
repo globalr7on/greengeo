@@ -151,7 +151,7 @@
       }
         
       function getAllOS(value) {
-        app.api.get('/os').then(response =>  {
+        app.api.get('/os?estagio_id=3').then(response =>  {
           if (response && response.status) {
             osData = response.data
             loadSelect('#ordem_servicos', response.data, ['id', 'codigo'])
