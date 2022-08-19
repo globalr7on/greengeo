@@ -112,7 +112,7 @@
     $(document).ready(function () {
       let osData = [], allLayers = [], allMarks = []
       const app = new App({})
-      const map = L.map('map').setView([-25.441105, -49.276855], 12)
+      const map = L.map('map').setView([-25.441105, -49.276855], 15)
       const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: 'OMS' }).addTo(map)
       const greenTruckIcon = L.icon({ iconUrl: "{{ asset('material') }}/img/green_truck.png", iconSize: [35, 25] })
       const redTruckIcon = L.icon({ iconUrl: "{{ asset('material') }}/img/red_truck.png", iconSize: [35, 25] })
