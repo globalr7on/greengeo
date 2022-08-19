@@ -14,10 +14,6 @@
         <button type="button" class="btn btn-primary" id="novoSearch">
           Mostrar OS
         </button>
-    
-        <button type="button" class="btn btn-primary" id="novoTempo">
-          Posição real
-        </button>
 
         <div class="modal fade" id="modalMapaSearch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-md" role="document">
@@ -128,9 +124,7 @@
   $('body').on('click', '#novoSearch', function() {
    getOsMap()
   });
-  // $('body').on('click', '#novoTempo', function() {
-  //   NovaRutaMap()
-  // });
+  
    
   function getOsMap(value) {
     app.api.get('/os').then(response =>  {
@@ -143,18 +137,5 @@
     })
     .catch(error => notifyDanger('Falha ao obter mapa, tente novamente'))
   }
-
-  // function NovaRutaMap(value) {
-  //   app.api.post('/map').then(response =>  {
-  //     if (response && response.status) {
-  //       console.log(response);
-  //       for (let i = 0; i < response.data.length; i++) {
-  //         getOs(response.data[i].gerador_coord, response.data[i].destinador_coord)
-  //       }
-  //     }
-  //   })
-  //   .catch(error => notifyDanger('Falha ao obter mapa, tente novamente'))
-  // }
-  
 </script>
 @endpush
