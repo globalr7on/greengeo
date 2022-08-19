@@ -119,10 +119,10 @@
       const startTrackIcon = L.icon({ iconUrl: "{{ asset('material') }}/img/start_track.png", iconSize: [25, 25] })
       const endTrackIcon = L.icon({ iconUrl: "{{ asset('material') }}/img/end_track.png", iconSize: [25, 25] })
 
-      function addOSMap(gerador, destinador, veiculo, motorista) {
+      function addOSMap(gerador, destinador, veiculo, motorista, codigo_os) {
         const geradorPopup = `<b>Gerador:</b> ${gerador.name}`
         const destinadorPopup = `<b>Destinador:</b> ${destinador.name}`
-        const truckPopup = `<b>Veiculo:</b> ${veiculo} <br><b>Motorista:</b> ${motorista}`
+        const truckPopup = `<b>Veiculo:</b> ${veiculo} <br><b>Motorista:</b> ${motorista}  <br><b>Codigo OS:</b> ${codigo_os}`
 
         const control = L.Routing.control({
           show: false,
@@ -164,7 +164,7 @@
                 name: response.data[i].destinador,
                 coord: response.data[i].destinador_coord
               }
-              addOSMap(gerador, destinador, response.data[i].veiculo, response.data[i].motorista)
+              addOSMap(gerador, destinador, response.data[i].veiculo, response.data[i].motorista, response.data[i].codigo)
             }
           }
         })
