@@ -25,7 +25,11 @@ class OrdenDeServicoController extends Controller
      */
     public function index(Request $request)
     {
+        $currentOrdem = OrdensServicos::all();
+         //dd($currentOrdem->estagio_id);
+        
         $currentUser = auth()->user();
+     
         if ($currentUser->hasRole('admin')) {
             $ordenServico = OrdensServicos::all();
         }else {
@@ -46,6 +50,10 @@ class OrdenDeServicoController extends Controller
             }
         }
 
+        if ($request->has('estagio_id')) {
+            $ordenServico = $ordenServico->where('estagio_id', $request->estagio_id);
+        }
+        
         return response([
             'data' =>OrdenDeServicoResource::collection($ordenServico),
             'status' => true
