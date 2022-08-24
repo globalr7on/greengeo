@@ -70,8 +70,18 @@ class OrdensServicos extends Model
         return $this->hasOne('App\Models\NotaFiscal', 'id', 'nota_fiscal_id');
     }
 
+    public function itens()
+    {
+        return $this->hasMany('App\Models\OrdenServicoIten', 'orden_servico_id', 'id');
+    }
+
     public function imagens()
     {
         return $this->hasMany('App\Models\Imagen', 'orden_servico_id', 'id');
+    }
+    
+    public function aprovacao_motorista()
+    {
+        return $this->hasMany('App\Models\OrdenServicoMotorista', 'ordem_servico_id', 'id');
     }
 }

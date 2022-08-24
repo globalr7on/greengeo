@@ -15,7 +15,7 @@
           <div class="card">
             <div class="card-header card-header-primary">
               <h4 class="card-title">OS E Rastreamento</h4>
-              <p class="card-category">Ordem de Servico</p>
+              <p class="card-category">Ordem de Serviço</p>
             </div>
             <div class="card-body">
               <div>
@@ -47,6 +47,7 @@
 @push('js')
   <script>
     $(document).ready(function () {
+      const currentUser = parseInt($('#input_usuario_responsavel_cadastro_id').val())
       let notaFiscalsData = []
       let app = new App({
         apiUrl: '/api/os',
@@ -73,17 +74,26 @@
               const editBtn = row.estagio == 'Emitida' ? `<i class="fa fa-pen cursor-pointer editAction" data-id="${row.id}" title="Editar"></i>&nbsp;` : ''
               const showBtn = row.estagio !== 'Emitida' ? `<i class="fas fa-list-alt cursor-pointer showAction" data-id="${row.id}" title="Mostrar"></i>&nbsp;` : ''
               const addPhotoBtn = `<i class="fa-solid fa-cloud-arrow-up cursor-pointer novaFoto" data-id="${row.id}" title="Adicionar Foto"></i>&nbsp;`
-              const updateStatusColetaBtn = row.estagio == 'Emitida'
-                ? `<i class="fas fa-hourglass-half cursor-pointer updateEstagio" data-id="${row.id}" title="Atualizar a Aguardando Coleta"></i>&nbsp;`
-                : ''
+              // const updateStatusColetaBtn = row.estagio == 'Emitida'
+              //   ? `<i class="fas fa-hourglass-half cursor-pointer updateEstagio" data-id="${row.id}" title="Atualizar a Aguardando Coleta"></i>&nbsp;`
+              //   : ''
               const updateStatusTransporteBtn = row.estagio == 'Aguardando Coleta'
                 ? `<i class="fas fa-truck cursor-pointer updateEstagio" data-id="${row.id}" title="Atualizar a Transporte"></i>&nbsp;`
                 : ''
               const updateStatusEntregueBtn = row.estagio == 'Transporte'
                 ? `<i class="fas fa-truck-loading cursor-pointer updateEstagio" data-id="${row.id}" title="Atualizar a Entregue"></i>&nbsp;`
                 : ''
+              const approvalBtn = `<i class="fas fa-check text-success cursor-pointer approvalAction" data-id="${row.id}" data-approval="1" title="Aceitar OS"></i>&nbsp;`
+              const rejectBtn = `<i class="fas fa-times text-danger cursor-pointer approvalAction" data-id="${row.id}" data-approval="0" title="Recusar OS"></i>&nbsp;`
 
-              return `${deleteBtn}${editBtn}${showBtn}${addPhotoBtn}${updateStatusColetaBtn}${updateStatusTransporteBtn}${updateStatusEntregueBtn}`
+              const isMotoristaForApproval = row.aprovacao_motorista.length > 0 ? row.aprovacao_motorista[0].usuario_id == currentUser : false
+
+              if (isMotoristaForApproval && row.estagio == 'Esperando Motorista') {
+                return `${showBtn}${approvalBtn}${rejectBtn}`
+              }
+
+              // return `${deleteBtn}${editBtn}${showBtn}${addPhotoBtn}${updateStatusColetaBtn}${updateStatusTransporteBtn}${updateStatusEntregueBtn}`
+              return `${deleteBtn}${editBtn}${showBtn}${addPhotoBtn}${updateStatusTransporteBtn}${updateStatusEntregueBtn}`
             }
           }
         ],
@@ -196,7 +206,7 @@
             getMotorista(response.data.motorista_id, response.data.transportador_id, false, response.data.motorista_id ? true : false)
             getVeiculo(response.data.veiculo_id, response.data.transportador_id, false, response.data.veiculo_id ? true : false)
             getEstagio(response.data.estagio_id, true)
-            getNotasFiscais(response.data.nota_fiscal_id, true)
+            getNotasFiscais(response.data.nota_fiscal_id, true, true)
             delFormValidationErrors()
             $('#formOs')[0].reset()
             $("#modalOs").modal("show");
@@ -354,8 +364,8 @@
         return [optionValue, optionText]
       }
 
-      function getNotasFiscais(value, disabled) {
-        app.api.get('/nota_fiscais').then(response =>  {
+      function getNotasFiscais(value, disabled, all = false) {
+        app.api.get(`/nota_fiscais${all ? '?all=1' : ''}`).then(response =>  {
           if (response && response.status) {
             notaFiscalsData = response.data
             loadSelect('#input_nota_fiscal', response.data, [], value, disabled, mergetNotasFiscaisOption)
@@ -460,6 +470,23 @@
           })
         }
       }
+
+      // Approval/Reject os by motorista
+      $('body').on('click', '.approvalAction', function() {
+        const isApproval = parseInt($(this).attr('data-approval'))
+        sweetConfirm(`Deseja realmente ${isApproval ? 'aceitar' : 'recusar'} la OS?`).then(confirmed => {
+          if (confirmed) {
+            const id = $(this).attr('data-id')
+            app.api.put(`/os/${id}/aceitar/${isApproval}`).then(response => {
+              if (response && response.status) {
+                app.datatable.ajax.reload()
+                notifySuccess('Atualizada com sucesso')
+              }
+            })
+            .catch(error => notifyDanger('Falha ao atualizar, tente novamente'))
+          }
+        })
+      })
     })
   </script>
 @endpush

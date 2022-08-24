@@ -22,6 +22,7 @@ trait OrdenServicoTrait {
 
     public function getNextEstagio($currentEstagioId) {
         try {
+            $currentEstagioId = intval($currentEstagioId);
             $newEstagioId = $currentEstagioId;
             $estagios = Estagio::orderBy('id')->get();
             $found = false;
@@ -33,6 +34,24 @@ trait OrdenServicoTrait {
                 if ($currentEstagioId === $estagio->id) {
                     $found = true;
                 }
+            }
+
+            return $newEstagioId;
+        } catch(\Exception $error) {
+            return $currentEstagioId;
+        }
+    }
+
+    public function getPrevEstagio($currentEstagioId) {
+        try {
+            $currentEstagioId = intval($currentEstagioId);
+            $newEstagioId = $currentEstagioId;
+            $estagios = Estagio::orderBy('id')->get();
+            foreach ($estagios as $estagio) {
+                if ($currentEstagioId === $estagio->id) {
+                    break;
+                }
+                $newEstagioId = $estagio->id;
             }
 
             return $newEstagioId;

@@ -64,7 +64,7 @@
 
               <div class="row mx-0">
                 <button type="button" class="btn btn-default" id="addProdutoAcabado">Produto Acabado</button>
-                <button type="button" class="btn btn-default" id="addProdutoSegregado">Produto Segregado</button>
+                <!-- <button type="button" class="btn btn-default" id="addProdutoSegregado">Produto Segregado</button> -->
                 <button type="button" class="btn btn-primary" id="salvarNotafiscal">Salvar</button>
               </div>
             </form>
@@ -158,7 +158,7 @@
 </div>
 
 <!-- Item Segregados -->
-<div class="modal fade" id="modalSegregados" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- <div class="modal fade" id="modalSegregados" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -238,7 +238,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 @push('js')
   <script>

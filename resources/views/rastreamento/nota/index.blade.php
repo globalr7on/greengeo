@@ -43,7 +43,8 @@
 @push('js')
   <script>
     $(document).ready(function () {
-      let produtoAcabadoTbl, materiaisTbl
+      let produtoAcabadoTbl
+      // let materiaisTbl
       let app = new App({
         apiUrl: '/api/nota_fiscais',
         apiDataTableColumns: [
@@ -64,13 +65,13 @@
         $('#formNota')[0].reset()
         getPessoaJuridica()
         produtoAcabadoTbl && produtoAcabadoTbl.clear().draw()
-        materiaisTbl && materiaisTbl.clear().draw()
+        // materiaisTbl && materiaisTbl.clear().draw()
       })
 
       //Salvar 
       $('body').on('click', '#salvarNotafiscal', function() {
         usuarioResponsavelCadastro = $("#input_usuario_responsavel_cadastro_id").val()
-        var produtoAcabadoData = produtoAcabadoTbl?.rows()?.data()?.toArray()?.map(curr => ({
+        const produtoAcabadoData = produtoAcabadoTbl?.rows()?.data()?.toArray()?.map(curr => ({
           id: parseInt(curr.id),
           producto_id: parseInt(curr.productoId),
           quantidade: parseInt(curr.quantidade),
@@ -78,17 +79,18 @@
           data_de_fabricacao: curr.dataFabricacao,
           usuario_responsavel_cadastro_id: usuarioResponsavelCadastro,
         }))
-        var produtoSegregadoData = materiaisTbl?.rows()?.data()?.toArray()?.map(curr => ({
-          parentId: parseInt(curr.parentId),
-          id: parseInt(curr.id),
-          material_id: parseInt(curr.materialId),
-          peso_bruto: formatStringToFloat(curr.pesoBruto),
-          peso_liquido: formatStringToFloat(curr.pesoLiquido),
-          percentual_composicao: formatStringToFloat(curr.percentualComposicao),
-          usuario_responsavel_cadastro_id: usuarioResponsavelCadastro,
-        }))
-        if (!produtoAcabadoData?.length && !produtoSegregadoData?.length) {
-          return notifyDanger('Falta adicionar Produtos Acabados/Segregados')
+        // const produtoSegregadoData = materiaisTbl?.rows()?.data()?.toArray()?.map(curr => ({
+        //   parentId: parseInt(curr.parentId),
+        //   id: parseInt(curr.id),
+        //   material_id: parseInt(curr.materialId),
+        //   peso_bruto: formatStringToFloat(curr.pesoBruto),
+        //   peso_liquido: formatStringToFloat(curr.pesoLiquido),
+        //   percentual_composicao: formatStringToFloat(curr.percentualComposicao),
+        //   usuario_responsavel_cadastro_id: usuarioResponsavelCadastro,
+        // }))
+        // if (!produtoAcabadoData?.length && !produtoSegregadoData?.length) {
+        if (!produtoAcabadoData?.length) {
+          return notifyDanger('Falta adicionar Produtos Acabados')
         }
         const JSONRequest = {
           numero_total: $("#input_numero_total").val(),
@@ -100,9 +102,9 @@
         if (produtoAcabadoData?.length) {
           JSONRequest.produtos_acabados = produtoAcabadoData
         }
-        if (produtoSegregadoData?.length) {
-          JSONRequest.produtos_segregados = produtoSegregadoData
-        }
+        // if (produtoSegregadoData?.length) {
+        //   JSONRequest.produtos_segregados = produtoSegregadoData
+        // }
         const id = $('#input_id').val();
         if (id) {
           app.api.put(`/nota_fiscais/${id}`, JSONRequest).then(response => {
@@ -117,7 +119,6 @@
             notifyDanger('Falha ao atualizar, tente novamente')
           })
         } else {
-          console.log('JSONRequest', JSONRequest)
           app.api.post('/nota_fiscais', JSONRequest).then(response => {
             if (response && response.status) {
               $("#modalNota").modal("hide")
@@ -135,7 +136,7 @@
       // Editar
       $('body').on('click', '.editAction', function() {
         produtoAcabadoTbl && produtoAcabadoTbl.clear().draw()
-        materiaisTbl && materiaisTbl.clear().draw()
+        // materiaisTbl && materiaisTbl.clear().draw()
         const id = $(this).attr('data-id');
         app.api.get(`/nota_fiscais/${id}`).then(response =>  {
           if (response && response.status) {
@@ -153,10 +154,10 @@
             getProdutosAcabados().then(() => {
               loadSavedProducts(response.data.itens.filter(curr => curr.numero_de_serie))
             })
-            initMaterialDataTable()
-            getMateriais().then(() => {
-              loadSavedMaterials(response.data.itens.filter(curr => !curr.numero_de_serie))
-            })
+            // initMaterialDataTable()
+            // getMateriais().then(() => {
+            //   loadSavedMaterials(response.data.itens.filter(curr => !curr.numero_de_serie))
+            // })
           }
         })
         .catch(error => notifyDanger('Falha ao obter detalhes. Tente novamente'))
@@ -274,7 +275,7 @@
         $('#addProduto').text('Novo produto')
         $('#produtoAcabadoId').val('')
         $('#produtoAcabadoPosition').val('')
-        $('#produtoAcabadoQuantidade').val('')
+        $('#produtoAcabadoQuantidade').val('').attr('disabled', false)
         $('#produtoAcabadoNumeroSerie').val('')
         $('#produtoAcabadoDataFabricacao').val('')
       })
@@ -282,26 +283,35 @@
       $('body').on('click', '#addProduto', function(event) {
         const dataInTable = produtoAcabadoTbl.rows().data().toArray()
         const newPosition = produtoAcabadoTbl.rows(dataInTable.length -1 ).data()[0] ? produtoAcabadoTbl.rows(dataInTable.length -1 ).data()[0].position + 1 : 1
-        const newProducto = {
+        const qtyToAdd = $('#produtoAcabadoQuantidade').val()
+        if (!qtyToAdd) {
+          return notifyDanger('Você tem que adicionar a quantidade')
+        }
+        let newProducto = {
           id: $('#produtoAcabadoId').val(),
           position: parseInt($('#produtoAcabadoPosition').val()) || newPosition,
           producto: $('#produtosAcabados option:selected').text().split(']')[0]+']',
           productoId: $('#produtosAcabados option:selected').val(),
-          quantidade: $('#produtoAcabadoQuantidade').val(),
+          quantidade: 1, //$('#produtoAcabadoQuantidade').val(),
           numeroSerie: $('#produtoAcabadoNumeroSerie').val(),
           dataFabricacao: $('#produtoAcabadoDataFabricacao').val()
         }
         if (!newProducto.producto) {
           return notifyDanger('Você tem que selecionar um produto acabado')
         }
-        if (!newProducto.quantidade || !newProducto.numeroSerie || !newProducto.dataFabricacao) {
+        // if (!newProducto.quantidade || !newProducto.numeroSerie || !newProducto.dataFabricacao) {
+        if (!newProducto.numeroSerie || !newProducto.dataFabricacao) {
           return notifyDanger('Você tem que adicionar os campos faltantes')
         }
         if (produtoAcabadoTbl.row(newProducto.position - 1).data()) {
           produtoAcabadoTbl.row(newProducto.position - 1).data(newProducto).draw(false)
           $('#addProduto').text('Novo produto')
+          $('#produtoAcabadoQuantidade').attr('disabled', false)
         } else {
-          produtoAcabadoTbl.row.add(newProducto).draw(false)
+          for (let i = 0; i < qtyToAdd; i++) {
+            produtoAcabadoTbl.row.add(newProducto).draw(false)
+            newProducto = {...newProducto, position: newProducto.position + 1}
+          }
         }
         $('#produtoAcabadoId').val('')
         $('#produtoAcabadoPosition').val('')
@@ -322,161 +332,161 @@
         const oldData = produtoAcabadoTbl.row(position - 1).data()
         $('#produtosAcabados').val(oldData.productoId).trigger('change')
         $('#produtoAcabadoId').val(oldData.id)
-        $('#produtoAcabadoQuantidade').val(oldData.quantidade)
+        $('#produtoAcabadoQuantidade').val(oldData.quantidade).attr('disabled', true)
         $('#produtoAcabadoNumeroSerie').val(oldData.numeroSerie)
         $('#produtoAcabadoDataFabricacao').val(oldData.dataFabricacao)
       })
       // Produto acabado
 
       // Produto segregado
-      function loadSavedMaterials(data) {
-        data.map(curr => {
-          $('#segregadosParentId').val(curr.id)
-          $('#segregadosId').val(curr.produto.id)
-          $('#materiais').val(curr.produto.material_id)
-          $('#materiais').trigger('change')
-          maskPeso("#segregadosPesoBruto", curr.produto.peso_bruto)
-          maskPeso("#segregadosPesoLiquido", curr.produto.peso_liquido)
-          maskPeso("#segregadosPercentualComposicao", curr.produto.percentual_composicao)
-          $('#addSegregados').trigger('click')
-        })
-      }
+      // function loadSavedMaterials(data) {
+      //   data.map(curr => {
+      //     $('#segregadosParentId').val(curr.id)
+      //     $('#segregadosId').val(curr.produto.id)
+      //     $('#materiais').val(curr.produto.material_id)
+      //     $('#materiais').trigger('change')
+      //     maskPeso("#segregadosPesoBruto", curr.produto.peso_bruto)
+      //     maskPeso("#segregadosPesoLiquido", curr.produto.peso_liquido)
+      //     maskPeso("#segregadosPercentualComposicao", curr.produto.percentual_composicao)
+      //     $('#addSegregados').trigger('click')
+      //   })
+      // }
 
-      function getMateriais() {
-        return new Promise(resolve => {
-          if (!$('#materiais').hasClass("select2-hidden-accessible")) {
-            app.api.get('/material').then(response =>  {
-              if (response && response.status) {
-                const data = response.data.map(curr => ({
-                  id: curr.id,
-                  text: `[${curr.ibama}] ${curr.tipo_material}: ${curr.estado_fisico} (${curr.unidade})`
-                }))
-                $('#materiais').select2({
-                  dropdownParent: $('#modalSegregados'),
-                  placeholder: 'Pesquisar um material',
-                  allowClear: true,
-                  width: 'resolve',
-                  data: data
-                })
-              }
-              resolve()
-            })
-            .catch(error => {
-              notifyDanger('Falha ao obter materiais, tente novamente')
-              resolve()
-            })
-          } else {
-            resolve()
-          }
-        })
-      }
+      // function getMateriais() {
+      //   return new Promise(resolve => {
+      //     if (!$('#materiais').hasClass("select2-hidden-accessible")) {
+      //       app.api.get('/material').then(response =>  {
+      //         if (response && response.status) {
+      //           const data = response.data.map(curr => ({
+      //             id: curr.id,
+      //             text: `[${curr.ibama}] ${curr.tipo_material}: ${curr.estado_fisico} (${curr.unidade})`
+      //           }))
+      //           $('#materiais').select2({
+      //             dropdownParent: $('#modalSegregados'),
+      //             placeholder: 'Pesquisar um material',
+      //             allowClear: true,
+      //             width: 'resolve',
+      //             data: data
+      //           })
+      //         }
+      //         resolve()
+      //       })
+      //       .catch(error => {
+      //         notifyDanger('Falha ao obter materiais, tente novamente')
+      //         resolve()
+      //       })
+      //     } else {
+      //       resolve()
+      //     }
+      //   })
+      // }
 
-      function setSegregadosPesos() {
-        maskPeso("#segregadosPesoBruto")
-        maskPeso("#segregadosPesoLiquido")
-        maskPeso("#segregadosPercentualComposicao")
-      }
+      // function setSegregadosPesos() {
+      //   maskPeso("#segregadosPesoBruto")
+      //   maskPeso("#segregadosPesoLiquido")
+      //   maskPeso("#segregadosPercentualComposicao")
+      // }
 
-      function initMaterialDataTable() {
-        if (!$.fn.dataTable.isDataTable('#materiaisTbl')) {
-          materiaisTbl = $('#materiaisTbl').DataTable({
-            language: app.dataTableConfig.language,
-            autoWidth: false,
-            pageLength: 5,
-            ordering: false,
-            info: false,
-            lengthChange: false,
-            columns: [
-              { data: 'position' },
-              { data: 'material' },
-              { data: 'pesoBruto' },
-              { data: 'pesoLiquido' },
-              { data: 'percentualComposicao' },
-            ],
-            columnDefs: [
-              {
-                targets: [0,2,3,4],
-                className: 'text-center',
-              },
-              {
-                targets: 5,
-                className: 'text-center',
-                render: function (data, type, row) {
-                  return `<i class="fa fa-trash cursor-pointer deleteItem" title="Excluir"></i>&nbsp;<i class="fa fa-pen cursor-pointer editItem" data-position="${row.position}" title="Editar"></i>`
-                }
-              }
-            ],
-          })
-        }
-      }
+      // function initMaterialDataTable() {
+      //   if (!$.fn.dataTable.isDataTable('#materiaisTbl')) {
+      //     materiaisTbl = $('#materiaisTbl').DataTable({
+      //       language: app.dataTableConfig.language,
+      //       autoWidth: false,
+      //       pageLength: 5,
+      //       ordering: false,
+      //       info: false,
+      //       lengthChange: false,
+      //       columns: [
+      //         { data: 'position' },
+      //         { data: 'material' },
+      //         { data: 'pesoBruto' },
+      //         { data: 'pesoLiquido' },
+      //         { data: 'percentualComposicao' },
+      //       ],
+      //       columnDefs: [
+      //         {
+      //           targets: [0,2,3,4],
+      //           className: 'text-center',
+      //         },
+      //         {
+      //           targets: 5,
+      //           className: 'text-center',
+      //           render: function (data, type, row) {
+      //             return `<i class="fa fa-trash cursor-pointer deleteItem" title="Excluir"></i>&nbsp;<i class="fa fa-pen cursor-pointer editItem" data-position="${row.position}" title="Editar"></i>`
+      //           }
+      //         }
+      //       ],
+      //     })
+      //   }
+      // }
 
-      $('body').on('click', '#addProdutoSegregado', function() {
-        $("#modalSegregados").modal("show")
-        initMaterialDataTable()
-        getMateriais()
-        setSegregadosPesos()
-      })
+      // $('body').on('click', '#addProdutoSegregado', function() {
+      //   $("#modalSegregados").modal("show")
+      //   initMaterialDataTable()
+      //   getMateriais()
+      //   setSegregadosPesos()
+      // })
 
-      $('body').on('click', '#salvarSegregados', function() {
-        $("#modalSegregados").modal("hide")
-      })
+      // $('body').on('click', '#salvarSegregados', function() {
+      //   $("#modalSegregados").modal("hide")
+      // })
 
-      $('#materiais').on('select2:clear', function(e) {
-        $('#addSegregados').text('Novo material')
-        $('#segregadosParentId').val('')
-        $('#segregadosId').val('')
-        $('#segregadosPosition').val('')
-        setSegregadosPesos()
-      })
+      // $('#materiais').on('select2:clear', function(e) {
+      //   $('#addSegregados').text('Novo material')
+      //   $('#segregadosParentId').val('')
+      //   $('#segregadosId').val('')
+      //   $('#segregadosPosition').val('')
+      //   setSegregadosPesos()
+      // })
 
-      $('body').on('click', '#addSegregados', function(event) {
-        const dataInTable = materiaisTbl.rows().data().toArray()
-        const newPosition = materiaisTbl.rows(dataInTable.length -1 ).data()[0] ? materiaisTbl.rows(dataInTable.length -1 ).data()[0].position + 1 : 1
-        const newMaterial = {
-          parentId: $('#segregadosParentId').val(),
-          id: $('#segregadosId').val(),
-          position: parseInt($('#segregadosPosition').val()) || newPosition,
-          material: $('#materiais option:selected').text(),
-          materialId: $('#materiais option:selected').val(),
-          pesoBruto: $('#segregadosPesoBruto').val(),
-          pesoLiquido: $('#segregadosPesoLiquido').val(),
-          percentualComposicao: $('#segregadosPercentualComposicao').val()
-        }
-        if (!newMaterial.material) {
-          return notifyDanger('Você tem que selecionar um material')
-        }
-        if (newMaterial.pesoBruto == '0,00' || newMaterial.pesoLiquido == '0,00' || newMaterial.percentualComposicao == '0,00') {
-          return notifyDanger('Você tem que adicionar os pesos')
-        }
-        if (materiaisTbl.row(newMaterial.position - 1).data()) {
-          materiaisTbl.row(newMaterial.position - 1).data(newMaterial).draw(false)
-          $('#addSegregados').text('Novo material')
-        } else {
-          materiaisTbl.row.add(newMaterial).draw(false)
-        }
-        $('#segregadosParentId').val('')
-        $('#segregadosId').val('')
-        $('#segregadosPosition').val('')
-        setSegregadosPesos()
-        $('#materiais').val(null).trigger('change')
-      })
+      // $('body').on('click', '#addSegregados', function(event) {
+      //   const dataInTable = materiaisTbl.rows().data().toArray()
+      //   const newPosition = materiaisTbl.rows(dataInTable.length -1 ).data()[0] ? materiaisTbl.rows(dataInTable.length -1 ).data()[0].position + 1 : 1
+      //   const newMaterial = {
+      //     parentId: $('#segregadosParentId').val(),
+      //     id: $('#segregadosId').val(),
+      //     position: parseInt($('#segregadosPosition').val()) || newPosition,
+      //     material: $('#materiais option:selected').text(),
+      //     materialId: $('#materiais option:selected').val(),
+      //     pesoBruto: $('#segregadosPesoBruto').val(),
+      //     pesoLiquido: $('#segregadosPesoLiquido').val(),
+      //     percentualComposicao: $('#segregadosPercentualComposicao').val()
+      //   }
+      //   if (!newMaterial.material) {
+      //     return notifyDanger('Você tem que selecionar um material')
+      //   }
+      //   if (newMaterial.pesoBruto == '0,00' || newMaterial.pesoLiquido == '0,00' || newMaterial.percentualComposicao == '0,00') {
+      //     return notifyDanger('Você tem que adicionar os pesos')
+      //   }
+      //   if (materiaisTbl.row(newMaterial.position - 1).data()) {
+      //     materiaisTbl.row(newMaterial.position - 1).data(newMaterial).draw(false)
+      //     $('#addSegregados').text('Novo material')
+      //   } else {
+      //     materiaisTbl.row.add(newMaterial).draw(false)
+      //   }
+      //   $('#segregadosParentId').val('')
+      //   $('#segregadosId').val('')
+      //   $('#segregadosPosition').val('')
+      //   setSegregadosPesos()
+      //   $('#materiais').val(null).trigger('change')
+      // })
 
-      $('body').on('click', '.deleteItem', function() {
-        materiaisTbl.row($(this).parents('tr')).remove().draw(false)
-      })
+      // $('body').on('click', '.deleteItem', function() {
+      //   materiaisTbl.row($(this).parents('tr')).remove().draw(false)
+      // })
 
-      $('body').on('click', '.editItem', function() {
-        $('#addSegregados').text('Salvar material')
-        const position = $(this).attr('data-position')
-        $('#segregadosPosition').val(position)
-        const oldData = materiaisTbl.row(position - 1).data()
-        $('#materiais').val(oldData.materialId).trigger('change')
-        $('#segregadosParentId').val(oldData.parentId)
-        $('#segregadosId').val(oldData.id)
-        maskPeso("#segregadosPesoBruto", oldData.pesoBruto)
-        maskPeso("#segregadosPesoLiquido", oldData.pesoLiquido)
-        maskPeso("#segregadosPercentualComposicao", oldData.percentualComposicao)
-      })
+      // $('body').on('click', '.editItem', function() {
+      //   $('#addSegregados').text('Salvar material')
+      //   const position = $(this).attr('data-position')
+      //   $('#segregadosPosition').val(position)
+      //   const oldData = materiaisTbl.row(position - 1).data()
+      //   $('#materiais').val(oldData.materialId).trigger('change')
+      //   $('#segregadosParentId').val(oldData.parentId)
+      //   $('#segregadosId').val(oldData.id)
+      //   maskPeso("#segregadosPesoBruto", oldData.pesoBruto)
+      //   maskPeso("#segregadosPesoLiquido", oldData.pesoLiquido)
+      //   maskPeso("#segregadosPercentualComposicao", oldData.percentualComposicao)
+      // })
       // Produto segregado
     })
   </script>

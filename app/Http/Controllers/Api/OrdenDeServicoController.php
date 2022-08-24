@@ -8,6 +8,7 @@ use App\Http\Requests\OrdenDeServicoRequest;
 use App\Http\Resources\OrdenDeServicoResource;
 use App\Models\OrdensServicos;
 use App\Models\PessoaJuridica;
+use App\Models\OrdenServicoMotorista;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
@@ -68,6 +69,14 @@ class OrdenDeServicoController extends Controller
         try {
             $request->merge(array('codigo' => $this->generateCode(OrdensServicos::class)));
             $newOrdenDeServico = OrdensServicos::create($request->all());
+            if ($newOrdenDeServico->motorista_id) {
+                OrdenServicoMotorista::create([
+                    'usuario_id' => $newOrdenDeServico->motorista_id,
+                    'ordem_servico_id' => $newOrdenDeServico->id
+                ]);
+                $newOrdenDeServico->estagio_id = $this->getNextEstagio($newOrdenDeServico->estagio_id);
+                $newOrdenDeServico->save();
+            }
             // try {
             //     $responseRastreo = Http::post(config('app.rastreamento').'coordenada/create', [
             //         "codigo_coordenada" => $newOrdenDeServico->id,
@@ -117,7 +126,6 @@ class OrdenDeServicoController extends Controller
             'status' => true
         ], 200);
     }
-
   
     /**
      * Update the specified resource in storage.
@@ -130,6 +138,16 @@ class OrdenDeServicoController extends Controller
     {
         $ordenServico = OrdensServicos::find($id);
         $ordenServico->update($request->all());
+
+        if ($ordenServico->motorista_id) {
+            OrdenServicoMotorista::create([
+                'usuario_id' => $ordenServico->motorista_id,
+                'ordem_servico_id' => $ordenServico->id
+            ]);
+            $ordenServico->estagio_id = $this->getNextEstagio($ordenServico->estagio_id);
+            $ordenServico->save();
+        }
+
         return response([
             'data' => new OrdenDeServicoResource($ordenServico),
             'status' => true
@@ -145,6 +163,23 @@ class OrdenDeServicoController extends Controller
     public function destroy($id)
     {
         OrdensServicos::findOrFail($id)->delete();
+        return response(null, 204);
+
+        DB::beginTransaction();
+        try {
+            $ordenServico = OrdensServicos::findOrFail($id);
+            $ordenServico->itens()->delete();
+            $ordenServico->imagens()->delete();
+            $ordenServico->aprovacao_motorista()->delete();
+            $ordenServico->delete();
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response([
+                'data' => $e->getMessage(),
+                'status' => false
+            ], 400);
+        }
         return response(null, 204);
     }
 
@@ -163,6 +198,45 @@ class OrdenDeServicoController extends Controller
             return response([
                 'data' => new OrdenDeServicoResource($ordenServico),
                 'status' => true
+            ], 200);
+        } catch (\Exception $error) {
+            return response([
+                'data' => $error->getMessage(),
+                'status' => false
+            ], 400);
+        }
+    }
+
+    /**
+     * Approval/Reject OS by motorista
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @param  boolean  $aceitar
+     * @return \Illuminate\Http\Response
+     */
+    public function approvalByMotorista(Request $request, $id, $aceitar)
+    {
+        try {
+            $status = true;
+            $ordenServico = OrdensServicos::find($id);
+            $aprovacaoMotorista = $ordenServico->aprovacao_motorista->filter(function ($data) {
+                return $data->status === null;
+            })->first();
+
+            if (!$aprovacaoMotorista || !in_array($aceitar, [1, 0])) {
+                $status = false;
+            } else {
+                $aprovacaoMotorista->status = $aceitar;
+                $aprovacaoMotorista->save();
+                $newEstagio = $aceitar ? $this->getNextEstagio($ordenServico->estagio_id) : $this->getPrevEstagio($ordenServico->estagio_id);
+                $motorista = $aceitar ? $ordenServico->motorista_id : null;
+                $ordenServico->update(["estagio_id" => $newEstagio, "motorista_id" => $motorista]);
+            }
+
+            return response([
+                'data' => new OrdenDeServicoResource($ordenServico),
+                'status' => $status
             ], 200);
         } catch (\Exception $error) {
             return response([

@@ -53,6 +53,9 @@ class OrdenDeServicoResource extends JsonResource
             'nota_fiscal_id' => $this->nota_fiscal_id,
             'nota_fiscal' => $this->nota_fiscal ? $this->nota_fiscal->serie : null,
             'imagens' => ImagenResource::collection($this->imagens),
+            'aprovacao_motorista' => $this->aprovacao_motorista->filter(function ($data) {
+                return $data->status === null;
+            }),
         ];
     }
 }

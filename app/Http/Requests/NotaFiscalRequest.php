@@ -16,8 +16,9 @@ class NotaFiscalRequest extends FormRequest
             'folha' => 'required|integer',
             'chave_de_acesso' => 'required|string|max:60',
             'pessoa_juridica_id' => 'required',
-            'produtos_acabados' => 'required_without_all:produtos_segregados|nullable',
-            'produtos_segregados' => 'required_without_all:produtos_acabados|nullable',
+            'produtos_acabados' => 'required|array',
+            // 'produtos_acabados' => 'required_without_all:produtos_segregados|nullable',
+            // 'produtos_segregados' => 'required_without_all:produtos_acabados|nullable',
         ];
     }
 
