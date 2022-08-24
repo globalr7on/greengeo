@@ -1,6 +1,6 @@
 @extends('layouts.app', ['activePage' => 'nota_fiscal', 'titlePage' => __('Ordem de Serviço')])
 @section('subheaderTitle')
-  Administrativo
+  OS E Rastreamento
 @endsection
 @section('content')
   <div class="content">

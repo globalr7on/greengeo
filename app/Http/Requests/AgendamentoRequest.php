@@ -11,7 +11,11 @@ class AcondicionamentoRequest extends FormRequest
     public function rules()
     {
         return [
-            'descricao' => 'required|string|max:255',
+            'usuario_id' => 'required|number',
+            'ordem_servico_id' => 'required|number',
+            'acondicionamento_id' => 'required|number',
+            'transportadora_id' => 'required|number',
+            'coleta' => 'required'
         ];
     }
 

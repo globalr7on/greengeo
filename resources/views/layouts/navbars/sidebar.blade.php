@@ -180,16 +180,25 @@
       </li>
       @endcanany
 
-      @canany(['rastreamento.rastreamento', 'rastreamento.os', 'rastreamento.notaFiscal'])
-      <li class="nav-item {{ in_array($activePage, array('rastreamento', 'os', 'nota_fiscal')) ? 'active' : '' }}">
-        <a class="nav-link" data-toggle="collapse" href="#rasTab" aria-expanded="{{ in_array($activePage, array('rastreamento', 'os', 'nota_fiscal')) ? 'true' : 'false' }}">
+      @canany(['rastreamento.agendamento', 'rastreamento.notaFiscal', 'rastreamento.os', 'rastreamento.rastreamento'])
+      <li class="nav-item {{ in_array($activePage, array('agendamento', 'nota_fiscal', 'os', 'rastreamento')) ? 'active' : '' }}">
+        <a class="nav-link" data-toggle="collapse" href="#rasTab" aria-expanded="{{ in_array($activePage, array('agendamento', 'nota_fiscal', 'os', 'rastreamento')) ? 'true' : 'false' }}">
           <i class="fa-solid fa-satellite-dish"></i>
           <p>{{ __('OS e Rastreamento') }}
             <b class="caret"></b>
           </p>
         </a>
-        <div class="collapse {{ in_array($activePage, array('rastreamento', 'os', 'nota_fiscal')) ? 'show' : '' }}" id="rasTab">
+        <div class="collapse {{ in_array($activePage, array('agendamento', 'nota_fiscal', 'os', 'rastreamento')) ? 'show' : '' }}" id="rasTab">
           <ul class="nav">
+            @can('rastreamento.agendamento')
+            <li class="nav-item ml-4 {{ $activePage == 'agendamento' ? 'active' : '' }}">
+              <a class="nav-link" href="{{ route('rastreamento.agendamento') }}">
+                <i class="fas fa-calendar-alt"></i>
+                <span class="sidebar-normal">{{ __('Agendamento') }}</span>
+              </a>
+            </li>
+            @endcan
+            
             @can('rastreamento.notaFiscal')
             <li class="nav-item ml-4 {{ $activePage == 'nota_fiscal' ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('rastreamento.notaFiscal') }}">

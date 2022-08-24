@@ -2,7 +2,7 @@
 @section('css')
 @endsection
 @section('subheaderTitle')
-  Administrativo
+  Cadastros
 @endsection
 @section('content')
    <div class="content mt-0">

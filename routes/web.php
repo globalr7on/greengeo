@@ -71,6 +71,7 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
 	Route::get('/administrativo/ibama', 'App\Http\Controllers\IbamaController@index')->name('administrativo.ibama');
 	
 	// OS E Rastreamento
+	Route::get('/or/agendamento', 'App\Http\Controllers\AgendamentoController@index')->name('rastreamento.agendamento');
 	Route::get('/or/rastreamento', 'App\Http\Controllers\RastreamentoController@index')->name('rastreamento.rastreamento');
 	Route::get('/or/nota_fiscal', 'App\Http\Controllers\NotaFiscalController@index')->name('rastreamento.notaFiscal');
 	Route::get('/or/ordem_servico', 'App\Http\Controllers\OrdemDeServicoController@index')->name('rastreamento.os');

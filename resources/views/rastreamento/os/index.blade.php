@@ -1,6 +1,6 @@
 @extends('layouts.app', ['activePage' => 'os', 'titlePage' => __('Ordem de Serviço')])
 @section('subheaderTitle')
-  Administrativo
+  OS E Rastreamento
 @endsection
 @section('content')
    <div class="content mt-0">
@@ -14,7 +14,7 @@
         <div class="col-md-12">
           <div class="card">
             <div class="card-header card-header-primary">
-              <h4 class="card-title">Cadastros</h4>
+              <h4 class="card-title">OS E Rastreamento</h4>
               <p class="card-category">Ordem de Servico</p>
             </div>
             <div class="card-body">

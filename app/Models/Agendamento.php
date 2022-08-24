@@ -21,7 +21,6 @@ class Agendamento extends Model
     ];
     protected $guardaded = ['id'];
 
-
     public function usuario_responsavel_cadastro()
     {
         return $this->hasOne('App\Models\User', 'usuario_id', 'id');
@@ -31,14 +30,14 @@ class Agendamento extends Model
     {
         return $this->hasOne('App\Models\PessoaJuridica', 'id', 'transportadora_id');
     }
+
     public function acondicionamento()
     {
         return $this->hasOne('App\Models\Acondicionamento', 'id', 'acondicionamento_id');
     }
-    public function ordens_servicos()
+
+    public function ordem_servico()
     {
         return $this->hasOne('App\Models\OrdensServicos', 'id', 'ordem_servico_id');
     }
-    
-
 }
