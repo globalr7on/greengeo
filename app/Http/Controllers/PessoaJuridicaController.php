@@ -17,4 +17,6 @@ class PessoaJuridicaController extends Controller
         return view('cadastros.empresa.index');
     }
 
+   
+
 }

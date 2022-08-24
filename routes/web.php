@@ -15,7 +15,14 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::get('xml','App\Http\Controllers\ReadXmlController@index')->name('xml');
+
+	// Route::get('/cadastro/empresa', 'App\Http\Controllers\PessoaJuridicaController@index')
+
+
+
 Auth::routes(['verify' => true]);
+
 
 // Route::get('/email/verify', function () {
 //     return view('auth.verify-email');
