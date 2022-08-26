@@ -36,27 +36,21 @@
                       <input type="hidden" class="form-control" id="input_usuario_responsavel_cadastro_id" value="{{ Auth::user()->id }}">
                       <input type="hidden" id="input_id">
                       <label for="input_gerador_id" class="display-inherit mb-0">Gerador</label>
-                      <select id="input_gerador_id" data-style="btn-warning text-white" name="input_gerador_id" >
-                        <option value="" disabled selected>Seleccione</option>
-                      </select>
+                      <select id="input_gerador_id" data-style="btn-warning text-white" name="input_gerador_id" title="Selecione"></select>
                     </div>
                   </div>
 
                   <div class="col-md-4 text-center">
                     <div class="form-group m-0 p-0">
                       <label for="input_destinador_id" class="display-inherit mb-0">Destinador</label>
-                      <select id="input_destinador_id" data-style="btn btn-warning text-white rounded" name="input_destinador_id">
-                        <option value="" disabled selected>Seleccione</option>
-                      </select>
+                      <select id="input_destinador_id" data-style="btn btn-warning text-white rounded" name="input_destinador_id" title="Selecione"></select>
                     </div>
                   </div>
 
                   <div class="col-md-4 text-center">
                     <div class="form-group m-0 p-0">
                       <label for="input_transportador_id" class="display-inherit mb-0">Transportador</label>
-                      <select id="input_transportador_id" data-style="btn btn-warning text-white rounded" name="input_transportador_id">
-                        <option value="" disabled selected>Seleccione</option>
-                      </select>
+                      <select id="input_transportador_id" data-style="btn btn-warning text-white rounded" name="input_transportador_id" title="Selecione"></select>
                     </div>
                   </div>
                 </div>
@@ -95,9 +89,7 @@
                   <div class="col-md-4 text-center">
                     <div class="form-group">
                       <label for="input_estagio_id" class="display-inherit mb-0">Estagio</label>
-                      <select id="input_estagio_id" data-style="btn btn-warning text-white rounded" name="input_estagio_id">
-                        <option value="" disabled selected>Seleccione</option>
-                      </select>
+                      <select id="input_estagio_id" data-style="btn btn-warning text-white rounded" name="input_estagio_id" title="Selecione"></select>
                     </div>
                   </div>
 
@@ -110,10 +102,8 @@
 
                   <div class="col-md-4 text-center">
                     <div class="form-group">
-                      <label for="input_nota_fiscal" class="display-inherit mb-0">Nota Fiscal</label>
-                      <select id="input_nota_fiscal" data-style="btn btn-warning text-white rounded" name="input_nota_fiscal">
-                        <option value="" disabled selected>Seleccione</option>
-                      </select>
+                      <label for="input_nota_fiscal" class="display-inherit mb-0">Notas Fiscais</label>
+                      <select id="input_nota_fiscal" data-style="btn btn-warning text-white rounded" name="input_nota_fiscal" multiple data-selected-text-format="count" data-count-selected-text="{0} Notas selecionadas" title="Selecione um ou mais"></select>
                     </div>
                   </div>
                 </div>
@@ -122,7 +112,7 @@
                   <!-- <button class="btn btn-warning">Gerar MTR</button> -->
                   <!-- <button class="btn btn-warning">Gerar CDF</button> -->
                   <!-- <button class="btn btn-danger">Cancelar MTR</button> -->
-                  <button class="btn btn-default addMaterials">Materiais</button>
+                  <button class="btn btn-default addProdutos">Produtos</button>
                   <button class="btn btn-default showFotos">Fotos</button>
                   <button class="btn btn-primary stepper-next">Próximo</button>
                 </div>
@@ -134,18 +124,14 @@
                   <div class="col-md-4 text-center">
                     <div class="form-group">
                       <label for="input_motorista_id" class="display-inherit mb-0">Motorista</label>
-                      <select id="input_motorista_id" data-style="btn btn-warning text-white rounded" name="input_motorista_id">
-                        <option value="" disabled selected>Seleccione</option>
-                      </select>
+                      <select id="input_motorista_id" data-style="btn btn-warning text-white rounded" name="input_motorista_id" title="Selecione"></select>
                     </div>
                   </div>
 
                   <div class="col-md-4 text-center">
                     <div class="form-group">
                       <label for="input_veiculo_id" class="display-inherit mb-0">Veiculo</label>
-                      <select data-style="btn-warning text-white" name="tipo" id="input_veiculo_id">
-                        <option value="" disabled selected>Seleccione</option>
-                      </select>
+                      <select data-style="btn-warning text-white" name="tipo" id="input_veiculo_id" title="Selecione"></select>
                     </div>
                   </div>
 
@@ -170,10 +156,9 @@
                   <!-- <button class="btn btn-warning">Gerar MTR</button> -->
                   <!-- <button class="btn btn-warning">Gerar CDF</button> -->
                   <!-- <button class="btn btn-danger">Cancelar MTR</button> -->
-                  <button class="btn btn-default addMaterials">Materiais</button>
+                  <button class="btn btn-default addProdutos">Produtos</button>
                   <button class="btn btn-default showFotos">Fotos</button>
                   <button class="btn btn-primary stepper-prev">Anterior</button>
-                  <!-- <button class="btn btn-primary stepper-next">Próximo</button> -->
                   <button class="btn btn-primary" id="salvarOs" >Salvar</button>
 
                 </div>
@@ -191,37 +176,48 @@
   <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title text-left">Materiais</h5>
+        <h5 class="modal-title text-left">Produtos</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
 
       <div class="modal-body pb-4">
-        <table class="table" id="materiaisTbl">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <select id="items" data-style="btn btn-warning text-white rounded" title="Selecione o produto para adicionar" data-width="100%" data-live-search="true" data-live-search-placeholder="Pesquisa produto"></select>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="form-group">
+              <button class="btn btn-primary addProduto">Adicionar produto</button>
+            </div>
+          </div>
+        </div>
+
+        <table class="table" id="produtosTbl">
           <thead>
             <th class="text-primary font-weight-bold text-center" style="width:5%">#</th>
             <th class="text-primary font-weight-bold" style="width:auto">Produto</th>
             <th class="text-primary font-weight-bold text-center" style="width:8%">Quantidade</th>
-            <th class="text-primary font-weight-bold" style="width:auto">Material</th>
             <th class="text-primary font-weight-bold text-center" style="width:7%">Altura</th>
             <th class="text-primary font-weight-bold text-center" style="width:7%">Largura</th>
             <th class="text-primary font-weight-bold text-center" style="width:10%">Profundidade</th>
-            <th class="text-primary font-weight-bold text-center" style="width:7%">P. Bruto</th>
-            <th class="text-primary font-weight-bold text-center" style="width:8%">P. Liquido</th>
           </thead>
-          <tfoot>
+          <!-- <tfoot>
             <tr>
               <th colspan="7"></th>
               <th></th>
               <th></th>
             </tr>
-          </tfoot>
+          </tfoot> -->
         </table>
       </div>
     </div>
   </div>
-  <script type="javascript/json" id="materiaisData"></script>
+  <script type="javascript/json" id="produtosData"></script>
 </div>
 
 

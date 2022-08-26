@@ -16,9 +16,7 @@
                 <div class="col-md-6 text-center">
                   <div class="form-group m-0 p-0">
                     <label for="input_pessoa_juridica_id" class="display-inherit mb-0">Empresa</label>
-                    <select id="input_pessoa_juridica_id" data-style="btn-warning text-white" title="Single Select" name="empresa">
-                      <option value="" disabled selected>Seleccione</option>
-                    </select>
+                    <select id="input_pessoa_juridica_id" data-style="btn-warning text-white" title="Selecione" name="empresa"></select>
                   </div>
                 </div>
 
@@ -34,27 +32,21 @@
                 <div class="col-md-4 text-center">
                   <div class="form-group m-0 p-0">
                     <label for="input_modelo_id" class="display-inherit mb-0">Modelo</label>
-                    <select id="input_modelo_id" data-style="btn-warning text-white" title="Single Select" name="modelo">
-                      <option value="" disabled selected>Seleccione</option>
-                    </select>
+                    <select id="input_modelo_id" data-style="btn-warning text-white" title="Selecione" name="modelo"></select>
                   </div>
                 </div>
 
                 <div class="col-md-4 text-center">
                   <div class="form-group m-0 p-0">
                     <label for="input_marca_id" class="display-inherit mb-0">Marca</label>
-                    <select id="input_marca_id" data-style="btn-warning text-white" title="Single Select" name="marca">
-                      <option value="" disabled selected>Seleccione</option>
-                    </select>
+                    <select id="input_marca_id" data-style="btn-warning text-white" title="Selecione" name="marca"></select>
                   </div>
                 </div>
 
                 <div class="col-md-4 text-center">
                   <div class="form-group m-0 p-0">
                     <label for="input_acondicionamento_id" class="display-inherit mb-0">Acondicionamento</label>
-                    <select id="input_acondicionamento_id" data-style="btn-warning text-white" title="Single Select" name="acondicionamento">
-                      <option value="" disabled selected>Seleccione</option>
-                    </select>
+                    <select id="input_acondicionamento_id" data-style="btn-warning text-white" title="Selecione" name="acondicionamento"></select>
                   </div>
                 </div>
               </div>
@@ -87,9 +79,7 @@
                 <div class="col-md-6 text-center">
                   <div class="form-group m-0 p-0">
                     <label for="input_combustivel" class="display-inherit mb-0">Combustivel</label>
-                    <select id="input_combustivel" data-style="btn-warning text-white" title="Single Select" name="combustivel">
-                      <option value="" disabled selected>Seleccione</option>
-                    </select>
+                    <select id="input_combustivel" data-style="btn-warning text-white" title="Selecione" name="combustivel"></select>
                   </div>
                 </div>
               </div>

@@ -49,9 +49,7 @@
                   <div class="col-md-4">
                     <div class="form-group">
                       <label for="input_gerador_id" class="display-inherit mb-0">Nome Fabricante</label>
-                      <select id="input_pessoa_juridica_id" data-style="btn btn-warning text-white" name="input_pessoa_juridica_id">
-                        <option value="" disabled selected>Nome Fabricante</option>
-                      </select>
+                      <select id="input_pessoa_juridica_id" data-style="btn btn-warning text-white" name="input_pessoa_juridica_id" title="Selecione"></select>
                     </div>
                   </div>
                 </div>

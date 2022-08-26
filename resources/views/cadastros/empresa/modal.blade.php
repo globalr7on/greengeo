@@ -46,18 +46,14 @@
                     <div class="col-md-4 text-center">
                       <div class="form-group">
                         <label for="input_tipo_empresa_id" class="display-inherit mb-0 text-left">Tipo de Empresa</label>
-                        <select id="input_tipo_empresa_id" data-style="btn-warning text-white" name="tipo_empresa_id" >
-                          <option value="" disabled selected>Seleccione</option>
-                        </select>
+                        <select id="input_tipo_empresa_id" data-style="btn-warning text-white" name="tipo_empresa_id" title="Selecione"></select>
                       </div>
                     </div>
   
                     <div class="col-md-4 text-center">
                       <div class="form-group">
                         <label for="input_atividade_id" class="display-inherit mb-0 text-left">Tipo de Atividade</label>
-                        <select id="input_atividade_id" data-style="btn btn-warning text-white" name="atividade_id">
-                          <option value="" disabled selected>Atividade</option>
-                        </select>
+                        <select id="input_atividade_id" data-style="btn btn-warning text-white" name="atividade_id" title="Selecione"></select>
                       </div>
                     </div>
                   </div>

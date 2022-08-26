@@ -170,7 +170,8 @@ function sweetConfirm(message, title = "Aviso!") {
 }
 
 function loadSelect(selector, data, fields = ['id', 'name'], selected = null, disabled = false, callback = undefined) {
-  $(selector).empty().append('<option disabled selected>Seleccione</option>')
+  // $(selector).empty().append('<option disabled selected>Seleccione</option>')
+  $(selector).empty()
   $.each(data, function(index, value) {
     if (callback) {
       const [optionValue, optionText] = callback(value)

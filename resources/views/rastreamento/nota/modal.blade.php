@@ -25,9 +25,7 @@
                     <input type="hidden" id="input_id">
                     <input type="hidden" id="input_usuario_responsavel_cadastro_id" value="{{ Auth::user()->id }}">
                     <label for="input_pessoa_juridica_id" class="display-inherit mb-0">Empresa</label>
-                    <select id="input_pessoa_juridica_id" data-style="btn-warning text-white" name="input_pessoa_juridica_id">
-                      <option value="" disabled selected>Seleccione</option>
-                    </select>
+                    <select id="input_pessoa_juridica_id" data-style="btn-warning text-white" name="input_pessoa_juridica_id" title="Selecione"></select>
                   </div>
                 </div>
 

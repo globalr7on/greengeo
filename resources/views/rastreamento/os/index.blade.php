@@ -70,30 +70,35 @@
           {
             targets: 8,
             render: function (data, type, row) {
-              const deleteBtn = row.estagio == 'Emitida' ? `<i class="fa fa-trash cursor-pointer deleteAction" data-id="${row.id}" title="Excluir"></i>&nbsp;` : ''
-              const editBtn = row.estagio == 'Emitida' ? `<i class="fa fa-pen cursor-pointer editAction" data-id="${row.id}" title="Editar"></i>&nbsp;` : ''
-              const showBtn = row.estagio !== 'Emitida' ? `<i class="fas fa-list-alt cursor-pointer showAction" data-id="${row.id}" title="Mostrar"></i>&nbsp;` : ''
-              const addPhotoBtn = `<i class="fa-solid fa-cloud-arrow-up cursor-pointer novaFoto" data-id="${row.id}" title="Adicionar Foto"></i>&nbsp;`
-              // const updateStatusColetaBtn = row.estagio == 'Emitida'
+              const estagio = row.estagio.toLowerCase()
+              const statusEmitida = 'emitida'
+              const statusAguardandoColeta = 'aguardando coleta'
+              const statusTransporte = 'transporte'
+              const deleteBtn = estagio == statusEmitida ? `<i class="fa fa-trash cursor-pointer deleteAction" data-id="${row.id}" title="Excluir"></i>&nbsp;` : ''
+              const editBtn = estagio == statusEmitida ? `<i class="fa fa-pen cursor-pointer editAction" data-id="${row.id}" title="Editar"></i>&nbsp;` : ''
+              const showBtn = estagio !== statusEmitida ? `<i class="fas fa-list-alt cursor-pointer showAction" data-id="${row.id}" title="Mostrar"></i>&nbsp;` : ''
+              
+              // const updateStatusColetaBtn = estagio == statusEmitida
               //   ? `<i class="fas fa-hourglass-half cursor-pointer updateEstagio" data-id="${row.id}" title="Atualizar a Aguardando Coleta"></i>&nbsp;`
               //   : ''
-              const updateStatusTransporteBtn = row.estagio == 'Aguardando Coleta'
+              const updateStatusTransporteBtn = estagio == statusAguardandoColeta
                 ? `<i class="fas fa-truck cursor-pointer updateEstagio" data-id="${row.id}" title="Atualizar a Transporte"></i>&nbsp;`
                 : ''
-              const updateStatusEntregueBtn = row.estagio == 'Transporte'
+              const updateStatusEntregueBtn = estagio == statusTransporte
                 ? `<i class="fas fa-truck-loading cursor-pointer updateEstagio" data-id="${row.id}" title="Atualizar a Entregue"></i>&nbsp;`
+                : ''
+              const addPhotoBtn = estagio == statusTransporte
+                ? `<i class="fa-solid fa-cloud-arrow-up cursor-pointer novaFoto" data-id="${row.id}" title="Adicionar Foto"></i>&nbsp;`
                 : ''
               const approvalBtn = `<i class="fas fa-check text-success cursor-pointer approvalAction" data-id="${row.id}" data-approval="1" title="Aceitar OS"></i>&nbsp;`
               const rejectBtn = `<i class="fas fa-times text-danger cursor-pointer approvalAction" data-id="${row.id}" data-approval="0" title="Recusar OS"></i>&nbsp;`
 
               const isMotoristaForApproval = row.aprovacao_motorista.length > 0 ? row.aprovacao_motorista[0].usuario_id == currentUser : false
-
-              if (isMotoristaForApproval && row.estagio == 'Esperando Motorista') {
+              if (isMotoristaForApproval && estagio == 'Esperando Motorista') {
                 return `${showBtn}${approvalBtn}${rejectBtn}`
               }
 
-              // return `${deleteBtn}${editBtn}${showBtn}${addPhotoBtn}${updateStatusColetaBtn}${updateStatusTransporteBtn}${updateStatusEntregueBtn}`
-              return `${deleteBtn}${editBtn}${showBtn}${addPhotoBtn}${updateStatusTransporteBtn}${updateStatusEntregueBtn}`
+              return `${deleteBtn}${editBtn}${showBtn}${updateStatusTransporteBtn}${updateStatusEntregueBtn}${addPhotoBtn}`
             }
           }
         ],
@@ -112,7 +117,7 @@
         $('body').on('change', '#input_transportador_id', updateMotoristaFromTransportador)
         $("#imagensData").val('')
         $('.showFotos').hide()
-        $('.addMaterials').attr('disabled', true)
+        $('.addProdutos').attr('disabled', true)
         app.stepper()
         delFormValidationErrors()
         $("#modalOs").modal("show")
@@ -374,56 +379,55 @@
         .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
       }
 
-      $('body').on('change', '#input_nota_fiscal', function(event) {
-        $('.addMaterials').attr('disabled', false)
-        const currentId = event.target.value
-        const currentNotaFiscal = notaFiscalsData.find(curr => curr.id == currentId)
-        $('#materiaisData').text(JSON.stringify(currentNotaFiscal?.itens || []))
-      })
-
-      $('body').on('click', '.addMaterials', function() {
-        $("#modalSegregados").modal("show")
-        const materiaisData = JSON.parse($('#materiaisData').text())
-        const data = materiaisData.map(curr => {
-          if (curr.numero_de_serie) {
-            // Produto Acabado
-            return curr.produto.materiais.map(mat => ({
-              quantidade: curr.quantidade,
-              produto_id: curr.produto.id,
-              produto: `${curr.produto.ean}:${curr.produto.codigo}`,
-              altura: parseFloat(curr.produto.altura).toFixed(2),
-              largura: parseFloat(curr.produto.largura).toFixed(2),
-              profundidade: parseFloat(curr.produto.profundidade).toFixed(2),
-              material_id: mat.id,
-              material: `[${mat.ibama.codigo}] ${mat.tipo_material.descricao}: ${mat.estado_fisico} (${mat.unidade.simbolo})`,
-              peso_bruto: parseFloat(mat.peso_bruto).toFixed(2),
-              peso_liquido: parseFloat(mat.peso_liquido).toFixed(2),
-            }))
-          } else {
-            // Produto Segregado
-            return {
-              quantidade: curr.quantidade,
-              produto_id: curr.produto.id,
-              produto: null,
-              altura: null,
-              largura: null,
-              profundidade: null,
-              material_id: curr.produto.material.id,
-              material: `[${curr.produto.material.ibama}] ${curr.produto.material.tipo_material}: ${curr.produto.material.estado_fisico} (${curr.produto.material.unidade})`,
-              peso_bruto: parseFloat(curr.produto.peso_bruto).toFixed(2),
-              peso_liquido: parseFloat(curr.produto.peso_liquido).toFixed(2),
-            }
-          }
+      function parseProdutos(data) {
+        return data.map(curr => {
+          return curr.itens.map(item => ({
+            nota_id: curr.id,
+            nota: `${curr.pessoa_juridica} ${curr.serie}:${curr.folha} - ${curr.numero_total}`,
+            data_de_fabricacao: item.data_de_fabricacao,
+            numero_de_serie: item.numero_de_serie,
+            quantidade: item.quantidade,
+            produto_id: item.id,
+            produto: `${item.produto.ean}:${item.produto.codigo}`,
+            especie: item.produto.especie,
+            marca: item.produto.marca,
+            altura: parseFloat(item.produto.altura).toFixed(2),
+            largura: parseFloat(item.produto.largura).toFixed(2),
+            profundidade: parseFloat(item.produto.profundidade).toFixed(2),
+            descricao: item.produto.descricao,
+          }))
         }).flat()
-        initMaterialDataTable(data)
+      }
+
+      $('body').on('change', '#input_nota_fiscal', function(event) {
+        $('.addProdutos').attr('disabled', false)
+        const currentIds = [...event.target.selectedOptions].map(o => parseInt(o.value))
+        const currentNotaFiscals = notaFiscalsData.filter(curr => currentIds.includes(curr.id))
+        $('#produtosData').text(JSON.stringify(currentNotaFiscals || []))
       })
 
-      function initMaterialDataTable(data) {
-        if ($.fn.dataTable.isDataTable('#materiaisTbl')) {
-          $('#materiaisTbl').DataTable().clear().draw()
-          $('#materiaisTbl').DataTable().rows.add(data).draw()
+      $('body').on('click', '.addProdutos', function() {
+        $("#modalSegregados").modal("show")
+        const produtosData = JSON.parse($('#produtosData').text() || '{}')
+        const data = parseProdutos(produtosData)
+        getItems(data)
+        initProdutoDataTable([])
+      })
+
+      function getItems(data) {
+        loadSelect('#items', data, [], null, false, function(value) {
+          const optionValue = `${value.nota_id}-${value.produto_id}`
+          const optionText = `${value.produto} | ${value.marca} | ${value.especie} | ${value.descricao}`
+          return [optionValue, optionText]
+        })
+      }
+
+      function initProdutoDataTable(data) {
+        if ($.fn.dataTable.isDataTable('#produtosTbl')) {
+          $('#produtosTbl').DataTable().clear().draw()
+          $('#produtosTbl').DataTable().rows.add(data).draw()
         } else {
-          $('#materiaisTbl').DataTable({
+          $('#produtosTbl').DataTable({
             language: app.dataTableConfig.language,
             data: data,
             autoWidth: false,
@@ -435,12 +439,9 @@
               { data: 'position' },
               { data: 'produto' },
               { data: 'quantidade' },
-              { data: 'material' },
               { data: 'altura' },
               { data: 'largura' },
               { data: 'profundidade' },
-              { data: 'peso_bruto' },
-              { data: 'peso_liquido' },
             ],
             columnDefs: [
               {
@@ -451,27 +452,38 @@
                 }
               },
               {
-                targets: [2,4,5,6,7,8],
+                targets: [2,3,4,5],
                 className: 'text-center',
               },
             ],
-            rowGroup: {
-              dataSrc: function(row) {
-                return row.produto ? row.produto : 'Segregados'
-              },
-            },
-            footerCallback: function (row, data, start, end, display) {
-              const api = this.api()
-              totalPesoBruto = api.column(7).data().reduce((a, b) => parseFloat(a) + parseFloat(b), 0)
-              totalPesoLiquido = api.column(8).data().reduce((a, b) => parseFloat(a) + parseFloat(b), 0)
-              $(api.column(7).footer()).html(totalPesoBruto.toFixed(2))
-              $(api.column(8).footer()).html(totalPesoLiquido.toFixed(2))
-            },
+            // rowGroup: {
+            //   dataSrc: function(row) {
+            //     return row.produto ? row.produto : 'Segregados'
+            //   },
+            // },
+            // footerCallback: function (row, data, start, end, display) {
+            //   const api = this.api()
+            //   totalPesoBruto = api.column(7).data().reduce((a, b) => parseFloat(a) + parseFloat(b), 0)
+            //   totalPesoLiquido = api.column(8).data().reduce((a, b) => parseFloat(a) + parseFloat(b), 0)
+            //   $(api.column(7).footer()).html(totalPesoBruto.toFixed(2))
+            //   $(api.column(8).footer()).html(totalPesoLiquido.toFixed(2))
+            // },
           })
         }
       }
 
-      // Approval/Reject os by motorista
+      $('body').on('click', '.addProduto', function() {
+        const produtosData = JSON.parse($('#produtosData').text() || '{}')
+        const data = parseProdutos(produtosData)
+        const currentProdutoId = $('#items').selectpicker('val')
+        const [notaId, produtoId] = currentProdutoId.split('-')
+        const produto = data.find(curr => curr.nota_id == notaId && curr.produto_id == produtoId)
+        $('#produtosTbl').DataTable().row.add(produto).draw(false)
+        $('#items').find(`[value=${currentProdutoId}]`).remove()
+        $('#items').selectpicker('refresh').selectpicker('val', null)
+      })
+
+      // Approval/Reject OS by motorista
       $('body').on('click', '.approvalAction', function() {
         const isApproval = parseInt($(this).attr('data-approval'))
         sweetConfirm(`Deseja realmente ${isApproval ? 'aceitar' : 'recusar'} la OS?`).then(confirmed => {

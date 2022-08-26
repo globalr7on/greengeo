@@ -22,7 +22,7 @@
             <div class="col-md-6 text-center">
               <div class="form-group">
                 <label for="input_guard_name" class="display-inherit mb-0">Acesso</label>
-                <select data-style="btn-warning text-white" title="Select" name="guard_name" id="input_guard_name"></select>
+                <select data-style="btn-warning text-white" title="Selecione" name="guard_name" id="input_guard_name"></select>
               </div>
             </div>
           </div>

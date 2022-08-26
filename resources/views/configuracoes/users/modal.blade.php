@@ -40,18 +40,14 @@
                   <div class="col-md-6 text-center">
                     <div class="form-group">
                       <label for="input_tipo_empresa_id" class="display-inherit mb-0">Tipo de Empresa</label>
-                      <select id="input_tipo_empresa_id" data-style="btn-warning text-white" title="Single Select" name="tipo_empresa" >
-                        <option value="" disabled selected>Seleccione</option>
-                      </select>
+                      <select id="input_tipo_empresa_id" data-style="btn-warning text-white" title="Selecione" name="tipo_empresa"></select>
                     </div>
                   </div>
 
                   <div class="col-md-6 text-center">
                     <div class="form-group">
                       <label for="input_pessoa_juridica_id" class="display-inherit mb-0">Empresa</label>
-                      <select id="input_pessoa_juridica_id" data-style="btn-warning text-white" title="Single Select" name="empresa" >
-                        <option value="" disabled selected>Seleccione</option>
-                      </select>
+                      <select id="input_pessoa_juridica_id" data-style="btn-warning text-white" title="Selecione" name="empresa"></select>
                     </div>
                   </div>
                 </div>
@@ -101,8 +97,8 @@
                   <div class="col-md-4 text-center">
                     <div class="form-group">
                       <label for="input_role_web" class="display-inherit mb-0 text-left">Função</label>
-                      <select data-style="btn-warning text-white" title="Select" name="role_web" id="input_role_web"></select>
-                      <select class="d-none" data-style="btn-warning text-white" title="Select" name="role_api" id="input_role_api"></select>
+                      <select data-style="btn-warning text-white" title="Selecione" name="role_web" id="input_role_web"></select>
+                      <select class="d-none" data-style="btn-warning text-white" title="Selecione" name="role_api" id="input_role_api"></select>
                     </div>
                   </div>
                 </div>
@@ -204,9 +200,7 @@
                   <div class="col-md-4 text-center" >
                     <div class="form-group m-0 p-0">
                       <label for="input_tipo_carteira" class="display-inherit mb-0">Tipo de Carteira</label>
-                      <select id="input_tipo_carteira" data-style="btn-warning text-white" title="Single Select" name="tipo_carteira">
-                        <option value="" disabled selected>Seleccione</option>
-                      </select>
+                      <select id="input_tipo_carteira" data-style="btn-warning text-white" title="Selecione" name="tipo_carteira"></select>
                     </div>
                   </div>
 

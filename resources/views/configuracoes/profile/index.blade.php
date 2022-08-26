@@ -187,8 +187,8 @@
                     <div class="col-md-3">
                       <div class="form-group">
                         <label for="input_role_web" class="display-inherit mb-0">Função Acesso</label>
-                        <select data-style="btn-warning text-white" title="Select" name="role_web" id="input_role_web"></select>
-                        <select class="d-none" data-style="btn-warning text-white" title="Select" name="role_api" id="input_role_api"></select>
+                        <select data-style="btn-warning text-white" title="Selecione" name="role_web" id="input_role_web"></select>
+                        <select class="d-none" data-style="btn-warning text-white" title="Selecione" name="role_api" id="input_role_api"></select>
                       </div>
                     </div>
                   </div>

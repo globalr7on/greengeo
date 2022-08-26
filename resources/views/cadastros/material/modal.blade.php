@@ -17,18 +17,14 @@
                 <div class="col-md-6 text-center">
                   <div class="form-group m-0 p-0">
                     <label for="input_gerador_id" class="display-inherit mb-0">Gerador</label>
-                    <select id="input_gerador_id" data-style="btn-warning text-white" title="Single Select" name="gerador_id">
-                      <option value="" disabled selected>Seleccione</option>
-                    </select>
+                    <select id="input_gerador_id" data-style="btn-warning text-white" title="Selecione" name="gerador_id"></select>
                   </div>
                 </div>
 
                 <div class="col-md-6 text-center">
                   <div class="form-group m-0 p-0">
                     <label for="input_estado_fisico" class="display-inherit mb-0">Estado fisico</label>
-                    <select id="input_estado_fisico" data-style="btn-warning text-white" title="Single Select" name="estado_fisico">
-                      <option value="" disabled selected>Seleccione</option>
-                    </select>
+                    <select id="input_estado_fisico" data-style="btn-warning text-white" title="Selecione" name="estado_fisico"></select>
                   </div>
                 </div>
               </div>
@@ -37,18 +33,14 @@
                 <div class="col-md-6 text-center">
                   <div class="form-group m-0 p-0">
                     <label for="input_tipo_material_id" class="display-inherit mb-0">Tipo Material</label>
-                    <select id="input_tipo_material_id" data-style="btn-warning text-white" title="Single Select" name="tipo_material_id">
-                      <option value="" disabled selected>Seleccione</option>
-                    </select>
+                    <select id="input_tipo_material_id" data-style="btn-warning text-white" title="Selecione" name="tipo_material_id"></select>
                   </div>
                 </div>
 
                 <div class="col-md-6 text-center">
                   <div class="form-group m-0 p-0">
                     <label for="input_unidade_id" class="display-inherit mb-0">Tipo Unidade</label>
-                    <select id="input_unidade_id" data-style="btn-warning text-white" title="Single Select" name="unidade_id">
-                      <option value="" disabled selected>Seleccione</option>
-                    </select>
+                    <select id="input_unidade_id" data-style="btn-warning text-white" title="Selecione" name="unidade_id"></select>
                   </div>
                 </div>
               </div>
@@ -57,9 +49,7 @@
                 <div class="col-md-4 text-center">
                   <div class="form-group m-0 p-0">
                     <label for="input_ibama_id" class="display-inherit mb-0">Código Ibama</label>
-                    <select id="input_ibama_id" data-style="btn-warning text-white" title="Single Select" name="ibama_id">
-                      <option value="" disabled selected>Seleccione</option>
-                    </select>
+                    <select id="input_ibama_id" data-style="btn-warning text-white" title="Selecione" name="ibama_id"></select>
                   </div>
                 </div>
                 
