@@ -6,15 +6,15 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class AcondicionamentoRequest extends FormRequest
+class AgendamentoRequest extends FormRequest
 {
     public function rules()
     {
         return [
-            'usuario_id' => 'required|number',
-            'ordem_servico_id' => 'required|number',
-            'acondicionamento_id' => 'required|number',
-            'transportadora_id' => 'required|number',
+            'usuario_id' => 'required',
+            'ordem_servico_id' => 'required',
+            'acondicionamento_id' => 'required',
+            'transportadora_id' => 'required',
             'coleta' => 'required'
         ];
     }

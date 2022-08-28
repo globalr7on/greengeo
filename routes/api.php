@@ -182,4 +182,14 @@ Route::middleware(['auth:api', 'permission'])->group(function() {
     Route::post('imagens', 'App\Http\Controllers\Api\ImagensController@store')->name('imagens.criar');
     // Route::put('imagens/{id}', 'App\Http\Controllers\Api\ImagensController@update')->name('imagens.atualizar');
     Route::delete('imagens/{id}', 'App\Http\Controllers\Api\ImagensController@destroy')->name('imagens.excluir');
+
+    // Agendamento  
+    Route::get('agendamento', 'App\Http\Controllers\Api\AgendamentoController@index')->name('agendamento.lista');
+    Route::get('agendamento/{id}', 'App\Http\Controllers\Api\agendamentoController@show')->name('agendamento.mostrar');
+    Route::post('agendamento', 'App\Http\Controllers\Api\AgendamentoController@store')->name('agendamento.criar');
+    // Route::put('agendamento/{id}', 'App\Http\Controllers\Api\agendamentoController@update')->name('agendamento.atualizar');
+    Route::delete('agendamento/{id}', 'App\Http\Controllers\Api\agendamentoController@destroy')->name('agendamento.excluir');
+
+
+
 });

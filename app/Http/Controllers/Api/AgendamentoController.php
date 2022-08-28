@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AgendamentoRequest;
+use App\Http\Resources\AgendamentoResource;
+use App\Models\Agendamento;
+
 use Illuminate\Http\Request;
 
 class AgendamentoController extends Controller
@@ -32,7 +36,7 @@ class AgendamentoController extends Controller
     {
         $agendamentos = Agendamento::create($request->all());
         return response([
-            'data' => new AgendamentoResource($atividade),
+            'data' => new AgendamentoResource($agendamentos),
             'status' => true
         ], 200);
     }

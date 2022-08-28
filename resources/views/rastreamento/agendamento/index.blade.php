@@ -25,29 +25,78 @@
       </div>
     </div>
   </div>
-  @include('rastreamento.nota.modal')
+  @include('rastreamento.agendamento.modal')
 @endsection
 
 @push('js')
   <script>
     $(document).ready(function () {
+      const empresaId = "{{ Auth::user()->pessoa_juridica_id }}" || null
       const app = new App({})
       initCalendar()
 
       // Open Modal New
       $('body').on('click', '#novoAgendamento', function() {
-        // delFormValidationErrors()
-        // $("#modalNota").modal("show")
-        // $('#tituloNota').text("Nova Nota Fiscal")
-        // $('#input_id').val("")
-        // $('#formNota')[0].reset()
-        // getPessoaJuridica()
+        delFormValidationErrors()
+        $("#modalAgenda").modal("show")
+        $('#tituloAgenda').text("Novo Agendamento")
+        $('#input_id').val("")
+        $('#formAgenda')[0].reset()
+        getEmpresa(empresaId, empresaId ?  true : false)
+        getAcondicionamento()
+        getOrdemServico()
         // produtoAcabadoTbl && produtoAcabadoTbl.clear().draw()
-        // materiaisTbl && materiaisTbl.clear().draw()
-
-        const date = new Date().toISOString()
-        addEventToCalendar(date, 'Some title', 'Some description')
+        // materiaisTbl && materiaisTbl.clear().draw()      
       })
+
+      // Enviar agendamento 
+      $('body').on('click', '#enviarAgendamento', function() {
+        // const date = new Date().toISOString()
+        const date = $("#input_data_coleta").val()
+        let empresa = $("#input_pessoa_juridica_id option:selected").text()
+        let acondicionamento = $("#input_acondicionamento_id").val()
+        let ordem = $("#input_ordem_servico_id option:selected").text()
+        addEventToCalendar(date, ordem, empresa)
+      
+        // Salvar Evento
+        const JSONRequest = {
+          usuario_id: $("#input_usuario_responsavel_cadastro_id").val(),
+          transportadora_id: $("#input_pessoa_juridica_id").val(),
+          ordem_servico_id: $("#input_ordem_servico_id").val(),
+          acondicionamento_id: $("#input_acondicionamento_id").val(),
+          coleta: $("#input_data_coleta").val(),
+        }
+        const id = $('#input_id').val()
+        if (id) {
+          app.api.put(`/agendamento/${id}`, JSONRequest).then(response => {
+            if (response && response.status) {
+              $("#modalEmpresa").modal("hide")
+              app.datatable.ajax.reload()
+              notifySuccess('Atualizado com sucesso')
+            }
+          })
+          .catch(error => {
+            addFormValidationErrors(error?.data)
+            notifyDanger('Falha ao atualizar, tente novamente')
+          })
+        } else {
+          app.api.post('/agendamento', JSONRequest).then(response => {
+            if (response && response.status) {
+              $("#modalEmpresa").modal("hide")
+              app.datatable.ajax.reload()
+              notifySuccess('Criado com sucesso')
+            }
+          })
+          .catch(error => {
+            addFormValidationErrors(error?.data)
+            notifyDanger('Falha ao criar, tente novamente')
+          })
+        }
+        $("#modalAgenda").modal("hide")
+      })
+
+     
+
 
       //Salvar 
       // $('body').on('click', '#salvarNotafiscal', function() {
@@ -114,14 +163,32 @@
       //   }
       // })
 
-      // function getPessoaJuridica(value) {
-      //   app.api.get('/pessoa_juridica').then(response =>  {
-      //     if (response && response.status) {
-      //       loadSelect('#input_pessoa_juridica_id', response.data, ['id', 'razao_social'], value)
-      //     }
-      //   })
-      //   .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
-      // }
+      function getEmpresa(value) {
+        app.api.get('/pessoa_juridica').then(response =>  {
+          if (response && response.status) {
+            loadSelect('#input_pessoa_juridica_id', response.data, ['id', 'razao_social'], value)
+          }
+        })
+        .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
+      }
+
+      function getOrdemServico() {
+        app.api.get('/os').then(response =>  {
+          if (response && response.status) {
+            loadSelect('#input_ordem_servico_id', response.data, ['id', 'codigo'])
+          }
+        })
+        .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
+      }
+
+      function getAcondicionamento() {
+        app.api.get('/acondicionamento').then(response =>  {
+          if (response && response.status) {
+            loadSelect('#input_acondicionamento_id', response.data, ['id', 'descricao'])
+          }
+        })
+        .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
+      }
     })
 
     function initCalendar() {
