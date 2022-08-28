@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AgendamentoRequest;
 use App\Http\Resources\AgendamentoResource;
 use App\Models\Agendamento;
+use App\Mail\EnvioAgendamento;
+use Validator;
+use Hash;
+use Mail;
 
 use Illuminate\Http\Request;
 
@@ -35,6 +39,16 @@ class AgendamentoController extends Controller
     public function store(AgendamentoRequest $request)
     {
         $agendamentos = Agendamento::create($request->all());
+        $codigo = $agendamentos->ordem_servico->codigo;
+        $gerador = $agendamentos->gerador->nome_fantasia;
+        // dd($gerador);
+        $descricao_produto = $agendamentos->ordem_servico->description;
+        $peso_total_os = $agendamentos->ordem_servico->peso_total_os;
+        $transportadora = $agendamentos->transportador->nome_fantasia;
+        $acondicionamento = $agendamentos->acondicionamento->descricao;
+        $email = $agendamentos->transportador->email;
+        $coleta = $agendamentos->coleta;
+        Mail::to($email)->send(new Ordem($codigo, $transportadora, $acondicionamento, $descricao_produto, $peso_total_os ,$coleta));
         return response([
             'data' => new AgendamentoResource($agendamentos),
             'status' => true

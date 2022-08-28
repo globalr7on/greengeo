@@ -14,8 +14,8 @@ class AddCodigoColumnProdutoAcabadoTable extends Migration
     public function up()
     {
         Schema::table('produto_acabado', function (Blueprint $table) {
-            $table->dropForeign('produto_acabado_material_id_foreign');
-            $table->dropColumn('material_id');
+            // $table->dropForeign('produto_acabado_material_id_foreign');
+            // $table->dropColumn('material_id');
             $table->string('codigo');
         });
     }
