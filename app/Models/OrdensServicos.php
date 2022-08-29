@@ -22,8 +22,6 @@ class OrdensServicos extends Model
         'cdf_serial',
         'cdf_ano',
         'description',
-        'peso_total_os',
-        'area_total',
         'peso_de_controle',
         'estagio_id',
         'gerador_id',
@@ -31,9 +29,18 @@ class OrdensServicos extends Model
         'destinador_id',
         'motorista_id',
         'veiculo_id',
-        'nota_fiscal_id',
     ];
     protected $guardaded = ['id'];
+
+    public function getPesoTotalAttribute()
+    {
+        return $this->itens ? $this->itens->sum('peso') : null;
+    }
+
+    public function notas_fiscais()
+    {
+        return $this->belongsToMany('App\Models\NotaFiscal', 'ordens_servicos_notas_fiscais', 'ordem_servico_id', 'nota_fiscal_id');
+    }
 
     public function estagio()
     {
@@ -63,11 +70,6 @@ class OrdensServicos extends Model
     public function veiculo()
     {
         return $this->hasOne('App\Models\Veiculo', 'id', 'veiculo_id');
-    }
-
-    public function nota_fiscal()
-    {
-        return $this->hasOne('App\Models\NotaFiscal', 'id', 'nota_fiscal_id');
     }
 
     public function itens()

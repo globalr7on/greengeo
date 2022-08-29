@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Mail\Ordem;
 use Mail;
 use App\Traits\OrdenServicoTrait;
+use Illuminate\Support\Facades\DB;
 
 class OrdenDeServicoController extends Controller
 {
@@ -66,9 +67,10 @@ class OrdenDeServicoController extends Controller
 
     public function store(OrdenDeServicoRequest $request)
     {
+        DB::beginTransaction();
         try {
             $request->merge(array('codigo' => $this->generateCode(OrdensServicos::class)));
-            $newOrdenDeServico = OrdensServicos::create($request->all());
+            $newOrdenDeServico = OrdensServicos::create($request->except(['notas_fiscais', 'produtos']));
             if ($newOrdenDeServico->motorista_id) {
                 OrdenServicoMotorista::create([
                     'usuario_id' => $newOrdenDeServico->motorista_id,
@@ -77,6 +79,22 @@ class OrdenDeServicoController extends Controller
                 $newOrdenDeServico->estagio_id = $this->getNextEstagio($newOrdenDeServico->estagio_id);
                 $newOrdenDeServico->save();
             }
+            $newOrdenDeServico->notas_fiscais()->attach($request->get('notas_fiscais'));
+            if ($request->get('produtos')) {
+                foreach ($request->get('produtos') as $produto) {
+                    $newOrdenDeServico->itens()->create([
+                        'orden_servico_id' => $newOrdenDeServico->id,
+                        'peso' => $produto['peso'],
+                        'observacao' => $produto['observacao'],
+                        'numero_de_serie' => $produto['numero_de_serie'],
+                        'data_de_fabricacao' => $produto['data_de_fabricacao'],
+                        'produto_id' => $produto['produto_id'],
+                        'tratamento_id' => $produto['tratamento_id'],
+                        'nota_fiscal_item_id' => $produto['nota_fiscal_item_id']
+                    ]);
+                }
+            }
+            
             // try {
             //     $responseRastreo = Http::post(config('app.rastreamento').'coordenada/create', [
             //         "codigo_coordenada" => $newOrdenDeServico->id,
@@ -101,11 +119,13 @@ class OrdenDeServicoController extends Controller
             $email = $newOrdenDeServico->destinador->email;
             Mail::to($email)->send(new Ordem($tipoA, $tipoB, $tipoC, $email));
 
+            DB::commit();
             return response([
                 'data' => new OrdenDeServicoResource($newOrdenDeServico),
                 'status' => true
             ], 200);
-        } catch(Exception $error) {
+        } catch(\Exception $error) {
+            DB::rollBack();
             return response([
                 'data' => $error->getMessage(),
                 'status' => false
@@ -136,22 +156,48 @@ class OrdenDeServicoController extends Controller
      */
     public function update(OrdenDeServicoRequest $request, $id)
     {
-        $ordenServico = OrdensServicos::find($id);
-        $ordenServico->update($request->all());
-
-        if ($ordenServico->motorista_id) {
-            OrdenServicoMotorista::create([
-                'usuario_id' => $ordenServico->motorista_id,
-                'ordem_servico_id' => $ordenServico->id
-            ]);
-            $ordenServico->estagio_id = $this->getNextEstagio($ordenServico->estagio_id);
-            $ordenServico->save();
+        DB::beginTransaction();
+        try {
+            $ordenServico = OrdensServicos::find($id);
+            $ordenServico->update($request->all());
+            if ($ordenServico->motorista_id) {
+                OrdenServicoMotorista::create([
+                    'usuario_id' => $ordenServico->motorista_id,
+                    'ordem_servico_id' => $ordenServico->id
+                ]);
+                $ordenServico->estagio_id = $this->getNextEstagio($ordenServico->estagio_id);
+                $ordenServico->save();
+            }
+            $ordenServico->notas_fiscais()->sync($request->get('notas_fiscais'));
+            if ($request->get('produtos')) {
+                foreach ($request->get('produtos') as $produto) {
+                    $ordenServico->itens()->updateOrCreate([
+                        'id' => $produto['id']
+                    ], [
+                        'orden_servico_id' => $ordenServico->id,
+                        'peso' => $produto['peso'],
+                        'observacao' => $produto['observacao'],
+                        'numero_de_serie' => $produto['numero_de_serie'],
+                        'data_de_fabricacao' => $produto['data_de_fabricacao'],
+                        'produto_id' => $produto['produto_id'],
+                        'tratamento_id' => $produto['tratamento_id'],
+                        'nota_fiscal_item_id' => $produto['nota_fiscal_item_id']
+                    ]);
+                }
+            }
+            DB::commit();
+    
+            return response([
+                'data' => new OrdenDeServicoResource($ordenServico),
+                'status' => true
+            ], 200);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response([
+                'data' => $e->getMessage(),
+                'status' => false
+            ], 400);
         }
-
-        return response([
-            'data' => new OrdenDeServicoResource($ordenServico),
-            'status' => true
-        ], 200);
     }
 
     /**
@@ -170,6 +216,7 @@ class OrdenDeServicoController extends Controller
             $ordenServico = OrdensServicos::findOrFail($id);
             $ordenServico->itens()->delete();
             $ordenServico->imagens()->delete();
+            $ordenServico->notas_fiscais()->delete();
             $ordenServico->aprovacao_motorista()->delete();
             $ordenServico->delete();
             DB::commit();

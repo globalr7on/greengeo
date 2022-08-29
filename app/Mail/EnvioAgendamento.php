@@ -11,19 +11,19 @@ class EnvioAgendamento extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $codigo, $transportadora, $acondicionamento, $descricao_produto , $peso_total_os, $data_coleta;
+    public $codigo, $transportadora, $acondicionamento, $descricao_produto , $peso_total, $data_coleta;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($codigo, $transportadora, $acondicionamento, $descricao_produto, $peso_total_os, $data_coleta)
+    public function __construct($codigo, $transportadora, $acondicionamento, $descricao_produto, $peso_total, $data_coleta)
     {
         $this->codigo = $codigo;
         $this->tranposrtadora = $transportadora;
         $this->acondicionamento = $acondicionamento;
         $this->descricao_produto = $descricao_produto;
-        $this->peso_total_os = $peso_total_os;
+        $this->peso_total = $peso_total;
         $this->data_coleta = $data_coleta;
     }
 
@@ -42,7 +42,7 @@ class EnvioAgendamento extends Mailable
                 "transportadora" => $this->transportadora,
                 "acondicionamento" => $this->acondicionamento,
                 "descricao_produto" =>  $this->descricao_produto,
-                "peso_total_os" => $this->peso_total_os,
+                "peso_total" => $this->peso_total,
                 "data_coleta" => $this->data_coleta,
             ]);
     }

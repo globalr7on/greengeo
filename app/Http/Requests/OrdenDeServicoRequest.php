@@ -17,19 +17,17 @@ class OrdenDeServicoRequest extends FormRequest
             'preenchimento' => 'required|date|date_format:Y-m-d',
             'integracao' => 'required|date|date_format:Y-m-d',
             'serie' => 'required|string|max:2', 
-            'cdf_serial' => 'required|integer',
-            'cdf_ano' => 'required|integer',
+            // 'cdf_serial' => 'required|integer',
+            // 'cdf_ano' => 'required|integer',
             'description' => 'required|string',
-            'peso_total_os' => 'required',
-            'area_total' => 'required',
-            'peso_de_controle' => 'required',
+            // 'peso_de_controle' => 'required',
             'estagio_id' => 'required',
             'gerador_id' => 'required',
             'transportador_id'  => 'required',
             'destinador_id' => 'required',
             // 'motorista_id' => 'required',
             // 'veiculo_id' => 'required',
-            'nota_fiscal_id' => 'required',
+            'notas_fiscais' => 'required',
         ];
     }
 

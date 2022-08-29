@@ -174,7 +174,6 @@ Route::middleware(['auth:api', 'permission'])->group(function() {
     Route::get('geo', 'App\Http\Controllers\Api\GeoCepController@index')->name('geo.lista');
     Route::post('map','App\Http\Controllers\Api\GeoCepController@criarGeo')->name('geo.criar');
     // Route::get('map','App\Http\Controllers\Api\GeoCepController@ReceiveGeo')->name('geo.mostrar');
-    
 
     // IMAGENS 
     Route::get('imagens', 'App\Http\Controllers\Api\ImagensController@index')->name('imagens.lista');
@@ -188,8 +187,5 @@ Route::middleware(['auth:api', 'permission'])->group(function() {
     Route::get('agendamento/{id}', 'App\Http\Controllers\Api\agendamentoController@show')->name('agendamento.mostrar');
     Route::post('agendamento', 'App\Http\Controllers\Api\AgendamentoController@store')->name('agendamento.criar');
     // Route::put('agendamento/{id}', 'App\Http\Controllers\Api\agendamentoController@update')->name('agendamento.atualizar');
-    Route::delete('agendamento/{id}', 'App\Http\Controllers\Api\agendamentoController@destroy')->name('agendamento.excluir');
-
-
-
+    // Route::delete('agendamento/{id}', 'App\Http\Controllers\Api\agendamentoController@destroy')->name('agendamento.excluir');
 });

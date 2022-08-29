@@ -28,4 +28,9 @@ class NotaFiscal extends Model
     {
         return $this->hasMany('App\Models\NotaFiscalIten', 'nota_fiscal_id', 'id');
     }
+
+    public function ordens_servicos()
+    {
+        return $this->belongsToMany('App\Models\OrdensServicos', 'ordem_servico_id');
+    }
 }

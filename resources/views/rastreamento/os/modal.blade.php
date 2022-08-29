@@ -102,8 +102,8 @@
 
                   <div class="col-md-4 text-center">
                     <div class="form-group">
-                      <label for="input_nota_fiscal" class="display-inherit mb-0">Notas Fiscais</label>
-                      <select id="input_nota_fiscal" data-style="btn btn-warning text-white rounded" name="input_nota_fiscal" multiple data-selected-text-format="count" data-count-selected-text="{0} Notas selecionadas" title="Selecione um ou mais"></select>
+                      <label for="input_notas_fiscais" class="display-inherit mb-0">Notas Fiscais</label>
+                      <select id="input_notas_fiscais" data-style="btn btn-warning text-white rounded" multiple data-selected-text-format="count" data-count-selected-text="{0} Notas selecionadas" title="Selecione um ou mais"></select>
                     </div>
                   </div>
                 </div>
@@ -160,7 +160,6 @@
                   <button class="btn btn-default showFotos">Fotos</button>
                   <button class="btn btn-primary stepper-prev">Anterior</button>
                   <button class="btn btn-primary" id="salvarOs" >Salvar</button>
-
                 </div>
               </div>
             </div>
@@ -171,8 +170,8 @@
   </div>
 </div>
 
-<!-- Item Segregados -->
-<div class="modal fade" id="modalSegregados" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Produtos -->
+<div class="modal fade" id="modalProdutos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -184,13 +183,13 @@
 
       <div class="modal-body pb-4">
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-9 align-self-center">
             <div class="form-group">
-              <select id="items" data-style="btn btn-warning text-white rounded" title="Selecione o produto para adicionar" data-width="100%" data-live-search="true" data-live-search-placeholder="Pesquisa produto"></select>
+              <select id="items" style="width: 100%"><option></option></select>
             </div>
           </div>
 
-          <div class="col-md-3">
+          <div class="col-md-3 text-center align-self-center">
             <div class="form-group">
               <button class="btn btn-primary addProduto">Adicionar produto</button>
             </div>
@@ -201,23 +200,33 @@
           <thead>
             <th class="text-primary font-weight-bold text-center" style="width:5%">#</th>
             <th class="text-primary font-weight-bold" style="width:auto">Produto</th>
-            <th class="text-primary font-weight-bold text-center" style="width:8%">Quantidade</th>
-            <th class="text-primary font-weight-bold text-center" style="width:7%">Altura</th>
-            <th class="text-primary font-weight-bold text-center" style="width:7%">Largura</th>
-            <th class="text-primary font-weight-bold text-center" style="width:10%">Profundidade</th>
+            <th class="text-primary font-weight-bold text-center" style="width:6%">Alt.</th>
+            <th class="text-primary font-weight-bold text-center" style="width:6%">Larg.</th>
+            <th class="text-primary font-weight-bold text-center" style="width:6%">Prof.</th>
+            <th class="text-primary font-weight-bold text-center" style="width:6%">Peso</th>
+            <th class="text-primary font-weight-bold text-center" style="width:8%">Tratamento</th>
+            <th class="text-primary font-weight-bold text-center" style="width:12">Observacao</th>
+            <th class="text-primary font-weight-bold text-center" style="width:6%">Actions</th>
           </thead>
-          <!-- <tfoot>
+          <tfoot>
             <tr>
-              <th colspan="7"></th>
+              <th>Total:</th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
               <th></th>
               <th></th>
             </tr>
-          </tfoot> -->
+          </tfoot>
         </table>
       </div>
     </div>
   </div>
   <script type="javascript/json" id="produtosData"></script>
+  <script type="javascript/json" id="tratamentoData"></script>
 </div>
 
 
@@ -227,19 +236,19 @@
       event.preventDefault()
     })
 
-    $('.datepicker').datetimepicker({
-      format: "YYYY-MM-DD",
-      icons: {
-        time: "fa fa-clock-o",
-        date: "fa fa-calendar",
-        up: "fa fa-chevron-up",
-        down: "fa fa-chevron-down",
-        previous: 'fa fa-chevron-left',
-        next: 'fa fa-chevron-right',
-        today: 'fa fa-screenshot',
-        clear: 'fa fa-trash',
-        close: 'fa fa-remove'
-      }
-    })
+    // $('.datepicker').datetimepicker({
+    //   format: "YYYY-MM-DD",
+    //   icons: {
+    //     time: "fa fa-clock-o",
+    //     date: "fa fa-calendar",
+    //     up: "fa fa-chevron-up",
+    //     down: "fa fa-chevron-down",
+    //     previous: 'fa fa-chevron-left',
+    //     next: 'fa fa-chevron-right',
+    //     today: 'fa fa-screenshot',
+    //     clear: 'fa fa-trash',
+    //     close: 'fa fa-remove'
+    //   }
+    // })
   </script>
 @endpush

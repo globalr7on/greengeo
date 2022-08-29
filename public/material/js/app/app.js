@@ -129,6 +129,7 @@ function _showNotification(from, align, type = "success", icon = "add_alert", me
     type: type,
     delay: 2000,
     timer: 1000,
+    z_index: 1900,
     placement: {
       from: from,
       align: align
@@ -167,6 +168,10 @@ function sweetConfirm(message, title = "Aviso!") {
     .then(result => resolve(result?.dismiss ? false : true))
     .catch(error => reject(error))
   })
+}
+
+function sweetInput({...params}) {
+  return swal(params).then(params.successCallback).catch(params.errorCallback)
 }
 
 function loadSelect(selector, data, fields = ['id', 'name'], selected = null, disabled = false, callback = undefined) {
@@ -214,47 +219,49 @@ $(".maskcpf").each(function () {
     clearIncomplete: true,
     removeMaskOnSubmit: true,
     autoUnmask: true,
-  });
-});
+  })
+})
+
 setTimeout(() => {
   $(".maskcpf").focus(function () {
-    $(this).inputmask("remove");
+    $(this).inputmask("remove")
     return false;
   }).blur(function () {
-    $(this).inputmask("remove");
+    $(this).inputmask("remove")
     $(this).inputmask({
       mask: maskcpf,
       clearIncomplete: true,
       removeMaskOnSubmit: true,
       autoUnmask: true,
-    });
-  });
-}, 500);
+    })
+  })
+}, 500)
 
 // Maskcnpj
-const maskcnpj = "99.999.999/9999-99";
+const maskcnpj = "99.999.999/9999-99"
 $(".maskCnpj").each(function () {
   $(this).inputmask({
     mask: maskcnpj,
     clearIncomplete: true,
     removeMaskOnSubmit: true,
     autoUnmask: true,
-  });
-});
+  })
+})
+
 setTimeout(() => {
   $(".maskCnpj").focus(function () {
-    $(this).inputmask("remove");
-    return false;
+    $(this).inputmask("remove")
+    return false
   }).blur(function () {
-    $(this).inputmask("remove");
+    $(this).inputmask("remove")
     $(this).inputmask({
       mask: maskcnpj,
       clearIncomplete: true,
       removeMaskOnSubmit: true,
       autoUnmask: true,
-    });
-  });
-}, 500);
+    })
+  })
+}, 500)
 
 // Maskrg
 $(".maskrg").each(function () {
@@ -263,37 +270,39 @@ $(".maskrg").each(function () {
     clearIncomplete: true,
     removeMaskOnSubmit: true,
     autoUnmask: true,
-  });
-});
+  })
+})
+
 setTimeout(() => {
   $(".maskrg").focus(function () {
-    $(this).inputmask("remove");
-    return false;
+    $(this).inputmask("remove")
+    return false
   }).blur(function () {
-    $(this).inputmask("remove");
+    $(this).inputmask("remove")
     $(this).inputmask({
       mask: getMaskRg($(this).val()),
       clearIncomplete: true,
       removeMaskOnSubmit: true,
       autoUnmask: true,
-    });
-  });
-}, 500);
+    })
+  })
+}, 500)
+
 function getMaskRg(val) {
-  let mask = "";    
+  let mask = ""
   switch (val.length) {
     case 10:
-      mask = "a-99.999.999";
-    break;
+      mask = "a-99.999.999"
+    break
 
     case 11:
-      mask = "a-99.999.999";
-    break;
+      mask = "a-99.999.999"
+    break
 
     default:
-      mask = "a-99.999.999";
+      mask = "a-99.999.999"
   }
-  return mask;
+  return mask
 }
 
 // const maskpeso = "99999999,99";
@@ -321,54 +330,56 @@ function getMaskRg(val) {
 // }, 500);
      
 // MaskCep 
-const maskcep = "99999-999";
+const maskcep = "99999-999"
 $(".maskcep").each(function () {
   $(this).inputmask({
     mask: maskcep,
     clearIncomplete: true,
     removeMaskOnSubmit: true,
     autoUnmask: true,
-  });
-});
+  })
+})
+
 setTimeout(() => {
   $(".maskcep").focus(function () {
-    $(this).inputmask("remove");
-    return false;
+    $(this).inputmask("remove")
+    return false
   }).blur(function () {
-    $(this).inputmask("remove");
+    $(this).inputmask("remove")
     $(this).inputmask({
       mask: maskcep,
       clearIncomplete: true,
       removeMaskOnSubmit: true,
       autoUnmask: true,
-    });
-  });
-}, 500);
+    })
+  })
+}, 500)
 
 // MaskCep 
-const maskcarteira = "99999999999";
+const maskcarteira = "99999999999"
 $(".maskcarteira").each(function () {
   $(this).inputmask({
     mask: maskcarteira,
     clearIncomplete: true,
     removeMaskOnSubmit: true,
     autoUnmask: true,
-  });
-});
+  })
+})
+
 setTimeout(() => {
   $(".maskcarteira").focus(function () {
-    $(this).inputmask("remove");
-    return false;
+    $(this).inputmask("remove")
+    return false
   }).blur(function () {
-    $(this).inputmask("remove");
+    $(this).inputmask("remove")
     $(this).inputmask({
       mask: maskcarteira,
       clearIncomplete: true,
       removeMaskOnSubmit: true,
       autoUnmask: true,
-    });
-  });
-}, 500);
+    })
+  })
+}, 500)
 
 // Maskrenavam
 const maskrenavam = "99999999999";
@@ -378,173 +389,177 @@ $(".maskrenavam").each(function () {
     clearIncomplete: true,
     removeMaskOnSubmit: true,
     autoUnmask: true,
-  });
-});
+  })
+})
+
 setTimeout(() => {
   $(".maskrenavam").focus(function () {
-    $(this).inputmask("remove");
-    return false;
+    $(this).inputmask("remove")
+    return false
   }).blur(function () {
-    $(this).inputmask("remove");
+    $(this).inputmask("remove")
     $(this).inputmask({
       mask: maskrenavam,
       clearIncomplete: true,
       removeMaskOnSubmit: true,
       autoUnmask: true,
-    });
-  });
-}, 500);
+    })
+  })
+}, 500)
 
 // MaskPlaca
-
-const maskplaca = "aaa-9a99";
+const maskplaca = "aaa-9a99"
 $(".maskplaca").each(function () {
   $(this).inputmask({
     mask: maskplaca,
     clearIncomplete: true,
     removeMaskOnSubmit: true,
     autoUnmask: true,
-  });
-});
+  })
+})
+
 setTimeout(() => {
   $(".maskplaca").focus(function () {
-    $(this).inputmask("remove");
-    return false;
+    $(this).inputmask("remove")
+    return false
   }).blur(function () {
-    $(this).inputmask("remove");
+    $(this).inputmask("remove")
     $(this).inputmask({
       mask: maskplaca,
       clearIncomplete: true,
       removeMaskOnSubmit: true,
       autoUnmask: true,
-    });
-  });
-}, 500);
+    })
+  })
+}, 500)
 
-
-// MaskChaveAcesso 
-const maskchave = "9999-9999-9999-9999-9999-9999-9999-9999-9999-9999";
+// MaskChaveAcesso
+const maskchave = "9999-9999-9999-9999-9999-9999-9999-9999-9999-9999"
 $(".maskchave").each(function () {
   $(this).inputmask({
     mask: maskchave,
     clearIncomplete: true,
     removeMaskOnSubmit: true,
     autoUnmask: true,
-  });
-});
+  })
+})
+
 setTimeout(() => {
   $(".maskchave").focus(function () {
-    $(this).inputmask("remove");
-    return false;
+    $(this).inputmask("remove")
+    return false
   }).blur(function () {
-    $(this).inputmask("remove");
+    $(this).inputmask("remove")
     $(this).inputmask({
       mask: maskchave,
       clearIncomplete: true,
       removeMaskOnSubmit: true,
       autoUnmask: true,
-    });
-  });
-}, 500);
-
+    })
+  })
+}, 500)
 
 // MaskWhats
-const maskwhats = "(99)99999-9999";
+const maskwhats = "(99)99999-9999"
 $(".maskwhats").each(function () {
   $(this).inputmask({
     mask: maskwhats,
     clearIncomplete: true,
     removeMaskOnSubmit: true,
     autoUnmask: true,
-  });
-});
+  })
+})
+
 setTimeout(() => {
   $(".maskwhats").focus(function () {
-    $(this).inputmask("remove");
-    return false;
+    $(this).inputmask("remove")
+    return false
   }).blur(function () {
-    $(this).inputmask("remove");
+    $(this).inputmask("remove")
     $(this).inputmask({
       mask: maskwhats,
       clearIncomplete: true,
       removeMaskOnSubmit: true,
       autoUnmask: true,
-    });
-  });
-}, 500);
+    })
+  })
+}, 500)
 
 // MaskPhone
-const maskphone1 = "(99)99999-9999";
+const maskphone1 = "(99)99999-9999"
 $(".maskphone1").each(function () {
   $(this).inputmask({
     mask: maskphone1,
     clearIncomplete: true,
     removeMaskOnSubmit: true,
     autoUnmask: true,
-  });
-});
+  })
+})
+
 setTimeout(() => {
   $(".maskphone1").focus(function () {
-    $(this).inputmask("remove");
-    return false;
+    $(this).inputmask("remove")
+    return false
   }).blur(function () {
-    $(this).inputmask("remove");
+    $(this).inputmask("remove")
     $(this).inputmask({
       mask: maskphone1,
       clearIncomplete: true,
       removeMaskOnSubmit: true,
       autoUnmask: true,
-    });
-  });
-}, 500);
+    })
+  })
+}, 500)
 
-const maskphone2 = "(99)99999-9999";
+const maskphone2 = "(99)99999-9999"
 $(".maskphone2").each(function () {
   $(this).inputmask({
     mask: maskphone2,
     clearIncomplete: true,
     removeMaskOnSubmit: true,
     autoUnmask: true,
-  });
-});
+  })
+})
+
 setTimeout(() => {
   $(".maskphone2").focus(function () {
-    $(this).inputmask("remove");
-    return false;
+    $(this).inputmask("remove")
+    return false
   }).blur(function () {
-    $(this).inputmask("remove");
+    $(this).inputmask("remove")
     $(this).inputmask({
       mask: maskphone2,
       clearIncomplete: true,
       removeMaskOnSubmit: true,
       autoUnmask: true,
-    });
-  });
-}, 500);
+    })
+  })
+}, 500)
 
-const maskfixo = "(99)9999-9999";
+const maskfixo = "(99)9999-9999"
 $(".maskfixo").each(function () {
   $(this).inputmask({
     mask: maskfixo,
     clearIncomplete: true,
     removeMaskOnSubmit: true,
     autoUnmask: true,
-  });
-});
+  })
+})
+
 setTimeout(() => {
   $(".maskfixo").focus(function () {
-    $(this).inputmask("remove");
-    return false;
+    $(this).inputmask("remove")
+    return false
   }).blur(function () {
-    $(this).inputmask("remove");
+    $(this).inputmask("remove")
     $(this).inputmask({
       mask: maskfixo,
       clearIncomplete: true,
       removeMaskOnSubmit: true,
       autoUnmask: true,
-    });
-  });
-}, 500);
+    })
+  })
+}, 500)
 
 function maskPeso(selector, initVal = '') {
   $(selector).maskWeight({
@@ -567,7 +582,6 @@ function formatStringToFloat(value) {
 function formatFloatToString(value) {
   return value ? String(value).replace('.', ',') : ''
 }
-//
 
 function validarCNPJ(cnpj) {
   cnpj = cnpj.replace(/[^\d]+/g,'')

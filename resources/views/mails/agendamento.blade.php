@@ -11,7 +11,7 @@
     <p>
     Gostaríamos de formalizar com a  <strong> {{ $transportadora }} </strong> o agendamento de coleta, a ser realizada no dia {{ $coleta }} 
     tipo de Produto <strong> {{ $descricao_produto }}</strong>
-    Peso Total OS <strong> {{ $peso_total_os}}</strong>
+    Peso Total OS <strong> {{ $peso_total}}</strong>
     Veículo ideal para coleta: <strong>{{ $acondicionamento }} </strong>
     Atenciosamente,
     <strong> {{}} </strong>

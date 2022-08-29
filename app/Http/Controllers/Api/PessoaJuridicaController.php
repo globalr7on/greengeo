@@ -32,9 +32,8 @@ class PessoaJuridicaController extends Controller
                 $pessoaJuridica = $pessoaJuridica->where('usuario_responsavel_cadastro_id', $request->usuario_responsavel_cadastro_id);
             }
         }
-        
         if ($request->has('tipo_empresa_id')) {
-            $pessoaJuridica = $pessoaJuridica->where('tipo_empresa_id', $request->tipo_empresa_id)->where('usuario_responsavel_cadastro_id', $currentUser->id);;
+            $pessoaJuridica = $pessoaJuridica->where('tipo_empresa_id', $request->tipo_empresa_id)->where('usuario_responsavel_cadastro_id', $currentUser->id);
         }
         $pessoaJuridica = collect($pessoaJuridica)->merge(collect([$currentUserPessoaJuridica]))->unique()->filter(function ($value) { return $value->id; });
 

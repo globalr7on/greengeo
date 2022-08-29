@@ -28,7 +28,6 @@ class AgendamentoController extends Controller
             'status' => true
         ], 200);
     }
-
    
     /**
      * Store a newly created resource in storage.
@@ -38,19 +37,18 @@ class AgendamentoController extends Controller
      */
     public function store(AgendamentoRequest $request)
     {
-        $agendamentos = Agendamento::create($request->all());
-        $codigo = $agendamentos->ordem_servico->codigo;
-        $gerador = $agendamentos->gerador->nome_fantasia;
-        // dd($gerador);
-        $descricao_produto = $agendamentos->ordem_servico->description;
-        $peso_total_os = $agendamentos->ordem_servico->peso_total_os;
-        $transportadora = $agendamentos->transportador->nome_fantasia;
-        $acondicionamento = $agendamentos->acondicionamento->descricao;
-        $email = $agendamentos->transportador->email;
-        $coleta = $agendamentos->coleta;
-        Mail::to($email)->send(new Ordem($codigo, $transportadora, $acondicionamento, $descricao_produto, $peso_total_os ,$coleta));
+        $agendamento = Agendamento::create($request->all());
+        $codigo = $agendamento->ordem_servico->codigo;
+        $gerador = $agendamento->usuario->pessoa_juridica->nome_fantasia;
+        $descricao_produto = $agendamento->ordem_servico->description;
+        $peso_total = $agendamento->ordem_servico->peso_total;
+        $transportadora = $agendamento->transportadora->nome_fantasia;
+        $acondicionamento = $agendamento->acondicionamento->descricao;
+        $email = $agendamento->transportadora->email;
+        $coleta = $agendamento->coleta;
+        Mail::to($email)->send(new EnvioAgendamento($codigo, $transportadora, $acondicionamento, $descricao_produto, $peso_total, $coleta));
         return response([
-            'data' => new AgendamentoResource($agendamentos),
+            'data' => new AgendamentoResource($agendamento),
             'status' => true
         ], 200);
     }

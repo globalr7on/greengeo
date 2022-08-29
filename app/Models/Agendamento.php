@@ -21,12 +21,12 @@ class Agendamento extends Model
     ];
     protected $guardaded = ['id'];
 
-    public function usuario_responsavel_cadastro()
+    public function usuario()
     {
-        return $this->hasOne('App\Models\User', 'usuario_id', 'id');
+        return $this->hasOne('App\Models\User', 'id', 'usuario_id');
     }
 
-    public function transportador()
+    public function transportadora()
     {
         return $this->hasOne('App\Models\PessoaJuridica', 'id', 'transportadora_id');
     }

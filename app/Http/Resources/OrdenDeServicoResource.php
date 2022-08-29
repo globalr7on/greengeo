@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\ImagenResource;
+use App\Http\Resources\OrdenDeServicoItenResource;
 
 class OrdenDeServicoResource extends JsonResource
 {
@@ -27,8 +28,7 @@ class OrdenDeServicoResource extends JsonResource
             'cdf_serial' => $this->cdf_serial,
             'cdf_ano' => $this->cdf_ano,
             'description' => $this->description,
-            'peso_total_os' => $this->peso_total_os,
-            'area_total' => $this->area_total,
+            'peso_total' => $this->peso_total,
             'peso_de_controle' => $this->peso_de_controle,
             'estagio_id' => $this->estagio_id,
             'estagio' => $this->estagio ? $this->estagio->descricao : null,
@@ -50,12 +50,12 @@ class OrdenDeServicoResource extends JsonResource
             'motorista' => $this->motorista ? $this->motorista->name : null,
             'veiculo_id' => $this->veiculo_id,
             'veiculo' => $this->veiculo ? $this->veiculo->placa : null,
-            'nota_fiscal_id' => $this->nota_fiscal_id,
-            'nota_fiscal' => $this->nota_fiscal ? $this->nota_fiscal->serie : null,
+            'notas_fiscais' => $this->notas_fiscais ? $this->notas_fiscais->pluck('id') : [],
             'imagens' => ImagenResource::collection($this->imagens),
             'aprovacao_motorista' => $this->aprovacao_motorista->filter(function ($data) {
                 return $data->status === null;
             }),
+            'itens' => OrdenDeServicoItenResource::collection($this->itens)
         ];
     }
 }

@@ -16,6 +16,7 @@ class EstagiosSeeder extends Seeder
     {
         $estagios = [
             'Emitida',
+            'Esperando Motorista',
             'Aguardando Coleta',
             'Transporte',
             'Entregue',

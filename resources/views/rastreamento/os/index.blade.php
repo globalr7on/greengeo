@@ -3,7 +3,13 @@
   OS E Rastreamento
 @endsection
 @section('content')
-   <div class="content mt-0">
+  <style>
+    .custom-loader {
+      animation: none !important;
+      border-width: 0 !important;
+    }
+  </style>
+  <div class="content mt-0">
     <div class="container-fluid">
       <div class="col-12 text-right">
         <button type="button" class="btn btn-primary" id="novaOs">
@@ -47,8 +53,16 @@
 @push('js')
   <script>
     $(document).ready(function () {
+      // fix issue with sweetInput and bootstrap modal
+      $.fn.modal.Constructor.prototype._enforceFocus = function () {}
       const currentUser = parseInt($('#input_usuario_responsavel_cadastro_id').val())
       let notaFiscalsData = []
+      let itemsSelectSettings = {
+        dropdownParent: $('#modalProdutos'),
+        placeholder: 'Pesquisar um produto acabado',
+        allowClear: true,
+        width: 'resolve',
+      }
       let app = new App({
         apiUrl: '/api/os',
         apiDataTableColumns: [
@@ -105,6 +119,7 @@
         useDefaultDataTableColumnDefs: false,
         datatableSelector: '#osTbl',
       })
+      getTratamentos()
 
       let tipoEmpresaData = []
       app.api.get('/tipo_empresa').then(response => {
@@ -115,6 +130,9 @@
       $('body').on('click', '#novaOs', function() {
         $('body').on('change', '#input_gerador_id', updateTransportadorFromGerador)
         $('body').on('change', '#input_transportador_id', updateMotoristaFromTransportador)
+        $('body').on('click', '.addProdutos', addProdutosModal)
+        $('#items').attr('disabled', false)
+        $('.addProduto').attr('disabled', false)
         $("#imagensData").val('')
         $('.showFotos').hide()
         $('.addProdutos').attr('disabled', true)
@@ -133,6 +151,9 @@
         getMotorista(null, null, true, true)
         getVeiculo(null, null, true, true)
         getNotasFiscais()
+        if ($.fn.dataTable.isDataTable('#produtosTbl')) {
+          $('#produtosTbl').DataTable().clear().draw()
+        }
       })
 
       // Open Modal novaFoto
@@ -146,6 +167,25 @@
 
       // Salvar
       $('body').on('click', '#salvarOs', function() {
+        const produtosData = $('#produtosTbl').DataTable().data().toArray().map(curr => ({
+          id: curr?.id || null,
+          peso: formatStringToFloat(curr?.peso),
+          observacao: curr?.observacao || null,
+          tratamento_id: curr?.tratamento_id,
+          produto_id: curr.produto_id,
+          numero_de_serie: curr.numero_de_serie,
+          data_de_fabricacao: curr.data_de_fabricacao,
+          nota_fiscal_item_id: curr.nota_item_id
+        }))
+        if (!produtosData.length) {
+          return notifyDanger('Por favor, adicione os produtos')
+        }
+        if (!produtosData.every(curr => curr?.peso)) {
+          return notifyDanger('Por favor, adicione o peso nos produtos')
+        }
+        if (!produtosData.every(curr => curr?.tratamento_id)) {
+          return notifyDanger('Por favor, adicione o tratamento nos produtos')
+        }
         const JSONRequest = {
           estagio_id: $("#input_estagio_id").val(),
           gerador_id: $("#input_gerador_id").val(), 
@@ -160,12 +200,13 @@
           veiculo_id: $("#input_veiculo_id").val(),
           serie: $("#input_serie").val(),
           description: $("#input_description").val(),
-          nota_fiscal_id: $("#input_nota_fiscal").val(),
-          cdf_serial: '123456',
-          cdf_ano: '2022',
-          peso_total_os: '1234.21',
-          area_total: '13456.22',
-          peso_de_controle: '23456.2',
+          notas_fiscais: $("#input_notas_fiscais").val(),
+          // cdf_serial: '123456',
+          // cdf_ano: '2022',
+          // peso_total_os: '1234.21',
+          // area_total: '13456.22',
+          // peso_de_controle: '23456.2',
+          produtos: produtosData
         }
         const id = $('#input_id').val()
         if (id) {
@@ -200,8 +241,11 @@
         const onlyShow = $(this).hasClass("showAction")
         $('body').off('change', '#input_gerador_id', updateTransportadorFromGerador)
         $('body').off('change', '#input_transportador_id', updateMotoristaFromTransportador)
+        $('body').off('click', '.addProdutos', addProdutosModal)
+        $('#items').attr('disabled', true)
+        $('.addProduto').attr('disabled', true)
         app.stepper()
-        const id = $(this).attr('data-id');
+        const id = $(this).attr('data-id')
         app.api.get(`/os/${id}`).then(response =>  {
           if (response && response.status) {
             $('.showFotos').show()
@@ -211,12 +255,12 @@
             getMotorista(response.data.motorista_id, response.data.transportador_id, false, response.data.motorista_id ? true : false)
             getVeiculo(response.data.veiculo_id, response.data.transportador_id, false, response.data.veiculo_id ? true : false)
             getEstagio(response.data.estagio_id, true)
-            getNotasFiscais(response.data.nota_fiscal_id, true, true)
+            getNotasFiscais(response.data.notas_fiscais, true, true)
             delFormValidationErrors()
             $('#formOs')[0].reset()
-            $("#modalOs").modal("show");
+            $("#modalOs").modal("show")
             $('#tituloModal').text("Editar OS")
-            $('#input_id').val(response.data.id);
+            $('#input_id').val(response.data.id)
             $("#input_integracao").val(response.data.integracao)
             $("#input_emissao").val(response.data.emissao)
             $("#input_mtr").val(response.data.mtr)
@@ -225,6 +269,33 @@
             $("#input_data_estagio").val(response.data.data_estagio)
             $("#input_preenchimento").val(response.data.preenchimento)
             $("#imagensData").val(JSON.stringify(response.data.imagens))
+            $('body').on('click', '.addProdutos', function() {
+              $("#modalProdutos").modal("show")
+              getItems([])
+              initProdutoDataTable(response.data.itens.map((item, pos) => {
+                return {
+                  id: item.id,
+                  disabled_buttons: true,
+                  position: pos + 1,
+                  altura: formatFloatToString(item.produto.altura),
+                  codigo: item.produto.codigo,
+                  data_de_fabricacao: item.data_de_fabricacao,
+                  descricao: item.produto.descricao,
+                  ean: item.produto.ean,
+                  especie: item.produto.especie,
+                  largura: formatFloatToString(item.produto.largura),
+                  marca: item.produto.marca,
+                  produto_id: item.produto.id,
+                  nota_item_id: item.nota_fiscal_item_id,
+                  numero_de_serie: item.numero_de_serie,
+                  observacao: item.observacao,
+                  peso: formatFloatToString(item.peso),
+                  profundidade: formatFloatToString(item.produto.profundidade),
+                  tratamento: item?.tratamento?.descricao,
+                  tratamento_id: item.tratamento_id,
+                }
+              }))
+            })
             if (onlyShow) {
               $("#formOs input").prop("disabled", true)
               $("#salvarOs").hide()
@@ -373,7 +444,16 @@
         app.api.get(`/nota_fiscais${all ? '?all=1' : ''}`).then(response =>  {
           if (response && response.status) {
             notaFiscalsData = response.data
-            loadSelect('#input_nota_fiscal', response.data, [], value, disabled, mergetNotasFiscaisOption)
+            loadSelect('#input_notas_fiscais', response.data, [], value, disabled, mergetNotasFiscaisOption)
+          }
+        })
+        .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
+      }
+      
+      function getTratamentos() {
+        app.api.get('/tratamento').then(response =>  {
+          if (response && response.status) {
+            $('#tratamentoData').text(JSON.stringify(response.data || []))
           }
         })
         .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
@@ -387,8 +467,10 @@
             data_de_fabricacao: item.data_de_fabricacao,
             numero_de_serie: item.numero_de_serie,
             quantidade: item.quantidade,
-            produto_id: item.id,
-            produto: `${item.produto.ean}:${item.produto.codigo}`,
+            produto_id: item.produto.id,
+            nota_item_id: item.id,
+            ean: item.produto.ean,
+            codigo: item.produto.codigo,
             especie: item.produto.especie,
             marca: item.produto.marca,
             altura: parseFloat(item.produto.altura).toFixed(2),
@@ -399,27 +481,47 @@
         }).flat()
       }
 
-      $('body').on('change', '#input_nota_fiscal', function(event) {
+      $('body').on('change', '#input_notas_fiscais', function(event) {
         $('.addProdutos').attr('disabled', false)
         const currentIds = [...event.target.selectedOptions].map(o => parseInt(o.value))
         const currentNotaFiscals = notaFiscalsData.filter(curr => currentIds.includes(curr.id))
         $('#produtosData').text(JSON.stringify(currentNotaFiscals || []))
       })
 
-      $('body').on('click', '.addProdutos', function() {
-        $("#modalSegregados").modal("show")
-        const produtosData = JSON.parse($('#produtosData').text() || '{}')
-        const data = parseProdutos(produtosData)
-        getItems(data)
-        initProdutoDataTable([])
-      })
+      function addProdutosModal() {
+        $("#modalProdutos").modal("show")
+        let produtosData = JSON.parse($('#produtosData').text() || '{}')
+        let produtosTbl = $.fn.dataTable.isDataTable('#produtosTbl') ? $('#produtosTbl').DataTable().data().toArray() : []
+        produtosData = produtosData.map(curr => {
+          let currentNota = produtosTbl.filter(c =>  c.nota_id == curr.id)
+          if (currentNota.length > 0) {
+            return { ...curr, ...{ itens: curr.itens.map(item => ({ ...item, disabled: currentNota.some(i => i.produto_id == item.produto.id) })) } }
+          }
+          return curr
+        })
+        produtosTbl = produtosTbl.filter(curr => produtosData.some(c => c.id == curr.nota_id) && produtosData.some(c => c.itens.some(i => i.produto.id == curr.produto_id)))
+        getItems(produtosData)
+        initProdutoDataTable(produtosTbl)
+      }
+
+      $('body').on('click', '.addProdutos', addProdutosModal)
 
       function getItems(data) {
-        loadSelect('#items', data, [], null, false, function(value) {
-          const optionValue = `${value.nota_id}-${value.produto_id}`
-          const optionText = `${value.produto} | ${value.marca} | ${value.especie} | ${value.descricao}`
-          return [optionValue, optionText]
+        data = data.map(curr => {
+          return {
+            text: `${curr.pessoa_juridica} ${curr.serie}:${curr.folha} - ${curr.numero_total}`,
+            children: curr.itens.map(item => ({
+              id: `${curr.id}-${item.id}`,
+              text: `${item.produto.ean}:${item.produto.codigo} | ${item.produto.marca} | ${item.produto.especie} | ${item.produto.descricao}`,
+              disabled: item?.disabled || false
+            }))
+          }
         })
+        if ($('#items').hasClass("select2-hidden-accessible")) {
+          $('#items').select2('destroy')
+          $('#items').empty().append('<option></option>')
+        }
+        $('#items').select2({ ...itemsSelectSettings, data: data })
       }
 
       function initProdutoDataTable(data) {
@@ -437,50 +539,178 @@
             lengthChange: false,
             columns: [
               { data: 'position' },
-              { data: 'produto' },
-              { data: 'quantidade' },
+              {
+                data: 'produto',
+                render: function (data, type, row, meta) {
+                  return `
+                    <div style="line-height: 1;">
+                      <span class="d-block">[${row.ean}] ${row.codigo}</span>
+                      <small class="d-block">Marca: ${row.marca} - Especie: ${row.especie}</small>
+                      <small class="d-block">Serie: ${row.numero_de_serie} (${row.data_de_fabricacao})</small>
+                    </div>
+                  `
+                }
+              },
               { data: 'altura' },
               { data: 'largura' },
               { data: 'profundidade' },
+              {
+                data: 'peso',
+                render: function (data, type, row, meta) {
+                  return data ? data : ''
+                }
+              },
+              {
+                data: 'tratamento',
+                render: function (data, type, row, meta) {
+                  return data ? data : ''
+                }
+              },
+              {
+                data: 'observacao',
+                render: function (data, type, row, meta) {
+                  return data ? data : ''
+                }
+              },
             ],
             columnDefs: [
               {
                 targets: 0,
                 className: 'text-center',
                 render: function (data, type, row, meta) {
-                  return meta.row + 1;
+                  row.position = row.position ? row.position : meta.row + 1
+                  return row.position
                 }
               },
               {
-                targets: [2,3,4,5],
+                targets: [2,3,4,5,6],
                 className: 'text-center',
               },
+              {
+                targets: 8,
+                className: 'text-center',
+                render: function (data, type, row, meta) {
+                  const addWeightBtn = `<i class="fas fa-balance-scale cursor-pointer addWeightAction" data-nota-id="${row.nota_id}" data-nota-item-id="${row.nota_item_id}" title="Adicionar peso"></i>`
+                  const addTratamentoBtn = `<i class="fas fa-recycle cursor-pointer addTratamentoAction" data-nota-id="${row.nota_id}" data-nota-item-id="${row.nota_item_id}" title="Adicionar tratamento"></i>`
+                  const addObsBtn = `<i class="fas fa-clipboard cursor-pointer addObsAction" data-nota-id="${row.nota_id}" data-nota-item-id="${row.nota_item_id}" title="Adicionar observacao"></i>`
+
+                  return row?.disabled_buttons ? '' : `<div class="d-flex align-items-center justify-content-between">${addWeightBtn}${addTratamentoBtn}${addObsBtn}</div>`
+                }
+              },
             ],
-            // rowGroup: {
-            //   dataSrc: function(row) {
-            //     return row.produto ? row.produto : 'Segregados'
-            //   },
-            // },
-            // footerCallback: function (row, data, start, end, display) {
-            //   const api = this.api()
-            //   totalPesoBruto = api.column(7).data().reduce((a, b) => parseFloat(a) + parseFloat(b), 0)
-            //   totalPesoLiquido = api.column(8).data().reduce((a, b) => parseFloat(a) + parseFloat(b), 0)
-            //   $(api.column(7).footer()).html(totalPesoBruto.toFixed(2))
-            //   $(api.column(8).footer()).html(totalPesoLiquido.toFixed(2))
-            // },
+            footerCallback: function (row, data, start, end, display) {
+              const dataTable = this.api().data().toArray()
+              const totalPeso = dataTable.reduce((acc, curr) => acc + (formatStringToFloat(curr?.peso) || 0), 0)
+              $(this.api().column(5).footer()).html(formatFloatToString(totalPeso.toFixed(2)))
+            },
           })
         }
+        // $('#produtosTbl').on('draw.dt', function () {
+        //     // $('[data-toggle="tooltip"]').tooltip()
+        //     $('tbody > * [data-toggle="tooltip"]:not([data-original-title])').tooltip()
+        // })
       }
 
       $('body').on('click', '.addProduto', function() {
-        const produtosData = JSON.parse($('#produtosData').text() || '{}')
+        const currentProdutoId = $('#items').val()
+        if (!currentProdutoId) {
+          return notifyDanger('Selecione um produto')
+        }
+        const produtosData = JSON.parse($('#produtosData').text() || '[]')
         const data = parseProdutos(produtosData)
-        const currentProdutoId = $('#items').selectpicker('val')
-        const [notaId, produtoId] = currentProdutoId.split('-')
-        const produto = data.find(curr => curr.nota_id == notaId && curr.produto_id == produtoId)
+        const [notaId, notaItemId] = currentProdutoId.split('-')
+        const produto = data.find(curr => curr.nota_id == notaId && curr.nota_item_id == notaItemId)
         $('#produtosTbl').DataTable().row.add(produto).draw(false)
-        $('#items').find(`[value=${currentProdutoId}]`).remove()
-        $('#items').selectpicker('refresh').selectpicker('val', null)
+        $('#items').find(`[value=${currentProdutoId}]`).attr('disabled', true)
+        $('#items').select2("destroy").select2(itemsSelectSettings)
+        $('#items').val(null).trigger('change')
+      })
+
+      // Adicionar peso al produto
+      $('body').on('click', '.addWeightAction', function() {
+        const notaId = $(this).attr('data-nota-id')
+        const notaItemId = $(this).attr('data-nota-item-id')
+        sweetInput({
+          title: 'Adicionar peso ao produto',
+          showCancelButton: true,
+          input: 'text',
+          confirmButtonText: 'Adicionar',
+          focusConfirm: false,
+          allowOutsideClick: false,
+          buttonsStyling: false,
+          confirmButtonClass: 'btn btn-primary',
+          cancelButtonClass: 'btn btn-danger',
+          onOpen: () => maskPeso('input.swal2-input'),
+          preConfirm: (value) => !formatStringToFloat(value) ? swal.showValidationError('Por favor, adicione o peso') : value,
+          errorCallback: (error) => notifyDanger('Ocorreu um erro ao adicionar el peso, tente novamente'),
+          successCallback: (result) => {
+            if (result?.dismiss) return
+            const dataInTable = $('#produtosTbl').DataTable().data().toArray()
+            const produtoIndex = dataInTable.findIndex(curr => curr.nota_id == notaId && curr.nota_item_id == notaItemId)
+            $('#produtosTbl').DataTable().row(produtoIndex).data({...dataInTable[produtoIndex], peso: result.value}).draw(false)
+          }
+        })
+      })
+
+      // Adicionar observacao al produto
+      $('body').on('click', '.addObsAction', function() {
+        const notaId = $(this).attr('data-nota-id')
+        const notaItemId = $(this).attr('data-nota-item-id')
+        sweetInput({
+          title: 'Adicionar observacao al produto',
+          showCancelButton: true,
+          input: 'textarea',
+          confirmButtonText: 'Adicionar',
+          focusConfirm: false,
+          allowOutsideClick: false,
+          buttonsStyling: false,
+          confirmButtonClass: 'btn btn-primary',
+          cancelButtonClass: 'btn btn-danger',
+          onOpen: () => {},
+          preConfirm: (value) => !value ? swal.showValidationError('Por favor, adicione uma observacao') : value,
+          errorCallback: (error) => notifyDanger('Ocorreu um erro ao adicionar a observacao, tente novamente'),
+          successCallback: (result) => {
+            if (result?.dismiss) return
+            const dataInTable = $('#produtosTbl').DataTable().data().toArray()
+            const produtoIndex = dataInTable.findIndex(curr => curr.nota_id == notaId && curr.nota_item_id == notaItemId)
+            $('#produtosTbl').DataTable().row(produtoIndex).data({...dataInTable[produtoIndex], observacao: result.value}).draw(false)
+          }
+        })
+      })
+
+      // Adicionar tratamento al produto
+      $('body').on('click', '.addTratamentoAction', function() {
+        const tratamentoData = JSON.parse($('#tratamentoData').text() || '[]')
+        const notaId = $(this).attr('data-nota-id')
+        const notaItemId = $(this).attr('data-nota-item-id')
+        sweetInput({
+          title: 'Selecione o tratamento al produto',
+          html: '<select id="tratamento" data-style="btn-warning text-white" title="Selecione"></select>',
+          showCancelButton: true,
+          confirmButtonText: 'Adicionar',
+          // showLoaderOnConfirm: true,
+          focusConfirm: false,
+          allowOutsideClick: false,
+          buttonsStyling: false,
+          confirmButtonClass: 'btn btn-primary',
+          cancelButtonClass: 'btn btn-danger',
+          onOpen: () => loadSelect('select#tratamento', tratamentoData, ['id', 'descricao']),
+          preConfirm: () => {
+            const id = $('select#tratamento').val()
+            const text = $('select#tratamento option:selected').text()
+            if (!id) {
+              swal.showValidationError('Por favor, selecione o tratamento')
+            }
+            return { id, text }
+          },
+          errorCallback: (error) => notifyDanger('Ocorreu um erro ao adicionar ao tratamento, tente novamente'),
+          successCallback: (result) => {
+            if (result?.dismiss) return
+            const dataInTable = $('#produtosTbl').DataTable().data().toArray()
+            const produtoIndex = dataInTable.findIndex(curr => curr.nota_id == notaId && curr.nota_item_id == notaItemId)
+            $('#produtosTbl').DataTable().row(produtoIndex).data({...dataInTable[produtoIndex], ...{ tratamento_id: result.value.id, tratamento: result.value.text}}).draw(false)
+          }
+        })
       })
 
       // Approval/Reject OS by motorista
