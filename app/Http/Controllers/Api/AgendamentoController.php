@@ -46,7 +46,7 @@ class AgendamentoController extends Controller
         $acondicionamento = $agendamento->acondicionamento->descricao;
         $email = $agendamento->transportadora->email;
         $coleta = $agendamento->coleta;
-        Mail::to($email)->send(new EnvioAgendamento($codigo, $transportadora, $acondicionamento, $descricao_produto, $peso_total, $coleta));
+        // Mail::to($email)->send(new EnvioAgendamento($codigo, $transportadora, $acondicionamento, $descricao_produto, $peso_total, $coleta));
         return response([
             'data' => new AgendamentoResource($agendamento),
             'status' => true

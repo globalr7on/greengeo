@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\OrdenDeServicoResource;
 
 class AgendamentoResource extends JsonResource
 {
@@ -20,7 +21,7 @@ class AgendamentoResource extends JsonResource
             'usuario' => $this->usuario ? $this->usuario->name : null,
             'gerador' => $this->usuario && $this->usuario->pessoa_juridica ? $this->usuario->pessoa_juridica->nome_fantasia : null,
             'ordem_servico_id' => $this->ordem_servico_id,
-            'ordem_servico' =>  $this->ordem_servico ? $this->ordem_servico->codigo : null,
+            'ordem_servico' =>  new OrdenDeServicoResource($this->ordem_servico),
             'transportadora_id' => $this->transportadora_id,
             'transportadora' => $this->transportadora ? $this->transportadora->nome_fantasia : null,
             'acondicionamento_id' => $this->acondicionamento_id,

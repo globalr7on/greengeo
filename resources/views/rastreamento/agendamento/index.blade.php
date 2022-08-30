@@ -50,12 +50,6 @@
 
       // Enviar agendamento 
       $('body').on('click', '#enviarAgendamento', function() {
-        // const date = $("#input_data_coleta").val()
-        // let transportadora = $("#input_transportadora_id option:selected").text()
-        // let acondicionamento = $("#input_acondicionamento_id").val()
-        // let ordem = $("#input_ordem_servico_id option:selected").text()
-        // addEventToCalendar(date, ordem, transportadora)
-      
         // Salvar Evento
         const JSONRequest = {
           usuario_id: $("#input_usuario_responsavel_cadastro_id").val(),
@@ -67,17 +61,16 @@
         const id = $('#input_id').val()
         app.api.post('/agendamento', JSONRequest).then(response => {
           if (response && response.status) {
-            $("#modalEmpresa").modal("hide")
+            $("#modalAgenda").modal("hide")
             app.datatable.ajax.reload()
             notifySuccess('Criado com sucesso')
+            addEventToCalendar(response.data)
           }
         })
         .catch(error => {
           addFormValidationErrors(error?.data)
           notifyDanger('Falha ao criar, tente novamente')
         })
-        $("#modalAgenda").modal("hide")
-        document.location.reload()
       })
 
       function getTransportadora(value) {
@@ -111,22 +104,24 @@
         app.api.get('/agendamento').then(response =>  {
           if (response && response.status) {
             console.log('agendamento', response)
-            initCalendar(response.data.map(curr => {
-              return {
-                title: `Coleta de sucata: OS ${curr.ordem_servico}`,
-                start: $.fullCalendar.moment(curr.coleta),
-                end: $.fullCalendar.moment(curr.coleta).add(2, 'hours'),
-                allDay: false,
-                className: 'event-green',
-                description: 'Clique para mais detalhes...',
-                ...curr
-              }
-            }))
+            initCalendar(response.data.map(curr => eventObject(curr)))
           }
         })
         .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
       }
     })
+
+    function eventObject(event) {
+      return {
+        title: `Coleta de sucata: OS ${event.ordem_servico.codigo}`,
+        start: $.fullCalendar.moment(event.coleta),
+        end: $.fullCalendar.moment(event.coleta).add(2, 'hours'),
+        allDay: false,
+        className: 'event-green',
+        description: 'Clique para mais detalhes...',
+        ...event
+      }
+    }
 
     function initCalendar(events) {
       const calendar = $('#fullCalendar')
@@ -163,14 +158,35 @@
         eventClick: function(calEvent, jsEvent, view) {
           const content = `
             <div>
-              <span class="d-block text-left px-4 py-2"><b>Gerador:</b> ${calEvent.gerador}</span>
-              <span class="d-block text-left px-4 py-2"><b>Transportadora:</b> ${calEvent.transportadora}</span>
-              <span class="d-block text-left px-4 py-2"><b>Veículo ideal:</b> ${calEvent.acondicionamento}</span>
-              <small class="d-block text-right px-4 py-2"><b>Cadastrado por:</b> ${calEvent.usuario}</small>
+              <div class="row px-4 py-2">
+                <div class="col-5 text-left"><i class="fas fa-home" title="Gerador"></i> ${calEvent.gerador}</div>
+                <div class="col-2"><b>&#8594;</b></div>
+                <div class="col-5 text-right"><i class="fas fa-truck-moving"></i> ${calEvent.transportadora}</div>
+              </div>
+
+              <div class="row px-4 py-2">
+                <div class="col-6 text-left"><i class="fas fa-trailer"></i> ${calEvent.acondicionamento}</div>
+                <div class="col-6 text-right"><i class="fas fa-balance-scale"></i> ${calEvent.ordem_servico.peso_total} Kg</div>
+              </div>
+
+              <div class="row px-4 py-2">
+                <div class="col-12 text-left"><i class="fas fa-list"></i> Produtos:</div>
+                ${calEvent.ordem_servico.itens.reduce((acc, item) => {
+                  return acc + `
+                    <div class="col-1 pr-0">&bull;</div>
+                    <div class="col-6 pl-0 text-left align-self-center" style="font-size:14px"><i class="fas fa-barcode"></i> ${item.produto.ean}</div>
+                    <div class="col-5 pl-0 text-left align-self-center" style="font-size:14px"><i class="fas fa-ruler-combined"></i> ${parseFloat(item.produto.altura).toFixed(2)}A x ${parseFloat(item.produto.largura).toFixed(2)}L x ${parseFloat(item.produto.profundidade).toFixed(2)}P</div>
+                  `
+                }, '')}
+              </div>
+
+              <div class="row px-4 pt-4">
+                <div class="col-12 text-right"><small><i class="fas fa-user-edit"></i> ${calEvent.usuario}</small></div>
+              </div>
             </div>
           `
           sweetInput({
-            title: `Ordem Servico: ${calEvent.ordem_servico}`,
+            title: `Ordem Servico: ${calEvent.ordem_servico.codigo}`,
             html: content,
             confirmButtonText: 'Ok',
             focusConfirm: false,
@@ -191,23 +207,9 @@
       })
     }
 
-    // function addEventToCalendar(date, title, description) {
-    //   if (!date) return notifyWarning('Missing date')
-    //   if (!title) return notifyWarning('Missing title')
-    //   if (!description) return notifyWarning('Missing description')
-
-    //   const calendar = $('#fullCalendar')
-    //   const startDate = $.fullCalendar.moment(date)
-    //   const endDate = startDate.add(3, 'hours')
-    //   const eventData = {
-    //     title: title,
-    //     description: description,
-    //     start: startDate,
-    //     end: endDate,
-    //     allDay: false,
-    //     className: 'event-green',
-    //   }
-    //   calendar.fullCalendar('renderEvent', eventData, true)
-    // }
+    function addEventToCalendar(event) {
+      const calendar = $('#fullCalendar')
+      calendar.fullCalendar('renderEvent', eventObject(event), true)
+    }
   </script>
 @endpush
