@@ -21,21 +21,21 @@ class PessoaJuridicaController extends Controller
      */  
     public function index(Request $request)
     {
-        // $currentUser = auth()->user();
-        // $showCurrentEmpresa = $request->boolean('show_current_empresa', true);
-        // $currentPessoaJuridicaId = $currentUser->pessoa_juridica_id;
-        // $currentUserPessoaJuridica = $currentPessoaJuridicaId && $showCurrentEmpresa ? PessoaJuridica::find($currentPessoaJuridicaId) : new PessoaJuridica;
+        $currentUser = auth()->user();
+        $showCurrentEmpresa = $request->boolean('show_current_empresa', true);
+        $currentPessoaJuridicaId = $currentUser->pessoa_juridica_id;
+        $currentUserPessoaJuridica = $currentPessoaJuridicaId && $showCurrentEmpresa ? PessoaJuridica::find($currentPessoaJuridicaId) : new PessoaJuridica;
         $pessoaJuridica = PessoaJuridica::all();
-        // if ($request->has('usuario_responsavel_cadastro_id')) {
-        //     $userResponsavel = User::find($request->usuario_responsavel_cadastro_id);
-        //     if (!$userResponsavel->hasRole('admin')) {
-        //         $pessoaJuridica = $pessoaJuridica->where('usuario_responsavel_cadastro_id', $request->usuario_responsavel_cadastro_id);
-        //     }
-        // }
-        // if ($request->has('tipo_empresa_id')) {
-        //     $pessoaJuridica = $pessoaJuridica->where('tipo_empresa_id', $request->tipo_empresa_id)->where('usuario_responsavel_cadastro_id', $currentUser->id);
-        // }
-        // $pessoaJuridica = collect($pessoaJuridica)->merge(collect([$currentUserPessoaJuridica]))->unique()->filter(function ($value) { return $value->id; });
+        if ($request->has('usuario_responsavel_cadastro_id')) {
+            $userResponsavel = User::find($request->usuario_responsavel_cadastro_id);
+            if (!$userResponsavel->hasRole('admin')) {
+                $pessoaJuridica = $pessoaJuridica->where('usuario_responsavel_cadastro_id', $request->usuario_responsavel_cadastro_id);
+            }
+        }
+        if ($request->has('tipo_empresa_id')) {
+            $pessoaJuridica = $pessoaJuridica->where('tipo_empresa_id', $request->tipo_empresa_id);
+        }
+        $pessoaJuridica = collect($pessoaJuridica)->merge(collect([$currentUserPessoaJuridica]))->unique()->filter(function ($value) { return $value->id; });
 
         return response([
             'data' => PessoaJuridicaResource::collection($pessoaJuridica),
