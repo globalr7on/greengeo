@@ -39,6 +39,6 @@ class OrdenServicoIten extends Model
 
     public function nota_fiscal_item()
     {
-        return $this->hasOne('App\Models\NotaFiscaliten', 'id', 'nota_fiscal_item_id');
+        return $this->hasOne('App\Models\NotaFiscalIten', 'id', 'nota_fiscal_item_id');
     }
 }
