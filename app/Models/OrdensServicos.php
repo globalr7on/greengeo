@@ -34,7 +34,7 @@ class OrdensServicos extends Model
 
     public function getPesoTotalAttribute()
     {
-        return $this->itens ? $this->itens->sum('peso') : null;
+        return $this->itens ? number_format($this->itens->sum('peso'), 2) : null;
     }
 
     public function notas_fiscais()

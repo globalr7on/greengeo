@@ -4,8 +4,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Resources\UserReslogoutource;
 
-
-
 Route::post('login','App\Http\Controllers\Api\UserController@accessToken')->name('api.login');
 
 Route::middleware(['auth:api', 'permission'])->group(function() {
@@ -130,7 +128,7 @@ Route::middleware(['auth:api', 'permission'])->group(function() {
     Route::put('os/{id}', 'App\Http\Controllers\Api\OrdenDeServicoController@update')->name('os.atualizar');
     Route::delete('os/{id}', 'App\Http\Controllers\Api\OrdenDeServicoController@destroy')->name('os.excluir');
     Route::put('os/{id}/estagio', 'App\Http\Controllers\Api\OrdenDeServicoController@updateEstagio')->name('os.atualizar_estagio');
-    Route::put('os/{id}/aceitar/{aceitar}', 'App\Http\Controllers\Api\OrdenDeServicoController@approvalByMotorista')->name('os.aceitar_motorista');
+    Route::put('os/{id}/aprovacao', 'App\Http\Controllers\Api\OrdenDeServicoController@aprovacaoMotorista')->name('os.aprovacao_motorista');
 
     // NOTAS FISCAIS
     Route::get('nota_fiscais', 'App\Http\Controllers\Api\NotaFiscalController@index')->name('nota.lista');
@@ -182,7 +180,7 @@ Route::middleware(['auth:api', 'permission'])->group(function() {
     // Route::put('imagens/{id}', 'App\Http\Controllers\Api\ImagensController@update')->name('imagens.atualizar');
     Route::delete('imagens/{id}', 'App\Http\Controllers\Api\ImagensController@destroy')->name('imagens.excluir');
 
-    // Agendamento  
+    // AGENDAMENTO  
     Route::get('agendamento', 'App\Http\Controllers\Api\AgendamentoController@index')->name('agendamento.lista');
     Route::get('agendamento/{id}', 'App\Http\Controllers\Api\agendamentoController@show')->name('agendamento.mostrar');
     Route::post('agendamento', 'App\Http\Controllers\Api\AgendamentoController@store')->name('agendamento.criar');

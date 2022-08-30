@@ -28,12 +28,12 @@
                 <table class="table" id="osTbl">
                   <thead>
                     <th class="text-primary font-weight-bold text-center" style="width:10%">Codigo</th>
-                    <th class="text-primary font-weight-bold" style="width:7%">Emissão</th>
+                    <th class="text-primary font-weight-bold" style="width:8%">Emissão</th>
                     <th class="text-primary font-weight-bold" style="width:9%">Integração</th>
                     <th class="text-primary font-weight-bold" style="width:auto">Gerador</th>
                     <th class="text-primary font-weight-bold" style="width:auto">Transportador</th>
                     <th class="text-primary font-weight-bold" style="width:auto">Destinador</th>
-                    <th class="text-primary font-weight-bold" style="width:7%">MTR</th>
+                    <th class="text-primary font-weight-bold" style="width:9%">Peso Total</th>
                     <th class="text-primary font-weight-bold" style="width:12%">Estágio</th>
                     <th class="text-primary font-weight-bold text-center" style="width:8%">Ação</th>
                   </thead>
@@ -72,7 +72,7 @@
           { data: "gerador" },
           { data: "transportador" },
           { data: "destinador" },
-          { data: "mtr" },
+          { data: "peso_total" },
           { data: "estagio" },
         ],
         useDefaultDataTableColumnDefs: false,
@@ -88,6 +88,7 @@
               const statusEmitida = 'emitida'
               const statusAguardandoColeta = 'aguardando coleta'
               const statusTransporte = 'transporte'
+              const statusEsperandoMotorista = 'esperando motorista'
               const deleteBtn = estagio == statusEmitida ? `<i class="fa fa-trash cursor-pointer deleteAction" data-id="${row.id}" title="Excluir"></i>&nbsp;` : ''
               const editBtn = estagio == statusEmitida ? `<i class="fa fa-pen cursor-pointer editAction" data-id="${row.id}" title="Editar"></i>&nbsp;` : ''
               const showBtn = estagio !== statusEmitida ? `<i class="fas fa-list-alt cursor-pointer showAction" data-id="${row.id}" title="Mostrar"></i>&nbsp;` : ''
@@ -108,7 +109,7 @@
               const rejectBtn = `<i class="fas fa-times text-danger cursor-pointer approvalAction" data-id="${row.id}" data-approval="0" title="Recusar OS"></i>&nbsp;`
 
               const isMotoristaForApproval = row.aprovacao_motorista.length > 0 ? row.aprovacao_motorista[0].usuario_id == currentUser : false
-              if (isMotoristaForApproval && estagio == 'Esperando Motorista') {
+              if (isMotoristaForApproval && estagio == statusEsperandoMotorista) {
                 return `${showBtn}${approvalBtn}${rejectBtn}`
               }
 
@@ -666,7 +667,6 @@
           buttonsStyling: false,
           confirmButtonClass: 'btn btn-primary',
           cancelButtonClass: 'btn btn-danger',
-          onOpen: () => {},
           preConfirm: (value) => !value ? swal.showValidationError('Por favor, adicione uma observacao') : value,
           errorCallback: (error) => notifyDanger('Ocorreu um erro ao adicionar a observacao, tente novamente'),
           successCallback: (result) => {
@@ -719,13 +719,40 @@
         sweetConfirm(`Deseja realmente ${isApproval ? 'aceitar' : 'recusar'} la OS?`).then(confirmed => {
           if (confirmed) {
             const id = $(this).attr('data-id')
-            app.api.put(`/os/${id}/aceitar/${isApproval}`).then(response => {
-              if (response && response.status) {
-                app.datatable.ajax.reload()
-                notifySuccess('Atualizada com sucesso')
-              }
-            })
-            .catch(error => notifyDanger('Falha ao atualizar, tente novamente'))
+            const JSONRequest = {
+              status: isApproval
+            }
+            if (isApproval) {
+              app.api.put(`/os/${id}/aprovacao/`, JSONRequest).then(response => {
+                if (response && response.status) {
+                  app.datatable.ajax.reload()
+                  notifySuccess('Atualizada com sucesso')
+                }
+              })
+              .catch(error => notifyDanger('Falha ao atualizar, tente novamente'))
+            } else {
+              sweetInput({
+                title: 'Razão para recusar a OS?',
+                input: 'textarea',
+                confirmButtonText: 'Enviar',
+                focusConfirm: false,
+                allowOutsideClick: false,
+                buttonsStyling: false,
+                confirmButtonClass: 'btn btn-primary',
+                preConfirm: (value) => !value ? swal.showValidationError('Por favor, adicione uma observacao') : value,
+                errorCallback: (error) => notifyDanger('Ocorreu um erro, tente novamente'),
+                successCallback: (result) => {
+                  if (result?.dismiss) return
+                  app.api.put(`/os/${id}/aprovacao/`, {...JSONRequest, observacao: result.value}).then(response => {
+                    if (response && response.status) {
+                      app.datatable.ajax.reload()
+                      notifySuccess('Atualizada com sucesso')
+                    }
+                  })
+                  .catch(error => notifyDanger('Falha ao atualizar, tente novamente'))
+                }
+              })
+            }            
           }
         })
       })

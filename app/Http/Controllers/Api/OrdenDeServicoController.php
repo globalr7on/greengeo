@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
 use App\Http\Requests\OrdenDeServicoRequest;
+use App\Http\Requests\OrdenDeServicoAprovacaoRequest;
 use App\Http\Resources\OrdenDeServicoResource;
 use App\Models\OrdensServicos;
 use App\Models\PessoaJuridica;
@@ -262,7 +263,7 @@ class OrdenDeServicoController extends Controller
      * @param  boolean  $aceitar
      * @return \Illuminate\Http\Response
      */
-    public function approvalByMotorista(Request $request, $id, $aceitar)
+    public function aprovacaoMotorista(OrdenDeServicoAprovacaoRequest $request, $id)
     {
         try {
             $status = true;
@@ -271,13 +272,15 @@ class OrdenDeServicoController extends Controller
                 return $data->status === null;
             })->first();
 
-            if (!$aprovacaoMotorista || !in_array($aceitar, [1, 0])) {
+            if (!$aprovacaoMotorista) {
                 $status = false;
             } else {
-                $aprovacaoMotorista->status = $aceitar;
+                $aprovacao = $request->get('status', null);
+                $aprovacaoMotorista->status = $aprovacao;
+                $aprovacaoMotorista->observacao = $aprovacao ? null : $request->get('observacao', null);
                 $aprovacaoMotorista->save();
-                $newEstagio = $aceitar ? $this->getNextEstagio($ordenServico->estagio_id) : $this->getPrevEstagio($ordenServico->estagio_id);
-                $motorista = $aceitar ? $ordenServico->motorista_id : null;
+                $newEstagio = $aprovacao ? $this->getNextEstagio($ordenServico->estagio_id) : $this->getPrevEstagio($ordenServico->estagio_id);
+                $motorista = $aprovacao ? $ordenServico->motorista_id : null;
                 $ordenServico->update(["estagio_id" => $newEstagio, "motorista_id" => $motorista]);
             }
 
