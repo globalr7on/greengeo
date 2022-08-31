@@ -1,7 +1,7 @@
 <div class="sidebar" data-color="purple" data-background-color="white">
   <div class="logo pb-0 pt-2">
     <a href="/" class="text-center logo-normal">
-      <img src="{{ asset('material') }}/img/seulogoaqui.png" style="height: 40px;" />
+      <img src="{{ asset('material') }}/img/{{ $tipo_empresa === 'Gerador' ? 'eletroluxBlue' : 'seulogoaqui'}}.png" style="height: 40px;" />
     </a>
     <div class="text-center text-muted small font-italic">PARA UM CONTROLE INTELIGENTE</div>
   </div>

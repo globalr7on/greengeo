@@ -44,12 +44,11 @@
   <div class="row align-items-center mx-0">
     <h3 class="col col-12 text-white m-0 px-4">
       <strong>@yield('subheaderTitle', 'Confira seu desempenho nos graficos abaixo')</strong>
-      <!--@yield('subheaderSubTitle')-->
     </h3>
   </div>
   <div class="row align-items-center mx-0">
     <div class="col col-12 text-right m-0 px-4">
-      <img src="{{ asset('material') }}/img/seulogoaqui.png" style="height: 40px;" />
+      <img src="{{ asset('material') }}/img/{{ $tipo_empresa === 'Gerador' ? 'electrolux' : 'seulogoaqui'}}.png" style="height: 40px;" />
     </div>
   </div>
 </div>
