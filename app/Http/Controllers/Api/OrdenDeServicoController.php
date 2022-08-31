@@ -292,4 +292,95 @@ class OrdenDeServicoController extends Controller
             ], 400);
         }
     }
+
+    public function uploadMtr(Request $request){
+        DB::beginTransaction();
+        $imagesStorage = [];
+        try {
+            $imagesCollection = collect();
+            $orden_servicio_id = $request->get('orden_servicio_id');
+            foreach ($request->file('imagens') as $image) {
+                $tempName = time().rand().'.'.$image->extension();
+                $imageName = Storage::disk('do')->putFileAs('mtr', $image, $tempName, 'public');
+                array_push($imagesStorage, $imageName);
+                $imagen = Imagen::create([
+                    'url' => $imageName,
+                    'orden_servico_id' => $orden_servicio_id,
+                ]);
+                $imagesCollection->add($imagen);
+            }
+            DB::commit();
+
+            return response([
+                'data' => ImagenResource::collection($imagesCollection),
+                'status' => true
+            ], 200);
+        } catch (\Illuminate\Database\QueryException $e) {
+            DB::rollBack();
+            foreach ($imagesStorage as $image) {
+                Storage::disk('do')->delete($image);
+            }
+
+            return response([
+                'data' => "Ocorreu um problema ao salvar, tente novamente",
+                'status' => false
+            ], 400);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            foreach ($imagesStorage as $image) {
+                Storage::disk('do')->delete($image);
+            }
+
+            return response([
+                'data' => $e->getMessage(),
+                'status' => false
+            ], 400);
+        }
+    }
+
+
+    public function uploadCdf(Request $request){
+        DB::beginTransaction();
+        $imagesStorage = [];
+        try {
+            $imagesCollection = collect();
+            $orden_servicio_id = $request->get('orden_servicio_id');
+            foreach ($request->file('imagens') as $image) {
+                $tempName = time().rand().'.'.$image->extension();
+                $imageName = Storage::disk('do')->putFileAs('cdf', $image, $tempName, 'public');
+                array_push($imagesStorage, $imageName);
+                $imagen = Imagen::create([
+                    'url' => $imageName,
+                    'orden_servico_id' => $orden_servicio_id,
+                ]);
+                $imagesCollection->add($imagen);
+            }
+            DB::commit();
+
+            return response([
+                'data' => ImagenResource::collection($imagesCollection),
+                'status' => true
+            ], 200);
+        } catch (\Illuminate\Database\QueryException $e) {
+            DB::rollBack();
+            foreach ($imagesStorage as $image) {
+                Storage::disk('do')->delete($image);
+            }
+
+            return response([
+                'data' => "Ocorreu um problema ao salvar, tente novamente",
+                'status' => false
+            ], 400);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            foreach ($imagesStorage as $image) {
+                Storage::disk('do')->delete($image);
+            }
+
+            return response([
+                'data' => $e->getMessage(),
+                'status' => false
+            ], 400);
+        }
+    }
 }

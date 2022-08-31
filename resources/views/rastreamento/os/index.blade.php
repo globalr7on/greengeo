@@ -46,8 +46,10 @@
     </div>
   </div>
   @include('rastreamento.os.modal')
+  @include('rastreamento.os.modalCdfPdf')
   @include('rastreamento.os.modalFotos')
   @include('rastreamento.os.modalGalleryFotos')
+  @include('rastreamento.os.modalMtrPdf')
 @endsection
 
 @push('js')
@@ -91,6 +93,7 @@
               const statusAguardandoColeta = 'aguardando coleta'
               const statusTransporte = 'transporte'
               const statusEsperandoMotorista = 'esperando motorista'
+              const statusEntregue = 'entregue'
               const deleteBtn = estagio == statusEmitida ? `<i class="fa fa-trash cursor-pointer deleteAction" data-id="${row.id}" title="Excluir"></i>&nbsp;` : ''
               const editBtn = estagio == statusEmitida ? `<i class="fa fa-pen cursor-pointer editAction" data-id="${row.id}" title="Editar"></i>&nbsp;` : ''
               const showBtn = estagio !== statusEmitida ? `<i class="fas fa-list-alt cursor-pointer showAction" data-id="${row.id}" title="Mostrar"></i>&nbsp;` : ''
@@ -107,7 +110,16 @@
               const addPhotoBtn = estagio == statusTransporte
                 ? `<i class="fa-solid fa-cloud-arrow-up cursor-pointer novaFoto" data-id="${row.id}" data-codigo="${row.codigo}" title="Adicionar Foto"></i>&nbsp;`
                 : ''
-              const approvalBtn = `<i class="fas fa-check text-success cursor-pointer approvalAction" data-id="${row.id}" data-approval="1" title="Aceitar OS"></i>&nbsp;`
+
+              const addMtrPdfBtn = estagio == statusEmitida
+                ? `<i class="fa-solid fa-trash-can-arrow-up cursor-pointer novoMtrPdf" data-id="${row.id}" title="Adicionar MTR"></i>&nbsp;`
+                : ''
+
+              const addCdfPdfBtn = estagio == statusEntregue
+                ? `<i class="fa-solid fa-square-check cursor-pointer novoCdfPdf" data-id="${row.id}" title="Adicionar CDF"></i>&nbsp;`
+                : ''
+              
+                const approvalBtn = `<i class="fas fa-check text-success cursor-pointer approvalAction" data-id="${row.id}" data-approval="1" title="Aceitar OS"></i>&nbsp;`
               const rejectBtn = `<i class="fas fa-times text-danger cursor-pointer approvalAction" data-id="${row.id}" data-approval="0" title="Recusar OS"></i>&nbsp;`
 
               const isMotoristaForApproval = row.aprovacao_motorista.length > 0 ? row.aprovacao_motorista[0].usuario_id == currentUserId : false
@@ -115,7 +127,7 @@
                 return `${showBtn}${approvalBtn}${rejectBtn}`
               }
 
-              return `${deleteBtn}${editBtn}${showBtn}${updateStatusTransporteBtn}${updateStatusEntregueBtn}${addPhotoBtn}`
+              return `${deleteBtn}${editBtn}${showBtn}${updateStatusTransporteBtn}${updateStatusEntregueBtn}${addPhotoBtn}${addMtrPdfBtn}${addCdfPdfBtn}`
             }
           }
         ],
@@ -170,6 +182,26 @@
         $('#input_orden_servicio_id').val(id)
         $('#input_orden_servicio').val(codigo)
         $("#modalFoto").modal("show")
+      })
+
+       // Open Modal novoMtrPdf
+       $('body').on('click', '.novoMtrPdf', function() {
+        const id = $(this).attr('data-id')
+        $('#pdfMtrPreview').empty()
+        $('#formMtrPdf')[0].reset()
+        $('#input_orden_servicio_id').val(id)
+        $("#modalMtrPdf").modal("show")
+        
+      })
+
+         // Open Modal novoCdfPdf
+        $('body').on('click', '.novoCdfPdf', function() {
+        const id = $(this).attr('data-id')
+        $('#pdfCdfPreview').empty()
+        $('#formCdfPdf')[0].reset()
+        $('#input_orden_servicio_id').val(id)
+        $("#modalCdfPdf").modal("show")
+      
       })
 
       // Salvar
