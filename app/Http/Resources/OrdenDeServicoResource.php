@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\ImagenResource;
 use App\Http\Resources\OrdenDeServicoItenResource;
+use App\Http\Resources\OrdenDeServicoMotoristasResource;
 
 class OrdenDeServicoResource extends JsonResource
 {
@@ -56,7 +57,7 @@ class OrdenDeServicoResource extends JsonResource
                 return $data->status === null;
             })->all(),
             'itens' => OrdenDeServicoItenResource::collection($this->itens),
-            'lista_motoristas' => $this->aprovacao_motorista
+            'lista_motoristas' => OrdenDeServicoMotoristasResource::collection($this->aprovacao_motorista)
         ];
     }
 }

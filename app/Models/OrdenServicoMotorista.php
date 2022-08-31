@@ -24,8 +24,8 @@ class OrdenServicoMotorista extends Model
         return $this->hasOne('App\Models\OrdensServicos', 'id', 'ordem_servico_id');
     }
 
-    public function usuario_responsavel_cadastro()
+    public function usuario()
     {
-        return $this->hasOne('App\Models\User', 'usuario_id', 'id');
+        return $this->hasOne('App\Models\User', 'id', 'usuario_id');
     }    
 }

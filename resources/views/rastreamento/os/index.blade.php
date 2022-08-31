@@ -90,17 +90,13 @@
             render: function (data, type, row) {
               const estagio = row.estagio.toLowerCase()
               const statusEmitida = 'emitida'
+              const statusEsperandoMotorista = 'esperando motorista'
               const statusAguardandoColeta = 'aguardando coleta'
               const statusTransporte = 'transporte'
-              const statusEsperandoMotorista = 'esperando motorista'
               const statusEntregue = 'entregue'
               const deleteBtn = estagio == statusEmitida ? `<i class="fa fa-trash cursor-pointer deleteAction" data-id="${row.id}" title="Excluir"></i>&nbsp;` : ''
               const editBtn = estagio == statusEmitida ? `<i class="fa fa-pen cursor-pointer editAction" data-id="${row.id}" title="Editar"></i>&nbsp;` : ''
               const showBtn = estagio !== statusEmitida ? `<i class="fas fa-list-alt cursor-pointer showAction" data-id="${row.id}" title="Mostrar"></i>&nbsp;` : ''
-              
-              // const updateStatusColetaBtn = estagio == statusEmitida
-              //   ? `<i class="fas fa-hourglass-half cursor-pointer updateEstagio" data-id="${row.id}" title="Atualizar a Aguardando Coleta"></i>&nbsp;`
-              //   : ''
               const updateStatusTransporteBtn = estagio == statusAguardandoColeta
                 ? `<i class="fas fa-truck cursor-pointer updateEstagio" data-id="${row.id}" title="Atualizar a Transporte"></i>&nbsp;`
                 : ''
@@ -110,24 +106,22 @@
               const addPhotoBtn = estagio == statusTransporte
                 ? `<i class="fa-solid fa-cloud-arrow-up cursor-pointer novaFoto" data-id="${row.id}" data-codigo="${row.codigo}" title="Adicionar Foto"></i>&nbsp;`
                 : ''
-
               const addMtrPdfBtn = estagio == statusEmitida
                 ? `<i class="fa-solid fa-trash-can-arrow-up cursor-pointer novoMtrPdf" data-id="${row.id}" title="Adicionar MTR"></i>&nbsp;`
                 : ''
-
               const addCdfPdfBtn = estagio == statusEntregue
                 ? `<i class="fa-solid fa-square-check cursor-pointer novoCdfPdf" data-id="${row.id}" title="Adicionar CDF"></i>&nbsp;`
                 : ''
-              
-                const approvalBtn = `<i class="fas fa-check text-success cursor-pointer approvalAction" data-id="${row.id}" data-approval="1" title="Aceitar OS"></i>&nbsp;`
-              const rejectBtn = `<i class="fas fa-times text-danger cursor-pointer approvalAction" data-id="${row.id}" data-approval="0" title="Recusar OS"></i>&nbsp;`
-
+              const listMotoristasBtn = `<i class="fa-solid fas fa-clipboard-list cursor-pointer listMotoristas" data-id="${row.id}" title="Lista motoristas"></i>&nbsp;`
+                
               const isMotoristaForApproval = row.aprovacao_motorista.length > 0 ? row.aprovacao_motorista[0].usuario_id == currentUserId : false
               if (isMotoristaForApproval && estagio == statusEsperandoMotorista) {
+                const approvalBtn = `<i class="fas fa-check text-success cursor-pointer approvalAction" data-id="${row.id}" data-approval="1" title="Aceitar OS"></i>&nbsp;`
+                const rejectBtn = `<i class="fas fa-times text-danger cursor-pointer approvalAction" data-id="${row.id}" data-approval="0" title="Recusar OS"></i>&nbsp;`
                 return `${showBtn}${approvalBtn}${rejectBtn}`
               }
 
-              return `${deleteBtn}${editBtn}${showBtn}${updateStatusTransporteBtn}${updateStatusEntregueBtn}${addPhotoBtn}${addMtrPdfBtn}${addCdfPdfBtn}`
+              return `${deleteBtn}${editBtn}${showBtn}${updateStatusTransporteBtn}${updateStatusEntregueBtn}${addPhotoBtn}${addMtrPdfBtn}${addCdfPdfBtn}${listMotoristasBtn}`
             }
           }
         ],
@@ -194,14 +188,58 @@
         
       })
 
-         // Open Modal novoCdfPdf
-        $('body').on('click', '.novoCdfPdf', function() {
+      // Open Modal novoCdfPdf
+      $('body').on('click', '.novoCdfPdf', function() {
         const id = $(this).attr('data-id')
         $('#pdfCdfPreview').empty()
         $('#formCdfPdf')[0].reset()
         $('#input_orden_servicio_id').val(id)
         $("#modalCdfPdf").modal("show")
+      })
       
+      // Open Modal listMotoristas
+      $('body').on('click', '.listMotoristas', function() {
+        const id = $(this).attr('data-id')
+        app.api.get(`/os/${id}`).then(response =>  {
+          if (response && response.status) {
+            let content = `
+              <div class="row px-2 py-2" style="font-size: 16px;font-weight: bold;">
+                <div class="col-4">Datas</div>
+                <div class="col-3 text-left">Usuario</div>
+                <div class="col-1 px-0">Status</div>
+                <div class="col-4">Observacao</div>
+              </div>
+            `
+            response.data.lista_motoristas.map(motorista => {
+              const dateStart = new Date(motorista.data_inicio).toLocaleString()
+              const dateEnd = new Date(motorista.data_final).toLocaleString()
+              const status = motorista.status === 1
+                ? '<i class="fas fa-check text-success" title="Aceitado"></i>'
+                : motorista.status === 0
+                  ? '<i class="fas fa-times text-danger" title="Recusou"></i>'
+                  : '<i class="fas fa-minus" title="Por aprovação"></i>'
+              content += `
+                <div class="row px-2 py-2">
+                  <div class="col-4 text-left pr-0"><i class="far fa-clock" title="Data inicio"></i> ${dateStart}<br/><i class="fas fa-clock" title="Data final"></i> ${dateEnd}</div>
+                  <div class="col-3 text-left pl-0 align-self-center">${motorista.usuario.name}</div>
+                  <div class="col-1 px-0 align-self-center">${status}</div>
+                  <div class="col-4 text-left align-self-center"><i class="far fa-sticky-note"></i> ${motorista.observacao || 'Sem observação'}</div>
+                </div>
+              `
+            })
+            sweetInput({
+              title: 'Lista Motoristas',
+              width: '50em',
+              html: content,
+              confirmButtonText: 'Ok',
+              focusConfirm: false,
+              buttonsStyling: false,
+              confirmButtonClass: 'btn btn-primary',
+            })
+          } else {
+            notifyDanger('Falha ao obter detalhes. Tente novamente')
+          }
+        }).catch(error => notifyDanger('Falha ao obter detalhes. Tente novamente'))
       })
 
       // Salvar
