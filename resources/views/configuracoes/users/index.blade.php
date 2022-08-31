@@ -72,7 +72,7 @@
       $('body').on('click', '#novoUser', function() {
         app.stepper()
         if (isGerador) {
-          $('body').on('change', '#input_tipo_empresa_id', updateEmpresaFromTipo)
+          $('body').off('change', '#input_tipo_empresa_id', updateEmpresaFromTipo).on('change', '#input_tipo_empresa_id', updateEmpresaFromTipo)
         }
         delFormValidationErrors()
         $("#modalFormUser").modal("show")

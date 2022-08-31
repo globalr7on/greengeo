@@ -55,7 +55,9 @@
     $(document).ready(function () {
       // fix issue with sweetInput and bootstrap modal
       $.fn.modal.Constructor.prototype._enforceFocus = function () {}
-      const currentUser = parseInt($('#input_usuario_responsavel_cadastro_id').val())
+      const currentParentUserId = $('#parent_usuario_responsavel_id').val() ? parseInt($('#parent_usuario_responsavel_id').val()) : null
+      const currentParentTipoEmpresaId = $('#parent_tipo_empresa_id').val() ? parseInt($('#parent_tipo_empresa_id').val()) : null
+      const currentUserId = parseInt($('#input_usuario_responsavel_cadastro_id').val())
       let notaFiscalsData = []
       let itemsSelectSettings = {
         dropdownParent: $('#modalProdutos'),
@@ -108,7 +110,7 @@
               const approvalBtn = `<i class="fas fa-check text-success cursor-pointer approvalAction" data-id="${row.id}" data-approval="1" title="Aceitar OS"></i>&nbsp;`
               const rejectBtn = `<i class="fas fa-times text-danger cursor-pointer approvalAction" data-id="${row.id}" data-approval="0" title="Recusar OS"></i>&nbsp;`
 
-              const isMotoristaForApproval = row.aprovacao_motorista.length > 0 ? row.aprovacao_motorista[0].usuario_id == currentUser : false
+              const isMotoristaForApproval = row.aprovacao_motorista.length > 0 ? row.aprovacao_motorista[0].usuario_id == currentUserId : false
               if (isMotoristaForApproval && estagio == statusEsperandoMotorista) {
                 return `${showBtn}${approvalBtn}${rejectBtn}`
               }
@@ -122,16 +124,20 @@
       })
       getTratamentos()
 
-      let tipoEmpresaData = []
+      let tipoEmpresaGeradorId, tipoEmpresaDestinadorId, tipoEmpresaTransportadorId = null
       app.api.get('/tipo_empresa').then(response => {
-        (response && response.status) && (tipoEmpresaData = response.data)
+        if (response && response.status) {
+          tipoEmpresaGeradorId = response.data.find(curr => curr.descricao.toLowerCase() == 'gerador')?.id
+          tipoEmpresaDestinadorId = response.data.find(curr => curr.descricao.toLowerCase() == 'destinador')?.id
+          tipoEmpresaTransportadorId = response.data.find(curr => curr.descricao.toLowerCase() == 'transportador')?.id
+        }
       }).catch(error => notifyDanger('Falha ao obter dados. Tente novamente'))
      
       // Open Modal New
       $('body').on('click', '#novaOs', function() {
-        $('body').on('change', '#input_gerador_id', updateTransportadorFromGerador)
-        $('body').on('change', '#input_transportador_id', updateMotoristaFromTransportador)
-        $('body').on('click', '.addProdutos', addProdutosModal)
+        $('body').off('change', '#input_gerador_id', updateTransportadorFromGerador).on('change', '#input_gerador_id', updateTransportadorFromGerador)
+        $('body').off('change', '#input_transportador_id', updateMotoristaFromTransportador).on('change', '#input_transportador_id', updateMotoristaFromTransportador)
+        $('body').off('click', '.addProdutos', addProdutosModal).on('click', '.addProdutos', addProdutosModal)
         $('#items').attr('disabled', false)
         $('.addProduto').attr('disabled', false)
         $("#imagensData").val('')
@@ -144,9 +150,7 @@
         $('#input_id').val("")
         $('#formOs')[0].reset()
         getEstagio('Emitida', true, true)
-        const usuarioResponsavelCadastroId = $('#input_usuario_responsavel_cadastro_id').val()
-        const tipoEmpresaGerador = tipoEmpresaData.find(curr => curr.descricao.toLowerCase() == 'gerador')?.id
-        getEmpresa(null, '#input_gerador_id', usuarioResponsavelCadastroId, tipoEmpresaGerador, true)
+        getEmpresa(null, '#input_gerador_id', currentParentUserId, tipoEmpresaGeradorId, currentParentTipoEmpresaId == tipoEmpresaTransportadorId)
         getEmpresa(null, '#input_destinador_id', null, null, false, true, true)
         getEmpresa(null, '#input_transportador_id', null, null, false, true, true)
         getMotorista(null, null, true, true)
@@ -385,12 +389,12 @@
         .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
       }
 
-      function updateTransportadorFromGerador() {
-        const tipoEmpresaDestinadorId = tipoEmpresaData.find(curr => curr.descricao.toLowerCase() == 'destinador')?.id
-        const tipoEmpresaTransportadorId = tipoEmpresaData.find(curr => curr.descricao.toLowerCase() == 'transportador')?.id
-        const usuarioResponsavelCadastroId = $('#input_usuario_responsavel_cadastro_id').val()
-        getEmpresa(null, '#input_destinador_id', usuarioResponsavelCadastroId, tipoEmpresaDestinadorId)
-        getEmpresa(null, '#input_transportador_id', usuarioResponsavelCadastroId, tipoEmpresaTransportadorId)
+      function updateTransportadorFromGerador(event) {
+        const userResponsavelDestId = currentParentTipoEmpresaId == tipoEmpresaTransportadorId ? currentParentUserId : currentUserId
+        const userResponsavelId = !currentParentTipoEmpresaId || currentParentTipoEmpresaId == tipoEmpresaTransportadorId ? false : currentUserId
+        const showCurrentEmpresa = !currentParentTipoEmpresaId || currentParentTipoEmpresaId == tipoEmpresaTransportadorId
+        getEmpresa(null, '#input_destinador_id', userResponsavelDestId, tipoEmpresaDestinadorId)
+        getEmpresa(null, '#input_transportador_id', userResponsavelId, tipoEmpresaTransportadorId)
       }
 
       function updateMotoristaFromTransportador() {

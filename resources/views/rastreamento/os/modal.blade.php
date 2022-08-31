@@ -33,7 +33,9 @@
                 <div class="row mx-0 mb-4">
                   <div class="col-md-4 text-center">
                     <div class="form-group m-0 p-0">
-                      <input type="hidden" class="form-control" id="input_usuario_responsavel_cadastro_id" value="{{ Auth::user()->id }}">
+                      <input type="hidden" id="parent_usuario_responsavel_id" value="{{ Auth::user()->usuario_responsavel_cadastro_id }}">
+                      <input type="hidden" id="parent_tipo_empresa_id" value="{{ Auth::user()->usuario_responsavel_cadastro && Auth::user()->usuario_responsavel_cadastro->pessoa_juridica ? Auth::user()->usuario_responsavel_cadastro->pessoa_juridica->tipo_empresa_id : null }}">
+                      <input type="hidden" id="input_usuario_responsavel_cadastro_id" value="{{ Auth::user()->id }}">
                       <input type="hidden" id="input_id">
                       <label for="input_gerador_id" class="display-inherit mb-0">Gerador</label>
                       <select id="input_gerador_id" data-style="btn-warning text-white" name="input_gerador_id" title="Selecione"></select>

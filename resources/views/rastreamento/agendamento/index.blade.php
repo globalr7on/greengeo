@@ -18,6 +18,7 @@
               <p class="card-category">Agendamento</p>
             </div>
             <div class="card-body">
+              <input type="hidden" id="current_tipo_empresa_id" value="{{ Auth::user()->pessoa_juridica ? Auth::user()->pessoa_juridica->tipo_empresa_id : null }}">
               <div id="fullCalendar"></div>
             </div>
           </div>
@@ -31,7 +32,6 @@
 @push('js')
   <script>
     $(document).ready(function () {
-      // const empresaId = "{{ Auth::user()->pessoa_juridica_id }}" || null
       const app = new App({})
       getAgendamentos()
 
@@ -42,7 +42,6 @@
         $('#tituloAgenda').text("Novo Agendamento")
         $('#input_id').val("")
         $('#formAgenda')[0].reset()
-        // getTransportadora(empresaId, empresaId ? true : false)
         getTransportadora()
         getAcondicionamento()
         getOrdemServico()
@@ -73,13 +72,24 @@
         })
       })
 
-      function getTransportadora(value) {
-        app.api.get('/pessoa_juridica').then(response =>  {
+      function getTransportadora() {
+        app.api.get('/tipo_empresa').then(response => {
           if (response && response.status) {
-            loadSelect('#input_transportadora_id', response.data, ['id', 'razao_social'], value)
+            const tipoEmpresaTransportadorId = response.data.find(curr => curr.descricao.toLowerCase() == 'transportador')?.id
+            const currentTipoEmpresaId = $('#current_tipo_empresa_id').val()
+            const showCurrentEmpresa = currentTipoEmpresaId == tipoEmpresaTransportadorId ? true : false
+            app.api.get(`/pessoa_juridica?tipo_empresa_id=${tipoEmpresaTransportadorId}&show_current_empresa=${showCurrentEmpresa}`).then(responseEmpresa =>  {
+              if (responseEmpresa && responseEmpresa.status) {
+                loadSelect('#input_transportadora_id', responseEmpresa.data, ['id', 'razao_social'])
+              }
+            })
+            .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
+          } else {
+            notifyDanger('Falha ao obter dados de empresa, tente novamente')
           }
-        })
-        .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
+        }).catch(error => notifyDanger('Falha ao obter dados. Tente novamente'))
+
+
       }
 
       function getOrdemServico() {
@@ -103,7 +113,6 @@
       function getAgendamentos() {
         app.api.get('/agendamento').then(response =>  {
           if (response && response.status) {
-            console.log('agendamento', response)
             initCalendar(response.data.map(curr => eventObject(curr)))
           }
         })

@@ -209,15 +209,12 @@ class OrdenDeServicoController extends Controller
      */
     public function destroy($id)
     {
-        OrdensServicos::findOrFail($id)->delete();
-        return response(null, 204);
-
         DB::beginTransaction();
         try {
             $ordenServico = OrdensServicos::findOrFail($id);
             $ordenServico->itens()->delete();
             $ordenServico->imagens()->delete();
-            $ordenServico->notas_fiscais()->delete();
+            $ordenServico->notas_fiscais()->detach();
             $ordenServico->aprovacao_motorista()->delete();
             $ordenServico->delete();
             DB::commit();
