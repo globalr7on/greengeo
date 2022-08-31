@@ -186,7 +186,7 @@
             </div>
           `
           sweetInput({
-            title: `Ordem Servico: ${calEvent.ordem_servico.codigo}`,
+            title: `Ordem Serviço: ${calEvent.ordem_servico.codigo}`,
             html: content,
             confirmButtonText: 'Ok',
             focusConfirm: false,

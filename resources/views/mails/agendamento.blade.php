@@ -9,7 +9,7 @@
   
     <h1>Olá {{ $transportadora }}</h1>
     <p>
-    Gostaríamos de formalizar com a  <strong> {{ $transportadora }} </strong> o agendamento de coleta para OS com Codigo <strong> {{ $codigo }} </strong> a ser realizada no dia {{ $data_coleta }} 
+    Gostaríamos de formalizar com a  <strong> {{ $transportadora }} </strong> o agendamento de coleta para OS com Codigo <strong> {{ $codigo }} </strong> a ser realizada no dia <strong> {{ $data_coleta }} </strong
     <li>tipo de Produto <strong> {{ $descricao_produto }}</strong></li>
     <li>Peso Total OS <strong> {{ $peso_total}}</strong></li>
     <li>Veículo ideal para coleta: <strong>{{ $acondicionamento }} </strong> </li>
@@ -18,13 +18,13 @@
 
     Atenciosamente,
     <li>
-    <strong> {{  $gerador }} </strong>
+    <strong> {{  $gerador }} </strong>  
     </li>
     <li>
-    <strong> {{ $usuario_gerador }} </strong>
+    <strong> {{ $usuario }} </strong>
     </li>
     <li>
-    <strong> {{ $telefono_gerador }} </strong>    
+    <strong> {{ $celular }} </strong>    
     </li>
     
 

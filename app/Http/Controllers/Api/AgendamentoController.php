@@ -36,20 +36,26 @@ class AgendamentoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(AgendamentoRequest $request)
-    {
+    { 
         $agendamento = Agendamento::create($request->all());
-        $codigo = $agendamento->ordem_servico->codigo;
-        $gerador = $agendamento->usuario->pessoa_juridica->nome_fantasia;
-        $usuario_gerador = $agendamento->usuario->name;
-        $telefono_gerador = $agendamento->usuario->celular;
-        $descricao_produto = $agendamento->ordem_servico->description;
-        $peso_total = $agendamento->ordem_servico->peso_total;
-        $transportadora = $agendamento->transportadora->nome_fantasia;
-        $acondicionamento = $agendamento->acondicionamento->descricao;
-        $email = $agendamento->transportadora->email;
-        $data_coleta = $agendamento->coleta;
-        // dd($codigo,$gerador,$usuario_gerador, $telefono_gerador, $descricao_produto, $peso_total,  $transportadora, $acondicionamento, $email, $data_coleta);
-        Mail::to($email)->send(new EnvioAgendamento($codigo, $gerador, $usuario_gerador, $telefono_gerador, $transportadora, $acondicionamento, $descricao_produto, $peso_total, $data_coleta));
+        $agenda=[
+            'codigo'  => $agendamento->ordem_servico->codigo,
+            'gerador' => $agendamento->usuario->pessoa_juridica->nome_fantasia,
+            'usuario' => $agendamento->usuario->name,
+            'celular' => $agendamento->usuario->celular,
+            'descricao_produto' =>  $agendamento->ordem_servico->description,
+            'peso_total' => $agendamento->ordem_servico->peso_total,
+            'transportadora' => $agendamento->transportadora->nome_fantasia,
+            'acondicionamento' => $agendamento->acondicionamento->descricao,
+            'email' => $agendamento->transportadora->email,
+            'data_coleta' => $agendamento->coleta,
+        ];
+    
+            // $codigo = $agendamento->ordem_servico->itens;
+
+            // dd($codigo->id);
+       
+        Mail::to($agenda['email'])->send(new EnvioAgendamento($agenda));
         return response([
             'data' => new AgendamentoResource($agendamento),
             'status' => true
