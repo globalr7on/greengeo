@@ -13,7 +13,7 @@
         <div class="col-md-4 px-0">
           <div class="d-flex align-items-center justify-content-end m-0 p-0">
             <label for="ordem_servicos" class="mb-0 mr-2">Ordem de Serviços</label>
-            <select id="ordem_servicos" data-style="btn-warning text-white"></select>
+            <select id="ordem_servicos" data-style="btn-warning text-white" title="Selecione"></select>
           </div>
         </div>
             
@@ -151,24 +151,32 @@
       }
         
       function getAllOS(value) {
-        app.api.get('/os?estagio_id=3').then(response =>  {
+        app.api.get('/estagio_os').then(response => {
           if (response && response.status) {
-            osData = response.data
-            loadSelect('#ordem_servicos', response.data, ['id', 'codigo'])
-            for (let i = 0; i < response.data.length; i++) {
-              const gerador = {
-                name: response.data[i].gerador,
-                coord: response.data[i].gerador_coord
+            const estagioAguardandoColetaId = response.data.find(curr => curr.descricao.toLowerCase() == 'aguardando coleta')?.id
+            const estagioTransporteId = response.data.find(curr => curr.descricao.toLowerCase() == 'transporte')?.id
+            app.api.get(`/os?estagio_id=${estagioAguardandoColetaId},${estagioTransporteId}`).then(response =>  {
+              if (response && response.status) {
+                osData = response.data
+                loadSelect('#ordem_servicos', response.data, ['id', 'codigo'])
+                for (let i = 0; i < response.data.length; i++) {
+                  const gerador = {
+                    name: response.data[i].gerador,
+                    coord: response.data[i].gerador_coord
+                  }
+                  const destinador = {
+                    name: response.data[i].destinador,
+                    coord: response.data[i].destinador_coord
+                  }
+                  addOSMap(gerador, destinador, response.data[i].veiculo, response.data[i].motorista, response.data[i].codigo)
+                }
               }
-              const destinador = {
-                name: response.data[i].destinador,
-                coord: response.data[i].destinador_coord
-              }
-              addOSMap(gerador, destinador, response.data[i].veiculo, response.data[i].motorista, response.data[i].codigo)
-            }
+            })
+            .catch(error => notifyDanger('Falha ao obter mapa, tente novamente'))
+          } else {
+            notifyDanger('Falha ao obter estagios, tente novamente')
           }
-        })
-        .catch(error => notifyDanger('Falha ao obter mapa, tente novamente'))
+        }).catch(error => notifyDanger('Falha ao obter dados. Tente novamente'))
       }
 
       getAllOS()

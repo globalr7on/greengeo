@@ -52,9 +52,10 @@ class OrdenDeServicoController extends Controller
         }
 
         if ($request->has('estagio_id')) {
-            $ordenServico = $ordenServico->where('estagio_id', $request->estagio_id);
+            $estagios = str_contains($request->estagio_id, ',') ? explode(',', $request->estagio_id) : [$request->estagio_id];
+            $ordenServico = $ordenServico->whereIn('estagio_id', $estagios);
         }
-        
+
         return response([
             'data' =>OrdenDeServicoResource::collection($ordenServico),
             'status' => true
