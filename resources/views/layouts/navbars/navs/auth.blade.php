@@ -48,7 +48,8 @@
   </div>
   <div class="row align-items-center mx-0">
     <div class="col col-12 text-right m-0 px-4">
-      <img src="{{ asset('material') }}/img/{{ $tipo_empresa === 'Gerador' ? 'electrolux' : 'seulogoaqui'}}.png" style="height: 40px;" />
+      @php $currTipoEmpresa = Auth::user()->pessoa_juridica && Auth::user()->pessoa_juridica->tipo_empresa ? Auth::user()->pessoa_juridica->tipo_empresa->descricao : null; @endphp
+      <img src="{{ asset('material') }}/img/{{ $currTipoEmpresa === 'Gerador' ? 'electrolux' : 'seulogoaqui'}}.png" style="height: 40px;" />
     </div>
   </div>
 </div>
