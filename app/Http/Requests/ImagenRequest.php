@@ -12,7 +12,8 @@ class ImagenRequest extends FormRequest
     {
         return [
             'imagens' => 'required|array',
-            'imagens.*' => 'required|image|mimes:jpg,png,jpeg|max:2048',
+            // 'imagens.*' => 'required|image|mimes:jpg,png,jpeg|max:2048',
+            'imagens.*' => 'required|mimes:jpg,png,jpeg|max:2048',
             'orden_servicio_id' => 'required',
         ];
     }
