@@ -180,7 +180,7 @@
        $('body').on('click', '.addMTR', function() {
         const id = $(this).attr('data-id')
         sweetInput({
-          title: 'Upload MTR',
+          title: 'Carregar o MTR',
           input: 'file',
           inputAttributes: {
             'accept': 'application/pdf',
@@ -192,7 +192,7 @@
           showCancelButton: true,
           confirmButtonClass: 'btn btn-primary',
           cancelButtonClass: 'btn btn-danger',
-          preConfirm: (value) => !value ? swal.showValidationError('Por favor, suba o MTR') : value,
+          preConfirm: (value) => !value ? swal.showValidationError('Por favor, carregue o MTR') : value,
           errorCallback: (error) => notifyDanger('Ocorreu um erro ao subir MTR, tente novamente'),
           successCallback: (result) => {
             if (result?.dismiss) return
@@ -202,9 +202,9 @@
               if (response && response.status) {
                 notifySuccess('MTR enviado com sucesso')
               } else {
-                notifyDanger('Falha ao subir o MTR, tente novamente')
+                notifyDanger('Falha ao carregar o MTR, tente novamente')
               }
-            }).catch(error => notifyDanger('Falha ao subir o MTR, tente novamente'))
+            }).catch(error => notifyDanger('Falha ao carregar o MTR, tente novamente'))
           }
         })
       })
@@ -213,7 +213,7 @@
       $('body').on('click', '.addCDF', function() {
         const id = $(this).attr('data-id')
         sweetInput({
-          title: 'Upload CDF',
+          title: 'Carregar o CDF',
           input: 'file',
           inputAttributes: {
             'accept': 'application/pdf',
@@ -225,7 +225,7 @@
           showCancelButton: true,
           confirmButtonClass: 'btn btn-primary',
           cancelButtonClass: 'btn btn-danger',
-          preConfirm: (value) => !value ? swal.showValidationError('Por favor, suba o CDF') : value,
+          preConfirm: (value) => !value ? swal.showValidationError('Por favor, carregue o CDF') : value,
           errorCallback: (error) => notifyDanger('Ocorreu um erro ao subir CDF, tente novamente'),
           successCallback: (result) => {
             if (result?.dismiss) return
@@ -235,9 +235,9 @@
               if (response && response.status) {
                 notifySuccess('CDF enviado com sucesso')
               } else {
-                notifyDanger('Falha ao subir o CDF, tente novamente')
+                notifyDanger('Falha ao carregar o CDF, tente novamente')
               }
-            }).catch(error => notifyDanger('Falha ao subir o CDF, tente novamente'))
+            }).catch(error => notifyDanger('Falha ao carregar o CDF, tente novamente'))
           }
         })
       })

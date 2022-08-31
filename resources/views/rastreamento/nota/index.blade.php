@@ -206,7 +206,7 @@
               if (response && response.status) {
                 const data = response.data.map(curr => ({
                   id: curr.id,
-                  text: `[${curr.ean}:${curr.codigo}]${curr.marca} - ${curr.especie} (${curr.altura} A x ${curr.largura} L x ${curr.profundidade} P x ${curr.comprimento} C)`
+                  text: `[${curr.descricao}:${curr.ean}]${curr.marca} - ${curr.especie} (${curr.altura} A x ${curr.largura} L x ${curr.profundidade} P x ${curr.comprimento} C)`
                 }))
                 $('#produtosAcabados').select2({
                   dropdownParent: $('#modalProdutoAcabado'),
