@@ -36,6 +36,8 @@
                       <input type="hidden" id="parent_usuario_responsavel_id" value="{{ Auth::user()->usuario_responsavel_cadastro_id }}">
                       <input type="hidden" id="parent_tipo_empresa_id" value="{{ Auth::user()->usuario_responsavel_cadastro && Auth::user()->usuario_responsavel_cadastro->pessoa_juridica ? Auth::user()->usuario_responsavel_cadastro->pessoa_juridica->tipo_empresa_id : null }}">
                       <input type="hidden" id="input_usuario_responsavel_cadastro_id" value="{{ Auth::user()->id }}">
+                      <input type="hidden" id="mtr_link">
+                      <input type="hidden" id="cdf_link">
                       <input type="hidden" id="input_id">
                       <label for="input_gerador_id" class="display-inherit mb-0">Gerador</label>
                       <select id="input_gerador_id" data-style="btn-warning text-white" name="input_gerador_id" title="Selecione"></select>
@@ -111,9 +113,8 @@
                 </div>
 
                 <div class="row mx-0">
-                  <!-- <button class="btn btn-warning">Gerar MTR</button> -->
-                  <!-- <button class="btn btn-warning">Gerar CDF</button> -->
-                  <!-- <button class="btn btn-danger">Cancelar MTR</button> -->
+                  <button class="btn btn-default cdfPreview">CDF</button>
+                  <button class="btn btn-default mtrPreview">MTR</button>
                   <button class="btn btn-default addProdutos">Produtos</button>
                   <button class="btn btn-default showFotos">Fotos</button>
                   <button class="btn btn-primary stepper-next">Próximo</button>
@@ -155,9 +156,8 @@
                 </div>
 
                 <div class="row mx-0">
-                  <!-- <button class="btn btn-warning">Gerar MTR</button> -->
-                  <!-- <button class="btn btn-warning">Gerar CDF</button> -->
-                  <!-- <button class="btn btn-danger">Cancelar MTR</button> -->
+                  <button class="btn btn-default cdfPreview">CDF</button>
+                  <button class="btn btn-default mtrPreview">MTR</button>
                   <button class="btn btn-default addProdutos">Produtos</button>
                   <button class="btn btn-default showFotos">Fotos</button>
                   <button class="btn btn-primary stepper-prev">Anterior</button>

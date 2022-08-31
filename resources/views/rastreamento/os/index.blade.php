@@ -287,6 +287,17 @@
         }).catch(error => notifyDanger('Falha ao obter detalhes. Tente novamente'))
       })
 
+      // Open PDF Preview
+      $('body').on('click', '.mtrPreview, .cdfPreview', function() {
+        const isMTR = $(this).hasClass('mtrPreview')
+        const url = isMTR ? $("#mtr_link").val() : $("#cdf_link").val()
+        if (!url) {
+          notifyWarning(`Não há ${isMTR ? 'MTR' : 'CDF'} para mostrar`)
+        } else {
+          window.open(url, '_blank')
+        }
+      })
+
       // Salvar
       $('body').on('click', '#salvarOs', function() {
         const produtosData = $('#produtosTbl').DataTable().data().toArray().map(curr => ({
@@ -391,6 +402,8 @@
             $("#input_data_estagio").val(response.data.data_estagio)
             $("#input_preenchimento").val(response.data.preenchimento)
             $("#imagensData").val(JSON.stringify(response.data.imagens))
+            $("#mtr_link").val(response.data.mtr_link)
+            $("#cdf_link").val(response.data.cdf_link)
             getItems([])
             initProdutoDataTable(response.data.itens.map((item, pos) => {
               return {
