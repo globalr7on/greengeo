@@ -36,9 +36,9 @@ class AgendamentoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(AgendamentoRequest $request)
-    { 
+    {
         $agendamento = Agendamento::create($request->all());
-        $agenda=[
+        $agenda = [
             'codigo'  => $agendamento->ordem_servico->codigo,
             'gerador' => $agendamento->usuario->pessoa_juridica->nome_fantasia,
             'usuario' => $agendamento->usuario->name,
@@ -50,11 +50,6 @@ class AgendamentoController extends Controller
             'email' => $agendamento->transportadora->email,
             'data_coleta' => $agendamento->coleta,
         ];
-    
-            // $codigo = $agendamento->ordem_servico->itens;
-
-            // dd($codigo->id);
-       
         Mail::to($agenda['email'])->send(new EnvioAgendamento($agenda));
         return response([
             'data' => new AgendamentoResource($agendamento),

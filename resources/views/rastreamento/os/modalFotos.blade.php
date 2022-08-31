@@ -14,7 +14,8 @@
             <div class="col-md-3 align-self-center">
               <div class="form-group">
                 <label for="input_orden_servicio_id">Ordem de Servico</label>
-                <input type="text" class="form-control" name="orden_servicio_id" id="input_orden_servicio_id" disabled readonly>
+                <input type="hidden" id="input_orden_servicio_id">
+                <input type="text" class="form-control" id="input_orden_servicio" disabled readonly>
               </div>
             </div>
 

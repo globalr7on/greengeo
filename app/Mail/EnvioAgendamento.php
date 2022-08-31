@@ -11,7 +11,6 @@ class EnvioAgendamento extends Mailable
 {
     use Queueable, SerializesModels;
 
-    // public $codigo, $gerador, $usuario_gerador, $telefono_gerador, $transportadora, $acondicionamento, $descricao_produto , $peso_total, $data_coleta;
     /**
      * Create a new message instance.
      *

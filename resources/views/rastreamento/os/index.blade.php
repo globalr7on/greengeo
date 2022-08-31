@@ -105,7 +105,7 @@
                 ? `<i class="fas fa-truck-loading cursor-pointer updateEstagio" data-id="${row.id}" title="Atualizar a Entregue"></i>&nbsp;`
                 : ''
               const addPhotoBtn = estagio == statusTransporte
-                ? `<i class="fa-solid fa-cloud-arrow-up cursor-pointer novaFoto" data-id="${row.id}" title="Adicionar Foto"></i>&nbsp;`
+                ? `<i class="fa-solid fa-cloud-arrow-up cursor-pointer novaFoto" data-id="${row.id}" data-codigo="${row.codigo}" title="Adicionar Foto"></i>&nbsp;`
                 : ''
               const approvalBtn = `<i class="fas fa-check text-success cursor-pointer approvalAction" data-id="${row.id}" data-approval="1" title="Aceitar OS"></i>&nbsp;`
               const rejectBtn = `<i class="fas fa-times text-danger cursor-pointer approvalAction" data-id="${row.id}" data-approval="0" title="Recusar OS"></i>&nbsp;`
@@ -164,9 +164,11 @@
       // Open Modal novaFoto
       $('body').on('click', '.novaFoto', function() {
         const id = $(this).attr('data-id')
+        const codigo = $(this).attr('data-codigo')
         $('#imagensPreview').empty()
         $('#formImagens')[0].reset()
         $('#input_orden_servicio_id').val(id)
+        $('#input_orden_servicio').val(codigo)
         $("#modalFoto").modal("show")
       })
 
@@ -274,32 +276,32 @@
             $("#input_data_estagio").val(response.data.data_estagio)
             $("#input_preenchimento").val(response.data.preenchimento)
             $("#imagensData").val(JSON.stringify(response.data.imagens))
+            getItems([])
+            initProdutoDataTable(response.data.itens.map((item, pos) => {
+              return {
+                id: item.id,
+                disabled_buttons: true,
+                position: pos + 1,
+                altura: formatFloatToString(item.produto.altura),
+                codigo: item.produto.codigo,
+                data_de_fabricacao: item.data_de_fabricacao,
+                descricao: item.produto.descricao,
+                ean: item.produto.ean,
+                especie: item.produto.especie,
+                largura: formatFloatToString(item.produto.largura),
+                marca: item.produto.marca,
+                produto_id: item.produto.id,
+                nota_item_id: item.nota_fiscal_item_id,
+                numero_de_serie: item.numero_de_serie,
+                observacao: item.observacao,
+                peso: formatFloatToString(item.peso),
+                profundidade: formatFloatToString(item.produto.profundidade),
+                tratamento: item?.tratamento?.descricao,
+                tratamento_id: item.tratamento_id,
+              }
+            }))
             $('body').on('click', '.addProdutos', function() {
               $("#modalProdutos").modal("show")
-              getItems([])
-              initProdutoDataTable(response.data.itens.map((item, pos) => {
-                return {
-                  id: item.id,
-                  disabled_buttons: true,
-                  position: pos + 1,
-                  altura: formatFloatToString(item.produto.altura),
-                  codigo: item.produto.codigo,
-                  data_de_fabricacao: item.data_de_fabricacao,
-                  descricao: item.produto.descricao,
-                  ean: item.produto.ean,
-                  especie: item.produto.especie,
-                  largura: formatFloatToString(item.produto.largura),
-                  marca: item.produto.marca,
-                  produto_id: item.produto.id,
-                  nota_item_id: item.nota_fiscal_item_id,
-                  numero_de_serie: item.numero_de_serie,
-                  observacao: item.observacao,
-                  peso: formatFloatToString(item.peso),
-                  profundidade: formatFloatToString(item.produto.profundidade),
-                  tratamento: item?.tratamento?.descricao,
-                  tratamento_id: item.tratamento_id,
-                }
-              }))
             })
             if (onlyShow) {
               $("#formOs input").prop("disabled", true)

@@ -54,8 +54,9 @@ class OrdenDeServicoResource extends JsonResource
             'imagens' => ImagenResource::collection($this->imagens),
             'aprovacao_motorista' => $this->aprovacao_motorista->filter(function ($data) {
                 return $data->status === null;
-            }),
-            'itens' => OrdenDeServicoItenResource::collection($this->itens)
+            })->all(),
+            'itens' => OrdenDeServicoItenResource::collection($this->itens),
+            'lista_motoristas' => $this->aprovacao_motorista
         ];
     }
 }
