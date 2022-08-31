@@ -189,6 +189,7 @@
         $('#formMtrPdf')[0].reset()
         $('#input_orden_servicio_id').val(id)
         $("#modalMtrPdf").modal("show")
+        
       })
 
          // Open Modal novoCdfPdf
@@ -198,6 +199,7 @@
         $('#formCdfPdf')[0].reset()
         $('#input_orden_servicio_id').val(id)
         $("#modalCdfPdf").modal("show")
+      
       })
 
       // Salvar
