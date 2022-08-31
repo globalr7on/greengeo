@@ -129,6 +129,8 @@ Route::middleware(['auth:api', 'permission'])->group(function() {
     Route::delete('os/{id}', 'App\Http\Controllers\Api\OrdenDeServicoController@destroy')->name('os.excluir');
     Route::put('os/{id}/estagio', 'App\Http\Controllers\Api\OrdenDeServicoController@updateEstagio')->name('os.atualizar_estagio');
     Route::put('os/{id}/aprovacao', 'App\Http\Controllers\Api\OrdenDeServicoController@aprovacaoMotorista')->name('os.aprovacao_motorista');
+    Route::post('os/{id}/mtr', 'App\Http\Controllers\Api\OrdenDeServicoController@uploadMTR')->name('os.upload_mtr');
+    Route::post('os/{id}/cdf', 'App\Http\Controllers\Api\OrdenDeServicoController@uploadCDF')->name('os.upload_cdf');
 
     // NOTAS FISCAIS
     Route::get('nota_fiscais', 'App\Http\Controllers\Api\NotaFiscalController@index')->name('nota.lista');

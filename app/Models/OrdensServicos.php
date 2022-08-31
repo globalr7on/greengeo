@@ -29,6 +29,8 @@ class OrdensServicos extends Model
         'destinador_id',
         'motorista_id',
         'veiculo_id',
+        'mtr_link',
+        'cdf_link',
     ];
     protected $guardaded = ['id'];
 

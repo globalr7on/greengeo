@@ -57,7 +57,9 @@ class OrdenDeServicoResource extends JsonResource
                 return $data->status === null;
             })->all(),
             'itens' => OrdenDeServicoItenResource::collection($this->itens),
-            'lista_motoristas' => OrdenDeServicoMotoristasResource::collection($this->aprovacao_motorista)
+            'lista_motoristas' => OrdenDeServicoMotoristasResource::collection($this->aprovacao_motorista),
+            'mtr_link' => $this->mtr_link ? DO_S3_PATH.$this->mtr_link : null,
+            'cdf_link' => $this->cdf_link ? DO_S3_PATH.$this->cdf_link : null,
         ];
     }
 }

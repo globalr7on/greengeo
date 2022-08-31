@@ -46,10 +46,8 @@
     </div>
   </div>
   @include('rastreamento.os.modal')
-  @include('rastreamento.os.modalCdfPdf')
   @include('rastreamento.os.modalFotos')
   @include('rastreamento.os.modalGalleryFotos')
-  @include('rastreamento.os.modalMtrPdf')
 @endsection
 
 @push('js')
@@ -106,11 +104,11 @@
               const addPhotoBtn = estagio == statusTransporte
                 ? `<i class="fa-solid fa-cloud-arrow-up cursor-pointer novaFoto" data-id="${row.id}" data-codigo="${row.codigo}" title="Adicionar Foto"></i>&nbsp;`
                 : ''
-              const addMtrPdfBtn = estagio == statusEmitida
-                ? `<i class="fa-solid fa-trash-can-arrow-up cursor-pointer novoMtrPdf" data-id="${row.id}" title="Adicionar MTR"></i>&nbsp;`
+              const addMTRBtn = estagio == statusEmitida
+                ? `<i class="fa-solid fa-trash-can-arrow-up cursor-pointer addMTR" data-id="${row.id}" title="Adicionar MTR"></i>&nbsp;`
                 : ''
-              const addCdfPdfBtn = estagio == statusEntregue
-                ? `<i class="fa-solid fa-square-check cursor-pointer novoCdfPdf" data-id="${row.id}" title="Adicionar CDF"></i>&nbsp;`
+              const addCDFBtn = estagio == statusEntregue
+                ? `<i class="fa-solid fa-square-check cursor-pointer addCDF" data-id="${row.id}" title="Adicionar CDF"></i>&nbsp;`
                 : ''
               const listMotoristasBtn = `<i class="fa-solid fas fa-clipboard-list cursor-pointer listMotoristas" data-id="${row.id}" title="Lista motoristas"></i>&nbsp;`
                 
@@ -121,7 +119,7 @@
                 return `${showBtn}${approvalBtn}${rejectBtn}`
               }
 
-              return `${deleteBtn}${editBtn}${showBtn}${updateStatusTransporteBtn}${updateStatusEntregueBtn}${addPhotoBtn}${addMtrPdfBtn}${addCdfPdfBtn}${listMotoristasBtn}`
+              return `${deleteBtn}${editBtn}${showBtn}${updateStatusTransporteBtn}${updateStatusEntregueBtn}${addPhotoBtn}${addMTRBtn}${addCDFBtn}${listMotoristasBtn}`
             }
           }
         ],
@@ -178,23 +176,70 @@
         $("#modalFoto").modal("show")
       })
 
-       // Open Modal novoMtrPdf
-       $('body').on('click', '.novoMtrPdf', function() {
+       // Open Modal addMTR
+       $('body').on('click', '.addMTR', function() {
         const id = $(this).attr('data-id')
-        $('#pdfMtrPreview').empty()
-        $('#formMtrPdf')[0].reset()
-        $('#input_orden_servicio_id').val(id)
-        $("#modalMtrPdf").modal("show")
-        
+        sweetInput({
+          title: 'Upload MTR',
+          input: 'file',
+          inputAttributes: {
+            'accept': 'application/pdf',
+            'aria-label': 'Upload o MTR'
+          },
+          confirmButtonText: 'Subir',
+          focusConfirm: false,
+          buttonsStyling: false,
+          showCancelButton: true,
+          confirmButtonClass: 'btn btn-primary',
+          cancelButtonClass: 'btn btn-danger',
+          preConfirm: (value) => !value ? swal.showValidationError('Por favor, suba o MTR') : value,
+          errorCallback: (error) => notifyDanger('Ocorreu um erro ao subir MTR, tente novamente'),
+          successCallback: (result) => {
+            if (result?.dismiss) return
+            const data = new FormData()
+            data.append('pdf', result.value)
+            app.api.post(`/os/${id}/mtr`, data, true).then(response =>  {
+              if (response && response.status) {
+                notifySuccess('MTR enviado com sucesso')
+              } else {
+                notifyDanger('Falha ao subir o MTR, tente novamente')
+              }
+            }).catch(error => notifyDanger('Falha ao subir o MTR, tente novamente'))
+          }
+        })
       })
 
-      // Open Modal novoCdfPdf
-      $('body').on('click', '.novoCdfPdf', function() {
+      // Open Modal addCDF
+      $('body').on('click', '.addCDF', function() {
         const id = $(this).attr('data-id')
-        $('#pdfCdfPreview').empty()
-        $('#formCdfPdf')[0].reset()
-        $('#input_orden_servicio_id').val(id)
-        $("#modalCdfPdf").modal("show")
+        sweetInput({
+          title: 'Upload CDF',
+          input: 'file',
+          inputAttributes: {
+            'accept': 'application/pdf',
+            'aria-label': 'Upload o CDF'
+          },
+          confirmButtonText: 'Subir',
+          focusConfirm: false,
+          buttonsStyling: false,
+          showCancelButton: true,
+          confirmButtonClass: 'btn btn-primary',
+          cancelButtonClass: 'btn btn-danger',
+          preConfirm: (value) => !value ? swal.showValidationError('Por favor, suba o CDF') : value,
+          errorCallback: (error) => notifyDanger('Ocorreu um erro ao subir CDF, tente novamente'),
+          successCallback: (result) => {
+            if (result?.dismiss) return
+            const data = new FormData()
+            data.append('pdf', result.value)
+            app.api.post(`/os/${id}/cdf`, data, true).then(response =>  {
+              if (response && response.status) {
+                notifySuccess('CDF enviado com sucesso')
+              } else {
+                notifyDanger('Falha ao subir o CDF, tente novamente')
+              }
+            }).catch(error => notifyDanger('Falha ao subir o CDF, tente novamente'))
+          }
+        })
       })
       
       // Open Modal listMotoristas

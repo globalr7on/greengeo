@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
 use App\Http\Requests\OrdenDeServicoRequest;
 use App\Http\Requests\OrdenDeServicoAprovacaoRequest;
+use App\Http\Requests\UploadMTRorCDFRequest;
 use App\Http\Resources\OrdenDeServicoResource;
 use App\Models\OrdensServicos;
 use App\Models\PessoaJuridica;
@@ -17,6 +18,7 @@ use App\Mail\Ordem;
 use Mail;
 use App\Traits\OrdenServicoTrait;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class OrdenDeServicoController extends Controller
 {
@@ -293,33 +295,24 @@ class OrdenDeServicoController extends Controller
         }
     }
 
-    public function uploadMtr(Request $request){
+    public function uploadMTR(UploadMTRorCDFRequest $request, $id){
         DB::beginTransaction();
-        $imagesStorage = [];
+        $fileName = null;
         try {
-            $imagesCollection = collect();
-            $orden_servicio_id = $request->get('orden_servicio_id');
-            foreach ($request->file('imagens') as $image) {
-                $tempName = time().rand().'.'.$image->extension();
-                $imageName = Storage::disk('do')->putFileAs('mtr', $image, $tempName, 'public');
-                array_push($imagesStorage, $imageName);
-                $imagen = Imagen::create([
-                    'url' => $imageName,
-                    'orden_servico_id' => $orden_servicio_id,
-                ]);
-                $imagesCollection->add($imagen);
-            }
+            $pdf = $request->file('pdf');
+            $tempName = time().rand().'.'.$pdf->extension();
+            $fileName = Storage::disk('do')->putFileAs('mtr', $pdf, $tempName, 'public');
+            $ordenServico = OrdensServicos::find($id);
+            $ordenServico->update(['mtr_link' => $fileName]);
             DB::commit();
 
             return response([
-                'data' => ImagenResource::collection($imagesCollection),
+                'data' => new OrdenDeServicoResource($ordenServico),
                 'status' => true
             ], 200);
         } catch (\Illuminate\Database\QueryException $e) {
             DB::rollBack();
-            foreach ($imagesStorage as $image) {
-                Storage::disk('do')->delete($image);
-            }
+            Storage::disk('do')->delete($fileName);
 
             return response([
                 'data' => "Ocorreu um problema ao salvar, tente novamente",
@@ -327,9 +320,7 @@ class OrdenDeServicoController extends Controller
             ], 400);
         } catch (\Exception $e) {
             DB::rollBack();
-            foreach ($imagesStorage as $image) {
-                Storage::disk('do')->delete($image);
-            }
+            Storage::disk('do')->delete($fileName);
 
             return response([
                 'data' => $e->getMessage(),
@@ -338,34 +329,24 @@ class OrdenDeServicoController extends Controller
         }
     }
 
-
-    public function uploadCdf(Request $request){
+    public function uploadCDF(UploadMTRorCDFRequest $request, $id){
         DB::beginTransaction();
-        $imagesStorage = [];
+        $fileName = null;
         try {
-            $imagesCollection = collect();
-            $orden_servicio_id = $request->get('orden_servicio_id');
-            foreach ($request->file('imagens') as $image) {
-                $tempName = time().rand().'.'.$image->extension();
-                $imageName = Storage::disk('do')->putFileAs('cdf', $image, $tempName, 'public');
-                array_push($imagesStorage, $imageName);
-                $imagen = Imagen::create([
-                    'url' => $imageName,
-                    'orden_servico_id' => $orden_servicio_id,
-                ]);
-                $imagesCollection->add($imagen);
-            }
+            $pdf = $request->file('pdf');
+            $tempName = time().rand().'.'.$pdf->extension();
+            $fileName = Storage::disk('do')->putFileAs('cdf', $pdf, $tempName, 'public');
+            $ordenServico = OrdensServicos::find($id);
+            $ordenServico->update(['cdf_link' => $fileName]);
             DB::commit();
 
             return response([
-                'data' => ImagenResource::collection($imagesCollection),
+                'data' => new OrdenDeServicoResource($ordenServico),
                 'status' => true
             ], 200);
         } catch (\Illuminate\Database\QueryException $e) {
             DB::rollBack();
-            foreach ($imagesStorage as $image) {
-                Storage::disk('do')->delete($image);
-            }
+            Storage::disk('do')->delete($fileName);
 
             return response([
                 'data' => "Ocorreu um problema ao salvar, tente novamente",
@@ -373,9 +354,7 @@ class OrdenDeServicoController extends Controller
             ], 400);
         } catch (\Exception $e) {
             DB::rollBack();
-            foreach ($imagesStorage as $image) {
-                Storage::disk('do')->delete($image);
-            }
+            Storage::disk('do')->delete($fileName);
 
             return response([
                 'data' => $e->getMessage(),
