@@ -29,6 +29,9 @@ class HomeController extends Controller
             return $userController->accessToken(new Request(), Auth::user());
         });
         $request->session()->put('token', $token);
-        return view('dashboard');
+
+        $tipo_empresa=Auth::user()->pessoa_juridica->tipo_empresa->descricao;
+        // dd($tipo_empresa);
+        return view('dashboard' , compact('tipo_empresa'));
     }
 }

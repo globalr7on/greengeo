@@ -49,7 +49,11 @@
   </div>
   <div class="row align-items-center mx-0">
     <div class="col col-12 text-right m-0 px-4">
+      @if($tipo_empresa === 'Gerador')
+      <img src="{{ asset('material') }}/img/electrolux.png" style="height: 40px;" />
+      @else 
       <img src="{{ asset('material') }}/img/seulogoaqui.png" style="height: 40px;" />
+      @endif
     </div>
   </div>
 </div>

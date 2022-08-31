@@ -1,7 +1,11 @@
 <div class="sidebar" data-color="purple" data-background-color="white">
   <div class="logo pb-0 pt-2">
     <a href="/" class="text-center logo-normal">
+      @if($tipo_empresa  === 'Gerador')
+      <img src="{{ asset('material') }}/img/eletroluxBlue.png" style="height: 40px;" />
+      @else 
       <img src="{{ asset('material') }}/img/seulogoaqui.png" style="height: 40px;" />
+      @endif
     </a>
     <div class="text-center text-muted small font-italic">PARA UM CONTROLE INTELIGENTE</div>
   </div>

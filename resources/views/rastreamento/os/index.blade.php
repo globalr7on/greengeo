@@ -666,7 +666,7 @@
                 render: function (data, type, row, meta) {
                   return `
                     <div style="line-height: 1;">
-                      <span class="d-block">[${row.ean}] ${row.codigo}</span>
+                      <span class="d-block">[${row.descricao}] ${row.ean}</span>
                       <small class="d-block">Marca: ${row.marca} - Especie: ${row.especie}</small>
                       <small class="d-block">Serie: ${row.numero_de_serie} (${row.data_de_fabricacao})</small>
                     </div>
