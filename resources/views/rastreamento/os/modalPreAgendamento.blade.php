@@ -70,20 +70,26 @@
 
       <div class="modal-body pb-4">
           <div class="row  mx-0 mb-4">
+            <div class="col-md-2 text-center">
+                <div class="form-group">
+                  <label for="input_ncm" class="display-inherit mb-0 text-left">NCM</label>
+                  <input type="text" class="form-control" id="input_ncm">
+                </div>
+            </div>
             <div class="col-md-6 align-self-center">
-              <div class="form-group pb-0">
+              <div class="form-group">
                 <input type="hidden" id="input_id">
                 <label for="input_nome_produto">Nome do Produto</label>
                 <input type="text" class="form-control" id="input_nome_produto">
               </div>
             </div>
-            <div class="col-md-3 text-center">
+            <div class="col-md-2 text-center">
               <div class="form-group">
                 <label for="input_unidade" class="display-inherit mb-0 text-left">Unidade</label>
                 <input type="text" class="form-control" id="input_unidade">
               </div>
             </div>
-            <div class="col-md-3 text-center">
+            <div class="col-md-2 text-center">
               <div class="form-group">
                 <label for="input_quantidade" class="display-inherit mb-0 text-left">Quantidade</label>
                 <input type="text" class="form-control" id="input_quantidade">
@@ -100,8 +106,8 @@
            </div>
             <table class="table" id="produtosPreTbl">
               <thead>
-                <th class="text-primary font-weight-bold text-center" style="width:5%">#</th>
-                <th class="text-primary font-weight-bold" style="width:auto">Nome de Produto</th>
+                <th class="text-primary font-weight-bold text-center" style="width:5%">NCM</th>
+                <th class="text-primary font-weight-bold" style="width:auto">Descricão Produto</th>
                 <th class="text-primary font-weight-bold text-center" style="width:6%">Unidade</th>
                 <th class="text-primary font-weight-bold text-center" style="width:6%">Quantidade</th>
                 <th class="text-primary font-weight-bold text-center" style="width:6%">Ações</th>
