@@ -12,7 +12,7 @@
       <li class="nav-item {{ $activePage == 'dashboard' ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('home') }}">
           <i class="material-icons">dashboard</i>
-          <p>{{ __('Painel') }}</p>
+          <p>{{ __('Painel') }}</p>/
         </a>
       </li>
       @endcan

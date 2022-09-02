@@ -12,6 +12,9 @@
   <div class="content mt-0">
     <div class="container-fluid">
       <div class="col-12 text-right">
+        <button type="button" class="btn btn-primary" id="novaPreOs">
+         + Novo Pre Agendamento OS
+        </button>
         <button type="button" class="btn btn-primary" id="novaOs">
          + Nova OS
         </button>
@@ -48,6 +51,7 @@
   @include('rastreamento.os.modal')
   @include('rastreamento.os.modalFotos')
   @include('rastreamento.os.modalGalleryFotos')
+  @include('rastreamento.os.modalPreAgendamento')
 @endsection
 
 @push('js')
@@ -162,6 +166,28 @@
         getNotasFiscais()
         if ($.fn.dataTable.isDataTable('#produtosTbl')) {
           $('#produtosTbl').DataTable().clear().draw()
+        }
+      })
+
+      // Open Modal PreAgendamento New
+      $('body').on('click', '#novaPreOs', function() {
+        // $('#items').attr('disabled', false)
+        // $('.addPreProduto').attr('disabled', false)
+        // $('.addPreProduto').attr('disabled', true)
+        delFormValidationErrors()
+        $("#modalPreOs").modal("show")
+        $('#tituloPreModal').text("Pre Agendamento OS")
+        $('#input_id').val("")
+        $('#formPreOs')[0].reset()
+        // getEstagio('Emitida', true, true)
+        // getEmpresa(null, '#input_gerador_id', currentParentUserId, tipoEmpresaGeradorId, currentParentTipoEmpresaId == tipoEmpresaTransportadorId)
+        getEmpresa(response.data.destinador_id, '#input_destinador_id', null, null, false, false, true)
+        getEmpresa(response.data.transportador_id, '#input_transportador_id', null, null, false, false, true)
+        // getMotorista(null, null, true, true)
+        // getVeiculo(null, null, true, true)
+        // getNotasFiscais()
+        if ($.fn.dataTable.isDataTable('#produtosPreTbl')) {
+          $('#produtosPreTbl').DataTable().clear().draw()
         }
       })
 
@@ -472,6 +498,19 @@
           .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
         }
       }
+
+      // function getEmpresa2(value, selector, usuarioResponsavelId, tipoEmpresaId, showCurrentEmpresa = false, withoutData, disabled) {
+      //     const usuarioResponsavel = usuarioResponsavelId ? `&usuario_responsavel_cadastro_id=${usuarioResponsavelId}` : ''
+      //     const tipoEmpresa = tipoEmpresaId ? `&tipo_empresa_id=${tipoEmpresaId}` : ''
+      //     const url = `/pessoa_juridica?show_current_empresa=${showCurrentEmpresa}${tipoEmpresa}${usuarioResponsavel}`
+      //     app.api.get(url).then(response =>  {
+      //       if (response && response.status) {
+      //         loadSelect(selector, response.data, ['id', 'razao_social'], value, disabled)
+      //       }
+      //     })
+      //     .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
+      //   }
+      // }
 
       function getMotorista(value, empresaId, withoutData, disabled) {
         if (withoutData) {
