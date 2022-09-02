@@ -499,18 +499,7 @@
         }
       }
 
-      // function getEmpresa2(value, selector, usuarioResponsavelId, tipoEmpresaId, showCurrentEmpresa = false, withoutData, disabled) {
-      //     const usuarioResponsavel = usuarioResponsavelId ? `&usuario_responsavel_cadastro_id=${usuarioResponsavelId}` : ''
-      //     const tipoEmpresa = tipoEmpresaId ? `&tipo_empresa_id=${tipoEmpresaId}` : ''
-      //     const url = `/pessoa_juridica?show_current_empresa=${showCurrentEmpresa}${tipoEmpresa}${usuarioResponsavel}`
-      //     app.api.get(url).then(response =>  {
-      //       if (response && response.status) {
-      //         loadSelect(selector, response.data, ['id', 'razao_social'], value, disabled)
-      //       }
-      //     })
-      //     .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
-      //   }
-      // }
+     
 
       function getMotorista(value, empresaId, withoutData, disabled) {
         if (withoutData) {

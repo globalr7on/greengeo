@@ -69,39 +69,55 @@
       </div>
 
       <div class="modal-body pb-4">
-        <div class="row">
-          <div class="col-md-9 align-self-center">
-            <div class="form-group">
-              <select id="items" style="width: 100%"><option></option></select>
+          <div class="row  mx-0 mb-4">
+            <div class="col-md-6 align-self-center">
+              <div class="form-group pb-0">
+                <input type="hidden" id="input_id">
+                <label for="input_nome_produto">Nome do Produto</label>
+                <input type="text" class="form-control" id="input_nome_produto">
+              </div>
+            </div>
+            <div class="col-md-3 text-center">
+              <div class="form-group">
+                <label for="input_unidade" class="display-inherit mb-0 text-left">Unidade</label>
+                <input type="text" class="form-control" id="input_unidade">
+              </div>
+            </div>
+            <div class="col-md-3 text-center">
+              <div class="form-group">
+                <label for="input_quantidade" class="display-inherit mb-0 text-left">Quantidade</label>
+                <input type="text" class="form-control" id="input_quantidade">
+              </div>
             </div>
           </div>
-
-          <div class="col-md-3 text-center align-self-center">
-            <div class="form-group">
-              <button class="btn btn-primary addPreProduto">Adicionar produto</button>
-            </div>
+        
+          <div class="row mx-0 mb-4">
+              <div class="col-md-12 text-center align-self-center">
+                <div class="form-group">
+                  <button class="btn btn-primary addPreProduto">Adicionar produto</button>
+                </div>
+              </div>
+           </div>
+            <table class="table" id="produtosPreTbl">
+              <thead>
+                <th class="text-primary font-weight-bold text-center" style="width:5%">#</th>
+                <th class="text-primary font-weight-bold" style="width:auto">Nome de Produto</th>
+                <th class="text-primary font-weight-bold text-center" style="width:6%">Unidade</th>
+                <th class="text-primary font-weight-bold text-center" style="width:6%">Quantidade</th>
+                <th class="text-primary font-weight-bold text-center" style="width:6%">Ações</th>
+              </thead>
+              <tfoot>
+                <tr>
+                  <th>Total:</th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </tfoot>
+            </table>
           </div>
         </div>
-
-        <table class="table" id="produtosPreTbl">
-          <thead>
-            <th class="text-primary font-weight-bold text-center" style="width:5%">#</th>
-            <th class="text-primary font-weight-bold" style="width:auto">Nome de Produto</th>
-            <th class="text-primary font-weight-bold text-center" style="width:6%">Unidade</th>
-            <th class="text-primary font-weight-bold text-center" style="width:6%">Quantidade</th>
-            <th class="text-primary font-weight-bold text-center" style="width:6%">Ações</th>
-          </thead>
-          <tfoot>
-            <tr>
-              <th>Total:</th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
     </div>
   </div>
   <!-- <script type="javascript/json" id="produtosPreData"></script>
@@ -132,11 +148,11 @@
     })
   
     $('body').on('click', '#addPreProduto', function() {
+
       $("#modalPreProdutos").modal("show")
       $('#produtosPreTbl').DataTable().clear().draw()
-      // getEmpresa()
-      // setMaterialPesos()
     })
+
 
     // $('.datepicker').datetimepicker({
     //   format: "YYYY-MM-DD",
