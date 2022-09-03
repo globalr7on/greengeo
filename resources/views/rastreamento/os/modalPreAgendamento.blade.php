@@ -18,8 +18,6 @@
                       <input type="hidden" id="parent_usuario_responsavel_id" value="{{ Auth::user()->usuario_responsavel_cadastro_id }}">
                       <input type="hidden" id="parent_tipo_empresa_id" value="{{ Auth::user()->usuario_responsavel_cadastro && Auth::user()->usuario_responsavel_cadastro->pessoa_juridica ? Auth::user()->usuario_responsavel_cadastro->pessoa_juridica->tipo_empresa_id : null }}">
                       <input type="hidden" id="input_usuario_responsavel_cadastro_id" value="{{ Auth::user()->id }}">
-                      <input type="hidden" id="mtr_link">
-                      <input type="hidden" id="cdf_link">
                       <input type="hidden" id="input_id">
                       <!-- <label for="input_gerador_id" class="display-inherit mb-0">Gerador</label>
                       <select id="input_gerador_id" data-style="btn-warning text-white" name="input_gerador_id" title="Selecione"></select> -->
@@ -27,11 +25,6 @@
                       <select id="input_transportador_id" data-style="btn btn-warning text-white rounded" name="input_transportador_id" title="Selecione"></select>
                     </div>
                   </div>
-                  <!-- <div class="col-md-4 text-center">
-                    <div class="form-group m-0 p-0">
-                      
-                    </div>
-                  </div> -->
                   <div class="col-md-4 text-center">
                     <div class="form-group m-0 p-0">
                       <label for="input_destinador_id" class="display-inherit mb-0">Destinador</label>
@@ -133,6 +126,11 @@
 
 @push('js')
 <script>
+      const id = {{ Auth::user()->id }}
+      const tipoEmpresaId = "{{ Auth::user()->pessoa_juridica ? Auth::user()->pessoa_juridica->tipo_empresa_id : null }}" || null
+      const tipoEmpresa = tipoEmpresaId ? "{{ Auth::user()->pessoa_juridica ? Auth::user()->pessoa_juridica->tipo_empresa->descricao : null }}" : null
+      const isGerador = !tipoEmpresa || tipoEmpresa.toLowerCase() == 'transportador' ? true : false
+      const empresaId = isGerador ? null : "{{ Auth::user()->pessoa_juridica_id }}"
     $('.datetimepicker').datetimepicker({
       format: 'YYYY-MM-DD hh:mm:ss',
       icons: {
@@ -146,6 +144,7 @@
         clear: 'fa fa-trash',
         close: 'fa fa-remove'
       }
+     
     })
   </script>
   <script>

@@ -57,6 +57,7 @@
 @push('js')
   <script>
     $(document).ready(function () {
+     
       // fix issue with sweetInput and bootstrap modal
       $.fn.modal.Constructor.prototype._enforceFocus = function () {}
       const currentParentUserId = $('#parent_usuario_responsavel_id').val() ? parseInt($('#parent_usuario_responsavel_id').val()) : null
@@ -179,10 +180,11 @@
         $('#tituloPreModal').text("Pre Agendamento OS")
         $('#input_id').val("")
         $('#formPreOs')[0].reset()
+        // getEmpresa2(!isGerador ? empresaId : null, isGerador ? null : tipoEmpresaId, true, !isGerador)
         // getEstagio('Emitida', true, true)
         // getEmpresa(null, '#input_gerador_id', currentParentUserId, tipoEmpresaGeradorId, currentParentTipoEmpresaId == tipoEmpresaTransportadorId)
-        getEmpresa(response.data.destinador_id, '#input_destinador_id', null, null, false, false, true)
-        getEmpresa(response.data.transportador_id, '#input_transportador_id', null, null, false, false, true)
+        // getEmpresa(response.data.destinador_id, '#input_destinador_id', null, null, false, false, true)
+        // getEmpresa(response.data.transportador_id, '#input_transportador_id', null, null, false, false, true)
         // getMotorista(null, null, true, true)
         // getVeiculo(null, null, true, true)
         // getNotasFiscais()
