@@ -126,11 +126,6 @@
 
 @push('js')
 <script>
-      const id = {{ Auth::user()->id }}
-      const tipoEmpresaId = "{{ Auth::user()->pessoa_juridica ? Auth::user()->pessoa_juridica->tipo_empresa_id : null }}" || null
-      const tipoEmpresa = tipoEmpresaId ? "{{ Auth::user()->pessoa_juridica ? Auth::user()->pessoa_juridica->tipo_empresa->descricao : null }}" : null
-      const isGerador = !tipoEmpresa || tipoEmpresa.toLowerCase() == 'transportador' ? true : false
-      const empresaId = isGerador ? null : "{{ Auth::user()->pessoa_juridica_id }}"
     $('.datetimepicker').datetimepicker({
       format: 'YYYY-MM-DD hh:mm:ss',
       icons: {
