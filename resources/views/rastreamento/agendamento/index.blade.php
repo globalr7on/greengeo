@@ -33,18 +33,22 @@
   <script>
     $(document).ready(function () {
       const app = new App({})
-      getAgendamentos()
+      // getAgendamentos()
+      initCalendar()
 
       // Open Modal New
       $('body').on('click', '#novoAgendamento', function() {
+        app.stepper()
         delFormValidationErrors()
         $("#modalAgenda").modal("show")
         $('#tituloAgenda').text("Novo Agendamento")
         $('#input_id').val("")
         $('#formAgenda')[0].reset()
-        getTransportadora()
+        getTransportador()
+        getDestinador()
         getAcondicionamento()
-        getOrdemServico()
+        getUnidade()
+        $('#produtosTbl').DataTable()
       })
 
       // Enviar agendamento 
@@ -72,15 +76,29 @@
         })
       })
 
-      function getTransportadora() {
+      function getTransportador() {
         app.api.get('/tipo_empresa').then(response => {
           if (response && response.status) {
             const tipoEmpresaTransportadorId = response.data.find(curr => curr.descricao.toLowerCase() == 'transportador')?.id
-            const currentTipoEmpresaId = $('#current_tipo_empresa_id').val()
-            const showCurrentEmpresa = currentTipoEmpresaId == tipoEmpresaTransportadorId ? true : false
-            app.api.get(`/pessoa_juridica?tipo_empresa_id=${tipoEmpresaTransportadorId}&show_current_empresa=${showCurrentEmpresa}`).then(responseEmpresa =>  {
+            app.api.get(`/pessoa_juridica?tipo_empresa_id=${tipoEmpresaTransportadorId}`).then(responseEmpresa =>  {
               if (responseEmpresa && responseEmpresa.status) {
-                loadSelect('#input_transportadora_id', responseEmpresa.data, ['id', 'razao_social'])
+                loadSelect('#input_transportador_id', responseEmpresa.data, ['id', 'razao_social'])
+              }
+            })
+            .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
+          } else {
+            notifyDanger('Falha ao obter dados de empresa, tente novamente')
+          }
+        }).catch(error => notifyDanger('Falha ao obter dados. Tente novamente'))
+      }
+
+      function getDestinador() {
+        app.api.get('/tipo_empresa').then(response => {
+          if (response && response.status) {
+            const tipoEmpresaDestinadorId = response.data.find(curr => curr.descricao.toLowerCase() == 'destinador')?.id
+            app.api.get(`/pessoa_juridica?tipo_empresa_id=${tipoEmpresaDestinadorId}`).then(responseEmpresa =>  {
+              if (responseEmpresa && responseEmpresa.status) {
+                loadSelect('#input_destinador_id', responseEmpresa.data, ['id', 'razao_social'])
               }
             })
             .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
@@ -92,10 +110,10 @@
 
       }
 
-      function getOrdemServico() {
-        app.api.get('/os').then(response =>  {
+      function getUnidade() {
+        app.api.get('/unidad').then(response =>  {
           if (response && response.status) {
-            loadSelect('#input_ordem_servico_id', response.data, ['id', 'codigo'])
+            loadSelect('#input_unidade_id', response.data, ['id', 'descricao'])
           }
         })
         .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
@@ -110,14 +128,14 @@
         .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
       }
 
-      function getAgendamentos() {
-        app.api.get('/agendamento').then(response =>  {
-          if (response && response.status) {
-            initCalendar(response.data.map(curr => eventObject(curr)))
-          }
-        })
-        .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
-      }
+      // function getAgendamentos() {
+      //   app.api.get('/agendamento').then(response =>  {
+      //     if (response && response.status) {
+      //       initCalendar(response.data.map(curr => eventObject(curr)))
+      //     }
+      //   })
+      //   .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
+      // }
     })
 
     function eventObject(event) {

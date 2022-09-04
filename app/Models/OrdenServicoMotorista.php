@@ -10,7 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class OrdenServicoMotorista extends Model
 {
-    use HasApiTokens, HasFactory, Notifiable;   
+    use HasApiTokens, HasFactory, Notifiable;
     protected $table = 'orden_servico_motoristas';
     protected $fillable = [
         'usuario_id',
@@ -21,11 +21,11 @@ class OrdenServicoMotorista extends Model
 
     public function ordem_servico()
     {
-        return $this->hasOne('App\Models\OrdensServicos', 'id', 'ordem_servico_id');
+        return $this->belongsTo('App\Models\OrdensServicos', 'id', 'ordem_servico_id');
     }
 
     public function usuario()
     {
         return $this->hasOne('App\Models\User', 'id', 'usuario_id');
-    }    
+    }
 }

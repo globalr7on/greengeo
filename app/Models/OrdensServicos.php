@@ -13,16 +13,12 @@ class OrdensServicos extends Model
     protected $table = 'ordens_servicos';
     protected $fillable = [
         'codigo',
-        'mtr',
         'data_estagio',
-        'emissao',
-        'preenchimento',
-        'integracao',
-        'serie', 
-        'cdf_serial',
-        'cdf_ano',
+        'data_emissao',
+        'data_preenchimento',
+        'data_integracao',
         'description',
-        'peso_de_controle',
+        'peso_controle',
         'estagio_id',
         'gerador_id',
         'transportador_id',
@@ -31,17 +27,16 @@ class OrdensServicos extends Model
         'veiculo_id',
         'mtr_link',
         'cdf_link',
+        'acondicionamento_id',
+        'data_inicio_coleta',
+        'data_final_coleta',
+        'responsavel_id'
     ];
     protected $guardaded = ['id'];
 
     public function getPesoTotalAttribute()
     {
         return $this->itens ? number_format($this->itens->sum('peso'), 2) : null;
-    }
-
-    public function notas_fiscais()
-    {
-        return $this->belongsToMany('App\Models\NotaFiscal', 'ordens_servicos_notas_fiscais', 'ordem_servico_id', 'nota_fiscal_id');
     }
 
     public function estagio()
@@ -74,6 +69,16 @@ class OrdensServicos extends Model
         return $this->hasOne('App\Models\Veiculo', 'id', 'veiculo_id');
     }
 
+    public function acondicionamento()
+    {
+        return $this->hasOne('App\Models\Acondicionamento', 'id', 'acondicionamento_id');
+    }
+
+    public function responsavel()
+    {
+        return $this->hasOne('App\Models\User', 'id', 'responsavel_id');
+    }
+
     public function itens()
     {
         return $this->hasMany('App\Models\OrdenServicoIten', 'orden_servico_id', 'id');
@@ -83,9 +88,14 @@ class OrdensServicos extends Model
     {
         return $this->hasMany('App\Models\Imagen', 'orden_servico_id', 'id');
     }
-    
+
     public function aprovacao_motorista()
     {
         return $this->hasMany('App\Models\OrdenServicoMotorista', 'ordem_servico_id', 'id');
+    }
+
+    public function estagios_historico()
+    {
+        return $this->hasMany('App\Models\OrdenServicoEstagio', 'ordem_servico_id', 'id');
     }
 }

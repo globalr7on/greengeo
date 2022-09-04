@@ -11,14 +11,14 @@
   </style>
   <div class="content mt-0">
     <div class="container-fluid">
-      <div class="col-12 text-right">
+      <!-- <div class="col-12 text-right">
         <button type="button" class="btn btn-primary" id="novaPreOs">
          + Novo Pre Agendamento OS
         </button>
         <button type="button" class="btn btn-primary" id="novaOs">
          + Nova OS
         </button>
-      </div>
+      </div> -->
       <div class="row">
         <div class="col-md-12">
           <div class="card">
