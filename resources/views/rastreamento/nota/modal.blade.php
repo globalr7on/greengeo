@@ -13,13 +13,13 @@
           <div class="col-md-12">
             <form id="formNota">
               <div class="row mx-0 mb-4">
-                  <div class="col-md-12 align-self-center">
+                  <!-- <div class="col-md-12 align-self-center">
                     <div class="form-group">
                       <label for="file">XML File:</label>
                       <input type="file" class="form-control" required id="file" name="file">
                     </div>
                     <button type="submit" class="btn btn-primary" id="submit-post">Leia XML</button>
-                  </div>
+                  </div> -->
                 <div class="col-md-5 text-center">
                   <div class="form-group m-0 p-0">
                     <input type="hidden" id="input_id">

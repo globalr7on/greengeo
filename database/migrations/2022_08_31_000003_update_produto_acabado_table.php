@@ -14,17 +14,14 @@ class UpdateProdutoAcabadoTable extends Migration
     public function up()
     {
         Schema::table('produto_acabado', function (Blueprint $table) {
-            $table->dropColumn(['nota_fiscal_item_id']);
+            $table->dropColumn(['dimensoes']);
             $table->string('ean')->nullable()->change();
-            $table->double('altura')->nullable()->change();
-            $table->double('largura')->nullable()->change();
-            $table->double('profundidade')->nullable()->change();
-            $table->double('comprimento')->nullable()->change();
-            $table->double('especie')->nullable()->change();
-            $table->double('marca')->nullable()->change();
-            $table->boolean('ativo')->default(true);
-            $table->unsignedBigInteger('pessoa_juridica_id');
-            $table->foreign('pessoa_juridica_id')->references('id')->on('pessoas_juridicas');
+            $table->float('altura')->nullable()->change();
+            $table->float('largura')->nullable()->change();
+            $table->float('profundidade')->nullable()->change();
+            $table->float('comprimento')->nullable()->change();
+            $table->float('especie')->nullable()->change();
+            $table->float('marca')->nullable()->change();
             $table->unsignedBigInteger('unidade_id');
             $table->foreign('unidade_id')->references('id')->on('unidades');
         });

@@ -181,15 +181,15 @@
       </li>
       @endcanany
 
-      @canany(['rastreamento.agendamento', 'rastreamento.notaFiscal', 'rastreamento.os', 'rastreamento.rastreamento'])
-      <li class="nav-item {{ in_array($activePage, array('agendamento', 'nota_fiscal', 'os', 'rastreamento')) ? 'active' : '' }}">
-        <a class="nav-link" data-toggle="collapse" href="#rasTab" aria-expanded="{{ in_array($activePage, array('agendamento', 'nota_fiscal', 'os', 'rastreamento')) ? 'true' : 'false' }}">
+      @canany(['rastreamento.agendamento', 'rastreamento.os', 'rastreamento.notaFiscal', 'rastreamento.rastreamento'])
+      <li class="nav-item {{ in_array($activePage, array('agendamento', 'os', 'nota_fiscal', 'rastreamento')) ? 'active' : '' }}">
+        <a class="nav-link" data-toggle="collapse" href="#rasTab" aria-expanded="{{ in_array($activePage, array('agendamento', 'os', 'nota_fiscal', 'rastreamento')) ? 'true' : 'false' }}">
           <i class="fa-solid fa-satellite-dish"></i>
           <p>{{ __('OS e Rastreamento') }}
             <b class="caret"></b>
           </p>
         </a>
-        <div class="collapse {{ in_array($activePage, array('agendamento', 'nota_fiscal', 'os', 'rastreamento')) ? 'show' : '' }}" id="rasTab">
+        <div class="collapse {{ in_array($activePage, array('agendamento', 'os', 'nota_fiscal', 'rastreamento')) ? 'show' : '' }}" id="rasTab">
           <ul class="nav">
             @can('rastreamento.agendamento')
             <li class="nav-item ml-4 {{ $activePage == 'agendamento' ? 'active' : '' }}">
@@ -199,21 +199,21 @@
               </a>
             </li>
             @endcan
-            
-            @can('rastreamento.notaFiscal')
-            <li class="nav-item ml-4 {{ $activePage == 'nota_fiscal' ? 'active' : '' }}">
-              <a class="nav-link" href="{{ route('rastreamento.notaFiscal') }}">
-                <i class="fa-solid fa-file-circle-check"></i>
-                <span class="sidebar-normal">{{ __('Nota Fiscal') }}</span>
-              </a>
-            </li>
-            @endcan
 
             @can('rastreamento.os')
             <li class="nav-item ml-4 {{ $activePage == 'os' ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('rastreamento.os') }}">
                 <i class="fa-solid fa-file-lines"></i>
                 <span class="sidebar-normal">{{ __('Ordem de Serviço') }}</span>
+              </a>
+            </li>
+            @endcan
+
+            @can('rastreamento.notaFiscal')
+            <li class="nav-item ml-4 {{ $activePage == 'nota_fiscal' ? 'active' : '' }}">
+              <a class="nav-link" href="{{ route('rastreamento.notaFiscal') }}">
+                <i class="fa-solid fa-file-circle-check"></i>
+                <span class="sidebar-normal">{{ __('Nota Fiscal') }}</span>
               </a>
             </li>
             @endcan
