@@ -74,8 +74,8 @@
         apiUrl: '/api/os',
         apiDataTableColumns: [
           { data: 'codigo'},
-          { data: "emissao" },
-          { data: "integracao" },
+          { data: "data_emissao" },
+          { data: "data_integracao" },
           { data: "gerador" },
           { data: "transportador" },
           { data: "destinador" },

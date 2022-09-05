@@ -67,7 +67,7 @@
           unidade: $('select#input_unidade_id option:selected').text(),
           peso: $('#input_peso').val(),
         }
-        if (!Object.values(produto).every(c => c)) {
+        if (!produto.codigo || !produto.descricao || !produto.quantidade || !produto.unidade || !produto.peso || produto.peso == '0,00') {
           return notifyDanger('Favor, ingrese todos los campos')
         }
 
