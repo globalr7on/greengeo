@@ -14,14 +14,14 @@ class UpdateProdutoAcabadoTable extends Migration
     public function up()
     {
         Schema::table('produto_acabado', function (Blueprint $table) {
-            $table->dropColumn(['dimensoes']);
+            // $table->dropColumn(['dimensoes']);
             $table->string('ean')->nullable()->change();
             $table->float('altura')->nullable()->change();
             $table->float('largura')->nullable()->change();
             $table->float('profundidade')->nullable()->change();
             $table->float('comprimento')->nullable()->change();
-            $table->float('especie')->nullable()->change();
-            $table->float('marca')->nullable()->change();
+            $table->string('especie')->nullable()->change();
+            $table->string('marca')->nullable()->change();
             $table->unsignedBigInteger('unidade_id');
             $table->foreign('unidade_id')->references('id')->on('unidades');
         });

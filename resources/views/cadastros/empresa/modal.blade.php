@@ -38,7 +38,7 @@
                     <div class="col-md-4 align-self-center">
                       <div class="form-group pb-0">
                         <input type="hidden" id="input_id">
-                        <label for="input_contrato">Contrato Nro.</label>
+                        <label for="input_contrato">Nº Contrato.</label>
                         <input type="text" class="form-control" id="input_contrato">
                       </div>
                     </div>
@@ -76,7 +76,7 @@
 
                     <div class="col-md-4">
                       <div class="form-group">
-                        <label for="input_nome_fantasia">Nome de Fantasia</label>
+                        <label for="input_nome_fantasia">Nome Fantasia</label>
                         <input type="text" class="form-control" id="input_nome_fantasia">
                       </div>
                     </div>
@@ -158,7 +158,7 @@
 
                     <div class="col-md-5">
                       <div class="form-group">
-                        <label for="input_longitude">Logintude</label>
+                        <label for="input_longitude">Longitude</label>
                         <input type="text" class="form-control" id="input_longitude">
                       </div>
                     </div>
@@ -250,8 +250,8 @@
                   <div class="row mx-0 mb-4">
                     <div class="col-md-6">
                       <div class="form-group">
-                        <label for="input_senha_acesso">Senha Acesso</label>
-                        <input type="text" class="form-control" id="input_senha_acesso">
+                        <label for="input_senha_acesso">Senha de Acesso</label>
+                        <input type="text" class="form-control maskchave" id="input_senha_acesso">
                       </div>
                     </div>
 

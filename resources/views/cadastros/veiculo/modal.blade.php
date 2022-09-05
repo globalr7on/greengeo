@@ -78,7 +78,7 @@
 
                 <div class="col-md-6 text-center">
                   <div class="form-group m-0 p-0">
-                    <label for="input_combustivel" class="display-inherit mb-0">Combustivel</label>
+                    <label for="input_combustivel" class="display-inherit mb-0">Combustível</label>
                     <select id="input_combustivel" data-style="btn-warning text-white" title="Selecione" name="combustivel"></select>
                   </div>
                 </div>

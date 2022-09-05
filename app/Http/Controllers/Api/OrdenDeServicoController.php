@@ -117,11 +117,21 @@ class OrdenDeServicoController extends Controller
             //     echo 'Error Message: ' .$e->getMessage();
             // }
 
-            $tipoA = $newOrdenDeServico->gerador->nome_fantasia;
-            $tipoB = $newOrdenDeServico->destinador->nome_fantasia;
-            $tipoC = $newOrdenDeServico->transportador->nome_fantasia;
-            $email = $newOrdenDeServico->destinador->email;
-            Mail::to($email)->send(new Ordem($tipoA, $tipoB, $tipoC, $email));
+            $agenda = [
+                // 'codigo'  => $agendamento->ordem_servico->codigo,
+                'gerador' => $newOrdenDeServico->usuario->pessoa_juridica->nome_fantasia,
+                'usuario' => $newOrdenDeServico->usuario->name,
+                'celular' => $newOrdenDeServico->usuario->celular,
+                'descricao_produto' =>  $newOrdenDeServico->description,
+                'peso_controle' => $newOrdenDeServico->peso_controle,
+                'transportadora' => $newOrdenDeServico->transportadora->nome_fantasia,
+                'destinador' => $newOrdenDeServico->destinador->nome_fantasia,
+                'acondicionamento' => $newOrdenDeServico->acondicionamento->descricao,
+                'email' => $newOrdenDeServico->transportadora->email,
+                'data_inicio_coleta' => $newOrdenDeServico->data_inicio_coleta,
+                'data_final_coleta' => $newOrdenDeServico->data_final_coleta,
+            ];
+            Mail::to($agenda['email'])->send(new EnvioAgendamento($agenda));
 
             DB::commit();
             return response([
