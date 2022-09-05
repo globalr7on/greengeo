@@ -36,6 +36,7 @@
     <script src="{{ asset('material') }}/js/core/bootstrap-material-design.min.js"></script>
     <script src="{{ asset('material') }}/js/plugins/perfect-scrollbar.jquery.min.js"></script>
     <script src="{{ asset('material') }}/js/plugins/moment.min.js"></script>
+    <script src="{{ asset('material') }}/js/plugins/pt-br.js"></script>
     <script src="{{ asset('material') }}/js/plugins/sweetalert2.js"></script>
     <script src="{{ asset('material') }}/js/plugins/jquery.validate.min.js"></script>
     <script src="{{ asset('material') }}/js/plugins/jquery.bootstrap-wizard.js"></script>

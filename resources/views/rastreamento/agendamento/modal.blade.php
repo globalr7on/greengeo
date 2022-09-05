@@ -34,6 +34,7 @@
                   <div class="col-md-4 text-center">
                     <div class="form-group m-0 p-0">
                       <input type="hidden" id="input_responsavel_id" value="{{ Auth::user()->id }}">
+                      <input type="hidden" id="input_pessoa_juridica_id" value="{{ Auth::user()->pessoa_juridica_id }}">
                       <input type="hidden" id="input_id">
                       <label for="input_transportador_id" class="display-inherit mb-0">Transportador</label>
                       <select id="input_transportador_id" data-style="btn-warning text-white" title="Selecione"></select>
@@ -83,6 +84,9 @@
                     <div class="form-group mb-0">
                       <label for="input_codigo">Codigo</label>
                       <input type="text" class="form-control" id="input_codigo">
+                      <input type="hidden" id="position">
+                      <input type="hidden" id="id">
+                      <input type="hidden" id="produto_id">
                     </div>
                   </div>
 
@@ -117,7 +121,7 @@
                   </div>
 
                   <div class="col-md-4 align-self-center text-center">
-                    <button type="button" class="btn btn-primary">Adicionar</button>
+                    <button type="button" class="btn btn-primary" id="addProduto">Adicionar</button>
                   </div>
                 </div>
 
@@ -125,15 +129,19 @@
                   <div class="col-md-12">
                     <table class="table" id="produtosTbl">
                       <thead>
+                        <th class="text-primary font-weight-bold text-center" style="width:6%">#</th>
                         <th class="text-primary font-weight-bold text-center" style="width:8%">Codigo</th>
                         <th class="text-primary font-weight-bold" style="width:auto">Descricão</th>
                         <th class="text-primary font-weight-bold text-center" style="width:6%">Unid.</th>
                         <th class="text-primary font-weight-bold text-center" style="width:6%">Quant.</th>
+                        <th class="text-primary font-weight-bold text-center" style="width:6%">Peso</th>
                         <th class="text-primary font-weight-bold text-center" style="width:6%">Ações</th>
                       </thead>
                       <tfoot>
                         <tr>
                           <th>Total:</th>
+                          <th></th>
+                          <th></th>
                           <th></th>
                           <th></th>
                           <th></th>
@@ -146,7 +154,7 @@
 
                 <div class="row mx-0">
                   <button class="btn btn-primary stepper-prev">Anterior</button>
-                  <button type="button" class="btn btn-primary" id="salvarAgenda">Salvar</button>
+                  <button type="button" class="btn btn-success" id="salvarAgenda">Salvar</button>
                 </div>
               </div>
             </div>
@@ -164,7 +172,8 @@
     })
 
     $('.datetimepicker').datetimepicker({
-      format: 'YYYY-MM-DD hh:mm:ss',
+      locale: 'pt-br',
+      format: 'YYYY-MM-DD HH:mm:ss',
       icons: {
         time: "fa fa-clock-o",
         date: "fa fa-calendar",
@@ -177,7 +186,5 @@
         close: 'fa fa-remove'
       }
     })
-
-    maskPeso("#input_peso")
   </script>
 @endpush

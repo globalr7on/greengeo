@@ -11,6 +11,7 @@ use App\Http\Resources\OrdenDeServicoResource;
 use App\Models\OrdensServicos;
 use App\Models\PessoaJuridica;
 use App\Models\OrdenServicoMotorista;
+use App\Models\Produto;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
@@ -19,6 +20,9 @@ use Mail;
 use App\Traits\OrdenServicoTrait;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
+
+const TIMEZONE_BRAZIL = 'America/Sao_Paulo';
 
 class OrdenDeServicoController extends Controller
 {
@@ -73,55 +77,35 @@ class OrdenDeServicoController extends Controller
     {
         DB::beginTransaction();
         try {
-            $request->merge(array('codigo' => $this->generateCode(OrdensServicos::class)));
-            $newOrdenDeServico = OrdensServicos::create($request->except(['notas_fiscais', 'produtos']));
-            if ($newOrdenDeServico->motorista_id) {
-                OrdenServicoMotorista::create([
-                    'usuario_id' => $newOrdenDeServico->motorista_id,
-                    'ordem_servico_id' => $newOrdenDeServico->id
-                ]);
-                $newOrdenDeServico->estagio_id = $this->getNextEstagio($newOrdenDeServico->estagio_id);
-                $newOrdenDeServico->save();
-            }
-            $newOrdenDeServico->notas_fiscais()->attach($request->get('notas_fiscais'));
+            // $request->merge(array('codigo' => $this->generateCode(OrdensServicos::class)));
+            $request->merge([
+                'estagio_id' => 1,
+                'data_inicio_coleta' => new Carbon(new Carbon($request->get('data_inicio_coleta'), TIMEZONE_BRAZIL), 'UTC'),
+                'data_final_coleta' => new Carbon(new Carbon($request->get('data_final_coleta'), TIMEZONE_BRAZIL), 'UTC')
+            ]);
+            $newOrdenDeServico = OrdensServicos::create($request->except(['produtos']));
             if ($request->get('produtos')) {
                 foreach ($request->get('produtos') as $produto) {
+                    $produtoAcabado = Produto::create([
+                        'codigo' => $produto['codigo'],
+                        'descricao' => $produto['descricao'],
+                        'unidade_id' => $produto['unidade_id'],
+                        'pessoa_juridica_id' => $produto['pessoa_juridica_id'],
+                        'ativo' => 2
+                    ]);
                     $newOrdenDeServico->itens()->create([
-                        'orden_servico_id' => $newOrdenDeServico->id,
+                        'produto_id' => $produtoAcabado->id,
                         'peso' => $produto['peso'],
-                        'observacao' => $produto['observacao'],
-                        'numero_de_serie' => $produto['numero_de_serie'],
-                        'data_de_fabricacao' => $produto['data_de_fabricacao'],
-                        'produto_id' => $produto['produto_id'],
-                        'tratamento_id' => $produto['tratamento_id'],
-                        'nota_fiscal_item_id' => $produto['nota_fiscal_item_id']
+                        'quantidade' => $produto['quantidade'],
                     ]);
                 }
             }
-            
-            // try {
-            //     $responseRastreo = Http::post(config('app.rastreamento').'coordenada/create', [
-            //         "codigo_coordenada" => $newOrdenDeServico->id,
-            //         "gerador" => [
-            //             "id" => $newOrdenDeServico->gerador_id,
-            //             "latitude" => $newOrdenDeServico->gerador ? $newOrdenDeServico->gerador->latitude : null,
-            //             "longitude" => $newOrdenDeServico->gerador ? $newOrdenDeServico->gerador->longitude : null,
-            //         ],
-            //         "destinador" => [
-            //             "id" => $newOrdenDeServico->destinador_id,
-            //             "latitude" => $newOrdenDeServico->destinador ? $newOrdenDeServico->destinador->latitude : null,
-            //             "longitude" => $newOrdenDeServico->destinador ? $newOrdenDeServico->destinador->longitude : null,
-            //         ]
-            //     ]);
-            // } catch(Exception $e) {
-            //     echo 'Error Message: ' .$e->getMessage();
-            // }
 
-            $tipoA = $newOrdenDeServico->gerador->nome_fantasia;
-            $tipoB = $newOrdenDeServico->destinador->nome_fantasia;
-            $tipoC = $newOrdenDeServico->transportador->nome_fantasia;
-            $email = $newOrdenDeServico->destinador->email;
-            Mail::to($email)->send(new Ordem($tipoA, $tipoB, $tipoC, $email));
+            // $tipoA = $newOrdenDeServico->gerador->nome_fantasia;
+            // $tipoB = $newOrdenDeServico->destinador->nome_fantasia;
+            // $tipoC = $newOrdenDeServico->transportador->nome_fantasia;
+            // $email = $newOrdenDeServico->destinador->email;
+            // Mail::to($email)->send(new Ordem($tipoA, $tipoB, $tipoC, $email));
 
             DB::commit();
             return response([
@@ -163,29 +147,39 @@ class OrdenDeServicoController extends Controller
         DB::beginTransaction();
         try {
             $ordenServico = OrdensServicos::find($id);
-            $ordenServico->update($request->all());
-            if ($ordenServico->motorista_id) {
-                OrdenServicoMotorista::create([
-                    'usuario_id' => $ordenServico->motorista_id,
-                    'ordem_servico_id' => $ordenServico->id
-                ]);
-                $ordenServico->estagio_id = $this->getNextEstagio($ordenServico->estagio_id);
-                $ordenServico->save();
-            }
-            $ordenServico->notas_fiscais()->sync($request->get('notas_fiscais'));
+            $ordenServico->update($request->except('produtos'));
+            // if ($ordenServico->motorista_id) {
+            //     OrdenServicoMotorista::create([
+            //         'usuario_id' => $ordenServico->motorista_id,
+            //         'ordem_servico_id' => $ordenServico->id
+            //     ]);
+            //     $ordenServico->estagio_id = $this->getNextEstagio($ordenServico->estagio_id);
+            //     $ordenServico->save();
+            // }
             if ($request->get('produtos')) {
+                $itensIds = array_column($request->get('produtos'), 'id');
+                $itensToDelete = $ordenServico->itens->whereNotIn('id', $itensIds);
+                if (count($itensToDelete->all()) > 0) {
+                    $produtoIds = $itensToDelete->pluck('produto_id');
+                    $itensToDelete->each->delete();
+                    Produto::whereIn('id', $produtoIds)->delete();
+                }
                 foreach ($request->get('produtos') as $produto) {
+                    $produtoAcabado = Produto::updateOrCreate([
+                        'id' => $produto['produto_id']
+                    ], [
+                        'codigo' => $produto['codigo'],
+                        'descricao' => $produto['descricao'],
+                        'unidade_id' => $produto['unidade_id'],
+                        'pessoa_juridica_id' => $produto['pessoa_juridica_id'],
+                        'ativo' => 2
+                    ]);
                     $ordenServico->itens()->updateOrCreate([
                         'id' => $produto['id']
                     ], [
-                        'orden_servico_id' => $ordenServico->id,
+                        'produto_id' => $produtoAcabado->id,
                         'peso' => $produto['peso'],
-                        'observacao' => $produto['observacao'],
-                        'numero_de_serie' => $produto['numero_de_serie'],
-                        'data_de_fabricacao' => $produto['data_de_fabricacao'],
-                        'produto_id' => $produto['produto_id'],
-                        'tratamento_id' => $produto['tratamento_id'],
-                        'nota_fiscal_item_id' => $produto['nota_fiscal_item_id']
+                        'quantidade' => $produto['quantidade'],
                     ]);
                 }
             }

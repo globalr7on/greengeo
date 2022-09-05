@@ -11,23 +11,15 @@ class OrdenDeServicoRequest extends FormRequest
     public function rules()
     {
         return [
-            'data_estagio' => 'required|date|date_format:Y-m-d',
-            'mtr' => 'required|integer',
-            'emissao' => 'required|date|date_format:Y-m-d',
-            'preenchimento' => 'required|date|date_format:Y-m-d',
-            'integracao' => 'required|date|date_format:Y-m-d',
-            'serie' => 'required|string|max:2', 
-            // 'cdf_serial' => 'required|integer',
-            // 'cdf_ano' => 'required|integer',
-            'description' => 'required|string',
-            // 'peso_de_controle' => 'required',
-            'estagio_id' => 'required',
+            'responsavel_id' => 'required',
             'gerador_id' => 'required',
-            'transportador_id'  => 'required',
+            'transportador_id' => 'required',
             'destinador_id' => 'required',
-            // 'motorista_id' => 'required',
-            // 'veiculo_id' => 'required',
-            'notas_fiscais' => 'required',
+            'acondicionamento_id' => 'required',
+            'data_inicio_coleta' => 'required|date|date_format:Y-m-d H:i:s',
+            'data_final_coleta' => 'required|date|date_format:Y-m-d H:i:s',
+            'produtos' => 'required|array',
+            // 'data_estagio' => 'required|date|date_format:Y-m-d',
         ];
     }
 

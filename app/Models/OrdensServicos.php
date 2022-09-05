@@ -81,7 +81,7 @@ class OrdensServicos extends Model
 
     public function itens()
     {
-        return $this->hasMany('App\Models\OrdenServicoIten', 'orden_servico_id', 'id');
+        return $this->hasMany('App\Models\OrdenServicoIten', 'ordem_servico_id', 'id');
     }
 
     public function imagens()

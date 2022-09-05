@@ -21,15 +21,15 @@ class OrdenDeServicoItenResource extends JsonResource
             'id' => $this->id,
             'peso' => $this->peso,
             'observacao' => $this->observacao,
-            'numero_de_serie' => $this->numero_de_serie,
-            'data_de_fabricacao' => $this->data_de_fabricacao,
-            'orden_servico_id' => $this->orden_servico_id,
+            'numero_serie' => $this->numero_serie,
+            'data_fabricacao' => $this->data_fabricacao,
+            'ordem_servico_id' => $this->ordem_servico_id,
             'produto_id' => $this->produto_id,
             'produto' => new ProdutoResource($this->produto),
             'tratamento_id' => $this->tratamento_id,
             'tratamento' => new TratamentoResource($this->tratamento),
-            'nota_fiscal_item_id' => $this->nota_fiscal_item_id,
-            'nota_fiscal_item' => new NotaFiscalItenResource($this->nota_fiscal_item),
+            'quantidade' => $this->quantidade,
+            'ativo' => $this->ativo,
         ];
     }
 }

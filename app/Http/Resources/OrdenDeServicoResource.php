@@ -6,6 +6,9 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\ImagenResource;
 use App\Http\Resources\OrdenDeServicoItenResource;
 use App\Http\Resources\OrdenDeServicoMotoristasResource;
+use Carbon\Carbon;
+
+const TIMEZONE_BRAZIL = 'America/Sao_Paulo';
 
 class OrdenDeServicoResource extends JsonResource
 {
@@ -21,13 +24,9 @@ class OrdenDeServicoResource extends JsonResource
             'id' => $this->id,
             'codigo' => $this->codigo,
             'data_estagio' => $this->data_estagio,
-            'mtr' => $this->mtr,
-            'emissao' => $this->emissao,
-            'preenchimento' => $this->preenchimento,
-            'integracao' => $this->integracao,
-            'serie' => $this->serie,
-            'cdf_serial' => $this->cdf_serial,
-            'cdf_ano' => $this->cdf_ano,
+            'data_emissao' => $this->data_emissao,
+            'data_preenchimento' => $this->data_preenchimento,
+            'data_integracao' => $this->data_integracao,
             'description' => $this->description,
             'peso_total' => $this->peso_total,
             'peso_de_controle' => $this->peso_de_controle,
@@ -51,15 +50,20 @@ class OrdenDeServicoResource extends JsonResource
             'motorista' => $this->motorista ? $this->motorista->name : null,
             'veiculo_id' => $this->veiculo_id,
             'veiculo' => $this->veiculo ? $this->veiculo->placa : null,
-            'notas_fiscais' => $this->notas_fiscais ? $this->notas_fiscais->pluck('id') : [],
+            'mtr_link' => $this->mtr_link ? DO_S3_PATH.$this->mtr_link : null,
+            'cdf_link' => $this->cdf_link ? DO_S3_PATH.$this->cdf_link : null,
+            'data_inicio_coleta' => (new Carbon(new Carbon($this->data_inicio_coleta, 'UTC'), TIMEZONE_BRAZIL))->format('Y-m-d H:i:s'),
+            'data_final_coleta' => (new Carbon(new Carbon($this->data_final_coleta, 'UTC'), TIMEZONE_BRAZIL))->format('Y-m-d H:i:s'),
+            'acondicionamento_id' => $this->acondicionamento_id,
+            'acondicionamento' => $this->acondicionamento ? $this->acondicionamento->descricao : null,
+            'responsavel_id' => $this->responsavel_id,
+            'responsavel' => $this->responsavel ? $this->responsavel->name : null,
+            'itens' => OrdenDeServicoItenResource::collection($this->itens),
             'imagens' => ImagenResource::collection($this->imagens),
             'aprovacao_motorista' => $this->aprovacao_motorista->filter(function ($data) {
                 return $data->status === null;
             })->all(),
-            'itens' => OrdenDeServicoItenResource::collection($this->itens),
             'lista_motoristas' => OrdenDeServicoMotoristasResource::collection($this->aprovacao_motorista),
-            'mtr_link' => $this->mtr_link ? DO_S3_PATH.$this->mtr_link : null,
-            'cdf_link' => $this->cdf_link ? DO_S3_PATH.$this->cdf_link : null,
         ];
     }
 }

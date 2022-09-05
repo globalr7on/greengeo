@@ -17,10 +17,10 @@ class UpdateNullOrdensServicosTable extends Migration
             $table->dropColumn(['mtr', 'serie', 'cdf_serial', 'cdf_ano']);
             $table->string('codigo', 15)->nullable()->change();
             $table->date('data_estagio')->nullable()->change();
-            $table->renameColumn('emissao', 'data_emissao')->nullable()->change();
-            $table->renameColumn('preenchimento', 'data_preenchimento')->nullable()->change();
-            $table->renameColumn('integracao', 'data_integracao')->nullable()->change();
-            $table->renameColumn('peso_de_controle', 'peso_controle')->nullable()->change();
+            $table->renameColumn('emissao', 'data_emissao')->change();
+            $table->renameColumn('preenchimento', 'data_preenchimento')->change();
+            $table->renameColumn('integracao', 'data_integracao')->change();
+            $table->renameColumn('peso_de_controle', 'peso_controle')->change();
             $table->date('data_inicio_coleta');
             $table->date('data_final_coleta');
             $table->unsignedBigInteger('acondicionamento_id');

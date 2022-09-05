@@ -20,7 +20,7 @@ class ProdutoResource extends JsonResource
             'pessoa_juridica_id' => $this->pessoa_juridica_id,
             'pessoa_juridica' => $this->pessoa_juridica ? $this->pessoa_juridica->nome_fantasia : null,
             'codigo' => $this->codigo,
-            'dimensoes' => $this->dimensoes, 
+            'descricao' => $this->descricao,
             'altura' => $this->altura,
             'largura' => $this->largura,
             'profundidade' => $this->profundidade,
@@ -28,18 +28,19 @@ class ProdutoResource extends JsonResource
             'especie' => $this->especie,
             'marca' => $this->marca,
             'ean' => $this->ean,
-            'descricao' => $this->descricao,
-            'materiais' => $this->materiais->map(function ($material) {
-                $material->material_id = $material->pivot->material_id;
-                $material->peso_bruto = $material->pivot->peso_bruto;
-                $material->peso_liquido = $material->pivot->peso_liquido;
-                $material->percentual_composicao = $material->pivot->percentual_composicao;
-                $material->ibama;
-                $material->tipo_material;
-                $material->unidade;
+            'unidade_id' => $this->unidade_id,
+            'unidade' => $this->unidade ? $this->unidade->simbolo : null,
+            // 'materiais' => $this->materiais->map(function ($material) {
+            //     $material->material_id = $material->pivot->material_id;
+            //     $material->peso_bruto = $material->pivot->peso_bruto;
+            //     $material->peso_liquido = $material->pivot->peso_liquido;
+            //     $material->percentual_composicao = $material->pivot->percentual_composicao;
+            //     $material->ibama;
+            //     $material->tipo_material;
+            //     $material->unidade;
 
-                return $material;
-            })->makeHidden('pivot')
+            //     return $material;
+            // })->makeHidden('pivot')
         ];
     }
 }
