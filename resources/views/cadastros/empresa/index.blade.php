@@ -80,7 +80,7 @@
         app.stepper()
         delFormValidationErrors()
         $("#modalEmpresa").modal("show")
-        $('#tituloModal').text("Novo Empresa")
+        $('#tituloModal').text("Nova Empresa")
         $('#input_id').val("")
         $('#formEmpresa')[0].reset()
         getTipoEmpresa()

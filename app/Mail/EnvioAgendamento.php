@@ -18,15 +18,17 @@ class EnvioAgendamento extends Mailable
      */
     public function __construct($agenda)
     {
-        $this->codigo = $agenda['codigo'];
+        // $this->codigo = $agenda['codigo'];
         $this->gerador = $agenda['gerador'];
         $this->usuario = $agenda['usuario'];
         $this->celular = $agenda['celular'];
         $this->transportadora = $agenda['transportadora'];
+        $this->destinador = $agenda['destinador'];
         $this->acondicionamento = $agenda['acondicionamento'];
         $this->descricao_produto = $agenda['descricao_produto'];
-        $this->peso_total = $agenda['peso_total'];
-        $this->data_coleta = $agenda['data_coleta'];
+        $this->peso_controle = $agenda['peso_controle'];
+        $this->data_inicio_coleta = $agenda['data_inicio_coleta'];
+        $this->data_final_coleta = $agenda['data_final_coleta'];
         $this->email = $agenda['email'];
     }
 
@@ -41,15 +43,17 @@ class EnvioAgendamento extends Mailable
             ->view('mails.agendamento')
             ->subject("Solicitud de Coleta")
             ->with([
-                "codigo" => $this->codigo,
+                // "codigo" => $this->codigo,
                 "gerador" => $this->gerador,
                 "usuario" => $this->usuario,
                 "celular" => $this->celular,
                 "transportadora" => $this->transportadora,
+                "destinador" => $this->destinador,
                 "acondicionamento" => $this->acondicionamento,  
                 "descricao_produto" =>  $this->descricao_produto,
-                "peso_total" => $this->peso_total,
-                "data_coleta" => $this->data_coleta,
+                "peso_controle" => $this->peso_controle,
+                "data_inicio_coleta" => $this->data_inicio_coleta,
+                "data_final_coleta" => $this->data_inicio_coleta,
                 "email" => $this->email,
             ]);
     }

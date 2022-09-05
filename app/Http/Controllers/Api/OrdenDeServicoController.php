@@ -83,7 +83,7 @@ class OrdenDeServicoController extends Controller
                 'data_inicio_coleta' => new Carbon(new Carbon($request->get('data_inicio_coleta'), TIMEZONE_BRAZIL), 'UTC'),
                 'data_final_coleta' => new Carbon(new Carbon($request->get('data_final_coleta'), TIMEZONE_BRAZIL), 'UTC')
             ]);
-            $newOrdenDeServico = OrdensServicos::create($request->except(['produtos']));
+            $newOrdemServico = OrdensServicos::create($request->except(['produtos']));
             if ($request->get('produtos')) {
                 foreach ($request->get('produtos') as $produto) {
                     $produtoAcabado = Produto::create([
@@ -93,7 +93,7 @@ class OrdenDeServicoController extends Controller
                         'pessoa_juridica_id' => $produto['pessoa_juridica_id'],
                         'ativo' => 2
                     ]);
-                    $newOrdenDeServico->itens()->create([
+                    $newOrdemServico->itens()->create([
                         'produto_id' => $produtoAcabado->id,
                         'peso' => $produto['peso'],
                         'quantidade' => $produto['quantidade'],
@@ -101,15 +101,25 @@ class OrdenDeServicoController extends Controller
                 }
             }
 
-            // $tipoA = $newOrdenDeServico->gerador->nome_fantasia;
-            // $tipoB = $newOrdenDeServico->destinador->nome_fantasia;
-            // $tipoC = $newOrdenDeServico->transportador->nome_fantasia;
-            // $email = $newOrdenDeServico->destinador->email;
-            // Mail::to($email)->send(new Ordem($tipoA, $tipoB, $tipoC, $email));
+            $agenda = [
+                // 'codigo'  => $agendamento->ordem_servico->codigo,
+                'gerador' => $newOrdemServico->gerador->nome_fantasia,
+                'usuario' => $newOrdemServico->responsavel->name,
+                'celular' => $newOrdemServico->responsavel->celular,
+                'descricao_produto' => $newOrdemServico->description,
+                'peso_controle' => $newOrdemServico->peso_controle,
+                'transportadora' => $newOrdemServico->transportador->nome_fantasia,
+                'destinador' => $newOrdemServico->destinador->nome_fantasia,
+                'acondicionamento' => $newOrdemServico->acondicionamento->descricao,
+                'email' => $newOrdemServico->transportador->email,
+                'data_inicio_coleta' => (new Carbon(new Carbon($newOrdemServico->data_inicio_coleta, 'UTC'), TIMEZONE_BRAZIL))->format('Y-m-d H:i:s'),
+                'data_final_coleta' => (new Carbon(new Carbon($newOrdemServico->data_final_coleta, 'UTC'), TIMEZONE_BRAZIL))->format('Y-m-d H:i:s'),
+            ];
+            Mail::to($agenda['email'])->send(new EnvioAgendamento($agenda));
 
             DB::commit();
             return response([
-                'data' => new OrdenDeServicoResource($newOrdenDeServico),
+                'data' => new OrdenDeServicoResource($newOrdemServico),
                 'status' => true
             ], 200);
         } catch(\Exception $error) {

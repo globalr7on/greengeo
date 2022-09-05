@@ -57,7 +57,7 @@
                 <div class="row mx-0 mb-4">
                   <div class="col-md-12">
                     <div class="form-group">
-                      <label for="input_descricao">Descricao</label>
+                      <label for="input_descricao">Descrição</label>
                       <textarea class="form-control" id="input_descricao" rows="3"></textarea>
                     </div>
 

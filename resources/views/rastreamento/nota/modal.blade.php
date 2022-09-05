@@ -31,14 +31,14 @@
 
                 <div class="col-md-3 align-self-center">
                   <div class="form-group mb-0">
-                    <label for="input_numero_total">Numero Total</label>
+                    <label for="input_numero_total">Número</label>
                     <input type="text" class="form-control" id="input_numero_total">
                   </div>
                 </div>
 
                 <div class="col-md-2 align-self-center">
                   <div class="form-group">
-                    <label for="input_serie">Serie</label>
+                    <label for="input_serie">Série</label>
                     <input type="text" class="form-control" id="input_serie">
                   </div>
                 </div>
