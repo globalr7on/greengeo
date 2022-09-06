@@ -52,6 +52,7 @@
         $("#formAgenda input").attr("disabled", false)
         $("#produtoDetailDiv").removeClass('d-none')
         $('#motoristaDiv').addClass('d-none')
+        $("#addProduto").show()
         maskPeso("#input_peso")
         getTransportador()
         getDestinador()

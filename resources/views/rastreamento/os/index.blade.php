@@ -58,6 +58,7 @@
       const currentParentUserId = $('#parent_usuario_responsavel_id').val() ? parseInt($('#parent_usuario_responsavel_id').val()) : null
       const currentParentTipoEmpresaId = $('#parent_tipo_empresa_id').val() ? parseInt($('#parent_tipo_empresa_id').val()) : null
       const currentUserId = parseInt($('#input_usuario_responsavel_cadastro_id').val())
+      const currentEmpresaId = $('#current_empresa_id').val()
       let notaFiscalsData = []
       let itemsSelectSettings = {
         dropdownParent: $('#modalProdutos'),
@@ -94,10 +95,10 @@
               const statusTransporte = 'transporte'
               const statusEntregue = 'entregue'
               // const deleteBtn = estagio == statusEmitida ? `<i class="fa fa-trash cursor-pointer deleteAction" data-id="${row.id}" title="Excluir"></i>&nbsp;` : ''
-              const editBtn = estagio == statusAguardandoColeta && row.gerador_id == currentUserId
+              const editBtn = estagio == statusAguardandoColeta && row.gerador_id == currentEmpresaId
                 ? `<i class="fa fa-pen cursor-pointer editAction" data-id="${row.id}" title="Editar"></i>&nbsp;`
                 : ''
-              const showBtn = estagio !== statusAguardandoColeta ||  row.gerador_id !== currentUserId
+              const showBtn = estagio !== statusAguardandoColeta ||  row.gerador_id !== currentEmpresaId
                 ? `<i class="fas fa-list-alt cursor-pointer showAction" data-id="${row.id}" title="Mostrar"></i>&nbsp;`
                 : ''
               const aguardandoColetaBtn = estagio == statusAgendada && row.motorista_id == currentUserId
