@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
 use App\Mail\Ordem;
+use App\Mail\EnvioAgendamento;
 use Mail;
 use App\Traits\OrdenServicoTrait;
 use Illuminate\Support\Facades\DB;
@@ -102,21 +103,20 @@ class OrdenDeServicoController extends Controller
             }
             $this->saveStatusHistory($newOrdemServico->id, $newOrdemServico->estagio_id, auth()->user()->id);
 
-            // $agenda = [
-            //     // 'codigo'  => $agendamento->ordem_servico->codigo,
-            //     'gerador' => $newOrdemServico->gerador->nome_fantasia,
-            //     'usuario' => $newOrdemServico->responsavel->name,
-            //     'celular' => $newOrdemServico->responsavel->celular,
-            //     'descricao_produto' => $newOrdemServico->description,
-            //     'peso_controle' => $newOrdemServico->peso_controle,
-            //     'transportadora' => $newOrdemServico->transportador->nome_fantasia,
-            //     'destinador' => $newOrdemServico->destinador->nome_fantasia,
-            //     'acondicionamento' => $newOrdemServico->acondicionamento->descricao,
-            //     'email' => $newOrdemServico->transportador->email,
-            //     'data_inicio_coleta' => (new Carbon(new Carbon($newOrdemServico->data_inicio_coleta, 'UTC'), TIMEZONE_BRAZIL))->format('Y-m-d H:i:s'),
-            //     'data_final_coleta' => (new Carbon(new Carbon($newOrdemServico->data_final_coleta, 'UTC'), TIMEZONE_BRAZIL))->format('Y-m-d H:i:s'),
-            // ];
-            // Mail::to($agenda['email'])->send(new EnvioAgendamento($agenda));
+            $agenda = [
+                'gerador' => $newOrdemServico['gerador']->nome_fantasia,
+                'usuario' => $newOrdemServico['responsavel']->name,
+                'celular' => $newOrdemServico['responsavel']->celular,
+                'peso_total' => $newOrdemServico->peso_total,
+                'transportadora' => $newOrdemServico['transportador']->nome_fantasia,
+                'destinador' =>  $newOrdemServico['destinador']->nome_fantasia,
+                'acondicionamento' => $newOrdemServico->acondicionamento->descricao,
+                'email' => $newOrdemServico['transportador']->email,
+                'data_inicio_coleta' => (new Carbon(new Carbon($newOrdemServico->data_inicio_coleta, 'UTC'), TIMEZONE_BRAZIL))->format('Y-m-d H:i:s'),
+                'data_final_coleta' => (new Carbon(new Carbon($newOrdemServico->data_final_coleta, 'UTC'), TIMEZONE_BRAZIL))->format('Y-m-d H:i:s'),
+            ];
+
+            Mail::to($agenda['email'])->send(new EnvioAgendamento($agenda));
 
             DB::commit();
             return response([

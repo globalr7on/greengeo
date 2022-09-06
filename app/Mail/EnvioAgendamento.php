@@ -11,6 +11,7 @@ class EnvioAgendamento extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $agenda;
     /**
      * Create a new message instance.
      *
@@ -25,8 +26,8 @@ class EnvioAgendamento extends Mailable
         $this->transportadora = $agenda['transportadora'];
         $this->destinador = $agenda['destinador'];
         $this->acondicionamento = $agenda['acondicionamento'];
-        $this->descricao_produto = $agenda['descricao_produto'];
-        $this->peso_controle = $agenda['peso_controle'];
+        // $this->descricao_produto = $agenda['descricao_produto'];
+        $this->peso_total = $agenda['peso_total'];
         $this->data_inicio_coleta = $agenda['data_inicio_coleta'];
         $this->data_final_coleta = $agenda['data_final_coleta'];
         $this->email = $agenda['email'];
@@ -50,8 +51,8 @@ class EnvioAgendamento extends Mailable
                 "transportadora" => $this->transportadora,
                 "destinador" => $this->destinador,
                 "acondicionamento" => $this->acondicionamento,  
-                "descricao_produto" =>  $this->descricao_produto,
-                "peso_controle" => $this->peso_controle,
+                // "descricao_produto" =>  $this->descricao_produto,
+                "peso_total" => $this->peso_total,
                 "data_inicio_coleta" => $this->data_inicio_coleta,
                 "data_final_coleta" => $this->data_inicio_coleta,
                 "email" => $this->email,

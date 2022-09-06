@@ -7,11 +7,10 @@
 </head>
 <body>
   
-    <h1>Olá {{ $transportadora }}</h1>
+    <h1>Olá {{ $transportadora  }}</h1>
     <p>
-    Gostaríamos de formalizar com a  <strong> {{ $transportadora }} </strong> o agendamento de coleta para OS com Codigo <strong> {{ $codigo }} </strong> a ser realizada no dia <strong> {{ $data_coleta }} </strong
-    <li>tipo de Produto <strong> {{ $descricao_produto }}</strong></li>
-    <li>Peso Total OS <strong> {{ $peso_total}}</strong></li>
+    Gostaríamos de formalizar com a  <strong> {{ $transportadora }} </strong> o agendamento de coleta a ser realizada no dia <strong> {{ $data_inicio_coleta }} </strong> até o dia <strong> {{ $data_final_coleta }} </strong>
+    <li>Peso Total: <strong>{{ $peso_total }} </strong> </li>
     <li>Veículo ideal para coleta: <strong>{{ $acondicionamento }} </strong> </li>
     <br>
     <br>
