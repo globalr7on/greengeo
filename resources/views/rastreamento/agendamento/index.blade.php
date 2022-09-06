@@ -53,6 +53,7 @@
         $("#produtoDetailDiv").removeClass('d-none')
         $('#motoristaDiv').addClass('d-none')
         $("#addProduto").show()
+        $("#salvarAgenda").show()
         maskPeso("#input_peso")
         getTransportador()
         getDestinador()

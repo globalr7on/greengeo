@@ -39,6 +39,7 @@
                       <input type="hidden" id="input_usuario_responsavel_cadastro_id" value="{{ Auth::user()->id }}">
                       <input type="hidden" id="mtr_link">
                       <input type="hidden" id="cdf_link">
+                      <input type="hidden" id="input_acondicionamento_id">
                       <input type="hidden" id="input_id">
                       <label for="input_gerador_id" class="display-inherit mb-0">Gerador</label>
                       <select id="input_gerador_id" data-style="btn-warning text-white" name="input_gerador_id" title="Selecione"></select>
@@ -70,45 +71,52 @@
 
                   <div class="col-md-3">
                     <div class="form-group">
-                      <label for="input_emissao">Data Emissao</label>
-                      <input type="text" class="form-control datepicker" id="input_emissao">
+                      <label for="input_data_emissao">Data Emissao</label>
+                      <input type="text" class="form-control datepicker" id="input_data_emissao">
                     </div>
                   </div>
 
                   <div class="col-md-3">
                     <div class="form-group">
-                      <label for="input_preenchimento">Data Preenchimento</label>
-                      <input type="text" class="form-control datepicker" id="input_preenchimento">
+                      <label for="input_data_preenchimento">Data Preenchimento</label>
+                      <input type="text" class="form-control datepicker" id="input_data_preenchimento">
                     </div>
                   </div>
 
                   <div class="col-md-3">
                     <div class="form-group">
-                      <label for="input_integracao">Data Integração</label>
-                      <input type="text" class="form-control datepicker" id="input_integracao">
+                      <label for="input_data_integracao">Data Integração</label>
+                      <input type="text" class="form-control datepicker" id="input_data_integracao">
                     </div>
                   </div>
                 </div>
 
                 <div class="row mx-0 mb-4">
-                  <div class="col-md-4 text-center">
+                  <!-- <div class="col-md-4 text-center">
                     <div class="form-group">
                       <label for="input_estagio_id" class="display-inherit mb-0">Estagio</label>
                       <select id="input_estagio_id" data-style="btn btn-warning text-white rounded" name="input_estagio_id" title="Selecione"></select>
                     </div>
-                  </div>
+                  </div> -->
 
                   <div class="col-md-4 align-self-center">
                     <div class="form-group">
-                      <label for="input_mtr">MTR</label>
-                      <input type="text" class="form-control" id="input_mtr">
+                      <label for="input_peso_controle">Peso Controle</label>
+                      <input type="text" class="form-control" id="input_peso_controle">
                     </div>
                   </div>
 
-                  <div class="col-md-4 text-center">
-                    <div class="form-group">
-                      <label for="input_notas_fiscais" class="display-inherit mb-0">Notas Fiscais</label>
-                      <select id="input_notas_fiscais" data-style="btn btn-warning text-white rounded" multiple data-selected-text-format="count" data-count-selected-text="{0} Notas selecionadas" title="Selecione um ou mais"></select>
+                  <div class="col-md-4 align-self-center">
+                    <div class="form-group mb-0">
+                      <label for="input_data_inicio_coleta">Data Inicio Coleta</label>
+                      <input type="text" class="form-control datetimepicker" id="input_data_inicio_coleta">
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 align-self-center">
+                    <div class="form-group mb-0">
+                      <label for="input_data_final_coleta">Data Final Coleta</label>
+                      <input type="text" class="form-control datetimepicker" id="input_data_final_coleta">
                     </div>
                   </div>
                 </div>
@@ -125,24 +133,17 @@
               <div id="step2" class="content" role="tabpanel" aria-labelledby="step2-trigger">
                 <h4 class="text-primary font-weight-bold text-uppercase">Informações Básicas</h4>
                 <div class="row mx-0 mb-4">
-                  <div class="col-md-4 text-center">
+                  <div class="col-md-6 text-center">
                     <div class="form-group">
                       <label for="input_motorista_id" class="display-inherit mb-0">Motorista</label>
-                      <select id="input_motorista_id" data-style="btn btn-warning text-white rounded" name="input_motorista_id" title="Selecione"></select>
+                      <select id="input_motorista_id" data-style="btn btn-warning text-white rounded" title="Selecione"></select>
                     </div>
                   </div>
 
-                  <div class="col-md-4 text-center">
+                  <div class="col-md-6 text-center">
                     <div class="form-group">
                       <label for="input_veiculo_id" class="display-inherit mb-0">Veiculo</label>
-                      <select data-style="btn-warning text-white" name="tipo" id="input_veiculo_id" title="Selecione"></select>
-                    </div>
-                  </div>
-
-                  <div class="col-md-4 align-self-center">
-                    <div class="form-group">
-                      <label for="input_serie">Serie</label>
-                      <input type="text" class="form-control" id="input_serie">
+                      <select data-style="btn-warning text-white" id="input_veiculo_id" title="Selecione" data-width="100%"></select>
                     </div>
                   </div>
                 </div>
@@ -162,7 +163,7 @@
                   <button class="btn btn-default addProdutos">Produtos</button>
                   <button class="btn btn-default showFotos">Fotos</button>
                   <button class="btn btn-primary stepper-prev">Anterior</button>
-                  <button class="btn btn-primary" id="salvarOs" >Salvar</button>
+                  <button class="btn btn-success" id="salvarOs">Salvar</button>
                 </div>
               </div>
             </div>
@@ -185,7 +186,7 @@
       </div>
 
       <div class="modal-body pb-4">
-        <div class="row">
+        <!-- <div class="row">
           <div class="col-md-9 align-self-center">
             <div class="form-group">
               <select id="items" style="width: 100%"><option></option></select>
@@ -197,16 +198,17 @@
               <button class="btn btn-primary addProduto">Adicionar produto</button>
             </div>
           </div>
-        </div>
+        </div> -->
 
         <table class="table" id="produtosTbl">
           <thead>
-            <th class="text-primary font-weight-bold text-center" style="width:5%">#</th>
+            <th class="text-primary font-weight-bold text-center" style="width:4%">#</th>
             <th class="text-primary font-weight-bold" style="width:auto">Produto</th>
             <th class="text-primary font-weight-bold text-center" style="width:6%">Alt.</th>
             <th class="text-primary font-weight-bold text-center" style="width:6%">Larg.</th>
             <th class="text-primary font-weight-bold text-center" style="width:6%">Prof.</th>
-            <th class="text-primary font-weight-bold text-center" style="width:6%">Peso</th>
+            <th class="text-primary font-weight-bold text-center" style="width:6%">Compr.</th>
+            <th class="text-primary font-weight-bold text-center" style="width:10%">Peso</th>
             <th class="text-primary font-weight-bold text-center" style="width:8%">Tratamento</th>
             <th class="text-primary font-weight-bold text-center" style="width:12">Observacao</th>
             <th class="text-primary font-weight-bold text-center" style="width:6%">Actions</th>
@@ -214,6 +216,7 @@
           <tfoot>
             <tr>
               <th>Total:</th>
+              <th></th>
               <th></th>
               <th></th>
               <th></th>
@@ -238,20 +241,5 @@
     $('#formOs').submit(function(event) {
       event.preventDefault()
     })
-
-    // $('.datepicker').datetimepicker({
-    //   format: "YYYY-MM-DD",
-    //   icons: {
-    //     time: "fa fa-clock-o",
-    //     date: "fa fa-calendar",
-    //     up: "fa fa-chevron-up",
-    //     down: "fa fa-chevron-down",
-    //     previous: 'fa fa-chevron-left',
-    //     next: 'fa fa-chevron-right',
-    //     today: 'fa fa-screenshot',
-    //     clear: 'fa fa-trash',
-    //     close: 'fa fa-remove'
-    //   }
-    // })
   </script>
 @endpush

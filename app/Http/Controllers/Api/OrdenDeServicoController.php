@@ -77,7 +77,6 @@ class OrdenDeServicoController extends Controller
     {
         DB::beginTransaction();
         try {
-            // $request->merge(array('codigo' => $this->generateCode()));
             $request->merge([
                 'estagio_id' => 1,
                 'data_inicio_coleta' => new Carbon(new Carbon($request->get('data_inicio_coleta'), TIMEZONE_BRAZIL), 'UTC'),
@@ -159,6 +158,9 @@ class OrdenDeServicoController extends Controller
         try {
             $ordenServico = OrdensServicos::find($id);
             $prevEstagio = $ordenServico->estagio_id;
+            if ($ordenServico->estagio->descricao == 'Aguardando Coleta') {
+                $request->merge(array('codigo' => $this->generateCode()));
+            }
             $request->merge([
                 'data_inicio_coleta' => new Carbon(new Carbon($request->get('data_inicio_coleta'), TIMEZONE_BRAZIL), 'UTC'),
                 'data_final_coleta' => new Carbon(new Carbon($request->get('data_final_coleta'), TIMEZONE_BRAZIL), 'UTC')
@@ -188,7 +190,14 @@ class OrdenDeServicoController extends Controller
                         'descricao' => $produto['descricao'],
                         'unidade_id' => $produto['unidade_id'],
                         'pessoa_juridica_id' => $produto['pessoa_juridica_id'],
-                        'ativo' => 2
+                        'ativo' => isset($produto['ean']) ? 1 : 2,
+                        'ean' => isset($produto['ean']) ? $produto['ean'] : null,
+                        'marca' => isset($produto['marca']) ? $produto['marca'] : null,
+                        'especie' => isset($produto['especie']) ? $produto['especie'] : null,
+                        'altura' => isset($produto['altura']) ? $produto['altura'] : null,
+                        'largura' => isset($produto['largura']) ? $produto['largura'] : null,
+                        'profundidade' => isset($produto['profundidade']) ? $produto['profundidade'] : null,
+                        'comprimento' => isset($produto['comprimento']) ? $produto['comprimento'] : null,
                     ]);
                     $ordenServico->itens()->updateOrCreate([
                         'id' => $produto['id']
@@ -196,6 +205,10 @@ class OrdenDeServicoController extends Controller
                         'produto_id' => $produtoAcabado->id,
                         'peso' => $produto['peso'],
                         'quantidade' => $produto['quantidade'],
+                        'observacao' => isset($produto['observacao']) ? $produto['observacao'] : null,
+                        'tratamento_id' => isset($produto['tratamento_id']) ? $produto['tratamento_id'] : null,
+                        'numero_serie' => isset($produto['numero_serie']) ? $produto['numero_serie'] : null,
+                        'data_fabricacao' => isset($produto['data_fabricacao']) ? $produto['data_fabricacao'] : null,
                     ]);
                 }
             }

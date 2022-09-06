@@ -11,11 +11,6 @@
   </style>
   <div class="content mt-0">
     <div class="container-fluid">
-      <!-- <div class="col-12 text-right">
-        <button type="button" class="btn btn-primary" id="novaOs">
-         + Nova OS
-        </button>
-      </div> -->
       <div class="row">
         <div class="col-md-12">
           <div class="card">
@@ -60,12 +55,6 @@
       const currentUserId = parseInt($('#input_usuario_responsavel_cadastro_id').val())
       const currentEmpresaId = $('#current_empresa_id').val()
       let notaFiscalsData = []
-      let itemsSelectSettings = {
-        dropdownParent: $('#modalProdutos'),
-        placeholder: 'Pesquisar um produto acabado',
-        allowClear: true,
-        width: 'resolve',
-      }
       let app = new App({
         apiUrl: '/api/os',
         apiDataTableColumns: [
@@ -107,8 +96,8 @@
               const transporteBtn = estagio == statusEmitida && row.motorista_id == currentUserId
                 ? `<i class="fas fa-truck cursor-pointer updateEstagio" data-id="${row.id}" title="Atualizar a ${statusTransporte}"></i>&nbsp;`
                 : ''
-              const entregueBtn = estagio == statusTransporte && row.destinador_id == currentUserId
-                ? `<i class="fas fa-truck-loading cursor-pointer updateEstagio" data-id="${row.id}" title="Atualizar a ${statusEntregue}"></i>&nbsp;`
+              const entregueBtn = estagio == statusTransporte && row.destinador_id == currentEmpresaId
+                ? `<i class="fas fa-check-double cursor-pointer updateEstagio" data-id="${row.id}" title="Atualizar a ${statusEntregue}"></i>&nbsp;`
                 : ''
               const addPhotoBtn = estagio == statusTransporte
                 ? `<i class="fa-solid fa-cloud-arrow-up cursor-pointer novaFoto" data-id="${row.id}" data-codigo="${row.codigo}" title="Adicionar Foto"></i>&nbsp;`
@@ -136,43 +125,6 @@
         datatableSelector: '#osTbl',
       })
       getTratamentos()
-
-      let tipoEmpresaGeradorId, tipoEmpresaDestinadorId, tipoEmpresaTransportadorId = null
-      app.api.get('/tipo_empresa').then(response => {
-        if (response && response.status) {
-          tipoEmpresaGeradorId = response.data.find(curr => curr.descricao.toLowerCase() == 'gerador')?.id
-          tipoEmpresaDestinadorId = response.data.find(curr => curr.descricao.toLowerCase() == 'destinador')?.id
-          tipoEmpresaTransportadorId = response.data.find(curr => curr.descricao.toLowerCase() == 'transportador')?.id
-        }
-      }).catch(error => notifyDanger('Falha ao obter dados. Tente novamente'))
-     
-      // Open Modal New
-      $('body').on('click', '#novaOs', function() {
-        $('body').off('change', '#input_gerador_id', updateTransportadorFromGerador).on('change', '#input_gerador_id', updateTransportadorFromGerador)
-        $('body').off('change', '#input_transportador_id', updateMotoristaFromTransportador).on('change', '#input_transportador_id', updateMotoristaFromTransportador)
-        $('body').off('click', '.addProdutos', addProdutosModal).on('click', '.addProdutos', addProdutosModal)
-        $('#items').attr('disabled', false)
-        $('.addProduto').attr('disabled', false)
-        $("#imagensData").val('')
-        $('.showFotos').hide()
-        $('.addProdutos').attr('disabled', true)
-        app.stepper()
-        delFormValidationErrors()
-        $("#modalOs").modal("show")
-        $('#tituloModal').text("Nova OS")
-        $('#input_id').val("")
-        $('#formOs')[0].reset()
-        getEstagio('Emitida', true, true)
-        getEmpresa(null, '#input_gerador_id', currentParentUserId, tipoEmpresaGeradorId, currentParentTipoEmpresaId == tipoEmpresaTransportadorId)
-        getEmpresa(null, '#input_destinador_id', null, null, false, true, true)
-        getEmpresa(null, '#input_transportador_id', null, null, false, true, true)
-        getMotorista(null, null, true, true)
-        getVeiculo(null, null, true, true)
-        getNotasFiscais()
-        if ($.fn.dataTable.isDataTable('#produtosTbl')) {
-          $('#produtosTbl').DataTable().clear().draw()
-        }
-      })
 
       // Open Modal novaFoto
       $('body').on('click', '.novaFoto', function() {
@@ -310,161 +262,133 @@
       // Salvar
       $('body').on('click', '#salvarOs', function() {
         const produtosData = $('#produtosTbl').DataTable().data().toArray().map(curr => ({
-          id: curr?.id || null,
-          peso: formatStringToFloat(curr?.peso),
-          observacao: curr?.observacao || null,
-          tratamento_id: curr?.tratamento_id,
+          id: curr.id,
+          codigo: curr.codigo,
+          ean: curr.ean,
+          altura: formatStringToFloat(curr.altura),
+          largura: formatStringToFloat(curr.largura),
+          profundidade: formatStringToFloat(curr.profundidade),
+          comprimento: formatStringToFloat(curr.comprimento),
+          peso: formatStringToFloat(curr.peso),
+          descricao: curr.descricao,
+          especie: curr.especie,
+          marca: curr.marca,
           produto_id: curr.produto_id,
-          numero_de_serie: curr.numero_de_serie,
-          data_de_fabricacao: curr.data_de_fabricacao,
-          nota_fiscal_item_id: curr.nota_item_id
+          quantidade: curr.quantidade,
+          numero_serie: curr.numero_serie,
+          data_fabricacao: curr.data_fabricacao,
+          observacao: curr.observacao,
+          tratamento_id: curr.tratamento_id,
+          unidade_id: curr.unidade_id,
+          pessoa_juridica_id: curr.pessoa_juridica_id,
         }))
         if (!produtosData.length) {
           return notifyDanger('Por favor, adicione os produtos')
         }
-        if (!produtosData.every(curr => curr?.peso)) {
-          return notifyDanger('Por favor, adicione o peso nos produtos')
-        }
-        if (!produtosData.every(curr => curr?.tratamento_id)) {
-          return notifyDanger('Por favor, adicione o tratamento nos produtos')
-        }
         const JSONRequest = {
-          estagio_id: $("#input_estagio_id").val(),
           gerador_id: $("#input_gerador_id").val(), 
           destinador_id: $("#input_destinador_id").val(),
           transportador_id: $("#input_transportador_id").val(),
-          mtr: $("#input_mtr").val(),
           data_estagio: $("#input_data_estagio").val(),
-          emissao: $("#input_emissao").val(),
-          preenchimento: $("#input_preenchimento").val(),
-          integracao: $("#input_integracao").val(),
+          data_emissao: $("#input_data_emissao").val(),
+          data_preenchimento: $("#input_data_preenchimento").val(),
+          data_integracao: $("#input_data_integracao").val(),
           motorista_id: $("#input_motorista_id").val(),
           veiculo_id: $("#input_veiculo_id").val(),
-          serie: $("#input_serie").val(),
+          peso_controle: formatStringToFloat($("#input_peso_controle").val()),
           description: $("#input_description").val(),
-          notas_fiscais: $("#input_notas_fiscais").val(),
-          // cdf_serial: '123456',
-          // cdf_ano: '2022',
-          // peso_total_os: '1234.21',
-          // area_total: '13456.22',
-          // peso_de_controle: '23456.2',
+          acondicionamento_id: $("#input_acondicionamento_id").val(),
+          data_inicio_coleta: $("#input_data_inicio_coleta").val(),
+          data_final_coleta: $("#input_data_final_coleta").val(),
+          responsavel_id: currentUserId,
           produtos: produtosData
         }
         const id = $('#input_id').val()
-        if (id) {
-          app.api.put(`/os/${id}`, JSONRequest).then(response => {
-            if (response && response.status) {
-              $("#modalOs").modal("hide")
-              app.datatable.ajax.reload()
-              notifySuccess('Atualizada com sucesso')
-            }
-          })
-          .catch(error => {
-            addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao atualizar, tente novamente')
-          })
-        } else {
-          app.api.post('/os', JSONRequest).then(response => {
-            if (response && response.status) {
-              $("#modalOs").modal("hide")
-              app.datatable.ajax.reload()
-              notifySuccess('Criado com sucesso')
-            }
-          })
-          .catch(error => {
-            addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao criar, tente novamente')
-          })
-        }
+        app.api.put(`/os/${id}`, JSONRequest).then(response => {
+          if (response && response.status) {
+            $("#modalOs").modal("hide")
+            app.datatable.ajax.reload()
+            notifySuccess('Atualizada com sucesso')
+          }
+        })
+        .catch(error => {
+          addFormValidationErrors(error?.data)
+          notifyDanger('Falha ao atualizar, tente novamente')
+        })
       })
 
       // Editar
       $('body').on('click', '.editAction, .showAction', function() {
         const onlyShow = $(this).hasClass("showAction")
-        $('body').off('change', '#input_gerador_id', updateTransportadorFromGerador)
-        $('body').off('change', '#input_transportador_id', updateMotoristaFromTransportador)
-        $('body').off('click', '.addProdutos', addProdutosModal)
-        $('#items').attr('disabled', true)
-        $('.addProduto').attr('disabled', true)
         app.stepper()
         const id = $(this).attr('data-id')
         app.api.get(`/os/${id}`).then(response =>  {
           if (response && response.status) {
-            $('.showFotos').show()
             getEmpresa(response.data.gerador_id, '#input_gerador_id', null, null, false, false, true)
             getEmpresa(response.data.destinador_id, '#input_destinador_id', null, null, false, false, true)
             getEmpresa(response.data.transportador_id, '#input_transportador_id', null, null, false, false, true)
             getMotorista(response.data.motorista_id, response.data.transportador_id, false, response.data.motorista_id ? true : false)
             getVeiculo(response.data.veiculo_id, response.data.transportador_id, false, response.data.veiculo_id ? true : false)
-            getEstagio(response.data.estagio_id, true)
-            getNotasFiscais(response.data.notas_fiscais, true, true)
             delFormValidationErrors()
             $('#formOs')[0].reset()
             $("#modalOs").modal("show")
             $('#tituloModal').text("Editar OS")
             $('#input_id').val(response.data.id)
-            $("#input_integracao").val(response.data.integracao)
-            $("#input_emissao").val(response.data.emissao)
-            $("#input_mtr").val(response.data.mtr)
-            $("#input_serie").val(response.data.serie)
-            $("#input_description").val(response.data.description)
-            $("#input_data_estagio").val(response.data.data_estagio)
-            $("#input_preenchimento").val(response.data.preenchimento)
+            $('#input_acondicionamento_id').val(response.data.acondicionamento_id)
+            $("#input_data_estagio").val(response.data.data_estagio).attr('disabled', onlyShow)
+            $("#input_data_emissao").val(response.data.data_emissao).attr('disabled', onlyShow)
+            $("#input_data_preenchimento").val(response.data.data_preenchimento).attr('disabled', onlyShow)
+            $("#input_data_integracao").val(response.data.data_integracao).attr('disabled', onlyShow)
+            maskPeso("#input_peso_controle", formatFloatToString(response.data.peso_controle))
+            $("#input_peso_controle").attr('disabled', onlyShow)
+            $("#input_data_inicio_coleta").val(response.data.data_inicio_coleta).attr('disabled', true)
+            $("#input_data_final_coleta").val(response.data.data_final_coleta).attr('disabled', true)
+            $("#input_description").val(response.data.description).attr('disabled', onlyShow)
             $("#imagensData").val(JSON.stringify(response.data.imagens))
             $("#mtr_link").val(response.data.mtr_link)
             $("#cdf_link").val(response.data.cdf_link)
-            getItems([])
             initProdutoDataTable(response.data.itens.map((item, pos) => {
               return {
                 id: item.id,
-                disabled_buttons: true,
+                disabledBtn: onlyShow,
                 position: pos + 1,
-                altura: formatFloatToString(item.produto.altura),
                 codigo: item.produto.codigo,
-                data_de_fabricacao: item.data_de_fabricacao,
-                descricao: item.produto.descricao,
                 ean: item.produto.ean,
-                especie: item.produto.especie,
+                altura: formatFloatToString(item.produto.altura),
                 largura: formatFloatToString(item.produto.largura),
+                profundidade: formatFloatToString(item.produto.profundidade),
+                comprimento: formatFloatToString(item.produto.comprimento),
+                peso: formatFloatToString(item.peso),
+                descricao: item.produto.descricao,
+                especie: item.produto.especie,
                 marca: item.produto.marca,
                 produto_id: item.produto.id,
-                nota_item_id: item.nota_fiscal_item_id,
-                numero_de_serie: item.numero_de_serie,
+                quantidade: item.quantidade,
+                numero_serie: item.numero_serie,
+                data_fabricacao: item.data_fabricacao,
                 observacao: item.observacao,
-                peso: formatFloatToString(item.peso),
-                profundidade: formatFloatToString(item.produto.profundidade),
                 tratamento: item?.tratamento?.descricao,
                 tratamento_id: item.tratamento_id,
+                unidade: item.produto.unidade,
+                unidade_id: item.produto.unidade_id,
+                pessoa_juridica_id: item.produto.pessoa_juridica_id,
               }
             }))
-            $('body').on('click', '.addProdutos', function() {
-              $("#modalProdutos").modal("show")
-            })
             if (onlyShow) {
-              $("#formOs input").prop("disabled", true)
               $("#salvarOs").hide()
+              $('.showFotos').show()
+              $('.cdfPreview').show()
+              $('.mtrPreview').show()
             } else {
-              $("#formOs input").prop("disabled", false)
               $("#salvarOs").show()
+              $('.showFotos').hide()
+              $('.cdfPreview').hide()
+              $('.mtrPreview').hide()
             }
           }
         })
         .catch(error => notifyDanger('Falha ao obter detalhes. Tente novamente'))
       })
-
-      // Excluir
-      // $('body').on('click', '.deleteAction', function() {
-      //   const id = $(this).attr('data-id')
-      //   sweetConfirm('Deseja realmente excluir?').then(confirmed => {
-      //     if (confirmed) {
-      //       app.api.delete(`/os/${id}`).then(response =>  {
-      //         app.datatable.ajax.reload()
-      //         notifySuccess('os excluída com sucesso')
-      //       })
-      //       .catch(error => notifyDanger('Falha ao excluir. Tente novamente'))
-      //     }
-      //   }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
-      // })
 
       function getEmpresa(value, selector, usuarioResponsavelId, tipoEmpresaId, showCurrentEmpresa = false, withoutData, disabled) {
         if (withoutData) {
@@ -496,12 +420,6 @@
         }
       }
 
-      function mergeVeiculoOption(value) {
-        const optionValue = value.id
-        const optionText = `${value.marca} [${value.modelo}]: ${value.placa} - ${value.capacidade_media_carga}Kg`
-        return [optionValue, optionText]
-      }
-
       function getVeiculo(value, empresaId, withoutData, disabled = false) {
         if (withoutData) {
           loadSelect('#input_veiculo_id', [], [], null, disabled)
@@ -509,39 +427,18 @@
           const empresa = empresaId ? `?pessoa_juridica_id=${empresaId}` : ''
           app.api.get(`/veiculo${empresa}`).then(response =>  {
             if (response && response.status) {
-              loadSelect('#input_veiculo_id', response.data, [], value, disabled, mergeVeiculoOption)
+              loadSelect('#input_veiculo_id', response.data, [], value, disabled, (option) => {
+                return [
+                  option.id,
+                  `${option.marca} [${option.modelo}]: ${option.placa} - ${option.capacidade_media_carga}Kg`
+                ]
+              })
             }
           })
           .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
         }
       }
 
-      function getEstagio(value, disabled, byText) {
-        app.api.get('/estagio_os').then(response =>  {
-          if (response && response.status) {
-            if (byText) {
-              value = response.data.find(curr => curr.descricao == value)?.id
-            }
-            loadSelect('#input_estagio_id', response.data, ['id', 'descricao'], value, disabled)
-          }
-        })
-        .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
-      }
-
-      function updateTransportadorFromGerador(event) {
-        const userResponsavelDestId = currentParentTipoEmpresaId == tipoEmpresaTransportadorId ? currentParentUserId : currentUserId
-        const userResponsavelId = !currentParentTipoEmpresaId || currentParentTipoEmpresaId == tipoEmpresaTransportadorId ? false : currentUserId
-        const showCurrentEmpresa = !currentParentTipoEmpresaId || currentParentTipoEmpresaId == tipoEmpresaTransportadorId
-        getEmpresa(null, '#input_destinador_id', userResponsavelDestId, tipoEmpresaDestinadorId)
-        getEmpresa(null, '#input_transportador_id', userResponsavelId, tipoEmpresaTransportadorId)
-      }
-
-      function updateMotoristaFromTransportador() {
-        const transportadorId = $('#input_transportador_id').val()
-        getMotorista(null, transportadorId)
-        getVeiculo(null, transportadorId)
-      }
-      
       // Salvar imagens
       $('body').on('click', '#salvarImagens', function() {
         const ordenServicioId = $('#input_orden_servicio_id').val()
@@ -577,22 +474,6 @@
           }
         })
       })
-
-      function mergetNotasFiscaisOption(value) {
-        const optionValue = value.id
-        const optionText = `${value.pessoa_juridica} ${value.serie}:${value.folha} - ${value.numero_total}`
-        return [optionValue, optionText]
-      }
-
-      function getNotasFiscais(value, disabled, all = false) {
-        app.api.get(`/nota_fiscais${all ? '?all=1' : ''}`).then(response =>  {
-          if (response && response.status) {
-            notaFiscalsData = response.data
-            loadSelect('#input_notas_fiscais', response.data, [], value, disabled, mergetNotasFiscaisOption)
-          }
-        })
-        .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
-      }
       
       function getTratamentos() {
         app.api.get('/tratamento').then(response =>  {
@@ -603,70 +484,9 @@
         .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
       }
 
-      function parseProdutos(data) {
-        return data.map(curr => {
-          return curr.itens.map(item => ({
-            nota_id: curr.id,
-            nota: `${curr.pessoa_juridica} ${curr.serie}:${curr.folha} - ${curr.numero_total}`,
-            data_de_fabricacao: item.data_de_fabricacao,
-            numero_de_serie: item.numero_de_serie,
-            quantidade: item.quantidade,
-            produto_id: item.produto.id,
-            nota_item_id: item.id,
-            ean: item.produto.ean,
-            codigo: item.produto.codigo,
-            especie: item.produto.especie,
-            marca: item.produto.marca,
-            altura: parseFloat(item.produto.altura).toFixed(2),
-            largura: parseFloat(item.produto.largura).toFixed(2),
-            profundidade: parseFloat(item.produto.profundidade).toFixed(2),
-            descricao: item.produto.descricao,
-          }))
-        }).flat()
-      }
-
-      $('body').on('change', '#input_notas_fiscais', function(event) {
-        $('.addProdutos').attr('disabled', false)
-        const currentIds = [...event.target.selectedOptions].map(o => parseInt(o.value))
-        const currentNotaFiscals = notaFiscalsData.filter(curr => currentIds.includes(curr.id))
-        $('#produtosData').text(JSON.stringify(currentNotaFiscals || []))
-      })
-
-      function addProdutosModal() {
+      $('body').on('click', '.addProdutos', function() {
         $("#modalProdutos").modal("show")
-        let produtosData = JSON.parse($('#produtosData').text() || '{}')
-        let produtosTbl = $.fn.dataTable.isDataTable('#produtosTbl') ? $('#produtosTbl').DataTable().data().toArray() : []
-        produtosData = produtosData.map(curr => {
-          let currentNota = produtosTbl.filter(c =>  c.nota_id == curr.id)
-          if (currentNota.length > 0) {
-            return { ...curr, ...{ itens: curr.itens.map(item => ({ ...item, disabled: currentNota.some(i => i.produto_id == item.produto.id) })) } }
-          }
-          return curr
-        })
-        produtosTbl = produtosTbl.filter(curr => produtosData.some(c => c.id == curr.nota_id) && produtosData.some(c => c.itens.some(i => i.produto.id == curr.produto_id)))
-        getItems(produtosData)
-        initProdutoDataTable(produtosTbl)
-      }
-
-      $('body').on('click', '.addProdutos', addProdutosModal)
-
-      function getItems(data) {
-        data = data.map(curr => {
-          return {
-            text: `${curr.pessoa_juridica} ${curr.serie}:${curr.folha} - ${curr.numero_total}`,
-            children: curr.itens.map(item => ({
-              id: `${curr.id}-${item.id}`,
-              text: `${item.produto.ean}:${item.produto.codigo} | ${item.produto.marca} | ${item.produto.especie} | ${item.produto.descricao}`,
-              disabled: item?.disabled || false
-            }))
-          }
-        })
-        if ($('#items').hasClass("select2-hidden-accessible")) {
-          $('#items').select2('destroy')
-          $('#items').empty().append('<option></option>')
-        }
-        $('#items').select2({ ...itemsSelectSettings, data: data })
-      }
+      })
 
       function initProdutoDataTable(data) {
         if ($.fn.dataTable.isDataTable('#produtosTbl')) {
@@ -690,7 +510,7 @@
                     <div style="line-height: 1;">
                       <span class="d-block">[${row.descricao}] ${row.ean}</span>
                       <small class="d-block">Marca: ${row.marca} - Especie: ${row.especie}</small>
-                      <small class="d-block">Serie: ${row.numero_de_serie} (${row.data_de_fabricacao})</small>
+                      <small class="d-block">Serie: ${row.numero_serie} (${row.data_fabricacao})</small>
                     </div>
                   `
                 }
@@ -698,10 +518,11 @@
               { data: 'altura' },
               { data: 'largura' },
               { data: 'profundidade' },
+              { data: 'comprimento' },
               {
                 data: 'peso',
                 render: function (data, type, row, meta) {
-                  return data ? data : ''
+                  return data ? `${data} ${row?.unidade}` : ''
                 }
               },
               {
@@ -727,108 +548,121 @@
                 }
               },
               {
-                targets: [2,3,4,5,6],
+                targets: [2,3,4,5,6,7],
                 className: 'text-center',
               },
               {
-                targets: 8,
+                targets: 9,
                 className: 'text-center',
                 render: function (data, type, row, meta) {
-                  const addWeightBtn = `<i class="fas fa-balance-scale cursor-pointer addWeightAction" data-nota-id="${row.nota_id}" data-nota-item-id="${row.nota_item_id}" title="Adicionar peso"></i>`
-                  const addTratamentoBtn = `<i class="fas fa-recycle cursor-pointer addTratamentoAction" data-nota-id="${row.nota_id}" data-nota-item-id="${row.nota_item_id}" title="Adicionar tratamento"></i>`
-                  const addObsBtn = `<i class="fas fa-clipboard cursor-pointer addObsAction" data-nota-id="${row.nota_id}" data-nota-item-id="${row.nota_item_id}" title="Adicionar observacao"></i>`
-
-                  return row?.disabled_buttons ? '' : `<div class="d-flex align-items-center justify-content-between">${addWeightBtn}${addTratamentoBtn}${addObsBtn}</div>`
+                  const addDetailsBtn = `<i class="fas fa-clipboard-list cursor-pointer addDetailsAction" data-id="${row.id}" title="Adicionar details"></i>`
+                  return row?.disabledBtn ? '' : addDetailsBtn
                 }
               },
             ],
             footerCallback: function (row, data, start, end, display) {
               const dataTable = this.api().data().toArray()
               const totalPeso = dataTable.reduce((acc, curr) => acc + (formatStringToFloat(curr?.peso) || 0), 0)
-              $(this.api().column(5).footer()).html(formatFloatToString(totalPeso.toFixed(2)))
+              $(this.api().column(6).footer()).html(formatFloatToString(totalPeso.toFixed(2)))
             },
           })
         }
-        // $('#produtosTbl').on('draw.dt', function () {
-        //     // $('[data-toggle="tooltip"]').tooltip()
-        //     $('tbody > * [data-toggle="tooltip"]:not([data-original-title])').tooltip()
-        // })
       }
 
-      $('body').on('click', '.addProduto', function() {
-        const currentProdutoId = $('#items').val()
-        if (!currentProdutoId) {
-          return notifyDanger('Selecione um produto')
-        }
-        const produtosData = JSON.parse($('#produtosData').text() || '[]')
-        const data = parseProdutos(produtosData)
-        const [notaId, notaItemId] = currentProdutoId.split('-')
-        const produto = data.find(curr => curr.nota_id == notaId && curr.nota_item_id == notaItemId)
-        $('#produtosTbl').DataTable().row.add(produto).draw(false)
-        $('#items').find(`[value=${currentProdutoId}]`).attr('disabled', true)
-        $('#items').select2("destroy").select2(itemsSelectSettings)
-        $('#items').val(null).trigger('change')
-      })
-
-      // Adicionar peso al produto
-      $('body').on('click', '.addWeightAction', function() {
-        const notaId = $(this).attr('data-nota-id')
-        const notaItemId = $(this).attr('data-nota-item-id')
-        sweetInput({
-          title: 'Adicionar peso ao produto',
-          showCancelButton: true,
-          input: 'text',
-          confirmButtonText: 'Adicionar',
-          focusConfirm: false,
-          allowOutsideClick: false,
-          buttonsStyling: false,
-          confirmButtonClass: 'btn btn-primary',
-          cancelButtonClass: 'btn btn-danger',
-          onOpen: () => maskPeso('input.swal2-input'),
-          preConfirm: (value) => !formatStringToFloat(value) ? swal.showValidationError('Por favor, adicione o peso') : value,
-          errorCallback: (error) => notifyDanger('Ocorreu um erro ao adicionar el peso, tente novamente'),
-          successCallback: (result) => {
-            if (result?.dismiss) return
-            const dataInTable = $('#produtosTbl').DataTable().data().toArray()
-            const produtoIndex = dataInTable.findIndex(curr => curr.nota_id == notaId && curr.nota_item_id == notaItemId)
-            $('#produtosTbl').DataTable().row(produtoIndex).data({...dataInTable[produtoIndex], peso: result.value}).draw(false)
-          }
-        })
-      })
-
-      // Adicionar observacao al produto
-      $('body').on('click', '.addObsAction', function() {
-        const notaId = $(this).attr('data-nota-id')
-        const notaItemId = $(this).attr('data-nota-item-id')
-        sweetInput({
-          title: 'Adicionar observacao al produto',
-          showCancelButton: true,
-          input: 'textarea',
-          confirmButtonText: 'Adicionar',
-          focusConfirm: false,
-          allowOutsideClick: false,
-          buttonsStyling: false,
-          confirmButtonClass: 'btn btn-primary',
-          cancelButtonClass: 'btn btn-danger',
-          preConfirm: (value) => !value ? swal.showValidationError('Por favor, adicione uma observacao') : value,
-          errorCallback: (error) => notifyDanger('Ocorreu um erro ao adicionar a observacao, tente novamente'),
-          successCallback: (result) => {
-            if (result?.dismiss) return
-            const dataInTable = $('#produtosTbl').DataTable().data().toArray()
-            const produtoIndex = dataInTable.findIndex(curr => curr.nota_id == notaId && curr.nota_item_id == notaItemId)
-            $('#produtosTbl').DataTable().row(produtoIndex).data({...dataInTable[produtoIndex], observacao: result.value}).draw(false)
-          }
-        })
-      })
-
       // Adicionar tratamento al produto
-      $('body').on('click', '.addTratamentoAction', function() {
+      $('body').on('click', '.addDetailsAction', function() {
         const tratamentoData = JSON.parse($('#tratamentoData').text() || '[]')
-        const notaId = $(this).attr('data-nota-id')
-        const notaItemId = $(this).attr('data-nota-item-id')
+        const id = $(this).attr('data-id')
+        const html = `
+          <div class="row mx-0 mb-4">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="produto_ean">EAN</label>
+                <input type="text" class="form-control" id="produto_ean">
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="produto_especie">Especie</label>
+                <input type="text" class="form-control" id="produto_especie">
+              </div>
+            </div>
+            
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="produto_marca">Marca</label>
+                <input type="text" class="form-control" id="produto_marca">
+              </div>
+            </div>
+          </div>
+
+          <div class="row mx-0 mb-4">
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for=produto_altura">Altura</label>
+                <input type="text" class="form-control" id="produto_altura">
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="produto__largura">Largura</label>
+                <input type="text" class="form-control" id="produto_largura">
+              </div>
+            </div>
+            
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="produto__profundidade">Profundidade</label>
+                <input type="text" class="form-control" id="produto_profundidade">
+              </div>
+            </div>
+            
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="produto__comprimento">Comprimento</label>
+                <input type="text" class="form-control" id="produto_comprimento">
+              </div>
+            </div>
+          </div>
+
+          <div class="row mx-0 mb-4">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="produto_tratamento" class="display-inherit mb-0">Tratamento</label>
+                <select id="produto_tratamento" data-style="btn btn-warning text-white" title="Selecione"></select>
+              </div>
+            </div>
+
+            <div class="col-md-4 align-self-center">
+              <div class="form-group">
+                <label for="produto_numero_serie">Numero Serie</label>
+                <input type="text" class="form-control" id="produto_numero_serie">
+              </div>
+            </div>
+            
+            <div class="col-md-4 align-self-center">
+              <div class="form-group">
+                <label for="produto_data_fabricacao">Data Fabricação</label>
+                <input type="text" class="form-control" id="produto_data_fabricacao">
+              </div>
+            </div>
+          </div>
+
+          <div class="row mx-0 mb-4">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="produto_observacao">Observação</label>
+                <textarea class="form-control" id="produto_observacao" rows="3"></textarea>
+              </div>
+            </div>
+          </div>
+        `
         sweetInput({
-          title: 'Selecione o tratamento al produto',
-          html: '<select id="tratamento" data-style="btn-warning text-white" title="Selecione"></select>',
+          title: 'Preencha os dados do produto',
+          width: '50em',
+          html: html,
           showCancelButton: true,
           confirmButtonText: 'Adicionar',
           // showLoaderOnConfirm: true,
@@ -837,21 +671,54 @@
           buttonsStyling: false,
           confirmButtonClass: 'btn btn-primary',
           cancelButtonClass: 'btn btn-danger',
-          onOpen: () => loadSelect('select#tratamento', tratamentoData, ['id', 'descricao']),
-          preConfirm: () => {
-            const id = $('select#tratamento').val()
-            const text = $('select#tratamento option:selected').text()
-            if (!id) {
-              swal.showValidationError('Por favor, selecione o tratamento')
-            }
-            return { id, text }
+          onOpen: () => {
+            loadSelect('select#produto_tratamento', tratamentoData, ['id', 'descricao'])
+            maskPeso("#produto_altura")
+            maskPeso("#produto_largura")
+            maskPeso("#produto_profundidade")
+            maskPeso("#produto_comprimento")
+            $('#produto_data_fabricacao').datetimepicker({
+              locale: 'pt-br',
+              format: 'YYYY-MM-DD',
+              icons: {
+                time: "fa fa-clock-o",
+                date: "fa fa-calendar",
+                up: "fa fa-chevron-up",
+                down: "fa fa-chevron-down",
+                previous: 'fa fa-chevron-left',
+                next: 'fa fa-chevron-right',
+                today: 'fa fa-screenshot',
+                clear: 'fa fa-trash',
+                close: 'fa fa-remove'
+              }
+            })
           },
-          errorCallback: (error) => notifyDanger('Ocorreu um erro ao adicionar ao tratamento, tente novamente'),
+          preConfirm: () => {
+            const details = {
+              ean: $('#produto_ean').val(),
+              especie: $('#produto_especie').val(),
+              marca: $('#produto_marca').val(),
+              altura: $('#produto_altura').val(),
+              largura: $('#produto_largura').val(),
+              profundidade: $('#produto_profundidade').val(),
+              comprimento: $('#produto_comprimento').val(),
+              tratamento_id: $('select#produto_tratamento').val(),
+              tratamento: $('select#produto_tratamento option:selected').text(),
+              numero_serie: $('#produto_numero_serie').val(),
+              data_fabricacao: $('#produto_data_fabricacao').val(),
+              observacao: $('#produto_observacao').val(),
+            }
+            if (Object.values(details).some(value => !value)) {
+              swal.showValidationError('Por favor, adicione todos os dados!')
+            }
+            return details
+          },
+          errorCallback: (error) => notifyDanger('Ocorreu um erro ao adicionar ao dedos, tente novamente'),
           successCallback: (result) => {
             if (result?.dismiss) return
             const dataInTable = $('#produtosTbl').DataTable().data().toArray()
-            const produtoIndex = dataInTable.findIndex(curr => curr.nota_id == notaId && curr.nota_item_id == notaItemId)
-            $('#produtosTbl').DataTable().row(produtoIndex).data({...dataInTable[produtoIndex], ...{ tratamento_id: result.value.id, tratamento: result.value.text}}).draw(false)
+            const produtoIndex = dataInTable.findIndex(curr => curr.id == id)
+            $('#produtosTbl').DataTable().row(produtoIndex).data({...dataInTable[produtoIndex], ...result.value || {}}).draw(false)
           }
         })
       })
