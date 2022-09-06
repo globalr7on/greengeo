@@ -77,7 +77,7 @@ class OrdenDeServicoController extends Controller
     {
         DB::beginTransaction();
         try {
-            // $request->merge(array('codigo' => $this->generateCode(OrdensServicos::class)));
+            // $request->merge(array('codigo' => $this->generateCode()));
             $request->merge([
                 'estagio_id' => 1,
                 'data_inicio_coleta' => new Carbon(new Carbon($request->get('data_inicio_coleta'), TIMEZONE_BRAZIL), 'UTC'),
@@ -100,22 +100,23 @@ class OrdenDeServicoController extends Controller
                     ]);
                 }
             }
+            $this->saveStatusHistory($newOrdemServico->id, $newOrdemServico->estagio_id, auth()->user()->id);
 
-            $agenda = [
-                // 'codigo'  => $agendamento->ordem_servico->codigo,
-                'gerador' => $newOrdemServico->gerador->nome_fantasia,
-                'usuario' => $newOrdemServico->responsavel->name,
-                'celular' => $newOrdemServico->responsavel->celular,
-                'descricao_produto' => $newOrdemServico->description,
-                'peso_controle' => $newOrdemServico->peso_controle,
-                'transportadora' => $newOrdemServico->transportador->nome_fantasia,
-                'destinador' => $newOrdemServico->destinador->nome_fantasia,
-                'acondicionamento' => $newOrdemServico->acondicionamento->descricao,
-                'email' => $newOrdemServico->transportador->email,
-                'data_inicio_coleta' => (new Carbon(new Carbon($newOrdemServico->data_inicio_coleta, 'UTC'), TIMEZONE_BRAZIL))->format('Y-m-d H:i:s'),
-                'data_final_coleta' => (new Carbon(new Carbon($newOrdemServico->data_final_coleta, 'UTC'), TIMEZONE_BRAZIL))->format('Y-m-d H:i:s'),
-            ];
-            Mail::to($agenda['email'])->send(new EnvioAgendamento($agenda));
+            // $agenda = [
+            //     // 'codigo'  => $agendamento->ordem_servico->codigo,
+            //     'gerador' => $newOrdemServico->gerador->nome_fantasia,
+            //     'usuario' => $newOrdemServico->responsavel->name,
+            //     'celular' => $newOrdemServico->responsavel->celular,
+            //     'descricao_produto' => $newOrdemServico->description,
+            //     'peso_controle' => $newOrdemServico->peso_controle,
+            //     'transportadora' => $newOrdemServico->transportador->nome_fantasia,
+            //     'destinador' => $newOrdemServico->destinador->nome_fantasia,
+            //     'acondicionamento' => $newOrdemServico->acondicionamento->descricao,
+            //     'email' => $newOrdemServico->transportador->email,
+            //     'data_inicio_coleta' => (new Carbon(new Carbon($newOrdemServico->data_inicio_coleta, 'UTC'), TIMEZONE_BRAZIL))->format('Y-m-d H:i:s'),
+            //     'data_final_coleta' => (new Carbon(new Carbon($newOrdemServico->data_final_coleta, 'UTC'), TIMEZONE_BRAZIL))->format('Y-m-d H:i:s'),
+            // ];
+            // Mail::to($agenda['email'])->send(new EnvioAgendamento($agenda));
 
             DB::commit();
             return response([
@@ -157,15 +158,20 @@ class OrdenDeServicoController extends Controller
         DB::beginTransaction();
         try {
             $ordenServico = OrdensServicos::find($id);
+            $prevEstagio = $ordenServico->estagio_id;
+            $request->merge([
+                'data_inicio_coleta' => new Carbon(new Carbon($request->get('data_inicio_coleta'), TIMEZONE_BRAZIL), 'UTC'),
+                'data_final_coleta' => new Carbon(new Carbon($request->get('data_final_coleta'), TIMEZONE_BRAZIL), 'UTC')
+            ]);
             $ordenServico->update($request->except('produtos'));
-            // if ($ordenServico->motorista_id) {
-            //     OrdenServicoMotorista::create([
-            //         'usuario_id' => $ordenServico->motorista_id,
-            //         'ordem_servico_id' => $ordenServico->id
-            //     ]);
-            //     $ordenServico->estagio_id = $this->getNextEstagio($ordenServico->estagio_id);
-            //     $ordenServico->save();
-            // }
+            if ($ordenServico->motorista_id) {
+                OrdenServicoMotorista::create([
+                    'usuario_id' => $ordenServico->motorista_id,
+                    'ordem_servico_id' => $ordenServico->id
+                ]);
+                $ordenServico->estagio_id = $this->getNextEstagio($ordenServico->estagio_id);
+                $ordenServico->save();
+            }
             if ($request->get('produtos')) {
                 $itensIds = array_column($request->get('produtos'), 'id');
                 $itensToDelete = $ordenServico->itens->whereNotIn('id', $itensIds);
@@ -192,6 +198,9 @@ class OrdenDeServicoController extends Controller
                         'quantidade' => $produto['quantidade'],
                     ]);
                 }
+            }
+            if ($prevEstagio != $ordenServico->estagio_id) {
+                $this->saveStatusHistory($ordenServico->id, $ordenServico->estagio_id, auth()->user()->id);
             }
             DB::commit();
     
@@ -246,7 +255,9 @@ class OrdenDeServicoController extends Controller
     {
         try {
             $ordenServico = OrdensServicos::find($id);
-            $ordenServico->update(["estagio_id" => $this->getNextEstagio($ordenServico->estagio_id)]);
+            $newEstagio = $this->getNextEstagio($ordenServico->estagio_id);
+            $ordenServico->update(["estagio_id" => $newEstagio]);
+            $this->saveStatusHistory($id, $newEstagio, auth()->user()->id);
             return response([
                 'data' => new OrdenDeServicoResource($ordenServico),
                 'status' => true
@@ -271,8 +282,8 @@ class OrdenDeServicoController extends Controller
     {
         try {
             $status = true;
-            $ordenServico = OrdensServicos::find($id);
-            $aprovacaoMotorista = $ordenServico->aprovacao_motorista->filter(function ($data) {
+            $ordemServico = OrdensServicos::find($id);
+            $aprovacaoMotorista = $ordemServico->aprovacao_motorista->filter(function ($data) {
                 return $data->status === null;
             })->first();
 
@@ -283,13 +294,14 @@ class OrdenDeServicoController extends Controller
                 $aprovacaoMotorista->status = $aprovacao;
                 $aprovacaoMotorista->observacao = $aprovacao ? null : $request->get('observacao', null);
                 $aprovacaoMotorista->save();
-                $newEstagio = $aprovacao ? $this->getNextEstagio($ordenServico->estagio_id) : $this->getPrevEstagio($ordenServico->estagio_id);
-                $motorista = $aprovacao ? $ordenServico->motorista_id : null;
-                $ordenServico->update(["estagio_id" => $newEstagio, "motorista_id" => $motorista]);
+                $newEstagio = $aprovacao ? $this->getNextEstagio($ordemServico->estagio_id) : $this->getPrevEstagio($ordemServico->estagio_id);
+                $motorista = $aprovacao ? $ordemServico->motorista_id : null;
+                $ordemServico->update(["estagio_id" => $newEstagio, "motorista_id" => $motorista]);
+                $this->saveStatusHistory($id, $newEstagio, auth()->user()->id);
             }
 
             return response([
-                'data' => new OrdenDeServicoResource($ordenServico),
+                'data' => new OrdenDeServicoResource($ordemServico),
                 'status' => $status
             ], 200);
         } catch (\Exception $error) {

@@ -18,7 +18,7 @@
               <p class="card-category">Agendamento</p>
             </div>
             <div class="card-body">
-              <input type="hidden" id="current_tipo_empresa_id" value="{{ Auth::user()->pessoa_juridica ? Auth::user()->pessoa_juridica->tipo_empresa_id : null }}">
+              <input type="hidden" id="current_tipo_empresa" value="{{ Auth::user()->pessoa_juridica && Auth::user()->pessoa_juridica->tipo_empresa ? Auth::user()->pessoa_juridica->tipo_empresa->descricao : null }}">
               <div id="fullCalendar"></div>
             </div>
           </div>
@@ -32,6 +32,12 @@
 @push('js')
   <script>
     $(document).ready(function () {
+      const currResponsavelId = $('#input_responsavel_id').val()
+      const currTipoEmpresa = $('#current_tipo_empresa').val()
+      const currEmpresaId = $('#input_pessoa_juridica_id').val()
+      const currIsGerador = currTipoEmpresa.toLowerCase() == 'gerador'
+      const currIsTransporador = currTipoEmpresa.toLowerCase() == 'transportador'
+      !currIsGerador && $('#novoAgendamento').attr('disabled', true)
       const app = new App({})
       getAgendamentos()
 
@@ -43,6 +49,9 @@
         $('#tituloAgenda').text("Novo Agendamento")
         $('#input_id').val("")
         $('#formAgenda')[0].reset()
+        $("#formAgenda input").attr("disabled", false)
+        $("#produtoDetailDiv").removeClass('d-none')
+        $('#motoristaDiv').addClass('d-none')
         maskPeso("#input_peso")
         getTransportador()
         getDestinador()
@@ -111,7 +120,7 @@
 
       // Salvar
       $('body').on('click', '#salvarAgenda', function() {
-        const pessoaJuridicaId = $("#input_pessoa_juridica_id").val()
+        const pessoaJuridicaId = $("#input_gerador_id").val() || $("#input_pessoa_juridica_id").val()
         const produtos = $('#produtosTbl').DataTable().data().toArray().map(produto => {
           return {
             id: produto.id || null,
@@ -132,6 +141,8 @@
           acondicionamento_id: $("#input_acondicionamento_id").val(),
           data_inicio_coleta: $("#input_data_inicio_coleta").val(),
           data_final_coleta: $("#input_data_final_coleta").val(),
+          veiculo_id: $("#input_veiculo_id").val(),
+          motorista_id: $("#input_motorista_id").val(),
           produtos: produtos
         }
         const id = $('#input_id').val()
@@ -140,7 +151,7 @@
             if (response && response.status) {
               $("#modalAgenda").modal("hide")
               notifySuccess('Atualizada com sucesso')
-              // addEventToCalendar(response.data)
+              updateEvent(response.data)
             }
           })
           .catch(error => {
@@ -162,13 +173,13 @@
         }
       })
 
-      function getTransportador(value) {
+      function getTransportador(value, disabled) {
         app.api.get('/tipo_empresa').then(response => {
           if (response && response.status) {
             const tipoEmpresaTransportadorId = response.data.find(curr => curr.descricao.toLowerCase() == 'transportador')?.id
             app.api.get(`/pessoa_juridica?tipo_empresa_id=${tipoEmpresaTransportadorId}&show_current_empresa=false`).then(responseEmpresa =>  {
               if (responseEmpresa && responseEmpresa.status) {
-                loadSelect('#input_transportador_id', responseEmpresa.data, ['id', 'razao_social'], value)
+                loadSelect('#input_transportador_id', responseEmpresa.data, ['id', 'razao_social'], value, disabled)
               }
             })
             .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
@@ -178,13 +189,13 @@
         }).catch(error => notifyDanger('Falha ao obter dados. Tente novamente'))
       }
 
-      function getDestinador(value) {
+      function getDestinador(value, disabled) {
         app.api.get('/tipo_empresa').then(response => {
           if (response && response.status) {
             const tipoEmpresaDestinadorId = response.data.find(curr => curr.descricao.toLowerCase() == 'destinador')?.id
             app.api.get(`/pessoa_juridica?tipo_empresa_id=${tipoEmpresaDestinadorId}&show_current_empresa=false`).then(responseEmpresa =>  {
               if (responseEmpresa && responseEmpresa.status) {
-                loadSelect('#input_destinador_id', responseEmpresa.data, ['id', 'razao_social'], value)
+                loadSelect('#input_destinador_id', responseEmpresa.data, ['id', 'razao_social'], value, disabled)
               }
             })
             .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
@@ -205,16 +216,41 @@
         .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
       }
 
-      function getAcondicionamento(value) {
+      function getAcondicionamento(value, disabled) {
         app.api.get('/acondicionamento').then(response =>  {
           if (response && response.status) {
-            loadSelect('#input_acondicionamento_id', response.data, ['id', 'descricao'], value)
+            loadSelect('#input_acondicionamento_id', response.data, ['id', 'descricao'], value, disabled)
           }
         })
         .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
       }
 
-      function initProdutoDataTable(data) {
+      function getVeiculo(value, empresaId, disabled) {
+        const empresa = empresaId ? `?pessoa_juridica_id=${empresaId}` : ''
+        app.api.get(`/veiculo${empresa}`).then(response =>  {
+          if (response && response.status) {
+            loadSelect('#input_veiculo_id', response.data, [], value, disabled, (option) => {
+              return [
+                option.id,
+                `${option.marca} [${option.modelo}]: ${option.placa} - ${option.capacidade_media_carga}Kg`
+              ]
+            })
+          }
+        })
+        .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
+      }
+
+      function getMotorista(value, empresaId, disabled) {
+        const empresa = empresaId ? `?pessoa_juridica_id=${empresaId}&funcao=motorista` : ''
+        app.api.get(`/users${empresa}`).then(response =>  {
+          if (response && response.status) {
+            loadSelect('#input_motorista_id', response.data, ['id', 'name'], value, disabled)
+          }
+        })
+        .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
+      }
+
+      function initProdutoDataTable(data = []) {
         if ($.fn.dataTable.isDataTable('#produtosTbl')) {
           $('#produtosTbl').DataTable().clear().draw()
           $('#produtosTbl').DataTable().rows.add(data).draw()
@@ -280,6 +316,11 @@
       }
 
       function editAgendamento(event) {
+        const eventEstagio = event.estagio.toLowerCase()
+        const enAgendamento = eventEstagio == 'en agendamento'
+        const agendada = eventEstagio == 'agendada'
+        const allowEdit = enAgendamento && event.gerador_id == currEmpresaId
+        const allowAddMoto = enAgendamento && currIsTransporador && event.transportador_id == currEmpresaId
         console.log('EditAgendamento', event)
         app.stepper()
         delFormValidationErrors()
@@ -290,9 +331,10 @@
         $('#input_data_inicio_coleta').val(event.data_inicio_coleta)
         $('#input_data_final_coleta').val(event.data_final_coleta)
         maskPeso("#input_peso")
-        getTransportador(event.transportador_id)
-        getDestinador(event.destinador_id)
-        getAcondicionamento(event.acondicionamento_id)
+        $("#input_gerador_id").val(event.gerador_id)
+        getTransportador(event.transportador_id, !allowEdit)
+        getDestinador(event.destinador_id, !allowEdit)
+        getAcondicionamento(event.acondicionamento_id, !allowEdit)
         getUnidade()
         initProdutoDataTable(event.itens.map((item, index) => {
           return {
@@ -307,16 +349,45 @@
             peso: formatFloatToString(item.peso),
           }
         }))
+
+        if (allowEdit) {
+          $("#formAgenda input").attr("disabled", false)
+          $("#produtoDetailDiv").removeClass('d-none')
+          $('#motoristaDiv').addClass('d-none')
+          $("#salvarAgenda").show()
+        } else {
+          $("#formAgenda input").attr("disabled", true)
+          $("#addProduto").hide()
+          $("#produtoDetailDiv").addClass('d-none')
+          $('#motoristaDiv').removeClass('d-none')
+          $("#salvarAgenda").hide()
+        }
+        if (allowAddMoto) {
+          $('#motoristaDiv').removeClass('d-none')
+          getVeiculo(event.veiculo_id, currEmpresaId)
+          getMotorista(event.motorista_id, currEmpresaId)
+          $("#input_data_inicio_coleta").attr("disabled", false)
+          $("#input_data_final_coleta").attr("disabled", false)
+          $("#salvarAgenda").show()
+        }
+        if (!enAgendamento) {
+          $('#motoristaDiv').removeClass('d-none')
+          getVeiculo(event.veiculo_id, null, true)
+          getMotorista(event.motorista_id, null, true)
+        }
       }
 
       function eventObject(event) {
+        const eventClass = event.estagio.toLowerCase() == 'en agendamento'
+          ? 'event-red'
+          : event.estagio.toLowerCase() == 'esperando motorista'
+            ? 'event-orange'
+            : 'event-green'
         return {
-          title: `Coleta: ${event.gerador} -> ${event.transportador} -> ${event.destinador}`,
+          title: `[${event.estagio}] Coleta: ${event.gerador} -> ${event.transportador} -> ${event.destinador}`,
           start: $.fullCalendar.moment(event.data_inicio_coleta),
           end: $.fullCalendar.moment(event.data_final_coleta),
-          // end: $.fullCalendar.moment(event.coleta).add(2, 'hours'),
-          // allDay: false,
-          className: 'event-green',
+          className: [eventClass],
           descr: 'Clique para mais detalhes...',
           ...event
         }
@@ -356,43 +427,6 @@
           },
           eventClick: function(calEvent, jsEvent, view) {
             editAgendamento(calEvent)
-            // const content = `
-            //   <div>
-            //     <div class="row px-4 py-2">
-            //       <div class="col-5 text-left"><i class="fas fa-home" title="Gerador"></i> ${calEvent.gerador}</div>
-            //       <div class="col-2"><b>&#8594;</b></div>
-            //       <div class="col-5 text-right"><i class="fas fa-truck-moving"></i> ${calEvent.transportadora}</div>
-            //     </div>
-  
-            //     <div class="row px-4 py-2">
-            //       <div class="col-6 text-left"><i class="fas fa-trailer"></i> ${calEvent.acondicionamento}</div>
-            //       <div class="col-6 text-right"><i class="fas fa-balance-scale"></i> ${calEvent.ordem_servico.peso_total} Kg</div>
-            //     </div>
-  
-            //     <div class="row px-4 py-2">
-            //       <div class="col-12 text-left"><i class="fas fa-list"></i> Produtos:</div>
-            //       ${calEvent.ordem_servico.itens.reduce((acc, item) => {
-            //         return acc + `
-            //           <div class="col-1 pr-0">&bull;</div>
-            //           <div class="col-6 pl-0 text-left align-self-center" style="font-size:14px"><i class="fas fa-barcode"></i> ${item.produto.ean}</div>
-            //           <div class="col-5 pl-0 text-left align-self-center" style="font-size:14px"><i class="fas fa-ruler-combined"></i> ${parseFloat(item.produto.altura).toFixed(2)}A x ${parseFloat(item.produto.largura).toFixed(2)}L x ${parseFloat(item.produto.profundidade).toFixed(2)}P</div>
-            //         `
-            //       }, '')}
-            //     </div>
-  
-            //     <div class="row px-4 pt-4">
-            //       <div class="col-12 text-right"><small><i class="fas fa-user-edit"></i> ${calEvent.usuario}</small></div>
-            //     </div>
-            //   </div>
-            // `
-            // sweetInput({
-            //   title: `Ordem Serviço: ${calEvent.ordem_servico.codigo}`,
-            //   html: content,
-            //   confirmButtonText: 'Ok',
-            //   focusConfirm: false,
-            //   buttonsStyling: false,
-            //   confirmButtonClass: 'btn btn-primary',
-            // })
           },
           eventRender: function(eventObj, element) {
             element.popover({
@@ -410,6 +444,16 @@
       function addEventToCalendar(event) {
         const calendar = $('#fullCalendar')
         calendar.fullCalendar('renderEvent', eventObject(event), true)
+      }
+      
+      function updateEvent(event) {
+        const calendar = $('#fullCalendar')
+        const events = calendar.fullCalendar('clientEvents')
+        const currEvent = {
+          ...(events.find(c => c.id == event.id) || {}),
+          ...eventObject(event)
+        }
+        calendar.fullCalendar('updateEvent', currEvent)
       }
     })
   </script>

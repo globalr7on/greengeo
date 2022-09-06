@@ -5,11 +5,15 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
+use App\Models\User;
 
 class OrdenDeServicoRequest extends FormRequest
 {
     public function rules()
     {
+        $currUser = User::find($this->responsavel_id);
+        $isRequired = (int) $this->transportador_id == (int) $currUser->pessoa_juridica_id;
         return [
             'responsavel_id' => 'required',
             'gerador_id' => 'required',
@@ -19,7 +23,12 @@ class OrdenDeServicoRequest extends FormRequest
             'data_inicio_coleta' => 'required|date|date_format:Y-m-d H:i:s',
             'data_final_coleta' => 'required|date|date_format:Y-m-d H:i:s',
             'produtos' => 'required|array',
-            // 'data_estagio' => 'required|date|date_format:Y-m-d',
+            'veiculo_id' => [
+                Rule::requiredIf($isRequired)
+            ],
+            'motorista_id' => [
+                Rule::requiredIf($isRequired)
+            ],
         ];
     }
 

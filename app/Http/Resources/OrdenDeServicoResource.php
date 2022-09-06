@@ -64,6 +64,7 @@ class OrdenDeServicoResource extends JsonResource
                 return $data->status === null;
             })->all(),
             'lista_motoristas' => OrdenDeServicoMotoristasResource::collection($this->aprovacao_motorista),
+            'estagios_historico' => $this->estagios_historico,
         ];
     }
 }

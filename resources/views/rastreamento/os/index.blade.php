@@ -12,9 +12,6 @@
   <div class="content mt-0">
     <div class="container-fluid">
       <!-- <div class="col-12 text-right">
-        <button type="button" class="btn btn-primary" id="novaPreOs">
-         + Novo Pre Agendamento OS
-        </button>
         <button type="button" class="btn btn-primary" id="novaOs">
          + Nova OS
         </button>
@@ -51,13 +48,11 @@
   @include('rastreamento.os.modal')
   @include('rastreamento.os.modalFotos')
   @include('rastreamento.os.modalGalleryFotos')
-  @include('rastreamento.os.modalPreAgendamento')
 @endsection
 
 @push('js')
   <script>
     $(document).ready(function () {
-     
       // fix issue with sweetInput and bootstrap modal
       $.fn.modal.Constructor.prototype._enforceFocus = function () {}
       const currentParentUserId = $('#parent_usuario_responsavel_id').val() ? parseInt($('#parent_usuario_responsavel_id').val()) : null
@@ -92,19 +87,27 @@
             targets: 8,
             render: function (data, type, row) {
               const estagio = row.estagio.toLowerCase()
-              const statusEmitida = 'emitida'
               const statusEsperandoMotorista = 'esperando motorista'
+              const statusAgendada = 'agendada'
               const statusAguardandoColeta = 'aguardando coleta'
+              const statusEmitida = 'emitida'
               const statusTransporte = 'transporte'
               const statusEntregue = 'entregue'
-              const deleteBtn = estagio == statusEmitida ? `<i class="fa fa-trash cursor-pointer deleteAction" data-id="${row.id}" title="Excluir"></i>&nbsp;` : ''
-              const editBtn = estagio == statusEmitida ? `<i class="fa fa-pen cursor-pointer editAction" data-id="${row.id}" title="Editar"></i>&nbsp;` : ''
-              const showBtn = estagio !== statusEmitida ? `<i class="fas fa-list-alt cursor-pointer showAction" data-id="${row.id}" title="Mostrar"></i>&nbsp;` : ''
-              const updateStatusTransporteBtn = estagio == statusAguardandoColeta
-                ? `<i class="fas fa-truck cursor-pointer updateEstagio" data-id="${row.id}" title="Atualizar a Transporte"></i>&nbsp;`
+              // const deleteBtn = estagio == statusEmitida ? `<i class="fa fa-trash cursor-pointer deleteAction" data-id="${row.id}" title="Excluir"></i>&nbsp;` : ''
+              const editBtn = estagio == statusAguardandoColeta && row.gerador_id == currentUserId
+                ? `<i class="fa fa-pen cursor-pointer editAction" data-id="${row.id}" title="Editar"></i>&nbsp;`
                 : ''
-              const updateStatusEntregueBtn = estagio == statusTransporte
-                ? `<i class="fas fa-truck-loading cursor-pointer updateEstagio" data-id="${row.id}" title="Atualizar a Entregue"></i>&nbsp;`
+              const showBtn = estagio !== statusAguardandoColeta ||  row.gerador_id !== currentUserId
+                ? `<i class="fas fa-list-alt cursor-pointer showAction" data-id="${row.id}" title="Mostrar"></i>&nbsp;`
+                : ''
+              const aguardandoColetaBtn = estagio == statusAgendada && row.motorista_id == currentUserId
+                ? `<i class="fas fa-truck-loading cursor-pointer updateEstagio" data-id="${row.id}" title="Atualizar a ${statusAguardandoColeta}"></i>&nbsp;`
+                : ''
+              const transporteBtn = estagio == statusEmitida && row.motorista_id == currentUserId
+                ? `<i class="fas fa-truck cursor-pointer updateEstagio" data-id="${row.id}" title="Atualizar a ${statusTransporte}"></i>&nbsp;`
+                : ''
+              const entregueBtn = estagio == statusTransporte && row.destinador_id == currentUserId
+                ? `<i class="fas fa-truck-loading cursor-pointer updateEstagio" data-id="${row.id}" title="Atualizar a ${statusEntregue}"></i>&nbsp;`
                 : ''
               const addPhotoBtn = estagio == statusTransporte
                 ? `<i class="fa-solid fa-cloud-arrow-up cursor-pointer novaFoto" data-id="${row.id}" data-codigo="${row.codigo}" title="Adicionar Foto"></i>&nbsp;`
@@ -124,7 +127,7 @@
                 return `${showBtn}${approvalBtn}${rejectBtn}`
               }
 
-              return `${deleteBtn}${editBtn}${showBtn}${updateStatusTransporteBtn}${updateStatusEntregueBtn}${addPhotoBtn}${addMTRBtn}${addCDFBtn}${listMotoristasBtn}`
+              return `${editBtn}${showBtn}${aguardandoColetaBtn}${transporteBtn}${entregueBtn}${addPhotoBtn}${addMTRBtn}${addCDFBtn}${listMotoristasBtn}`
             }
           }
         ],
@@ -170,29 +173,6 @@
         }
       })
 
-      // Open Modal PreAgendamento New
-      $('body').on('click', '#novaPreOs', function() {
-        // $('#items').attr('disabled', false)
-        // $('.addPreProduto').attr('disabled', false)
-        // $('.addPreProduto').attr('disabled', true)
-        delFormValidationErrors()
-        $("#modalPreOs").modal("show")
-        $('#tituloPreModal').text("Pre Agendamento OS")
-        $('#input_id').val("")
-        $('#formPreOs')[0].reset()
-        // getEmpresa2(!isGerador ? empresaId : null, isGerador ? null : tipoEmpresaId, true, !isGerador)
-        // getEstagio('Emitida', true, true)
-        // getEmpresa(null, '#input_gerador_id', currentParentUserId, tipoEmpresaGeradorId, currentParentTipoEmpresaId == tipoEmpresaTransportadorId)
-        // getEmpresa(response.data.destinador_id, '#input_destinador_id', null, null, false, false, true)
-        // getEmpresa(response.data.transportador_id, '#input_transportador_id', null, null, false, false, true)
-        // getMotorista(null, null, true, true)
-        // getVeiculo(null, null, true, true)
-        // getNotasFiscais()
-        if ($.fn.dataTable.isDataTable('#produtosPreTbl')) {
-          $('#produtosPreTbl').DataTable().clear().draw()
-        }
-      })
-
       // Open Modal novaFoto
       $('body').on('click', '.novaFoto', function() {
         const id = $(this).attr('data-id')
@@ -204,8 +184,8 @@
         $("#modalFoto").modal("show")
       })
 
-       // Open Modal addMTR
-       $('body').on('click', '.addMTR', function() {
+      // Open Modal addMTR
+      $('body').on('click', '.addMTR', function() {
         const id = $(this).attr('data-id')
         sweetInput({
           title: 'Carregar o MTR',
@@ -472,18 +452,18 @@
       })
 
       // Excluir
-      $('body').on('click', '.deleteAction', function() {
-        const id = $(this).attr('data-id')
-        sweetConfirm('Deseja realmente excluir?').then(confirmed => {
-          if (confirmed) {
-            app.api.delete(`/os/${id}`).then(response =>  {
-              app.datatable.ajax.reload()
-              notifySuccess('os excluída com sucesso')
-            })
-            .catch(error => notifyDanger('Falha ao excluir. Tente novamente'))
-          }
-        }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
-      })
+      // $('body').on('click', '.deleteAction', function() {
+      //   const id = $(this).attr('data-id')
+      //   sweetConfirm('Deseja realmente excluir?').then(confirmed => {
+      //     if (confirmed) {
+      //       app.api.delete(`/os/${id}`).then(response =>  {
+      //         app.datatable.ajax.reload()
+      //         notifySuccess('os excluída com sucesso')
+      //       })
+      //       .catch(error => notifyDanger('Falha ao excluir. Tente novamente'))
+      //     }
+      //   }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
+      // })
 
       function getEmpresa(value, selector, usuarioResponsavelId, tipoEmpresaId, showCurrentEmpresa = false, withoutData, disabled) {
         if (withoutData) {
@@ -500,8 +480,6 @@
           .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
         }
       }
-
-     
 
       function getMotorista(value, empresaId, withoutData, disabled) {
         if (withoutData) {
