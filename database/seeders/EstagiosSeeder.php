@@ -15,7 +15,7 @@ class EstagiosSeeder extends Seeder
     public function run()
     {
         $estagios = [
-            'En Agendamento',
+            'Em Agendamento',
             'Esperando Motorista',
             'Agendada',
             'Aguardando Coleta',

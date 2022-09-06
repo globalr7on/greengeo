@@ -318,10 +318,10 @@
 
       function editAgendamento(event) {
         const eventEstagio = event.estagio.toLowerCase()
-        const enAgendamento = eventEstagio == 'en agendamento'
+        const emAgendamento = eventEstagio == 'em agendamento'
         const agendada = eventEstagio == 'agendada'
-        const allowEdit = enAgendamento && event.gerador_id == currEmpresaId
-        const allowAddMoto = enAgendamento && currIsTransporador && event.transportador_id == currEmpresaId
+        const allowEdit = emAgendamento && event.gerador_id == currEmpresaId
+        const allowAddMoto = emAgendamento && currIsTransporador && event.transportador_id == currEmpresaId
         console.log('EditAgendamento', event)
         app.stepper()
         delFormValidationErrors()
@@ -379,7 +379,7 @@
       }
 
       function eventObject(event) {
-        const eventClass = event.estagio.toLowerCase() == 'en agendamento'
+        const eventClass = event.estagio.toLowerCase() == 'em agendamento'
           ? 'event-red'
           : event.estagio.toLowerCase() == 'esperando motorista'
             ? 'event-orange'
