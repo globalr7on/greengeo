@@ -371,7 +371,7 @@
           $("#input_data_final_coleta").attr("disabled", false)
           $("#salvarAgenda").show()
         }
-        if (!enAgendamento) {
+        if (!emAgendamento) {
           $('#motoristaDiv').removeClass('d-none')
           getVeiculo(event.veiculo_id, null, true)
           getMotorista(event.motorista_id, null, true)
