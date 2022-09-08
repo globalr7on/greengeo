@@ -112,7 +112,6 @@
                   </div>
                 </div>
                   <div class="row mx-0 mb-4">
-                   
                     <div class="col-md-6 align-self-center text-center">
                       <button type="button" class="btn btn-primary" id="addProduto">Adicionar</button>
                     </div>
@@ -123,8 +122,8 @@
                     <table class="table" id="produtosTbl">
                       <thead>
                         <th class="text-primary font-weight-bold text-center" style="width:6%">#</th>
-                        <th class="text-primary font-weight-bold text-center" style="width:8%">Codigo</th>
-                        <th class="text-primary font-weight-bold" style="width:auto">Descricão</th>
+                        <th class="text-primary font-weight-bold text-center" style="width:8%">Código</th>
+                        <th class="text-primary font-weight-bold" style="width:auto">Descrição</th>
                         <th class="text-primary font-weight-bold text-center" style="width:6%">Unid.</th>
                         <th class="text-primary font-weight-bold text-center" style="width:6%">Quant.</th>
                         <th class="text-primary font-weight-bold text-center" style="width:6%">Peso</th>
