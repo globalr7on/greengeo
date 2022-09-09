@@ -22,7 +22,7 @@
               <div>
                 <table class="table" id="osTbl">
                   <thead>
-                    <th class="text-primary font-weight-bold text-center" style="width:10%">Codigo</th>
+                    <th class="text-primary font-weight-bold text-center" style="width:10%">Código</th>
                     <th class="text-primary font-weight-bold" style="width:8%">Emissão</th>
                     <th class="text-primary font-weight-bold" style="width:9%">Integração</th>
                     <th class="text-primary font-weight-bold" style="width:auto">Gerador</th>
