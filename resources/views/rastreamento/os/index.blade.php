@@ -109,6 +109,12 @@
                 ? `<i class="fa-solid fa-square-check cursor-pointer addCDF" data-id="${row.id}" title="Adicionar CDF"></i>&nbsp;`
                 : ''
               const listMotoristasBtn = `<i class="fa-solid fas fa-clipboard-list cursor-pointer listMotoristas" data-id="${row.id}" title="Lista motoristas"></i>&nbsp;`
+              const addPesoControleTransBtn = estagio == statusEmitida
+                ? `<i class="fas fa-weight cursor-pointer addPesoControleTrans" data-id="${row.id}" title="Adicionar Peso Controle Motorista"></i>&nbsp;`
+                : ''
+              const addPesoControleDestBtn = estagio == statusTransporte
+                ? `<i class="fas fa-weight cursor-pointer addPesoControleDest" data-id="${row.id}" title="Adicionar Peso Controle Destinador"></i>&nbsp;`
+                : ''
                 
               const isMotoristaForApproval = row.aprovacao_motorista.length > 0 ? row.aprovacao_motorista[0].usuario_id == currentUserId : false
               if (isMotoristaForApproval && estagio == statusEsperandoMotorista) {
@@ -263,27 +269,14 @@
       $('body').on('click', '#salvarOs', function() {
         const produtosData = $('#produtosTbl').DataTable().data().toArray().map(curr => ({
           id: curr.id,
-          codigo: curr.codigo,
-          ean: curr.ean,
-          altura: formatStringToFloat(curr.altura),
-          largura: formatStringToFloat(curr.largura),
-          profundidade: formatStringToFloat(curr.profundidade),
-          comprimento: formatStringToFloat(curr.comprimento),
-          peso: formatStringToFloat(curr.peso),
-          descricao: curr.descricao,
-          especie: curr.especie,
-          marca: curr.marca,
           produto_id: curr.produto_id,
+          peso: formatStringToFloat(curr.peso),
           quantidade: curr.quantidade,
-          numero_serie: curr.numero_serie,
-          data_fabricacao: curr.data_fabricacao,
           observacao: curr.observacao,
           tratamento_id: curr.tratamento_id,
-          unidade_id: curr.unidade_id,
-          pessoa_juridica_id: curr.pessoa_juridica_id,
         }))
-        if (!produtosData.length) {
-          return notifyDanger('Por favor, adicione os produtos')
+        if (produtosData.some(curr => !curr.tratamento_id)) {
+          return notifyDanger('Por favor, adicione o tratamento sobre os produtos')
         }
         const JSONRequest = {
           gerador_id: $("#input_gerador_id").val(), 
@@ -295,7 +288,6 @@
           data_integracao: $("#input_data_integracao").val(),
           motorista_id: $("#input_motorista_id").val(),
           veiculo_id: $("#input_veiculo_id").val(),
-          peso_controle: formatStringToFloat($("#input_peso_controle").val()),
           description: $("#input_description").val(),
           acondicionamento_id: $("#input_acondicionamento_id").val(),
           data_inicio_coleta: $("#input_data_inicio_coleta").val(),
@@ -339,8 +331,6 @@
             $("#input_data_emissao").val(response.data.data_emissao).attr('disabled', onlyShow)
             $("#input_data_preenchimento").val(response.data.data_preenchimento).attr('disabled', onlyShow)
             $("#input_data_integracao").val(response.data.data_integracao).attr('disabled', onlyShow)
-            maskPeso("#input_peso_controle", formatFloatToString(response.data.peso_controle))
-            $("#input_peso_controle").attr('disabled', onlyShow)
             $("#input_data_inicio_coleta").val(response.data.data_inicio_coleta).attr('disabled', true)
             $("#input_data_final_coleta").val(response.data.data_final_coleta).attr('disabled', true)
             $("#input_description").val(response.data.description).attr('disabled', onlyShow)
@@ -354,24 +344,15 @@
                 position: pos + 1,
                 codigo: item.produto.codigo,
                 ean: item.produto.ean,
-                altura: formatFloatToString(item.produto.altura),
-                largura: formatFloatToString(item.produto.largura),
-                profundidade: formatFloatToString(item.produto.profundidade),
-                comprimento: formatFloatToString(item.produto.comprimento),
-                peso: formatFloatToString(item.peso),
                 descricao: item.produto.descricao,
-                especie: item.produto.especie,
-                marca: item.produto.marca,
+                peso: formatFloatToString(item.peso),
+                peso_controle_transportador: formatFloatToString(item.peso_controle_transportador),
+                peso_controle_destinador: formatFloatToString(item.peso_controle_destinador),
                 produto_id: item.produto.id,
                 quantidade: item.quantidade,
-                numero_serie: item.numero_serie,
-                data_fabricacao: item.data_fabricacao,
                 observacao: item.observacao,
                 tratamento: item?.tratamento?.descricao,
                 tratamento_id: item.tratamento_id,
-                unidade: item.produto.unidade,
-                unidade_id: item.produto.unidade_id,
-                pessoa_juridica_id: item.produto.pessoa_juridica_id,
               }
             }))
             if (onlyShow) {
@@ -508,21 +489,28 @@
                 render: function (data, type, row, meta) {
                   return `
                     <div style="line-height: 1;">
-                      <span class="d-block">[${row.descricao}] ${row.ean}</span>
-                      <small class="d-block">Marca: ${row.marca} - Especie: ${row.especie}</small>
-                      <small class="d-block">Serie: ${row.numero_serie} (${row.data_fabricacao})</small>
+                      <span class="d-block">[${row.ean}] ${row.codigo}</span>
+                      <small class="d-block">${row.descricao}</small>
                     </div>
                   `
                 }
               },
-              { data: 'altura' },
-              { data: 'largura' },
-              { data: 'profundidade' },
-              { data: 'comprimento' },
               {
                 data: 'peso',
                 render: function (data, type, row, meta) {
-                  return data ? `${data} ${row?.unidade}` : ''
+                  return data ? data : ''
+                }
+              },
+              {
+                data: 'peso_controle_transportador',
+                render: function (data, type, row, meta) {
+                  return data ? data : ''
+                }
+              },
+              {
+                data: 'peso_controle_destinador',
+                render: function (data, type, row, meta) {
+                  return data ? data : ''
                 }
               },
               {
@@ -548,180 +536,269 @@
                 }
               },
               {
-                targets: [2,3,4,5,6,7],
+                targets: [2,3,4,5],
                 className: 'text-center',
               },
               {
-                targets: 9,
+                targets: 7,
                 className: 'text-center',
                 render: function (data, type, row, meta) {
-                  const addDetailsBtn = `<i class="fas fa-clipboard-list cursor-pointer addDetailsAction" data-id="${row.id}" title="Adicionar details"></i>`
-                  return row?.disabledBtn ? '' : addDetailsBtn
+                  const addTratamentoBtn = `<i class="fas fa-recycle cursor-pointer addTratamentoAction" data-id="${row.id}" title="Adicionar tratamento"></i>`
+                  const addObsBtn = `<i class="fas fa-clipboard cursor-pointer addObsAction" data-id="${row.id}" title="Adicionar observacao"></i>`
+
+                  return row?.disabledBtn ? '' : `<div class="d-flex align-items-center" style="justify-content:space-evenly">${addTratamentoBtn}${addObsBtn}</div>`
                 }
               },
             ],
             footerCallback: function (row, data, start, end, display) {
               const dataTable = this.api().data().toArray()
               const totalPeso = dataTable.reduce((acc, curr) => acc + (formatStringToFloat(curr?.peso) || 0), 0)
-              $(this.api().column(6).footer()).html(formatFloatToString(totalPeso.toFixed(2)))
+              const totalPesoControleTrans = dataTable.reduce((acc, curr) => acc + (formatStringToFloat(curr?.peso_controle_transportador) || 0), 0)
+              const totalPesoControleDest = dataTable.reduce((acc, curr) => acc + (formatStringToFloat(curr?.peso_controle_destinador) || 0), 0)
+              $(this.api().column(2).footer()).html(formatFloatToString(totalPeso.toFixed(2)))
+              $(this.api().column(3).footer()).html(formatFloatToString(totalPesoControleTrans.toFixed(2)))
+              $(this.api().column(4).footer()).html(formatFloatToString(totalPesoControleDest.toFixed(2)))
             },
           })
         }
       }
 
-      // Adicionar tratamento al produto
-      $('body').on('click', '.addDetailsAction', function() {
-        const tratamentoData = JSON.parse($('#tratamentoData').text() || '[]')
+      // Adicionar observacao al produto
+      $('body').on('click', '.addObsAction', function() {
         const id = $(this).attr('data-id')
-        const html = `
-          <div class="row mx-0 mb-4">
-            <div class="col-md-4">
-              <div class="form-group">
-                <label for="produto_ean">EAN</label>
-                <input type="text" class="form-control" id="produto_ean">
-              </div>
-            </div>
-
-            <div class="col-md-4">
-              <div class="form-group">
-                <label for="produto_especie">Especie</label>
-                <input type="text" class="form-control" id="produto_especie">
-              </div>
-            </div>
-            
-            <div class="col-md-4">
-              <div class="form-group">
-                <label for="produto_marca">Marca</label>
-                <input type="text" class="form-control" id="produto_marca">
-              </div>
-            </div>
-          </div>
-
-          <div class="row mx-0 mb-4">
-            <div class="col-md-3">
-              <div class="form-group">
-                <label for=produto_altura">Altura</label>
-                <input type="text" class="form-control" id="produto_altura">
-              </div>
-            </div>
-
-            <div class="col-md-3">
-              <div class="form-group">
-                <label for="produto__largura">Largura</label>
-                <input type="text" class="form-control" id="produto_largura">
-              </div>
-            </div>
-            
-            <div class="col-md-3">
-              <div class="form-group">
-                <label for="produto__profundidade">Profundidade</label>
-                <input type="text" class="form-control" id="produto_profundidade">
-              </div>
-            </div>
-            
-            <div class="col-md-3">
-              <div class="form-group">
-                <label for="produto__comprimento">Comprimento</label>
-                <input type="text" class="form-control" id="produto_comprimento">
-              </div>
-            </div>
-          </div>
-
-          <div class="row mx-0 mb-4">
-            <div class="col-md-4">
-              <div class="form-group">
-                <label for="produto_tratamento" class="display-inherit mb-0">Tratamento</label>
-                <select id="produto_tratamento" data-style="btn btn-warning text-white" title="Selecione"></select>
-              </div>
-            </div>
-
-            <div class="col-md-4 align-self-center">
-              <div class="form-group">
-                <label for="produto_numero_serie">Numero Serie</label>
-                <input type="text" class="form-control" id="produto_numero_serie">
-              </div>
-            </div>
-            
-            <div class="col-md-4 align-self-center">
-              <div class="form-group">
-                <label for="produto_data_fabricacao">Data Fabricação</label>
-                <input type="text" class="form-control" id="produto_data_fabricacao">
-              </div>
-            </div>
-          </div>
-
-          <div class="row mx-0 mb-4">
-            <div class="col-md-12">
-              <div class="form-group">
-                <label for="produto_observacao">Observação</label>
-                <textarea class="form-control" id="produto_observacao" rows="3"></textarea>
-              </div>
-            </div>
-          </div>
-        `
         sweetInput({
-          title: 'Preencha os dados do produto',
-          width: '50em',
-          html: html,
+          title: 'Adicionar observacao al produto',
           showCancelButton: true,
+          input: 'textarea',
           confirmButtonText: 'Adicionar',
-          // showLoaderOnConfirm: true,
           focusConfirm: false,
           allowOutsideClick: false,
           buttonsStyling: false,
           confirmButtonClass: 'btn btn-primary',
           cancelButtonClass: 'btn btn-danger',
-          onOpen: () => {
-            loadSelect('select#produto_tratamento', tratamentoData, ['id', 'descricao'])
-            maskPeso("#produto_altura")
-            maskPeso("#produto_largura")
-            maskPeso("#produto_profundidade")
-            maskPeso("#produto_comprimento")
-            $('#produto_data_fabricacao').datetimepicker({
-              locale: 'pt-br',
-              format: 'YYYY-MM-DD',
-              icons: {
-                time: "fa fa-clock-o",
-                date: "fa fa-calendar",
-                up: "fa fa-chevron-up",
-                down: "fa fa-chevron-down",
-                previous: 'fa fa-chevron-left',
-                next: 'fa fa-chevron-right',
-                today: 'fa fa-screenshot',
-                clear: 'fa fa-trash',
-                close: 'fa fa-remove'
-              }
-            })
-          },
-          preConfirm: () => {
-            const details = {
-              ean: $('#produto_ean').val(),
-              especie: $('#produto_especie').val(),
-              marca: $('#produto_marca').val(),
-              altura: $('#produto_altura').val(),
-              largura: $('#produto_largura').val(),
-              profundidade: $('#produto_profundidade').val(),
-              comprimento: $('#produto_comprimento').val(),
-              tratamento_id: $('select#produto_tratamento').val(),
-              tratamento: $('select#produto_tratamento option:selected').text(),
-              numero_serie: $('#produto_numero_serie').val(),
-              data_fabricacao: $('#produto_data_fabricacao').val(),
-              observacao: $('#produto_observacao').val(),
-            }
-            if (Object.values(details).some(value => !value)) {
-              swal.showValidationError('Por favor, adicione todos os dados!')
-            }
-            return details
-          },
-          errorCallback: (error) => notifyDanger('Ocorreu um erro ao adicionar ao dedos, tente novamente'),
+          preConfirm: (value) => !value ? swal.showValidationError('Por favor, adicione uma observacao') : value,
+          errorCallback: (error) => notifyDanger('Ocorreu um erro ao adicionar a observacao, tente novamente'),
           successCallback: (result) => {
             if (result?.dismiss) return
             const dataInTable = $('#produtosTbl').DataTable().data().toArray()
             const produtoIndex = dataInTable.findIndex(curr => curr.id == id)
-            $('#produtosTbl').DataTable().row(produtoIndex).data({...dataInTable[produtoIndex], ...result.value || {}}).draw(false)
+            $('#produtosTbl').DataTable().row(produtoIndex).data({...dataInTable[produtoIndex], observacao: result.value}).draw(false)
           }
         })
       })
+
+      // Adicionar tratamento al produto
+      $('body').on('click', '.addTratamentoAction', function() {
+        const tratamentoData = JSON.parse($('#tratamentoData').text() || '[]')
+        const id = $(this).attr('data-id')
+        sweetInput({
+          title: 'Selecione o tratamento al produto',
+          html: '<select id="tratamento" data-style="btn-warning text-white" title="Selecione"></select>',
+          showCancelButton: true,
+          confirmButtonText: 'Adicionar',
+          focusConfirm: false,
+          allowOutsideClick: false,
+          buttonsStyling: false,
+          confirmButtonClass: 'btn btn-primary',
+          cancelButtonClass: 'btn btn-danger',
+          onOpen: () => loadSelect('select#tratamento', tratamentoData, ['id', 'descricao']),
+          preConfirm: () => {
+            const id = $('select#tratamento').val()
+            const text = $('select#tratamento option:selected').text()
+            if (!id) {
+              swal.showValidationError('Por favor, selecione o tratamento')
+            }
+            return { id, text }
+          },
+          errorCallback: (error) => notifyDanger('Ocorreu um erro ao adicionar ao tratamento, tente novamente'),
+          successCallback: (result) => {
+            if (result?.dismiss) return
+            const dataInTable = $('#produtosTbl').DataTable().data().toArray()
+            const produtoIndex = dataInTable.findIndex(curr => curr.id == id)
+            $('#produtosTbl').DataTable().row(produtoIndex).data({...dataInTable[produtoIndex], ...{ tratamento_id: result.value.id, tratamento: result.value.text}}).draw(false)
+          }
+        })
+      })
+
+      // Adicionar Peso Controle Transportador
+      // $('body').on('click', '.addPesoControleTrans', function() {
+      //   const id = $(this).attr('data-id')
+      //   app.api.get(`/os/${id}`).then(response =>  {
+      //     if (response && response.status) {
+      //       let html = ''
+      //       const items = response.data.itens.map(curr => {
+      //         html += `
+      //           <div class="row mx-0 mb-4">
+      //             <div class="col-md-6">
+      //               <div class="form-group">
+      //                 <label>Produto</label>
+      //                 <input type="hidden" id="produto_id[]" value="${curr.id}">
+      //                 <div style="line-height: 1;">
+      //                   <span class="d-block">[${curr.produto.ean}] ${curr.produto.codigo}</span>
+      //                   <small class="d-block">${curr.produto.descricao}</small>
+      //                 </div>
+      //               </div>
+      //             </div>
+                  
+      //             <div class="col-md-6 align-self-center">
+      //               <div class="form-group">
+      //                 <label for="produto_peso_controle">Peso Controle</label>
+      //                 <input type="text" class="form-control" id="produto_peso_controle_${curr.id}">
+      //               </div>
+      //             </div>
+      //           </div>
+      //         `
+      //         return curr
+      //       })
+      //       sweetInput({
+      //         title: 'Adicione o peso controle',
+      //         width: '50em',
+      //         html: html,
+      //         showCancelButton: true,
+      //         confirmButtonText: 'Salvar',
+      //         focusConfirm: false,
+      //         allowOutsideClick: false,
+      //         buttonsStyling: false,
+      //         confirmButtonClass: 'btn btn-primary',
+      //         cancelButtonClass: 'btn btn-danger',
+      //         onOpen: () => items.map(curr => maskPeso(`#produto_peso_controle_${curr.id}`)),
+      //         preConfirm: () => {
+      //           console.log($('#produto_peso_controle').val())
+      //           const ids = $("input[id='produto_id[]']").map(function(){ return $(this).val() }).get()
+      //           // const details = {
+      //           //   ean: $('#produto_ean').val(),
+      //           //   especie: $('#produto_especie').val(),
+      //           //   marca: $('#produto_marca').val(),
+      //           //   altura: $('#produto_altura').val(),
+      //           //   largura: $('#produto_largura').val(),
+      //           //   profundidade: $('#produto_profundidade').val(),
+      //           //   comprimento: $('#produto_comprimento').val(),
+      //           //   tratamento_id: $('select#produto_tratamento').val(),
+      //           //   tratamento: $('select#produto_tratamento option:selected').text(),
+      //           //   numero_serie: $('#produto_numero_serie').val(),
+      //           //   data_fabricacao: $('#produto_data_fabricacao').val(),
+      //           //   observacao: $('#produto_observacao').val(),
+      //           // }
+      //           // if (Object.values(details).some(value => !value)) {
+      //           //   swal.showValidationError('Por favor, adicione todos os dados!')
+      //           // }
+      //           return {}
+      //         },
+      //         errorCallback: (error) => notifyDanger('Ocorreu um erro ao adicionar ao peso controle, tente novamente'),
+      //         successCallback: (result) => {
+      //           if (result?.dismiss) return
+      //           console.log('success')
+      //           // const dataInTable = $('#produtosTbl').DataTable().data().toArray()
+      //           // const produtoIndex = dataInTable.findIndex(curr => curr.id == id)
+      //           // $('#produtosTbl').DataTable().row(produtoIndex).data({...dataInTable[produtoIndex], ...result.value || {}}).draw(false)
+      //         }
+      //       })
+      //     } else {
+      //       notifyDanger('Falha ao obter detalhes ao itens a OS. Tente novamente')
+      //     }
+      //   })
+      // })
+      
+      // Adicionar data al produto
+      // $('body').on('click', '.addDetailsAction', function() {
+      //   const tratamentoData = JSON.parse($('#tratamentoData').text() || '[]')
+      //   const id = $(this).attr('data-id')
+      //   const html = `
+      //     <div class="row mx-0 mb-4">
+      //       <div class="col-md-4">
+      //         <div class="form-group">
+      //           <label for="produto_tratamento" class="display-inherit mb-0">Tratamento</label>
+      //           <select id="produto_tratamento" data-style="btn btn-warning text-white" title="Selecione"></select>
+      //         </div>
+      //       </div>
+
+      //       <div class="col-md-4 align-self-center">
+      //         <div class="form-group">
+      //           <label for="produto_numero_serie">Numero Serie</label>
+      //           <input type="text" class="form-control" id="produto_numero_serie">
+      //         </div>
+      //       </div>
+            
+      //       <div class="col-md-4 align-self-center">
+      //         <div class="form-group">
+      //           <label for="produto_data_fabricacao">Data Fabricação</label>
+      //           <input type="text" class="form-control" id="produto_data_fabricacao">
+      //         </div>
+      //       </div>
+      //     </div>
+
+      //     <div class="row mx-0 mb-4">
+      //       <div class="col-md-12">
+      //         <div class="form-group">
+      //           <label for="produto_observacao">Observação</label>
+      //           <textarea class="form-control" id="produto_observacao" rows="3"></textarea>
+      //         </div>
+      //       </div>
+      //     </div>
+      //   `
+      //   sweetInput({
+      //     title: 'Preencha os dados do produto',
+      //     width: '50em',
+      //     html: html,
+      //     showCancelButton: true,
+      //     confirmButtonText: 'Adicionar',
+      //     // showLoaderOnConfirm: true,
+      //     focusConfirm: false,
+      //     allowOutsideClick: false,
+      //     buttonsStyling: false,
+      //     confirmButtonClass: 'btn btn-primary',
+      //     cancelButtonClass: 'btn btn-danger',
+      //     onOpen: () => {
+      //       loadSelect('select#produto_tratamento', tratamentoData, ['id', 'descricao'])
+      //       maskPeso("#produto_altura")
+      //       maskPeso("#produto_largura")
+      //       maskPeso("#produto_profundidade")
+      //       maskPeso("#produto_comprimento")
+      //       $('#produto_data_fabricacao').datetimepicker({
+      //         locale: 'pt-br',
+      //         format: 'YYYY-MM-DD',
+      //         icons: {
+      //           time: "fa fa-clock-o",
+      //           date: "fa fa-calendar",
+      //           up: "fa fa-chevron-up",
+      //           down: "fa fa-chevron-down",
+      //           previous: 'fa fa-chevron-left',
+      //           next: 'fa fa-chevron-right',
+      //           today: 'fa fa-screenshot',
+      //           clear: 'fa fa-trash',
+      //           close: 'fa fa-remove'
+      //         }
+      //       })
+      //     },
+      //     preConfirm: () => {
+      //       const details = {
+      //         ean: $('#produto_ean').val(),
+      //         especie: $('#produto_especie').val(),
+      //         marca: $('#produto_marca').val(),
+      //         altura: $('#produto_altura').val(),
+      //         largura: $('#produto_largura').val(),
+      //         profundidade: $('#produto_profundidade').val(),
+      //         comprimento: $('#produto_comprimento').val(),
+      //         tratamento_id: $('select#produto_tratamento').val(),
+      //         tratamento: $('select#produto_tratamento option:selected').text(),
+      //         numero_serie: $('#produto_numero_serie').val(),
+      //         data_fabricacao: $('#produto_data_fabricacao').val(),
+      //         observacao: $('#produto_observacao').val(),
+      //       }
+      //       if (Object.values(details).some(value => !value)) {
+      //         swal.showValidationError('Por favor, adicione todos os dados!')
+      //       }
+      //       return details
+      //     },
+      //     errorCallback: (error) => notifyDanger('Ocorreu um erro ao adicionar ao dedos, tente novamente'),
+      //     successCallback: (result) => {
+      //       if (result?.dismiss) return
+      //       const dataInTable = $('#produtosTbl').DataTable().data().toArray()
+      //       const produtoIndex = dataInTable.findIndex(curr => curr.id == id)
+      //       $('#produtosTbl').DataTable().row(produtoIndex).data({...dataInTable[produtoIndex], ...result.value || {}}).draw(false)
+      //     }
+      //   })
+      // })
 
       // Approval/Reject OS by motorista
       $('body').on('click', '.approvalAction', function() {

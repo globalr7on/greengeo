@@ -92,20 +92,6 @@
                 </div>
 
                 <div class="row mx-0 mb-4">
-                  <!-- <div class="col-md-4 text-center">
-                    <div class="form-group">
-                      <label for="input_estagio_id" class="display-inherit mb-0">Estagio</label>
-                      <select id="input_estagio_id" data-style="btn btn-warning text-white rounded" name="input_estagio_id" title="Selecione"></select>
-                    </div>
-                  </div> -->
-
-                  <div class="col-md-4 align-self-center">
-                    <div class="form-group">
-                      <label for="input_peso_controle">Peso Controle</label>
-                      <input type="text" class="form-control" id="input_peso_controle">
-                    </div>
-                  </div>
-
                   <div class="col-md-4 align-self-center">
                     <div class="form-group mb-0">
                       <label for="input_data_inicio_coleta">Data Inicio Coleta</label>
@@ -124,8 +110,8 @@
                 <div class="row mx-0">
                   <button class="btn btn-default cdfPreview">CDF</button>
                   <button class="btn btn-default mtrPreview">MTR</button>
-                  <button class="btn btn-default addProdutos">Produtos</button>
                   <button class="btn btn-default showFotos">Fotos</button>
+                  <button class="btn btn-default addProdutos">Produtos</button>
                   <button class="btn btn-primary stepper-next">Próximo</button>
                 </div>
               </div>
@@ -152,7 +138,7 @@
                   <div class="col-md-12">
                     <div class="form-group">
                       <label for="input_description">Descrição</label>
-                      <input type="text" class="form-control" id="input_description">
+                      <textarea class="form-control" id="input_description" rows="3"></textarea>
                     </div>
                   </div>
                 </div>
@@ -160,8 +146,8 @@
                 <div class="row mx-0">
                   <button class="btn btn-default cdfPreview">CDF</button>
                   <button class="btn btn-default mtrPreview">MTR</button>
-                  <button class="btn btn-default addProdutos">Produtos</button>
                   <button class="btn btn-default showFotos">Fotos</button>
+                  <button class="btn btn-default addProdutos">Produtos</button>
                   <button class="btn btn-primary stepper-prev">Anterior</button>
                   <button class="btn btn-success" id="salvarOs">Salvar</button>
                 </div>
@@ -204,20 +190,16 @@
           <thead>
             <th class="text-primary font-weight-bold text-center" style="width:4%">#</th>
             <th class="text-primary font-weight-bold" style="width:auto">Produto</th>
-            <th class="text-primary font-weight-bold text-center" style="width:6%">Alt.</th>
-            <th class="text-primary font-weight-bold text-center" style="width:6%">Larg.</th>
-            <th class="text-primary font-weight-bold text-center" style="width:6%">Prof.</th>
-            <th class="text-primary font-weight-bold text-center" style="width:6%">Compr.</th>
             <th class="text-primary font-weight-bold text-center" style="width:10%">Peso</th>
-            <th class="text-primary font-weight-bold text-center" style="width:8%">Tratamento</th>
-            <th class="text-primary font-weight-bold text-center" style="width:12">Observacao</th>
-            <th class="text-primary font-weight-bold text-center" style="width:6%">Actions</th>
+            <th class="text-primary font-weight-bold text-center" style="width:10%">Peso Cont. Transp.</th>
+            <th class="text-primary font-weight-bold text-center" style="width:10%">Peso Cont. Destin.</th>
+            <th class="text-primary font-weight-bold text-center" style="width:12%">Tratamento</th>
+            <th class="text-primary font-weight-bold" style="width:12">Observação</th>
+            <th class="text-primary font-weight-bold text-center" style="width:6%">Ações</th>
           </thead>
           <tfoot>
             <tr>
               <th>Total:</th>
-              <th></th>
-              <th></th>
               <th></th>
               <th></th>
               <th></th>
@@ -231,7 +213,6 @@
       </div>
     </div>
   </div>
-  <script type="javascript/json" id="produtosData"></script>
   <script type="javascript/json" id="tratamentoData"></script>
 </div>
 

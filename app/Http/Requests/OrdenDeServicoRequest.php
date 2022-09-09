@@ -7,6 +7,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
 use App\Models\User;
+use App\Models\OrdensServicos;
 
 class OrdenDeServicoRequest extends FormRequest
 {
@@ -14,6 +15,8 @@ class OrdenDeServicoRequest extends FormRequest
     {
         $currUser = User::find($this->responsavel_id);
         $isRequired = (int) $this->transportador_id == (int) $currUser->pessoa_juridica_id;
+        $OrdemServico = OrdensServicos::find($this->id);
+        $fieldRequired = $OrdemServico && $OrdemServico->estagio ? $OrdemServico->estagio->descricao == 'Aguardando Coleta' : false;
         return [
             'responsavel_id' => 'required',
             'gerador_id' => 'required',
@@ -28,6 +31,29 @@ class OrdenDeServicoRequest extends FormRequest
             ],
             'motorista_id' => [
                 Rule::requiredIf($isRequired)
+            ],
+            'data_estagio' => [
+                Rule::requiredIf($fieldRequired),
+                'date',
+                'date_format:Y-m-d'
+            ],
+            'data_emissao' => [
+                Rule::requiredIf($fieldRequired),
+                'date',
+                'date_format:Y-m-d'
+            ],
+            'data_preenchimento' => [
+                Rule::requiredIf($fieldRequired),
+                'date',
+                'date_format:Y-m-d'
+            ],
+            'data_integracao' => [
+                Rule::requiredIf($fieldRequired),
+                'date',
+                'date_format:Y-m-d'
+            ],
+            'description' => [
+                Rule::requiredIf($fieldRequired)
             ],
         ];
     }
