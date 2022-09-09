@@ -73,13 +73,6 @@
                 <div class="row mx-0 mb-4">
                   <div class="col-md-4">
                     <div class="form-group">
-                      <label for="input_dimensoes">Dimensões</label>
-                      <input type="text" class="form-control" id="input_dimensoes">
-                    </div>
-                  </div>
-
-                  <div class="col-md-4">
-                    <div class="form-group">
                       <label for="input_altura">Altura</label>
                       <input type="text" class="form-control" id="input_altura">
                     </div>

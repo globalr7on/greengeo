@@ -24,7 +24,6 @@
                     <th class="text-primary font-weight-bold" style="width:10%">Fabricante</th>
                     <th class="text-primary font-weight-bold" style="width:auto">Nome Fabricante</th>
                     <th class="text-primary font-weight-bold" style="width:8%">EAN</th>
-                    <th class="text-primary font-weight-bold" style="width:10%">Dimensões</th>
                     <th class="text-primary font-weight-bold" style="width:8%">Largura</th>
                     <th class="text-primary font-weight-bold" style="width:10%">Profundidade</th>
                     <th class="text-primary font-weight-bold" style="width:10%">Comprimento</th>
@@ -55,7 +54,6 @@
           { data: "codigo" },
           { data: "pessoa_juridica" },
           { data: "ean" },
-          { data: "dimensoes" },
           { data: "largura" },
           { data: "profundidade" },
           { data: "comprimento" },
@@ -107,7 +105,6 @@
           pessoa_juridica_id: $("#input_pessoa_juridica_id").val(),
           ean: $("#input_ean").val(),
           codigo: $("#input_codigo").val(),
-          dimensoes: $("#input_dimensoes").val(),
           altura: formatStringToFloat($("#input_altura").val()),
           largura: formatStringToFloat($("#input_largura").val()),
           profundidade: formatStringToFloat($("#input_profundidade").val()),
@@ -159,7 +156,6 @@
             $("#input_id").val(response.data.id)
             $("#input_ean").val(response.data.ean)
             $("#input_codigo").val(response.data.codigo)
-            $("#input_dimensoes").val(response.data.dimensoes)
             $("#input_especie").val(response.data.especie)
             $("#input_marca").val(response.data.marca)
             $("#input_descricao").val(response.data.descricao)
