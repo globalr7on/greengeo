@@ -378,7 +378,7 @@
         const calendar = $('#fullCalendar')
         const today = new Date()
         calendar.fullCalendar({
-          // locale: 'pt-br',
+          locale: 'pt-br',
           viewRender: function(view, element) {
             // We make sure that we activate the perfect scrollbar when the view isn't on Month
             if (view.name != 'month') {
@@ -389,6 +389,13 @@
             left: 'month,agendaWeek,agendaDay',
             center: 'title',
             right: 'prev,next,today'
+          },
+          buttonText: {
+            today: 'Hoje',
+            month: 'Mês',
+            week: 'Semana',
+            day: 'Hoje',
+            list: 'Lista'
           },
           defaultDate: today,
           selectable: false,
