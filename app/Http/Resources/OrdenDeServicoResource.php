@@ -10,6 +10,8 @@ use Carbon\Carbon;
 
 const TIMEZONE_BRAZIL = 'America/Sao_Paulo';
 
+const DO_S3_PDF_PATH = "https://greenbeat-images.nyc3.digitaloceanspaces.com/";
+
 class OrdenDeServicoResource extends JsonResource
 {
     /**
@@ -50,8 +52,8 @@ class OrdenDeServicoResource extends JsonResource
             'motorista' => $this->motorista ? $this->motorista->name : null,
             'veiculo_id' => $this->veiculo_id,
             'veiculo' => $this->veiculo ? $this->veiculo->placa : null,
-            'mtr_link' => $this->mtr_link ? DO_S3_PATH.$this->mtr_link : null,
-            'cdf_link' => $this->cdf_link ? DO_S3_PATH.$this->cdf_link : null,
+            'mtr_link' => $this->mtr_link ? DO_S3_PDF_PATH.$this->mtr_link : null,
+            'cdf_link' => $this->cdf_link ? DO_S3_PDF_PATH.$this->cdf_link : null,
             'data_inicio_coleta' => (new Carbon(new Carbon($this->data_inicio_coleta, 'UTC'), TIMEZONE_BRAZIL))->format('Y-m-d H:i:s'),
             'data_final_coleta' => (new Carbon(new Carbon($this->data_final_coleta, 'UTC'), TIMEZONE_BRAZIL))->format('Y-m-d H:i:s'),
             'acondicionamento_id' => $this->acondicionamento_id,
