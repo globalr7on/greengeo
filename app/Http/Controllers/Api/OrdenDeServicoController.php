@@ -364,4 +364,44 @@ class OrdenDeServicoController extends Controller
             ], 400);
         }
     }
+
+    public function updatePesoControleMotorista(Request $request, $id)
+    {
+        try {
+            $ordenServico = OrdensServicos::find($id);
+            foreach ($request->get('itens') as $produto) {
+                $ordenServico->itens()->whereId($produto['id'])->update(['peso_controle_transportador' => $produto['peso_controle']]);
+            }
+
+            return response([
+                'data' => new OrdenDeServicoResource($ordenServico),
+                'status' => true
+            ], 200);
+        } catch (\Exception $error) {
+            return response([
+                'data' => $error->getMessage(),
+                'status' => false
+            ], 400);
+        }
+    }
+    
+    public function updatePesoControleDestinador(Request $request, $id)
+    {
+        try {
+            $ordenServico = OrdensServicos::find($id);
+            foreach ($request->get('itens') as $produto) {
+                $ordenServico->itens()->whereId($produto['id'])->update(['peso_controle_destinador' => $produto['peso_controle']]);
+            }
+
+            return response([
+                'data' => new OrdenDeServicoResource($ordenServico),
+                'status' => true
+            ], 200);
+        } catch (\Exception $error) {
+            return response([
+                'data' => $error->getMessage(),
+                'status' => false
+            ], 400);
+        }
+    }
 }

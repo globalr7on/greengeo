@@ -131,6 +131,8 @@ Route::middleware(['auth:api', 'permission'])->group(function() {
     Route::put('os/{id}/aprovacao', 'App\Http\Controllers\Api\OrdenDeServicoController@aprovacaoMotorista')->name('os.aprovacao_motorista');
     Route::post('os/{id}/mtr', 'App\Http\Controllers\Api\OrdenDeServicoController@uploadMTR')->name('os.upload_mtr');
     Route::post('os/{id}/cdf', 'App\Http\Controllers\Api\OrdenDeServicoController@uploadCDF')->name('os.upload_cdf');
+    Route::post('os/{id}/peso_controle_motorista', 'App\Http\Controllers\Api\OrdenDeServicoController@updatePesoControleMotorista')->name('os.atualizar_peso_controle_motorista');
+    Route::post('os/{id}/peso_controle_destinador', 'App\Http\Controllers\Api\OrdenDeServicoController@updatePesoControleDestinador')->name('os.atualizar_peso_controle_destinador');
 
     // NOTAS FISCAIS
     Route::get('nota_fiscais', 'App\Http\Controllers\Api\NotaFiscalController@index')->name('nota.lista');

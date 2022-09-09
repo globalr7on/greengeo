@@ -123,7 +123,7 @@
                 return `${showBtn}${approvalBtn}${rejectBtn}`
               }
 
-              return `${editBtn}${showBtn}${aguardandoColetaBtn}${transporteBtn}${entregueBtn}${addPhotoBtn}${addMTRBtn}${addCDFBtn}${listMotoristasBtn}`
+              return `${editBtn}${showBtn}${aguardandoColetaBtn}${transporteBtn}${entregueBtn}${addPhotoBtn}${addMTRBtn}${addCDFBtn}${listMotoristasBtn}${addPesoControleTransBtn}${addPesoControleDestBtn}`
             }
           }
         ],
@@ -621,184 +621,140 @@
       })
 
       // Adicionar Peso Controle Transportador
-      // $('body').on('click', '.addPesoControleTrans', function() {
-      //   const id = $(this).attr('data-id')
-      //   app.api.get(`/os/${id}`).then(response =>  {
-      //     if (response && response.status) {
-      //       let html = ''
-      //       const items = response.data.itens.map(curr => {
-      //         html += `
-      //           <div class="row mx-0 mb-4">
-      //             <div class="col-md-6">
-      //               <div class="form-group">
-      //                 <label>Produto</label>
-      //                 <input type="hidden" id="produto_id[]" value="${curr.id}">
-      //                 <div style="line-height: 1;">
-      //                   <span class="d-block">[${curr.produto.ean}] ${curr.produto.codigo}</span>
-      //                   <small class="d-block">${curr.produto.descricao}</small>
-      //                 </div>
-      //               </div>
-      //             </div>
+      $('body').on('click', '.addPesoControleTrans', function() {
+        const id = $(this).attr('data-id')
+        app.api.get(`/os/${id}`).then(response => {
+          if (response && response.status) {
+            let html = ''
+            const items = response.data.itens.map(curr => {
+              html += `
+                <div class="row mx-0 mb-4">
+                  <div class="col-md-7 text-left">
+                    <div class="form-group pb-0 mt-0">
+                      <label>Produto</label>
+                      <input type="hidden" id="produto_id[]" value="${curr.id}">
+                      <div style="line-height: 1;">
+                        <span class="d-block">[${curr.produto.ean}] ${curr.produto.codigo}</span>
+                        <small class="d-block">${curr.produto.descricao}</small>
+                      </div>
+                    </div>
+                  </div>
                   
-      //             <div class="col-md-6 align-self-center">
-      //               <div class="form-group">
-      //                 <label for="produto_peso_controle">Peso Controle</label>
-      //                 <input type="text" class="form-control" id="produto_peso_controle_${curr.id}">
-      //               </div>
-      //             </div>
-      //           </div>
-      //         `
-      //         return curr
-      //       })
-      //       sweetInput({
-      //         title: 'Adicione o peso controle',
-      //         width: '50em',
-      //         html: html,
-      //         showCancelButton: true,
-      //         confirmButtonText: 'Salvar',
-      //         focusConfirm: false,
-      //         allowOutsideClick: false,
-      //         buttonsStyling: false,
-      //         confirmButtonClass: 'btn btn-primary',
-      //         cancelButtonClass: 'btn btn-danger',
-      //         onOpen: () => items.map(curr => maskPeso(`#produto_peso_controle_${curr.id}`)),
-      //         preConfirm: () => {
-      //           console.log($('#produto_peso_controle').val())
-      //           const ids = $("input[id='produto_id[]']").map(function(){ return $(this).val() }).get()
-      //           // const details = {
-      //           //   ean: $('#produto_ean').val(),
-      //           //   especie: $('#produto_especie').val(),
-      //           //   marca: $('#produto_marca').val(),
-      //           //   altura: $('#produto_altura').val(),
-      //           //   largura: $('#produto_largura').val(),
-      //           //   profundidade: $('#produto_profundidade').val(),
-      //           //   comprimento: $('#produto_comprimento').val(),
-      //           //   tratamento_id: $('select#produto_tratamento').val(),
-      //           //   tratamento: $('select#produto_tratamento option:selected').text(),
-      //           //   numero_serie: $('#produto_numero_serie').val(),
-      //           //   data_fabricacao: $('#produto_data_fabricacao').val(),
-      //           //   observacao: $('#produto_observacao').val(),
-      //           // }
-      //           // if (Object.values(details).some(value => !value)) {
-      //           //   swal.showValidationError('Por favor, adicione todos os dados!')
-      //           // }
-      //           return {}
-      //         },
-      //         errorCallback: (error) => notifyDanger('Ocorreu um erro ao adicionar ao peso controle, tente novamente'),
-      //         successCallback: (result) => {
-      //           if (result?.dismiss) return
-      //           console.log('success')
-      //           // const dataInTable = $('#produtosTbl').DataTable().data().toArray()
-      //           // const produtoIndex = dataInTable.findIndex(curr => curr.id == id)
-      //           // $('#produtosTbl').DataTable().row(produtoIndex).data({...dataInTable[produtoIndex], ...result.value || {}}).draw(false)
-      //         }
-      //       })
-      //     } else {
-      //       notifyDanger('Falha ao obter detalhes ao itens a OS. Tente novamente')
-      //     }
-      //   })
-      // })
+                  <div class="col-md-5 align-self-center">
+                    <div class="form-group">
+                      <label for="produto_peso_controle">Peso Controle</label>
+                      <input type="text" class="form-control" id="produto_peso_controle_${curr.id}" ${curr.peso_controle_transportador ? 'disabled' : ''}>
+                    </div>
+                  </div>
+                </div>
+              `
+              return curr
+            })
+            sweetInput({
+              title: 'Adicione o peso controle',
+              width: '30em',
+              html: html,
+              showCancelButton: true,
+              confirmButtonText: 'Salvar',
+              focusConfirm: false,
+              allowOutsideClick: false,
+              buttonsStyling: false,
+              confirmButtonClass: 'btn btn-primary',
+              cancelButtonClass: 'btn btn-danger',
+              onOpen: () => items.map(curr => maskPeso(`#produto_peso_controle_${curr.id}`, curr.peso_controle_transportador)),
+              preConfirm: () => {
+                const ids = $("input[id='produto_id[]']").map(function(){ return $(this).val() }).get()
+                const details = ids.map(curr => ({ id: curr, peso_controle: formatStringToFloat($(`#produto_peso_controle_${curr}`).val()) }))
+                if (Object.values(details).some(curr => !curr.peso_controle)) {
+                  swal.showValidationError('Por favor, adicione todos os pesos!')
+                }
+                return details
+              },
+              errorCallback: (error) => notifyDanger('Ocorreu um erro ao adicionar ao peso controle, tente novamente'),
+              successCallback: (result) => {
+                if (result?.dismiss) return
+                app.api.post(`/os/${id}/peso_controle_motorista`, {itens: result?.value || []}).then(response => {
+                  if (response && response.status) {
+                    notifySuccess('Peso controle adicionada com sucesso')
+                  } else {
+                    notifyDanger('Falha ao salvar ao peso controle, tente novamente')
+                  }
+                }).catch(error => notifyDanger('Falha ao salvar ao peso controle, tente novamente'))
+              }
+            })
+          } else {
+            notifyDanger('Falha ao obter detalhes ao itens a OS. Tente novamente')
+          }
+        })
+      })
       
-      // Adicionar data al produto
-      // $('body').on('click', '.addDetailsAction', function() {
-      //   const tratamentoData = JSON.parse($('#tratamentoData').text() || '[]')
-      //   const id = $(this).attr('data-id')
-      //   const html = `
-      //     <div class="row mx-0 mb-4">
-      //       <div class="col-md-4">
-      //         <div class="form-group">
-      //           <label for="produto_tratamento" class="display-inherit mb-0">Tratamento</label>
-      //           <select id="produto_tratamento" data-style="btn btn-warning text-white" title="Selecione"></select>
-      //         </div>
-      //       </div>
-
-      //       <div class="col-md-4 align-self-center">
-      //         <div class="form-group">
-      //           <label for="produto_numero_serie">Numero Serie</label>
-      //           <input type="text" class="form-control" id="produto_numero_serie">
-      //         </div>
-      //       </div>
-            
-      //       <div class="col-md-4 align-self-center">
-      //         <div class="form-group">
-      //           <label for="produto_data_fabricacao">Data Fabricação</label>
-      //           <input type="text" class="form-control" id="produto_data_fabricacao">
-      //         </div>
-      //       </div>
-      //     </div>
-
-      //     <div class="row mx-0 mb-4">
-      //       <div class="col-md-12">
-      //         <div class="form-group">
-      //           <label for="produto_observacao">Observação</label>
-      //           <textarea class="form-control" id="produto_observacao" rows="3"></textarea>
-      //         </div>
-      //       </div>
-      //     </div>
-      //   `
-      //   sweetInput({
-      //     title: 'Preencha os dados do produto',
-      //     width: '50em',
-      //     html: html,
-      //     showCancelButton: true,
-      //     confirmButtonText: 'Adicionar',
-      //     // showLoaderOnConfirm: true,
-      //     focusConfirm: false,
-      //     allowOutsideClick: false,
-      //     buttonsStyling: false,
-      //     confirmButtonClass: 'btn btn-primary',
-      //     cancelButtonClass: 'btn btn-danger',
-      //     onOpen: () => {
-      //       loadSelect('select#produto_tratamento', tratamentoData, ['id', 'descricao'])
-      //       maskPeso("#produto_altura")
-      //       maskPeso("#produto_largura")
-      //       maskPeso("#produto_profundidade")
-      //       maskPeso("#produto_comprimento")
-      //       $('#produto_data_fabricacao').datetimepicker({
-      //         locale: 'pt-br',
-      //         format: 'YYYY-MM-DD',
-      //         icons: {
-      //           time: "fa fa-clock-o",
-      //           date: "fa fa-calendar",
-      //           up: "fa fa-chevron-up",
-      //           down: "fa fa-chevron-down",
-      //           previous: 'fa fa-chevron-left',
-      //           next: 'fa fa-chevron-right',
-      //           today: 'fa fa-screenshot',
-      //           clear: 'fa fa-trash',
-      //           close: 'fa fa-remove'
-      //         }
-      //       })
-      //     },
-      //     preConfirm: () => {
-      //       const details = {
-      //         ean: $('#produto_ean').val(),
-      //         especie: $('#produto_especie').val(),
-      //         marca: $('#produto_marca').val(),
-      //         altura: $('#produto_altura').val(),
-      //         largura: $('#produto_largura').val(),
-      //         profundidade: $('#produto_profundidade').val(),
-      //         comprimento: $('#produto_comprimento').val(),
-      //         tratamento_id: $('select#produto_tratamento').val(),
-      //         tratamento: $('select#produto_tratamento option:selected').text(),
-      //         numero_serie: $('#produto_numero_serie').val(),
-      //         data_fabricacao: $('#produto_data_fabricacao').val(),
-      //         observacao: $('#produto_observacao').val(),
-      //       }
-      //       if (Object.values(details).some(value => !value)) {
-      //         swal.showValidationError('Por favor, adicione todos os dados!')
-      //       }
-      //       return details
-      //     },
-      //     errorCallback: (error) => notifyDanger('Ocorreu um erro ao adicionar ao dedos, tente novamente'),
-      //     successCallback: (result) => {
-      //       if (result?.dismiss) return
-      //       const dataInTable = $('#produtosTbl').DataTable().data().toArray()
-      //       const produtoIndex = dataInTable.findIndex(curr => curr.id == id)
-      //       $('#produtosTbl').DataTable().row(produtoIndex).data({...dataInTable[produtoIndex], ...result.value || {}}).draw(false)
-      //     }
-      //   })
-      // })
+      // Adicionar Peso Controle Destinador
+      $('body').on('click', '.addPesoControleDest', function() {
+        const id = $(this).attr('data-id')
+        app.api.get(`/os/${id}`).then(response => {
+          if (response && response.status) {
+            let html = ''
+            const items = response.data.itens.map(curr => {
+              html += `
+                <div class="row mx-0 mb-4">
+                  <div class="col-md-7 text-left">
+                    <div class="form-group pb-0 mt-0">
+                      <label>Produto</label>
+                      <input type="hidden" id="produto_id[]" value="${curr.id}">
+                      <div style="line-height: 1;">
+                        <span class="d-block">[${curr.produto.ean}] ${curr.produto.codigo}</span>
+                        <small class="d-block">${curr.produto.descricao}</small>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="col-md-5 align-self-center">
+                    <div class="form-group">
+                      <label for="produto_peso_controle">Peso Controle</label>
+                      <input type="text" class="form-control" id="produto_peso_controle_${curr.id}" ${curr.peso_controle_destinador ? 'disabled' : ''}>
+                    </div>
+                  </div>
+                </div>
+              `
+              return curr
+            })
+            sweetInput({
+              title: 'Adicione o peso controle',
+              width: '30em',
+              html: html,
+              showCancelButton: true,
+              confirmButtonText: 'Salvar',
+              focusConfirm: false,
+              allowOutsideClick: false,
+              buttonsStyling: false,
+              confirmButtonClass: 'btn btn-primary',
+              cancelButtonClass: 'btn btn-danger',
+              onOpen: () => items.map(curr => maskPeso(`#produto_peso_controle_${curr.id}`, curr.peso_controle_destinador)),
+              preConfirm: () => {
+                const ids = $("input[id='produto_id[]']").map(function(){ return $(this).val() }).get()
+                const details = ids.map(curr => ({ id: curr, peso_controle: formatStringToFloat($(`#produto_peso_controle_${curr}`).val()) }))
+                if (Object.values(details).some(curr => !curr.peso_controle)) {
+                  swal.showValidationError('Por favor, adicione todos os pesos!')
+                }
+                return details
+              },
+              errorCallback: (error) => notifyDanger('Ocorreu um erro ao adicionar ao peso controle, tente novamente'),
+              successCallback: (result) => {
+                if (result?.dismiss) return
+                app.api.post(`/os/${id}/peso_controle_destinador`, {itens: result?.value || []}).then(response => {
+                  if (response && response.status) {
+                    notifySuccess('Peso controle adicionada com sucesso')
+                  } else {
+                    notifyDanger('Falha ao salvar ao peso controle, tente novamente')
+                  }
+                }).catch(error => notifyDanger('Falha ao salvar ao peso controle, tente novamente'))
+              }
+            })
+          } else {
+            notifyDanger('Falha ao obter detalhes ao itens a OS. Tente novamente')
+          }
+        })
+      })
 
       // Approval/Reject OS by motorista
       $('body').on('click', '.approvalAction', function() {
