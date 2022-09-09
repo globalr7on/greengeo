@@ -209,14 +209,14 @@
             </li>
             @endcan
 
-            @can('rastreamento.notaFiscal')
+            <!-- @can('rastreamento.notaFiscal')
             <li class="nav-item ml-4 {{ $activePage == 'nota_fiscal' ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('rastreamento.notaFiscal') }}">
                 <i class="fa-solid fa-file-circle-check"></i>
                 <span class="sidebar-normal">{{ __('Nota Fiscal') }}</span>
               </a>
             </li>
-            @endcan
+            @endcan -->
 
             @can('rastreamento.rastreamento')
             <li class="nav-item ml-4 {{ $activePage == 'rastreamento' ? 'active' : '' }}">
