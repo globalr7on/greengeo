@@ -24,11 +24,13 @@
                     <th class="text-primary font-weight-bold" style="width:10%">Fabricante</th>
                     <th class="text-primary font-weight-bold" style="width:auto">Nome Fabricante</th>
                     <th class="text-primary font-weight-bold" style="width:8%">EAN</th>
-                    <th class="text-primary font-weight-bold" style="width:8%">Largura</th>
+                    <th class="text-primary font-weight-bold" style="width:8%">Marca</th>
+                    <th class="text-primary font-weight-bold" style="width:8%">Nº Série</th>
+                    <th class="text-primary font-weight-bold" style="width:8%">Data Fabricação</th>
+                    <!-- <th class="text-primary font-weight-bold" style="width:8%">Largura</th>
                     <th class="text-primary font-weight-bold" style="width:10%">Profundidade</th>
                     <th class="text-primary font-weight-bold" style="width:10%">Comprimento</th>
-                    <th class="text-primary font-weight-bold" style="width:8%">Especie</th>
-                    <th class="text-primary font-weight-bold" style="width:8%">Marca</th>
+                    <th class="text-primary font-weight-bold" style="width:8%">Especie</th> -->
                     <th class="text-primary font-weight-bold" style="width:5%">Ativo</th>
                     <th class="text-primary font-weight-bold" style="width:5%">Ação</th>
                   </thead>
@@ -54,11 +56,9 @@
           { data: "codigo" },
           { data: "pessoa_juridica" },
           { data: "ean" },
-          { data: "largura" },
-          { data: "profundidade" },
-          { data: "comprimento" },
-          { data: "especie" },
+          { data: "numero_serie" },
           { data: "marca" },
+          { data: "data_fabricacao" },
           {
             data: "ativo",
             className: "text-center",
@@ -87,6 +87,7 @@
         maskPeso("#input_largura")
         maskPeso("#input_profundidade")
         maskPeso("#input_comprimento")
+        getUnidade()
         materiaisTbl && materiaisTbl.clear().draw()
       })
 
@@ -103,6 +104,7 @@
         }
         const JSONRequest = {
           pessoa_juridica_id: $("#input_pessoa_juridica_id").val(),
+          numero_serie: $("#input_numero_serie").val(),
           ean: $("#input_ean").val(),
           codigo: $("#input_codigo").val(),
           altura: formatStringToFloat($("#input_altura").val()),
@@ -112,6 +114,8 @@
           especie: $("#input_especie").val(),
           marca: $("#input_marca").val(),
           descricao: $("#input_descricao").val(),
+          unidade_id: $("#input_unidade_id").val(),
+          data_fabricacao: $("#input_data_fabricacao").val(),
           materiais: materiaisData
         }
         const id = $('#input_id').val()
@@ -154,16 +158,19 @@
             $("#modalProduto").modal("show");
             $('#tituloProduto').text("Editar Produto")
             $("#input_id").val(response.data.id)
+            $("#input_numero_serie").val(response.data.numero_serie)
             $("#input_ean").val(response.data.ean)
             $("#input_codigo").val(response.data.codigo)
             $("#input_especie").val(response.data.especie)
             $("#input_marca").val(response.data.marca)
             $("#input_descricao").val(response.data.descricao)
+            $("#input_data_fabricacao").val(response.data.data_fabricacao)
             getEmpresa(response.data.pessoa_juridica_id, true)
             maskPeso("#input_altura", formatFloatToString(response.data.altura))
             maskPeso("#input_largura", formatFloatToString(response.data.largura))
             maskPeso("#input_profundidade", formatFloatToString(response.data.profundidade))
             maskPeso("#input_comprimento", formatFloatToString(response.data.comprimento))
+            getUnidade(response.data.unidade_id)
             initMaterialDataTable()
             getMateriais().then(() => {
               loadSavedMaterials(response.data.materiais)
@@ -223,6 +230,18 @@
           maskPeso("#input_peso_liquido", curr.peso_liquido)
           maskPeso("#input_percentual_composicao", curr.percentual_composicao)
           $('#addMaterial').trigger('click')
+        })
+      }
+
+      function getUnidade(value) {
+        app.api.get('/unidad').then(response =>  {
+          if (response && response.status) {
+            loadSelect('#input_unidade_id', response.data, ['id', 'simbolo'], value)
+          }
+        })
+        .catch(error => {
+          console.log('app.api.get error', error)
+          notifyDanger('Falha ao obter dados, tente novamente')
         })
       }
 

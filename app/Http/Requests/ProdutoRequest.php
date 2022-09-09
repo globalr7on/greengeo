@@ -12,16 +12,17 @@ class ProdutoRequest extends FormRequest
    public function rules()
     {
         return [
+            'numero_serie' => 'required',
             'ean' => 'required',
             'descricao' => 'required',
             'codigo' => 'required|string|max:45',
-            'dimensoes' =>'required|string|max:30', 
             'altura' =>'required',
             'largura' =>'required',
             'profundidade' =>'required',
             'comprimento' =>'required',
             'especie' => 'required|string|max:45',
             'marca' => 'required|string|max:45',
+            'data_fabricacao' => 'required',
             'pessoa_juridica_id' => 'required',
             'materiais' => 'required|array',
         ];
