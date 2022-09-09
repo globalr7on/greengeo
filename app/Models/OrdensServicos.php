@@ -18,7 +18,6 @@ class OrdensServicos extends Model
         'data_preenchimento',
         'data_integracao',
         'description',
-        'peso_controle',
         'estagio_id',
         'gerador_id',
         'transportador_id',

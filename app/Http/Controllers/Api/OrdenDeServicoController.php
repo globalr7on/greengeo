@@ -86,15 +86,8 @@ class OrdenDeServicoController extends Controller
             $newOrdemServico = OrdensServicos::create($request->except(['produtos']));
             if ($request->get('produtos')) {
                 foreach ($request->get('produtos') as $produto) {
-                    $produtoAcabado = Produto::create([
-                        'codigo' => $produto['codigo'],
-                        'descricao' => $produto['descricao'],
-                        'unidade_id' => $produto['unidade_id'],
-                        'pessoa_juridica_id' => $produto['pessoa_juridica_id'],
-                        'ativo' => 2
-                    ]);
                     $newOrdemServico->itens()->create([
-                        'produto_id' => $produtoAcabado->id,
+                        'produto_id' => $produto['produto_id'],
                         'peso' => $produto['peso'],
                         'quantidade' => $produto['quantidade'],
                     ]);
@@ -102,20 +95,19 @@ class OrdenDeServicoController extends Controller
             }
             $this->saveStatusHistory($newOrdemServico->id, $newOrdemServico->estagio_id, auth()->user()->id);
 
-            $agenda = [
-                'gerador' => $newOrdemServico['gerador']->nome_fantasia,
-                'usuario' => $newOrdemServico['responsavel']->name,
-                'celular' => $newOrdemServico['responsavel']->celular,
-                'peso_total' => $newOrdemServico->peso_total,
-                'transportadora' => $newOrdemServico['transportador']->nome_fantasia,
-                'destinador' =>  $newOrdemServico['destinador']->nome_fantasia,
-                'acondicionamento' => $newOrdemServico->acondicionamento->descricao,
-                'email' => $newOrdemServico['transportador']->email,
-                'data_inicio_coleta' => (new Carbon(new Carbon($newOrdemServico->data_inicio_coleta, 'UTC'), TIMEZONE_BRAZIL))->format('Y-m-d H:i:s'),
-                'data_final_coleta' => (new Carbon(new Carbon($newOrdemServico->data_final_coleta, 'UTC'), TIMEZONE_BRAZIL))->format('Y-m-d H:i:s'),
-            ];
-
-            Mail::to($agenda['email'])->send(new EnvioAgendamento($agenda));
+            // $agenda = [
+            //     'gerador' => $newOrdemServico['gerador']->nome_fantasia,
+            //     'usuario' => $newOrdemServico['responsavel']->name,
+            //     'celular' => $newOrdemServico['responsavel']->celular,
+            //     'peso_total' => $newOrdemServico->peso_total,
+            //     'transportadora' => $newOrdemServico['transportador']->nome_fantasia,
+            //     'destinador' =>  $newOrdemServico['destinador']->nome_fantasia,
+            //     'acondicionamento' => $newOrdemServico->acondicionamento->descricao,
+            //     'email' => $newOrdemServico['transportador']->email,
+            //     'data_inicio_coleta' => (new Carbon(new Carbon($newOrdemServico->data_inicio_coleta, 'UTC'), TIMEZONE_BRAZIL))->format('Y-m-d H:i:s'),
+            //     'data_final_coleta' => (new Carbon(new Carbon($newOrdemServico->data_final_coleta, 'UTC'), TIMEZONE_BRAZIL))->format('Y-m-d H:i:s'),
+            // ];
+            // Mail::to($agenda['email'])->send(new EnvioAgendamento($agenda));
 
             DB::commit();
             return response([
@@ -178,37 +170,17 @@ class OrdenDeServicoController extends Controller
                 $itensIds = array_column($request->get('produtos'), 'id');
                 $itensToDelete = $ordenServico->itens->whereNotIn('id', $itensIds);
                 if (count($itensToDelete->all()) > 0) {
-                    $produtoIds = $itensToDelete->pluck('produto_id');
                     $itensToDelete->each->delete();
-                    Produto::whereIn('id', $produtoIds)->delete();
                 }
                 foreach ($request->get('produtos') as $produto) {
-                    $produtoAcabado = Produto::updateOrCreate([
-                        'id' => $produto['produto_id']
-                    ], [
-                        'codigo' => $produto['codigo'],
-                        'descricao' => $produto['descricao'],
-                        'unidade_id' => $produto['unidade_id'],
-                        'pessoa_juridica_id' => $produto['pessoa_juridica_id'],
-                        'ativo' => isset($produto['ean']) ? 1 : 2,
-                        'ean' => isset($produto['ean']) ? $produto['ean'] : null,
-                        'marca' => isset($produto['marca']) ? $produto['marca'] : null,
-                        'especie' => isset($produto['especie']) ? $produto['especie'] : null,
-                        'altura' => isset($produto['altura']) ? $produto['altura'] : null,
-                        'largura' => isset($produto['largura']) ? $produto['largura'] : null,
-                        'profundidade' => isset($produto['profundidade']) ? $produto['profundidade'] : null,
-                        'comprimento' => isset($produto['comprimento']) ? $produto['comprimento'] : null,
-                    ]);
                     $ordenServico->itens()->updateOrCreate([
                         'id' => $produto['id']
                     ], [
-                        'produto_id' => $produtoAcabado->id,
+                        'produto_id' => $produto['produto_id'],
                         'peso' => $produto['peso'],
                         'quantidade' => $produto['quantidade'],
                         'observacao' => isset($produto['observacao']) ? $produto['observacao'] : null,
                         'tratamento_id' => isset($produto['tratamento_id']) ? $produto['tratamento_id'] : null,
-                        'numero_serie' => isset($produto['numero_serie']) ? $produto['numero_serie'] : null,
-                        'data_fabricacao' => isset($produto['data_fabricacao']) ? $produto['data_fabricacao'] : null,
                     ]);
                 }
             }

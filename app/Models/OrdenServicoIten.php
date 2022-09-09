@@ -14,8 +14,8 @@ class OrdenServicoIten extends Model
         'peso',
         'quantidade',
         'observacao',
-        'numero_serie',
-        'data_fabricacao',
+        'peso_controle_transportador',
+        'peso_controle_destinador',
         'ordem_servico_id',
         'produto_id',
         'tratamento_id',
@@ -37,9 +37,4 @@ class OrdenServicoIten extends Model
     {
         return $this->hasOne('App\Models\Tratamento', 'id', 'tratamento_id');
     }
-
-    // public function nota_fiscal_item()
-    // {
-    //     return $this->hasOne('App\Models\NotaFiscalIten', 'id', 'nota_fiscal_item_id');
-    // }
 }

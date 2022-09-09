@@ -54,11 +54,11 @@
         $('#motoristaDiv').addClass('d-none')
         $("#addProduto").show()
         $("#salvarAgenda").show()
-        maskPeso("#input_peso")
+        maskPeso("#produtoPeso")
         getTransportador()
         getDestinador()
         getAcondicionamento()
-        getUnidade()
+        getProdutosAcabados()
         initProdutoDataTable()
       })
 
@@ -66,38 +66,34 @@
       $('body').on('click', '#addProduto', function() {
         const dataTable = $('#produtosTbl').DataTable()
         const dataInTable = dataTable.data().toArray()
-        const newPosition = dataTable.rows(dataInTable.length -1 ).data()[0] ? dataTable.rows(dataInTable.length -1 ).data()[0].position + 1 : 1
+        const newPosition = dataTable.rows(dataInTable.length - 1).data()[0] ? dataTable.rows(dataInTable.length - 1).data()[0].position + 1 : 1
+        const produtoId = $('#produtosAcabados').val()
+        const produtosAcabadosData = JSON.parse($('#produtosAcabadosData').text() || '[]')
+        const produtoAcabado = produtosAcabadosData.find(curr => curr.id == produtoId)
         const produto = {
-          position: parseInt($('#position').val()) || newPosition,
-          id: $('#id').val(),
-          produto_id: $('#produto_id').val(),
-          codigo: $('#input_codigo').val(),
-          descricao: $('#input_descricao').val(),
-          quantidade: $('#input_quantidade').val(),
-          unidade_id: $('#input_unidade_id').val(),
-          unidade: $('select#input_unidade_id option:selected').text(),
-          peso: $('#input_peso').val(),
+          position: parseInt($('#produtoPosition').val()) || newPosition,
+          id: $('#produtoItemId').val(),
+          produto_id: produtoAcabado.id,
+          codigo: produtoAcabado.codigo,
+          descricao: produtoAcabado.descricao,
+          quantidade: $('#produtoQuantidade').val(),
+          peso: $('#produtoPeso').val(),
         }
-        if (!produto.codigo || !produto.descricao || !produto.quantidade || !produto.unidade || !produto.peso || produto.peso == '0,00') {
+        if (!produto.quantidade || !produto.peso || produto.peso == '0,00') {
           return notifyDanger('Favor, ingrese todos los campos')
         }
-
-        if (dataTable.row(produto.position - 1).data()) {
-          dataTable.row(produto.position - 1).data(produto).draw(false)
+        if (dataInTable.some(curr => curr.position == produto.position)) {
+          const index = dataInTable.findIndex(curr => curr.id == produto.id && curr.produto_id == produto.produto_id)
+          dataTable.row(index).data(produto).draw(false)
           $('#addProduto').text('Adicionar')
         } else {
-          if (dataInTable.find(c => c.codigo == produto.codigo)) {
-            return notifyDanger('Codigo ya agregado, adicione otro')
+          if (dataInTable.some(c => c.codigo == produto.codigo)) {
+            return notifyDanger('Produto ya agregado, adicione otro')
           }
           dataTable.row.add(produto).draw(false)
         }
-
-        $('#position').val('')
-        $('#input_codigo').val('')
-        $('#input_descricao').val('')
-        $('#input_quantidade').val('')
-        $('#input_unidade_id').val(null).trigger('change')
-        maskPeso("#input_peso")
+        $('#produtosAcabados').val(null).trigger('change')
+        clearProduto()
       })
 
       // Delete produto
@@ -107,17 +103,16 @@
 
       // Editar produto
       $('body').on('click', '.editItem', function() {
+        const dataInTable = $('#produtosTbl').DataTable().data().toArray()
         $('#addProduto').text('Salvar')
-        const position = $(this).attr('data-position')
-        $('#position').val(position)
-        const oldData = $('#produtosTbl').DataTable().row(position - 1).data()
-        $('#id').val(oldData.id)
-        $('#produto_id').val(oldData.produto_id)
-        $('#input_codigo').val(oldData.codigo)
-        $('#input_descricao').val(oldData.descricao)
-        $('#input_quantidade').val(oldData.quantidade)
-        $('#input_unidade_id').val(oldData.unidade_id).trigger('change')
-        maskPeso("#input_peso", oldData.peso)
+        const id = $(this).attr('data-id')
+        const produtoId = $(this).attr('data-produto-id')
+        const oldData = dataInTable.find(curr => curr.id == id && curr.produto_id == produtoId)
+        $('#produtoItemId').val(oldData.id)
+        $('#produtoPosition').val(oldData.position)
+        $('#produtosAcabados').val(oldData.produto_id).trigger('change')
+        $('#produtoQuantidade').val(oldData.quantidade)
+        maskPeso("#produtoPeso", oldData.peso)
       })
 
       // Salvar
@@ -127,12 +122,8 @@
           return {
             id: produto.id || null,
             produto_id: produto.produto_id || null,
-            codigo: produto.codigo,
-            descricao: produto.descricao,
             quantidade: produto.quantidade,
-            unidade_id: produto.unidade_id,
-            peso: formatStringToFloat(produto.peso),
-            pessoa_juridica_id: pessoaJuridicaId
+            peso: formatStringToFloat(produto.peso)
           }
         })
         const JSONRequest = {
@@ -209,15 +200,6 @@
 
       }
 
-      function getUnidade() {
-        app.api.get('/unidad').then(response =>  {
-          if (response && response.status) {
-            loadSelect('#input_unidade_id', response.data, ['id', 'simbolo'])
-          }
-        })
-        .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
-      }
-
       function getAcondicionamento(value, disabled) {
         app.api.get('/acondicionamento').then(response =>  {
           if (response && response.status) {
@@ -269,7 +251,6 @@
               { data: 'position' },
               { data: 'codigo' },
               { data: 'descricao' },
-              { data: 'unidade' },
               { data: 'quantidade' },
               { data: 'peso' },
             ],
@@ -287,13 +268,13 @@
                 className: 'text-center'
               },
               {
-                targets: 6,
+                targets: 5,
                 className: 'text-center',
                 render: function (data, type, row, meta) {
                   const deleteBtn = `<i class="fa fa-trash cursor-pointer deleteItem" title="Excluir"></i>`
-                  const editBtn = `<i class="fa fa-pen cursor-pointer editItem" data-position="${row.position}" title="Editar"></i>`
+                  const editBtn = `<i class="fa fa-pen cursor-pointer editItem" data-id="${row.id}" data-produto-id="${row.produto_id}" title="Editar"></i>`
 
-                  return `<div class="d-flex align-items-center" style="justify-content:space-evenly;">${deleteBtn}${editBtn}</div>`
+                  return row.showButtons ? `<div class="d-flex align-items-center" style="justify-content:space-evenly;">${deleteBtn}${editBtn}</div>` : ''
                 }
               },
             ],
@@ -301,8 +282,8 @@
               const dataTable = this.api().data().toArray()
               const totalQuant = dataTable.reduce((acc, curr) => acc + (parseInt(curr?.quantidade) || 0), 0)
               const totalPeso = dataTable.reduce((acc, curr) => acc + (formatStringToFloat(curr?.peso) || 0), 0)
-              $(this.api().column(4).footer()).html(totalQuant)
-              $(this.api().column(5).footer()).html(formatFloatToString(totalPeso.toFixed(2)))
+              $(this.api().column(3).footer()).html(totalQuant)
+              $(this.api().column(4).footer()).html(formatFloatToString(totalPeso.toFixed(2)))
             },
           })
         }
@@ -323,7 +304,7 @@
         const agendada = eventEstagio == 'agendada'
         const allowEdit = emAgendamento && event.gerador_id == currEmpresaId
         const allowAddMoto = emAgendamento && currIsTransporador && event.transportador_id == currEmpresaId
-        console.log('EditAgendamento', event)
+
         app.stepper()
         delFormValidationErrors()
         $("#modalAgenda").modal("show")
@@ -337,17 +318,15 @@
         getTransportador(event.transportador_id, !allowEdit)
         getDestinador(event.destinador_id, !allowEdit)
         getAcondicionamento(event.acondicionamento_id, !allowEdit)
-        getUnidade()
         initProdutoDataTable(event.itens.map((item, index) => {
           return {
+            showButtons: allowEdit,
             position: index + 1,
             id: item.id,
             produto_id: item.produto.id,
             codigo: item.produto.codigo,
             descricao: item.produto.descricao,
             quantidade: item.quantidade,
-            unidade_id: item.produto.unidade_id,
-            unidade: item.produto.unidade,
             peso: formatFloatToString(item.peso),
           }
         }))
@@ -457,6 +436,57 @@
         }
         calendar.fullCalendar('updateEvent', currEvent)
       }
+
+      function fillProdutosAcabadosSelect(data) {
+        $('#produtosAcabados').select2({
+          dropdownParent: $('#modalAgenda'),
+          placeholder: 'Pesquisar um produto acabado',
+          allowClear: true,
+          width: 'resolve',
+          data: data,
+          templateResult: (state) => {
+            return $(`
+              <div style="display: flex; flex-direction: column;">
+                <span>[${state.ean}] ${state.codigo} | ${state.marca} | ${state.especie}</span>
+                <small>${state.descricao}</small>
+              </div>
+            `)
+          },
+          templateSelection: (state) => state.id ? `[${state.ean}] ${state.codigo} | ${state.marca} | ${state.especie}` : state.text,
+        })
+      }
+
+      function getProdutosAcabados(callback = () => {}) {
+        if (!$('#produtosAcabados').hasClass("select2-hidden-accessible")) {
+          app.api.get('/produto').then(response =>  {
+            if (response && response.status) {
+              const data = response.data
+              $('#produtosAcabadosData').text(JSON.stringify(data || []))
+              fillProdutosAcabadosSelect(data)
+            }
+            callback()
+          })
+          .catch(error => {
+            notifyDanger('Falha ao obter produtos acabados, tente novamente')
+            callback()
+          })
+        } else {
+          callback()
+        }
+      }
+
+      function clearProduto() {
+        $('#produtoItemId').val('')
+        $('#produtoPosition').val('')
+        $('#produtoId').val('')
+        $('#produtoQuantidade').val('')
+        maskPeso("#produtoPeso")
+      }
+
+      $('#produtosAcabados').on('select2:clear', function(e) {
+        $('#addProduto').text('Adicionar')
+        clearProduto()
+      })
     })
   </script>
 @endpush

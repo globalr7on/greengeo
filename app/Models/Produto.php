@@ -25,6 +25,8 @@ class Produto extends Model
         'marca',
         'pessoa_juridica_id',
         'unidade_id',
+        'numero_serie',
+        'data_fabricacao',
         'ativo',
     ];
     protected $guardaded = ['id'];

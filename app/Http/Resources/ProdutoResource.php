@@ -30,6 +30,8 @@ class ProdutoResource extends JsonResource
             'ean' => $this->ean,
             'unidade_id' => $this->unidade_id,
             'unidade' => $this->unidade ? $this->unidade->simbolo : null,
+            'numero_serie' => $this->numero_serie,
+            'data_fabricacao' => $this->data_fabricacao,
             // 'materiais' => $this->materiais->map(function ($material) {
             //     $material->material_id = $material->pivot->material_id;
             //     $material->peso_bruto = $material->pivot->peso_bruto;

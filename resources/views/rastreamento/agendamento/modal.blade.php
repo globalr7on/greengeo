@@ -101,35 +101,35 @@
                 <button type="button" class="btn btn-primary" id="addProduto">Adicionar</button>
               </div>
             </div>
+          </div>
 
-            <div class="row mx-0 mb-4">
-              <div class="col-md-12">
-                <table class="table" id="produtosTbl">
-                  <thead>
-                    <th class="text-primary font-weight-bold text-center" style="width:6%">#</th>
-                    <th class="text-primary font-weight-bold text-center" style="width:8%">Código</th>
-                    <th class="text-primary font-weight-bold" style="width:auto">Descricão</th>
-                    <th class="text-primary font-weight-bold text-center" style="width:6%">Quant.</th>
-                    <th class="text-primary font-weight-bold text-center" style="width:6%">Peso</th>
-                    <th class="text-primary font-weight-bold text-center" style="width:6%">Ações</th>
-                  </thead>
-                  <tfoot>
-                    <tr>
-                      <th>Total:</th>
-                      <th></th>
-                      <th></th>
-                      <th></th>
-                      <th></th>
-                      <th></th>
-                    </tr>
-                  </tfoot>
-                </table>
-              </div>
+          <div class="row mx-0 mb-4">
+            <div class="col-md-12">
+              <table class="table" id="produtosTbl">
+                <thead>
+                  <th class="text-primary font-weight-bold text-center" style="width:6%">#</th>
+                  <th class="text-primary font-weight-bold text-center" style="width:8%">Código</th>
+                  <th class="text-primary font-weight-bold" style="width:auto">Descricão</th>
+                  <th class="text-primary font-weight-bold text-center" style="width:6%">Quant.</th>
+                  <th class="text-primary font-weight-bold text-center" style="width:6%">Peso</th>
+                  <th class="text-primary font-weight-bold text-center" style="width:6%">Ações</th>
+                </thead>
+                <tfoot>
+                  <tr>
+                    <th>Total:</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </tfoot>
+              </table>
             </div>
+          </div>
 
-            <div class="row mx-0">
-              <button type="button" class="btn btn-success" id="salvarAgenda">Salvar</button>
-            </div>
+          <div class="row mx-0">
+            <button type="button" class="btn btn-success" id="salvarAgenda">Salvar</button>
           </div>
         </form>
        </div>
