@@ -29,7 +29,21 @@
             <div class="bs-stepper-content">
               <!-- your steps content here -->
               <div id="step1" class="content" role="tabpanel" aria-labelledby="step1-trigger">
-                <div class="row mx-0 mb-4">
+              <div class="row mx-0 mb-4">   
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="input_gerador_id" class="display-inherit mb-0">Nome Fabricante</label>
+                    <select id="input_pessoa_juridica_id" data-style="btn btn-warning text-white" name="input_pessoa_juridica_id" title="Selecione"></select>
+                  </div>
+                </div>  
+                <div class="col-md-4 align-self-center">
+                    <div class="form-group">
+                      <label for="input_numero_serie">N° Série</label>
+                      <input type="text" class="form-control" id="input_numero_serie">
+                    </div>
+                  </div> 
+              </div>
+              <div class="row mx-0 mb-4">
                   <div class="col-md-4 align-self-center">
                     <div class="form-group">
                       <input type="hidden" id="input_id">
@@ -38,22 +52,20 @@
                       <input type="text" class="form-control" id="input_ean">
                     </div>
                   </div>
-
                   <div class="col-md-4 align-self-center">
                     <div class="form-group">
                       <label for="input_codigo">Código Fabricante</label>
                       <input type="text" class="form-control" id="input_codigo">
                     </div>
-                  </div>
-
+                  </div> 
                   <div class="col-md-4">
                     <div class="form-group">
-                      <label for="input_gerador_id" class="display-inherit mb-0">Nome Fabricante</label>
-                      <select id="input_pessoa_juridica_id" data-style="btn btn-warning text-white" name="input_pessoa_juridica_id" title="Selecione"></select>
+                      <label for="input_data_fabricacao" class="display-inherit mb-0">Data Fabricação</label>
+                      <input type="text" class="form-control datetimepicker" id="input_data_fabricacao"  name="input_data_fabricacao">
                     </div>
                   </div>
                 </div>
-
+               
                 <div class="row mx-0 mb-4">
                   <div class="col-md-12">
                     <div class="form-group">
@@ -71,13 +83,12 @@
 
               <div id="step2" class="content" role="tabpanel" aria-labelledby="step2-trigger">
                 <div class="row mx-0 mb-4">
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <label for="input_dimensoes">Dimensões</label>
-                      <input type="text" class="form-control" id="input_dimensoes">
-                    </div>
+                <div class="col-md-4 text-center">
+                  <div class="form-group m-0 p-0">
+                    <label for="input_unidade_id" class="display-inherit mb-0">Tipo Unidade</label>
+                    <select id="input_unidade_id" data-style="btn-warning text-white" title="Selecione" name="unidade_id"></select>
                   </div>
-
+                </div>
                   <div class="col-md-4">
                     <div class="form-group">
                       <label for="input_altura">Altura</label>
@@ -224,6 +235,22 @@
     })
     $('#formMaterials').submit(function(event) {
       event.preventDefault()
+    })
+
+    $('.datetimepicker').datetimepicker({
+      locale: 'pt-br',
+      format: 'YYYY-MM-DD',
+      icons: {
+        time: "fa fa-clock-o",
+        date: "fa fa-calendar",
+        up: "fa fa-chevron-up",
+        down: "fa fa-chevron-down",
+        previous: 'fa fa-chevron-left',
+        next: 'fa fa-chevron-right',
+        today: 'fa fa-screenshot',
+        clear: 'fa fa-trash',
+        close: 'fa fa-remove'
+      }
     })
   </script>
 @endpush
