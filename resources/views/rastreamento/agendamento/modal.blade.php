@@ -39,7 +39,7 @@
           <div class="row mx-0 mb-4">
             <div class="col-md-4 align-self-center">
               <div class="form-group mb-0">
-                <label for="input_data_inicio_coleta">Data Inicio Coleta</label>
+                <label for="input_data_inicio_coleta">Data Início Coleta</label>
                 <input type="text" class="form-control datetimepicker" id="input_data_inicio_coleta">
               </div>
             </div>
@@ -147,7 +147,7 @@
 
     $('.datetimepicker').datetimepicker({
       locale: 'pt-br',
-      format: 'YYYY-MM-DD HH:mm:ss',
+      format: 'DD-MM-YYYY HH:mm:ss',
       icons: {
         time: "fa fa-clock-o",
         date: "fa fa-calendar",

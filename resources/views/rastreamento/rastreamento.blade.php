@@ -12,7 +12,7 @@
 
         <div class="col-md-4 px-0">
           <div class="d-flex align-items-center justify-content-end m-0 p-0">
-            <label for="ordem_servicos" class="mb-0 mr-2">Ordem de Serviços</label>
+            <label for="ordem_servicos" class="mb-0 mr-2">OS</label>
             <select id="ordem_servicos" data-style="btn-warning text-white" title="Selecione"></select>
           </div>
         </div>
@@ -85,7 +85,7 @@
                   </div>
 
                   <div class="col-6">
-                    <label for="inputIdOs" class="mb-0 font-weight-bold">CELULAR</label>
+                    <label for="inputIdOs" class="mb-0 font-weight-bold">Celular</label>
                     <input type="text" class="form-control">
                   </div>
                 </div>

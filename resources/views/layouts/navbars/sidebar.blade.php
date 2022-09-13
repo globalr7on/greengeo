@@ -55,7 +55,7 @@
             <li class="nav-item ml-4 {{ $activePage == 'veiculo' ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('cadastros.veiculo') }}">
                 <i class="fa-solid fa-truck"></i>
-                <span class="sidebar-normal">{{ __('Veiculo') }}</span>
+                <span class="sidebar-normal">{{ __('Veículo') }}</span>
               </a>
             </li>
             @endcan
@@ -109,7 +109,7 @@
             <li class="nav-item ml-4 {{ $activePage == 'sucata' ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('administrativo.classeSucata') }}">
                 <i class="fa-solid fa-recycle"></i>
-                <span class="sidebar-normal">{{ __('Classes de Sucata') }}</span>
+                <span class="sidebar-normal">{{ __('Classes Sucata') }}</span>
               </a>
             </li>
             @endcan
@@ -127,7 +127,7 @@
             <li class="nav-item ml-4 {{ $activePage == 'modelo' ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('administrativo.modelo') }}">
                 <i class="fa-solid fa-shuffle"></i>
-                <span class="sidebar-normal">{{ __('Modelo Veiculos') }}</span>
+                <span class="sidebar-normal">{{ __('Modelo Veículo') }}</span>
               </a>
             </li>
             @endcan
@@ -136,7 +136,7 @@
             <li class="nav-item ml-4 {{ $activePage == 'marca' ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('administrativo.marca') }}">
                 <i class="fa-solid fa-shuffle"></i>
-                <span class="sidebar-normal">{{ __('Marcas Veiculos') }}</span>
+                <span class="sidebar-normal">{{ __('Marcas Veículo') }}</span>
               </a>
             </li>
             @endcan
@@ -145,7 +145,7 @@
             <li class="nav-item ml-4 {{ $activePage == 'estagios' ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('administrativo.estagiosOs') }}">
                 <i class="fa-regular fa-clipboard"></i>
-                <span class="sidebar-normal">{{ __('Estágios de OS') }}</span>
+                <span class="sidebar-normal">{{ __('Estágios OS') }}</span>
               </a>
             </li>
             @endcan
@@ -154,7 +154,7 @@
             <li class="nav-item ml-4 {{ $activePage == 'tipo_material' ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('administrativo.tipoMaterial') }}">
                 <i class="fa-regular fa-clipboard"></i>
-                <span class="sidebar-normal">{{ __('Tipo de Material') }}</span>
+                <span class="sidebar-normal">{{ __('Tipo Material') }}</span>
               </a>
             </li>
             @endcan

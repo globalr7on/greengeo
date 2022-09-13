@@ -17166,6 +17166,7 @@ a.fc-more:hover {
 }
 .fc .fc-toolbar>*>:first-child {
     margin-left: 0;
+    text-transform: uppercase;
 }
 .fc-toolbar h2 {
     margin: 0;

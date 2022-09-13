@@ -8,14 +8,14 @@
   <div class="content">
     <div class="container-fluid">
       <div class="col-12 text-right">
-        <button type="button" class="btn btn-primary" id="novoVeiculo">+ Novo Veiculo</button>
+        <button type="button" class="btn btn-primary" id="novoVeiculo">+ Novo Veículo</button>
       </div>
       <div class="row">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header card-header-primary">
               <h4 class="card-title ">Cadastros</h4>
-              <p class="card-category">Veiculos</p>
+              <p class="card-category">Veículos</p>
             </div>
             <div class="card-body">
               <div>
@@ -80,7 +80,7 @@
         app.stepper()
         delFormValidationErrors()
         $("#modalVeiculo").modal("show")
-        $('#tituloModal').text("Novo Veiculo")
+        $('#tituloModal').text("Novo Veículo")
         $('#input_id').val("")
         $('#formVeiculo')[0].reset()
         getMarca()
@@ -146,7 +146,7 @@
             delFormValidationErrors()
             $('#formVeiculo')[0].reset()
             $("#modalVeiculo").modal("show")
-            $('#tituloModal').text("Editar Veiculo")
+            $('#tituloModal').text("Editar Veículo")
             $('#inputId').val(response.data.id)
             $("#input_placa").val(response.data.placa)
             $("#input_chassis").val(response.data.chassis)

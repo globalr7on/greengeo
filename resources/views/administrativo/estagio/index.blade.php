@@ -6,14 +6,14 @@
   <div class="content">
     <div class="container-fluid">
       <div class="col-12 text-right">
-        <button type="button" class="btn btn-primary" id="novoEstagio">+ Novo Estagio</button>
+        <button type="button" class="btn btn-primary" id="novoEstagio">+ Novo Estágio</button>
       </div>
       <div class="row">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header card-header-primary">
               <h4 class="card-title">Administrativo</h4>
-              <p class="card-category">Estagios OS</p>
+              <p class="card-category">Estágios OS</p>
             </div>
             <div class="card-body">
               <div>
@@ -49,7 +49,7 @@
         delFormValidationErrors()
         $('#formEstagio')[0].reset()
         $("#modalEstagio").modal("show")
-        $('#tituloModal').text("Novo Estagio")
+        $('#tituloModal').text("Novo Estágio")
         $('#inputId').val("")
       })
 
@@ -94,7 +94,7 @@
             delFormValidationErrors()
             $('#formEstagio')[0].reset()
             $("#modalEstagio").modal("show");
-            $('#tituloModal').text("Editar Estagio")
+            $('#tituloModal').text("Editar Estágio")
             $('#inputId').val(response.data.id);
             $("#input_descricao").val(response.data.descricao);
           }
