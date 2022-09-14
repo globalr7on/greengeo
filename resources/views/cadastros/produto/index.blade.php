@@ -58,7 +58,12 @@
           { data: "ean" },
           { data: "numero_serie" },
           { data: "marca" },
-          { data: "data_fabricacao" },
+          {
+            data: "data_fabricacao",
+            render: function (data, type, row) {
+              return data ? $.fullCalendar.moment(data, 'YYYY-MM-DD').format('DD-MM-YYYY') : null
+            }
+          },
           {
             data: "ativo",
             className: "text-center",
@@ -102,6 +107,7 @@
         // if (!materiaisData?.length) {
         //   return notifyDanger('Falta adicionar materiais')
         // }
+        const dataFabricacao = $("#input_data_fabricacao").val() ? $.fullCalendar.moment($("#input_data_fabricacao").val(), 'DD-MM-YYYY').format('YYYY-MM-DD') : null
         const JSONRequest = {
           pessoa_juridica_id: $("#input_pessoa_juridica_id").val(),
           numero_serie: $("#input_numero_serie").val(),
@@ -115,7 +121,7 @@
           marca: $("#input_marca").val(),
           descricao: $("#input_descricao").val(),
           unidade_id: $("#input_unidade_id").val(),
-          data_fabricacao: $("#input_data_fabricacao").val(),
+          data_fabricacao: dataFabricacao,
           materiais: materiaisData
         }
         const id = $('#input_id').val()
@@ -153,6 +159,7 @@
         const id = $(this).attr('data-id');
         app.api.get(`/produto/${id}`).then(response =>  {
           if (response && response.status) {
+            const dataFabricacao = response.data.data_fabricacao ? $.fullCalendar.moment(response.data.data_fabricacao, 'YYYY-MM-DD').format('DD-MM-YYYY') : null
             delFormValidationErrors()
             $('#formProduto')[0].reset()
             $("#modalProduto").modal("show");
@@ -164,17 +171,17 @@
             $("#input_especie").val(response.data.especie)
             $("#input_marca").val(response.data.marca)
             $("#input_descricao").val(response.data.descricao)
-            $("#input_data_fabricacao").val(response.data.data_fabricacao)
+            $("#input_data_fabricacao").val(dataFabricacao)
             getEmpresa(response.data.pessoa_juridica_id, true)
             maskPeso("#input_altura", formatFloatToString(response.data.altura))
             maskPeso("#input_largura", formatFloatToString(response.data.largura))
             maskPeso("#input_profundidade", formatFloatToString(response.data.profundidade))
             maskPeso("#input_comprimento", formatFloatToString(response.data.comprimento))
             getUnidade(response.data.unidade_id)
-            initMaterialDataTable()
-            getMateriais().then(() => {
-              loadSavedMaterials(response.data.materiais)
-            })
+            // initMaterialDataTable()
+            // getMateriais().then(() => {
+            //   loadSavedMaterials(response.data.materiais)
+            // })
           }
         })
         .catch(error => notifyDanger('Falha ao obter detalhes do empresa. Tente novamente'))

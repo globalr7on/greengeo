@@ -198,7 +198,7 @@ $('[data-toggle="tooltip"]').tooltip()
 // Init datapickers
 $('.datepicker').datetimepicker({
   locale: "pt-br",
-  dateFormat: 'dd-mm-yy',
+  format: 'DD-MM-YYYY',
   icons: {
     time: "fa fa-clock-o",
     date: "fa fa-calendar",

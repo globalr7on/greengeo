@@ -23,8 +23,8 @@ class OrdenDeServicoRequest extends FormRequest
             'transportador_id' => 'required',
             'destinador_id' => 'required',
             'acondicionamento_id' => 'required',
-            'data_inicio_coleta' => 'required|date|date_format:d-m-Y H:i:s',
-            'data_final_coleta' => 'required|date|date_format:d-m-Y H:i:s',
+            'data_inicio_coleta' => 'required|date|date_format:Y-m-d H:i:s',
+            'data_final_coleta' => 'required|date|date_format:Y-m-d H:i:s',
             'produtos' => 'required|array',
             'veiculo_id' => [
                 Rule::requiredIf($isRequired)
@@ -35,22 +35,22 @@ class OrdenDeServicoRequest extends FormRequest
             'data_estagio' => [
                 Rule::requiredIf($fieldRequired),
                 'date',
-                'date_format:d-m-Y'
+                'date_format:Y-m-d'
             ],
             'data_emissao' => [
                 Rule::requiredIf($fieldRequired),
                 'date',
-                'date_format:d-m-Y'
+                'date_format:Y-m-d'
             ],
             'data_preenchimento' => [
                 Rule::requiredIf($fieldRequired),
                 'date',
-                'date_format:d-m-Y'
+                'date_format:Y-m-d'
             ],
             'data_integracao' => [
                 Rule::requiredIf($fieldRequired),
                 'date',
-                'date_format:d-m-Y'
+                'date_format:Y-m-d'
             ],
             'description' => [
                 Rule::requiredIf($fieldRequired)

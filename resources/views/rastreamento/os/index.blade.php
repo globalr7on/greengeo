@@ -278,20 +278,26 @@
         if (produtosData.some(curr => !curr.tratamento_id)) {
           return notifyDanger('Por favor, adicione o tratamento sobre os produtos')
         }
+        const dataEstagio = $("#input_data_estagio").val() ? $.fullCalendar.moment($("#input_data_estagio").val(), 'DD-MM-YYYY').format('YYYY-MM-DD') : null
+        const dataEmissao = $("#input_data_emissao").val() ? $.fullCalendar.moment($("#input_data_emissao").val(), 'DD-MM-YYYY').format('YYYY-MM-DD') : null
+        const dataPreenchimento = $("#input_data_preenchimento").val() ? $.fullCalendar.moment($("#input_data_preenchimento").val(), 'DD-MM-YYYY').format('YYYY-MM-DD') : null
+        const dataIntegracao = $("#input_data_integracao").val() ? $.fullCalendar.moment($("#input_data_integracao").val(), 'DD-MM-YYYY').format('YYYY-MM-DD') : null
+        const dataInicioColeta = $("#input_data_inicio_coleta").val() ? $.fullCalendar.moment($("#input_data_inicio_coleta").val(), 'DD-MM-YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss') : null
+        const dataFinalColeta = $("#input_data_final_coleta").val() ? $.fullCalendar.moment($("#input_data_final_coleta").val(), 'DD-MM-YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss') : null
         const JSONRequest = {
           gerador_id: $("#input_gerador_id").val(), 
           destinador_id: $("#input_destinador_id").val(),
           transportador_id: $("#input_transportador_id").val(),
-          data_estagio: $("#input_data_estagio").val(),
-          data_emissao: $("#input_data_emissao").val(),
-          data_preenchimento: $("#input_data_preenchimento").val(),
-          data_integracao: $("#input_data_integracao").val(),
+          data_estagio: dataEstagio,
+          data_emissao: dataEmissao,
+          data_preenchimento: dataPreenchimento,
+          data_integracao: dataIntegracao,
           motorista_id: $("#input_motorista_id").val(),
           veiculo_id: $("#input_veiculo_id").val(),
           description: $("#input_description").val(),
           acondicionamento_id: $("#input_acondicionamento_id").val(),
-          data_inicio_coleta: $("#input_data_inicio_coleta").val(),
-          data_final_coleta: $("#input_data_final_coleta").val(),
+          data_inicio_coleta: dataInicioColeta,
+          data_final_coleta: dataFinalColeta,
           responsavel_id: currentUserId,
           produtos: produtosData
         }
@@ -316,6 +322,12 @@
         const id = $(this).attr('data-id')
         app.api.get(`/os/${id}`).then(response =>  {
           if (response && response.status) {
+            const dataEstagio = response.data.data_estagio ? $.fullCalendar.moment(response.data.data_estagio, 'YYYY-MM-DD').format('DD-MM-YYYY') : null
+            const dataEmissao = response.data.data_emissao ? $.fullCalendar.moment(response.data.data_emissao, 'YYYY-MM-DD').format('DD-MM-YYYY') : null
+            const dataPreenchimento = response.data.data_preenchimento ? $.fullCalendar.moment(response.data.data_preenchimento, 'YYYY-MM-DD').format('DD-MM-YYYY') : null
+            const dataIntegracao = response.data.data_integracao ? $.fullCalendar.moment(response.data.data_integracao, 'YYYY-MM-DD').format('DD-MM-YYYY') : null
+            const dataInicioColeta = response.data.data_inicio_coleta ? $.fullCalendar.moment(response.data.data_inicio_coleta, 'YYYY-MM-DD HH:mm:ss').format('DD-MM-YYYY HH:mm:ss') : null
+            const dataFinalColeta = response.data.data_final_coleta ? $.fullCalendar.moment(response.data.data_final_coleta, 'YYYY-MM-DD HH:mm:ss').format('DD-MM-YYYY HH:mm:ss') : null
             getEmpresa(response.data.gerador_id, '#input_gerador_id', null, null, false, false, true)
             getEmpresa(response.data.destinador_id, '#input_destinador_id', null, null, false, false, true)
             getEmpresa(response.data.transportador_id, '#input_transportador_id', null, null, false, false, true)
@@ -327,12 +339,12 @@
             $('#tituloModal').text("Editar OS")
             $('#input_id').val(response.data.id)
             $('#input_acondicionamento_id').val(response.data.acondicionamento_id)
-            $("#input_data_estagio").val(response.data.data_estagio).attr('disabled', onlyShow)
-            $("#input_data_emissao").val(response.data.data_emissao).attr('disabled', onlyShow)
-            $("#input_data_preenchimento").val(response.data.data_preenchimento).attr('disabled', onlyShow)
-            $("#input_data_integracao").val(response.data.data_integracao).attr('disabled', onlyShow)
-            $("#input_data_inicio_coleta").val(response.data.data_inicio_coleta).attr('disabled', true)
-            $("#input_data_final_coleta").val(response.data.data_final_coleta).attr('disabled', true)
+            $("#input_data_estagio").val(dataEstagio).attr('disabled', onlyShow)
+            $("#input_data_emissao").val(dataEmissao).attr('disabled', onlyShow)
+            $("#input_data_preenchimento").val(dataPreenchimento).attr('disabled', onlyShow)
+            $("#input_data_integracao").val(dataIntegracao).attr('disabled', onlyShow)
+            $("#input_data_inicio_coleta").val(dataInicioColeta).attr('disabled', true)
+            $("#input_data_final_coleta").val(dataFinalColeta).attr('disabled', true)
             $("#input_description").val(response.data.description).attr('disabled', onlyShow)
             $("#imagensData").val(JSON.stringify(response.data.imagens))
             $("#mtr_link").val(response.data.mtr_link)

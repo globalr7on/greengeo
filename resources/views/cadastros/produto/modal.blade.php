@@ -239,7 +239,7 @@
 
     $('.datetimepicker').datetimepicker({
       locale: 'pt-br',
-      format: 'YYYY-MM-DD',
+      format: 'DD-MM-YYYY',
       icons: {
         time: "fa fa-clock-o",
         date: "fa fa-calendar",

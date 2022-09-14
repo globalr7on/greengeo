@@ -126,14 +126,17 @@
             peso: formatStringToFloat(produto.peso)
           }
         })
+        const dataInicioColeta = $("#input_data_inicio_coleta").val() ? $.fullCalendar.moment($("#input_data_inicio_coleta").val(), 'DD-MM-YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss') : null
+        const dataFinalColeta = $("#input_data_final_coleta").val() ? $.fullCalendar.moment($("#input_data_final_coleta").val(), 'DD-MM-YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss') : null
+
         const JSONRequest = {
           responsavel_id: $("#input_responsavel_id").val(),
           gerador_id: pessoaJuridicaId,
           transportador_id: $("#input_transportador_id").val(),
           destinador_id: $("#input_destinador_id").val(),
           acondicionamento_id: $("#input_acondicionamento_id").val(),
-          data_inicio_coleta: $("#input_data_inicio_coleta").val(),
-          data_final_coleta: $("#input_data_final_coleta").val(),
+          data_inicio_coleta: dataInicioColeta,
+          data_final_coleta: dataFinalColeta,
           veiculo_id: $("#input_veiculo_id").val(),
           motorista_id: $("#input_motorista_id").val(),
           produtos: produtos
@@ -304,15 +307,16 @@
         const agendada = eventEstagio == 'agendada'
         const allowEdit = emAgendamento && event.gerador_id == currEmpresaId
         const allowAddMoto = emAgendamento && currIsTransporador && event.transportador_id == currEmpresaId
-
+        const dataInicioColeta = event.data_inicio_coleta ? $.fullCalendar.moment(event.data_inicio_coleta, 'YYYY-MM-DD HH:mm:ss').format('DD-MM-YYYY HH:mm:ss') : null
+        const dataFinalColeta = event.data_final_coleta ? $.fullCalendar.moment(event.data_final_coleta, 'YYYY-MM-DD HH:mm:ss').format('DD-MM-YYYY HH:mm:ss') : null
         app.stepper()
         delFormValidationErrors()
         $("#modalAgenda").modal("show")
         $('#tituloAgenda').text("Editar Agendamento")
         $('#formAgenda')[0].reset()
         $('#input_id').val(event.id)
-        $('#input_data_inicio_coleta').val(event.data_inicio_coleta)
-        $('#input_data_final_coleta').val(event.data_final_coleta)
+        $('#input_data_inicio_coleta').val(dataInicioColeta)
+        $('#input_data_final_coleta').val(dataFinalColeta)
         maskPeso("#input_peso")
         $("#input_gerador_id").val(event.gerador_id)
         getTransportador(event.transportador_id, !allowEdit)
