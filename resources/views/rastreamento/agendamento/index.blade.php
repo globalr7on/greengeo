@@ -454,12 +454,12 @@
           templateResult: (state) => {
             return $(`
               <div style="display: flex; flex-direction: column;">
-                <span>[${state.ean}] ${state.codigo} | ${state.marca} | ${state.especie}</span>
+                <span>[${state.descricao}] ${state.codigo}</span>
                 <small>${state.descricao}</small>
               </div>
             `)
           },
-          templateSelection: (state) => state.id ? `[${state.ean}] ${state.codigo} | ${state.marca} | ${state.especie}` : state.text,
+          templateSelection: (state) => state.id ? `[${state.descricao}] ${state.codigo}` : state.text,
         })
       }
 

@@ -127,10 +127,10 @@
 @push('js')
 <script>
     $('.datetimepicker').datetimepicker({
-      format: 'YYYY-MM-DD hh:mm:ss',
+      format: 'd-m-Y H:i:s',
       icons: {
         time: "fa fa-clock-o",
-        date: "fa fa-calendar",
+        date: "fa fa-calendar", 
         up: "fa fa-chevron-up",
         down: "fa fa-chevron-down",
         previous: 'fa fa-chevron-left',

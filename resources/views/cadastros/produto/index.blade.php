@@ -21,11 +21,11 @@
               <div>
                 <table class="table" id="produtoTbl">
                   <thead>
-                    <th class="text-primary font-weight-bold" style="width:10%">Fabricante</th>
+                    <th class="text-primary font-weight-bold" style="width:10%">Descrição</th>
                     <th class="text-primary font-weight-bold" style="width:auto">Nome Fabricante</th>
                     <th class="text-primary font-weight-bold" style="width:8%">EAN</th>
-                    <th class="text-primary font-weight-bold" style="width:8%">Marca</th>
                     <th class="text-primary font-weight-bold" style="width:8%">Nº Série</th>
+                    <th class="text-primary font-weight-bold" style="width:8%">Marca</th>
                     <th class="text-primary font-weight-bold" style="width:8%">Data Fabricação</th>
                     <!-- <th class="text-primary font-weight-bold" style="width:8%">Largura</th>
                     <th class="text-primary font-weight-bold" style="width:10%">Profundidade</th>
@@ -53,7 +53,7 @@
       let app = new App({
         apiUrl: '/api/produto',
         apiDataTableColumns: [
-          { data: "codigo" },
+          { data: "descricao" },
           { data: "pessoa_juridica" },
           { data: "ean" },
           { data: "numero_serie" },
