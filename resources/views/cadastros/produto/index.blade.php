@@ -99,9 +99,9 @@
           peso_liquido: formatStringToFloat(curr.pesoLiquido),
           percentual_composicao: formatStringToFloat(curr.percentualComposicao),
         }))
-        if (!materiaisData?.length) {
-          return notifyDanger('Falta adicionar materiais')
-        }
+        // if (!materiaisData?.length) {
+        //   return notifyDanger('Falta adicionar materiais')
+        // }
         const JSONRequest = {
           pessoa_juridica_id: $("#input_pessoa_juridica_id").val(),
           numero_serie: $("#input_numero_serie").val(),

@@ -24,7 +24,7 @@ class ProdutoRequest extends FormRequest
             'marca' => 'required|string|max:45',
             'data_fabricacao' => 'required',
             'pessoa_juridica_id' => 'required',
-            'materiais' => 'required|array',
+            //'materiais' => 'required|array',
         ];
     }
 

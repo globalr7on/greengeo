@@ -135,7 +135,7 @@
                 </div>
 
                 <div class="row mx-0">
-                  <button class="btn btn-warning" id="addMaterials">Materiais</button>
+                  <!-- <button class="btn btn-warning" id="addMaterials">Materiais</button> -->
                   <button class="btn btn-primary stepper-prev">Anterior</button>
                   <button class="btn btn-primary" id="salvarProduto">Salvar</button>
                 </div>
