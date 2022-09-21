@@ -174,7 +174,7 @@ Route::middleware(['auth:api', 'permission'])->group(function() {
 
     // GEOLOCALIZAÇÃO
     Route::get('geo', 'App\Http\Controllers\Api\GeoCepController@index')->name('geo.lista');
-    Route::post('map','App\Http\Controllers\Api\GeoCepController@criarGeo')->name('geo.criar');
+    // Route::post('map','App\Http\Controllers\Api\GeoCepController@criarGeo')->name('geo.criar');
     // Route::get('map','App\Http\Controllers\Api\GeoCepController@ReceiveGeo')->name('geo.mostrar');
 
     // IMAGENS 
@@ -185,9 +185,14 @@ Route::middleware(['auth:api', 'permission'])->group(function() {
     Route::delete('imagens/{id}', 'App\Http\Controllers\Api\ImagensController@destroy')->name('imagens.excluir');
 
     // AGENDAMENTO  
-    Route::get('agendamento', 'App\Http\Controllers\Api\AgendamentoController@index')->name('agendamento.lista');
-    Route::get('agendamento/{id}', 'App\Http\Controllers\Api\agendamentoController@show')->name('agendamento.mostrar');
-    Route::post('agendamento', 'App\Http\Controllers\Api\AgendamentoController@store')->name('agendamento.criar');
+    // Route::get('agendamento', 'App\Http\Controllers\Api\AgendamentoController@index')->name('agendamento.lista');
+    // Route::get('agendamento/{id}', 'App\Http\Controllers\Api\agendamentoController@show')->name('agendamento.mostrar');
+    // Route::post('agendamento', 'App\Http\Controllers\Api\AgendamentoController@store')->name('agendamento.criar');
     // Route::put('agendamento/{id}', 'App\Http\Controllers\Api\agendamentoController@update')->name('agendamento.atualizar');
     // Route::delete('agendamento/{id}', 'App\Http\Controllers\Api\agendamentoController@destroy')->name('agendamento.excluir');
+
+    // RASTREAMENTOS
+    Route::get('rastreamentos', 'App\Http\Controllers\Api\RastreamentoController@index')->name('rastreamentos.lista');
+    Route::get('rastreamentos/{id}', 'App\Http\Controllers\Api\RastreamentoController@show')->name('rastreamentos.mostrar');
+    Route::post('rastreamentos', 'App\Http\Controllers\Api\RastreamentoController@store')->name('rastreamentos.criar');
 });

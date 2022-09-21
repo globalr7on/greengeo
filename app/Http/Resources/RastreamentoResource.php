@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\OrdenDeServicoResource;
 
 class RastreamentoResource extends JsonResource
 {
@@ -14,6 +15,9 @@ class RastreamentoResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'rastreamentos' => $this->rastreamentos,
+            'orden_servico' => new OrdenDeServicoResource($this->orden_servico),
+        ];
     }
 }

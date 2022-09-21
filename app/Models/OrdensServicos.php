@@ -97,4 +97,9 @@ class OrdensServicos extends Model
     {
         return $this->hasMany('App\Models\OrdenServicoEstagio', 'ordem_servico_id', 'id');
     }
+
+    public function rastreamentos()
+    {
+        return $this->hasMany('App\Models\Rastreamento', 'orden_servico_id', 'id')->orderBy('created_at');
+    }
 }

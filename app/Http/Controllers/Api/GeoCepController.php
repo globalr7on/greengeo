@@ -86,23 +86,17 @@ class GeoCepController extends Controller
         ], 200);
     }  
 
-    public function criarGeo(Request $request){
-        $lat = $request->input('lat');
-        // dd($lat);
-        $long = $request->input('long');
-    
-        $location = ["lat" => $lat, "long" => $long];
-     
-        event(new SendPosition($location));
-        // dd($location);
-
-        // $rastreamento = ::create($lat);
+    // public function criarGeo(Request $request){
+    //     $lat = $request->input('lat');
+    //     $long = $request->input('long');
+    //     $location = ["lat" => $lat, "long" => $long];
+    //     event(new SendPosition($location));
+    //     // $rastreamento = ::create($lat);
         
-        return response()->json(['status' => 'success', 'data' => $location]);
+    //     return response()->json(['status' => 'success', 'data' => $location]);
+    // }  
 
-    }  
-
-    public function ReceiveGeo($location){
-        dd($location);
-    }
+    // public function ReceiveGeo($location){
+    //     dd($location);
+    // }
 }

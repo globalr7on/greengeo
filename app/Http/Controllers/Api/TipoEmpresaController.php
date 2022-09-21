@@ -54,7 +54,7 @@ class TipoEmpresaController extends Controller
      */
     public function show($id)
     {
-       return response([
+        return response([
             'data' => new TipoEmpresaResource(TipoEmpresa::find($id)),
             'status' => true
         ], 200);
