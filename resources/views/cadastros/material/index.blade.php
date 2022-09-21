@@ -225,8 +225,8 @@
 
       function getEstado(value) {
         const data = [
-          { id: 'solido', descricao: 'Solido' },
-          { id: 'liquido', descricao: 'Liquido' },
+          { id: 'sólido', descricao: 'Sólido' },
+          { id: 'líquido', descricao: 'Líquido' },
           { id: 'gasoso', descricao: 'Gasoso' }
         ]
         loadSelect('#input_estado_fisico', data, ['id', 'descricao'], value)

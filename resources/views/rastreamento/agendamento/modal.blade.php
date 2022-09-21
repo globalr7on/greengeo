@@ -129,6 +129,7 @@
           </div>
 
           <div class="row mx-0">
+            <button type="button" class="btn btn-danger" id="cancelarAgenda">Cancelar</button>
             <button type="button" class="btn btn-success" id="salvarAgenda">Salvar</button>
           </div>
         </form>
