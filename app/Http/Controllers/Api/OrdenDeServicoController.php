@@ -212,10 +212,10 @@ class OrdenDeServicoController extends Controller
     {
         DB::beginTransaction();
         try {
-            $ordenServico = OrdensServicos::findOrFail($id);
+            $ordenServico = OrdensServicos::findOrFail($id);          
+            $ordenServico->estagios_historico()->delete();
             $ordenServico->itens()->delete();
             $ordenServico->imagens()->delete();
-            $ordenServico->notas_fiscais()->detach();
             $ordenServico->aprovacao_motorista()->delete();
             $ordenServico->delete();
             DB::commit();

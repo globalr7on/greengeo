@@ -20,7 +20,7 @@ class CreateAdminUserSeeder extends Seeder
             'name' => 'Admin', 
             'email' => 'admin@greenbeat.com',
             'password' => 'admin',
-            'cpf' => '709.413.992-65',
+            'cpf' => '123123', //'709.413.992-65',
             'rg' => 'f-72347838',
             'ativo' => true
         ]);

@@ -169,6 +169,22 @@
         }
       })
 
+       // Excluir
+       $('body').on('click', '#cancelarAgenda', function() {
+        const id = $('#input_id').val()
+        sweetConfirm('Deseja realmente Cancelar o agendamento?').then(confirmed => {
+          if (confirmed) {
+            app.api.delete(`/os/${id}`).then(response =>  {
+              app.datatable.ajax.reload()
+              notifySuccess('Agenda Cancelado com sucesso')
+              $("#modalAgenda").modal("hide")
+              location.reload();
+            })
+            .catch(error => notifyDanger('Falha ao excluir. Tente novamente'))
+          }
+        }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
+      })
+
       function getTransportador(value, disabled) {
         app.api.get('/tipo_empresa').then(response => {
           if (response && response.status) {
