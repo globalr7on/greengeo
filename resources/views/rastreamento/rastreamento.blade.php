@@ -12,7 +12,7 @@
 
         <div class="col-md-4 px-0">
           <div class="d-flex align-items-center justify-content-end m-0 p-0">
-            <label for="ordem_servicos" class="mb-0 mr-2">OS</label>
+            <label for="ordem_servicos" class="mb-0 mr-2">Ordens de Serviço</label>
             <select id="ordem_servicos" data-style="btn-warning text-white" title="Selecione"></select>
           </div>
         </div>
@@ -110,7 +110,8 @@
 @push('js')
   <script>
     $(document).ready(function () {
-      let osData = [], allLayers = [], allMarks = []
+      let osData = [], mainInterval = null, currentInterval = null
+      const INTERVAL = 10000 // 10 seg
       const app = new App({})
       const map = L.map('map').setView([-25.441105, -49.276855], 15)
       const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: 'OMS' }).addTo(map)
@@ -119,10 +120,10 @@
       const startTrackIcon = L.icon({ iconUrl: "{{ asset('material') }}/img/start_track.png", iconSize: [25, 25] })
       const endTrackIcon = L.icon({ iconUrl: "{{ asset('material') }}/img/end_track.png", iconSize: [25, 25] })
 
-      function addOSMap(gerador, destinador, veiculo, motorista, codigo_os) {
-        const geradorPopup = `<b>Gerador:</b> ${gerador.name}`
-        const destinadorPopup = `<b>Destinador:</b> ${destinador.name}`
-        const truckPopup = `<b>Veiculo:</b> ${veiculo} <br><b>Motorista:</b> ${motorista}  <br><b>Codigo OS:</b> ${codigo_os}`
+      function addOSMap(osId, gerador, destinador, veiculo, motorista, codigo_os, addMark = true) {
+        const geradorPopup = `<b>Gerador:</b> ${gerador.name}<br><b>Codigo OS:</b> ${codigo_os}`
+        const destinadorPopup = `<b>Destinador:</b> ${destinador.name}<br><b>Codigo OS:</b> ${codigo_os}`
+        const truckPopup = `<b>Veiculo:</b> ${veiculo}<br><b>Motorista:</b> ${motorista}<br><b>Codigo OS:</b> ${codigo_os}`
 
         const control = L.Routing.control({
           show: false,
@@ -146,11 +147,16 @@
         .addTo(map)
 
         const marker = L.marker([parseFloat(gerador.coord.lat) + 0.00005, parseFloat(gerador.coord.lng) + 0.00005], {icon: redTruckIcon}).bindPopup(truckPopup).addTo(map)
-        allLayers.push(control)
-        allMarks.push(marker)
+        osData = osData.map(currOs => {
+          return currOs.id == osId ? {
+            ...currOs,
+            layer: control,
+            mark: marker
+          } : currOs
+        })
       }
         
-      function getAllOS(value) {
+      function getAllOS(callback) {
         app.api.get('/estagio_os').then(response => {
           if (response && response.status) {
             const estagioAguardandoColetaId = response.data.find(curr => curr.descricao.toLowerCase() == 'aguardando coleta')?.id
@@ -168,8 +174,10 @@
                     name: response.data[i].destinador,
                     coord: response.data[i].destinador_coord
                   }
-                  addOSMap(gerador, destinador, response.data[i].veiculo, response.data[i].motorista, response.data[i].codigo)
+                  const osId = response.data[i].id
+                  addOSMap(osId, gerador, destinador, response.data[i].veiculo, response.data[i].motorista, response.data[i].codigo)
                 }
+                callback()
               }
             })
             .catch(error => notifyDanger('Falha ao obter mapa, tente novamente'))
@@ -179,7 +187,13 @@
         }).catch(error => notifyDanger('Falha ao obter dados. Tente novamente'))
       }
 
-      getAllOS()
+      getAllOS(() => {
+        if (!mainInterval && osData.length > 0) {
+          mainInterval = setInterval(() => {
+            osData.map(curr => getLastLocation(curr.id))
+          }, INTERVAL)
+        }
+      })
 
       $('body').on('click', '#novoFiltro', function() {
         $("#modalMapaSearch").modal("show")
@@ -190,13 +204,49 @@
       })
 
       $('body').on('change', '#ordem_servicos', function(event) {
-        allLayers.map(curr => curr.remove(map))
-        allMarks.map(curr => curr.remove(map))
+        mainInterval && clearInterval(mainInterval)
+        currentInterval && clearInterval(currentInterval)
+        osData.map(curr => {
+          curr.layer.remove(map)
+          curr.mark.remove(map)
+        })
         const currentOS = osData.find(curr => curr.id == event.target.value)
         const gerador = { name: currentOS.gerador, coord: currentOS.gerador_coord }
         const destinador = { name: currentOS.destinador, coord: currentOS.destinador_coord }
-        addOSMap(gerador, destinador, currentOS.veiculo, currentOS.motorista)
+        addOSMap(currentOS.id, gerador, destinador, currentOS.veiculo, currentOS.motorista, currentOS.codigo)
+        getLastLocation(currentOS.id)
+        currentInterval = setInterval(() => {
+          getLastLocation(currentOS.id)
+        }, INTERVAL)
       })
+
+      function getLastLocation(osId) {
+        app.api.get(`/rastreamentos/${osId}?ultimo`).then(response => {
+          if (response && response.status) {
+            const { rastreamentos } = response.data
+            const coordinates = [
+              rastreamentos.latitude,
+              rastreamentos.longitude,
+            ]
+            osData = osData.map(currOs => {
+              const truck = currOs.estagio.toLowerCase() == 'transporte'
+                ? greenTruckIcon
+                : redTruckIcon
+              const truckPopup = currOs.mark._popup._content
+              const isCurrentOS = currOs.id == osId
+
+              if (isCurrentOS) {
+                currOs.mark.remove(map)
+              }
+
+              return isCurrentOS ? {
+                ...currOs,
+                mark: L.marker(coordinates, {icon: truck}).bindPopup(truckPopup).addTo(map)
+              } : currOs
+            })
+          }
+        }).catch(error => notifyDanger('Falha ao obter dados. Tente novamente'))
+      }
     })
   </script>
 @endpush

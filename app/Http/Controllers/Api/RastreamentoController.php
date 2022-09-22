@@ -63,9 +63,16 @@ class RastreamentoController extends Controller
     public function show(Request $request, $id)
     {
         $ordemServico = OrdensServicos::find($id);
-        $rastreamentos = $request->has('ultimo')
-            ? $ordemServico->rastreamentos->last()->only('latitude', 'longitude')
-            : $ordemServico->rastreamentos->map->only(['latitude', 'longitude']);
+        if (count($ordemServico->rastreamentos) < 1) {
+            $rastreamentos = [
+                'latitude' => $ordemServico->gerador ? $ordemServico->gerador->latitude : null,
+                'longitude' => $ordemServico->gerador ? $ordemServico->gerador->longitude : null
+            ];
+        } else {
+            $rastreamentos = $request->has('ultimo')
+                ? $ordemServico->rastreamentos->last()->only('latitude', 'longitude')
+                : $ordemServico->rastreamentos->map->only(['latitude', 'longitude']);
+        }
         $data = [
             'orden_servico_id' => $ordemServico->id,
             'rastreamentos' => $rastreamentos,
