@@ -7,6 +7,7 @@ use App\Http\Requests\AgendamentoRequest;
 use App\Http\Resources\AgendamentoResource;
 use App\Models\Agendamento;
 use App\Mail\EnvioAgendamento;
+use App\Mail\AvisoPedidoColeta;
 use Validator;
 use Hash;
 use Mail;
@@ -38,19 +39,26 @@ class AgendamentoController extends Controller
     public function store(AgendamentoRequest $request)
     {
         $agendamento = Agendamento::create($request->all());
-        $agenda = [
-            'codigo'  => $agendamento->ordem_servico->codigo,
-            'gerador' => $agendamento->usuario->pessoa_juridica->nome_fantasia,
-            'usuario' => $agendamento->usuario->name,
-            'celular' => $agendamento->usuario->celular,
-            'descricao_produto' =>  $agendamento->ordem_servico->description,
-            'peso_total' => $agendamento->ordem_servico->peso_total,
+        // $agenda = [
+        //     'codigo'  => $agendamento->ordem_servico->codigo,
+        //     'gerador' => $agendamento->usuario->pessoa_juridica->nome_fantasia,
+        //     'usuario' => $agendamento->usuario->name,
+        //     'celular' => $agendamento->usuario->celular,
+        //     'descricao_produto' =>  $agendamento->ordem_servico->description,
+        //     'peso_total' => $agendamento->ordem_servico->peso_total,
+        //     'transportadora' => $agendamento->transportadora->nome_fantasia,
+        //     'acondicionamento' => $agendamento->acondicionamento->descricao,
+        //     'email' => $agendamento->transportadora->email,
+        //     'data_coleta' => $agendamento->coleta,
+        // ];
+        // Mail::to($agenda['email'])->send(new EnvioAgendamento($agenda));
+
+        $pedido_coleta = [
             'transportadora' => $agendamento->transportadora->nome_fantasia,
-            'acondicionamento' => $agendamento->acondicionamento->descricao,
-            'email' => $agendamento->transportadora->email,
-            'data_coleta' => $agendamento->coleta,
+            'email' => $agendamento->usuario->pessoa_juridica->email,
         ];
-        Mail::to($agenda['email'])->send(new EnvioAgendamento($agenda));
+        Mail::to($pedido_coleta['email'])->send(new AvisoPedidoColeta($pedido_coleta));
+
         return response([
             'data' => new AgendamentoResource($agendamento),
             'status' => true
