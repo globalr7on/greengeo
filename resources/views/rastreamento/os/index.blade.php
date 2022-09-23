@@ -160,7 +160,7 @@
           confirmButtonClass: 'btn btn-primary',
           cancelButtonClass: 'btn btn-danger',
           preConfirm: (value) => !value ? swal.showValidationError('Por favor, carregue o MTR') : value,
-          errorCallback: (error) => notifyDanger('Ocorreu um erro ao subir MTR, tente novamente'),
+          errorCallback: (error) => notifyDanger('Ocorreu um erro ao carregar MTR, tente novamente'),
           successCallback: (result) => {
             if (result?.dismiss) return
             const data = new FormData()
@@ -193,7 +193,7 @@
           confirmButtonClass: 'btn btn-primary',
           cancelButtonClass: 'btn btn-danger',
           preConfirm: (value) => !value ? swal.showValidationError('Por favor, carregue o CDF') : value,
-          errorCallback: (error) => notifyDanger('Ocorreu um erro ao subir CDF, tente novamente'),
+          errorCallback: (error) => notifyDanger('Ocorreu um erro ao carregar CDF, tente novamente'),
           successCallback: (result) => {
             if (result?.dismiss) return
             const data = new FormData()
@@ -501,7 +501,7 @@
                 render: function (data, type, row, meta) {
                   return `
                     <div style="line-height: 1;">
-                      <span class="d-block">[${row.ean}] ${row.codigo}</span>
+                      <span class="d-block">[${row.codigo}]</span>
                       <small class="d-block">${row.descricao}</small>
                     </div>
                   `
@@ -556,7 +556,7 @@
                 className: 'text-center',
                 render: function (data, type, row, meta) {
                   const addTratamentoBtn = `<i class="fas fa-recycle cursor-pointer addTratamentoAction" data-id="${row.id}" title="Adicionar tratamento"></i>`
-                  const addObsBtn = `<i class="fas fa-clipboard cursor-pointer addObsAction" data-id="${row.id}" title="Adicionar observacao"></i>`
+                  const addObsBtn = `<i class="fas fa-clipboard cursor-pointer addObsAction" data-id="${row.id}" title="Adicionar observação"></i>`
 
                   return row?.disabledBtn ? '' : `<div class="d-flex align-items-center" style="justify-content:space-evenly">${addTratamentoBtn}${addObsBtn}</div>`
                 }
@@ -579,7 +579,7 @@
       $('body').on('click', '.addObsAction', function() {
         const id = $(this).attr('data-id')
         sweetInput({
-          title: 'Adicionar observacao al produto',
+          title: 'Adicionar observação ao produto',
           showCancelButton: true,
           input: 'textarea',
           confirmButtonText: 'Adicionar',
@@ -588,8 +588,8 @@
           buttonsStyling: false,
           confirmButtonClass: 'btn btn-primary',
           cancelButtonClass: 'btn btn-danger',
-          preConfirm: (value) => !value ? swal.showValidationError('Por favor, adicione uma observacao') : value,
-          errorCallback: (error) => notifyDanger('Ocorreu um erro ao adicionar a observacao, tente novamente'),
+          preConfirm: (value) => !value ? swal.showValidationError('Por favor, adicione uma observação') : value,
+          errorCallback: (error) => notifyDanger('Ocorreu um erro ao adicionar a observação, tente novamente'),
           successCallback: (result) => {
             if (result?.dismiss) return
             const dataInTable = $('#produtosTbl').DataTable().data().toArray()
@@ -599,12 +599,12 @@
         })
       })
 
-      // Adicionar tratamento al produto
+      // Adicionar tratamento ao produto
       $('body').on('click', '.addTratamentoAction', function() {
         const tratamentoData = JSON.parse($('#tratamentoData').text() || '[]')
         const id = $(this).attr('data-id')
         sweetInput({
-          title: 'Selecione o tratamento al produto',
+          title: 'Selecione o tratamento ao produto',
           html: '<select id="tratamento" data-style="btn-warning text-white" title="Selecione"></select>',
           showCancelButton: true,
           confirmButtonText: 'Adicionar',
@@ -714,8 +714,7 @@
                       <label>Produto</label>
                       <input type="hidden" id="produto_id[]" value="${curr.id}">
                       <div style="line-height: 1;">
-                        <span class="d-block">[${curr.produto.ean}] ${curr.produto.codigo}</span>
-                        <small class="d-block">${curr.produto.descricao}</small>
+                        <span class="d-block">[${curr.produto.codigo}] ${curr.produto.descricao}</span>
                       </div>
                     </div>
                   </div>
@@ -794,7 +793,7 @@
                 allowOutsideClick: false,
                 buttonsStyling: false,
                 confirmButtonClass: 'btn btn-primary',
-                preConfirm: (value) => !value ? swal.showValidationError('Por favor, adicione uma observacao') : value,
+                preConfirm: (value) => !value ? swal.showValidationError('Por favor, adicione uma observação') : value,
                 errorCallback: (error) => notifyDanger('Ocorreu um erro, tente novamente'),
                 successCallback: (result) => {
                   if (result?.dismiss) return

@@ -17,6 +17,10 @@ use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
 use App\Mail\Ordem;
 use App\Mail\EnvioAgendamento;
+use App\Mail\AvisoPedidoColeta;
+use App\Mail\AvisoConfirmacaoColeta;
+use App\Mail\AvisoConfirmacaoPickUp;
+use App\Mail\AvisoConfirmacaoEntregue;
 use Mail;
 use App\Traits\OrdenServicoTrait;
 use Illuminate\Support\Facades\DB;
@@ -95,19 +99,26 @@ class OrdenDeServicoController extends Controller
             }
             $this->saveStatusHistory($newOrdemServico->id, $newOrdemServico->estagio_id, auth()->user()->id);
 
-            // $agenda = [
-            //     'gerador' => $newOrdemServico['gerador']->nome_fantasia,
-            //     'usuario' => $newOrdemServico['responsavel']->name,
-            //     'celular' => $newOrdemServico['responsavel']->celular,
-            //     'peso_total' => $newOrdemServico->peso_total,
-            //     'transportadora' => $newOrdemServico['transportador']->nome_fantasia,
-            //     'destinador' =>  $newOrdemServico['destinador']->nome_fantasia,
-            //     'acondicionamento' => $newOrdemServico->acondicionamento->descricao,
-            //     'email' => $newOrdemServico['transportador']->email,
-            //     'data_inicio_coleta' => (new Carbon(new Carbon($newOrdemServico->data_inicio_coleta, 'UTC'), TIMEZONE_BRAZIL))->format('Y-m-d H:i:s'),
-            //     'data_final_coleta' => (new Carbon(new Carbon($newOrdemServico->data_final_coleta, 'UTC'), TIMEZONE_BRAZIL))->format('Y-m-d H:i:s'),
-            // ];
-            // Mail::to($agenda['email'])->send(new EnvioAgendamento($agenda));
+            $agenda = [
+                'gerador' => $newOrdemServico->gerador->nome_fantasia,
+                'usuario' => $newOrdemServico->responsavel->name,
+                'celular' => $newOrdemServico->responsavel->celular,
+                'peso_total' => $newOrdemServico->peso_total,
+                'transportadora' => $newOrdemServico->transportador->nome_fantasia,
+                'destinador' => $newOrdemServico->destinador->nome_fantasia,
+                'acondicionamento' => $newOrdemServico->acondicionamento->descricao,
+                'email' =>$newOrdemServico['transportador']->email,
+                'data_inicio_coleta' => (new Carbon(new Carbon($newOrdemServico->data_inicio_coleta, 'UTC'), TIMEZONE_BRAZIL))->format('Y-m-d H:i:s'),
+                'data_final_coleta' => (new Carbon(new Carbon($newOrdemServico->data_final_coleta, 'UTC'), TIMEZONE_BRAZIL))->format('Y-m-d H:i:s'),
+            ];
+            Mail::to($agenda['email'])->send(new EnvioAgendamento($agenda));
+        
+            $pedido_coleta = [
+                'transportadora' => $newOrdemServico->transportador->nome_fantasia,
+                'email' => $newOrdemServico->gerador->email,
+            ];
+            Mail::to($pedido_coleta['email'])->send(new AvisoPedidoColeta($pedido_coleta));
+    
 
             DB::commit();
             return response([
@@ -166,6 +177,9 @@ class OrdenDeServicoController extends Controller
                 $ordenServico->estagio_id = $this->getNextEstagio($ordenServico->estagio_id);
                 $ordenServico->save();
             }
+
+
+
             if ($request->get('produtos')) {
                 $itensIds = array_column($request->get('produtos'), 'id');
                 $itensToDelete = $ordenServico->itens->whereNotIn('id', $itensIds);
@@ -188,6 +202,11 @@ class OrdenDeServicoController extends Controller
                 $this->saveStatusHistory($ordenServico->id, $ordenServico->estagio_id, auth()->user()->id);
             }
             DB::commit();
+            $confirmar_coleta = [
+                'transportadora' => $ordenServico->transportador->nome_fantasia,
+                'email' => $ordenServico->gerador->email,
+            ];
+            Mail::to($confirmar_coleta['email'])->send(new AvisoConfirmacaoColeta($confirmar_coleta));
     
             return response([
                 'data' => new OrdenDeServicoResource($ordenServico),
@@ -243,6 +262,29 @@ class OrdenDeServicoController extends Controller
             $newEstagio = $this->getNextEstagio($ordenServico->estagio_id);
             $ordenServico->update(["estagio_id" => $newEstagio]);
             $this->saveStatusHistory($id, $newEstagio, auth()->user()->id);
+
+            if($newEstagio == 5){
+                $confirmar_pickup = [
+                    'transportadora' => $ordenServico->transportador->nome_fantasia,
+                    'email' => $ordenServico->destinador->email,
+                ];
+                Mail::to($confirmar_pickup['email'])->send(new AvisoConfirmacaoPickUp($confirmar_pickup));
+            }
+            
+            if ($newEstagio == 7){
+                // dd($ordenServico->transportador->nome_fantasia);
+                $confirmar_entregue = [
+                    'transportadora' => $ordenServico->transportador->nome_fantasia,
+                    'email_destinador' => $ordenServico->destinador->email,
+                    'email_transportador' => $ordenServico->transportador->email,
+                    'email_gerador' => $ordenServico->gerador->email,
+                ];
+                Mail::to($confirmar_entregue['email_destinador'],['email_transportador'],['email_gerador'])->send(new AvisoConfirmacaoEntregue($confirmar_entregue));
+            }
+
+
+            
+
             return response([
                 'data' => new OrdenDeServicoResource($ordenServico),
                 'status' => true
