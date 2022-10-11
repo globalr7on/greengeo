@@ -279,10 +279,8 @@ class OrdenDeServicoController extends Controller
                     'email_transportador' => $ordenServico->transportador->email,
                     'email_gerador' => $ordenServico->gerador->email,
                 ];
-                Mail::to($confirmar_entregue['email_destinador'],['email_transportador'],['email_gerador'])->send(new AvisoConfirmacaoEntregue($confirmar_entregue));
+                Mail::to($confirmar_entregue['email_gerador'],$confirmar_entregue['email_transportador'],$confirmar_entregue['email_destinador'])->send(new AvisoConfirmacaoEntregue($confirmar_entregue));
             }
-
-
             
 
             return response([
@@ -426,6 +424,7 @@ class OrdenDeServicoController extends Controller
             ], 400);
         }
     }
+    
     
     public function updatePesoControleDestinador(Request $request, $id)
     {

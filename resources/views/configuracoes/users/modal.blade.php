@@ -214,7 +214,7 @@
                   <div class="col-md-4 align-self-center">
                     <div class="form-group">
                       <label for="input_validade_carteira">Validade de Carteira</label>
-                      <input type="text" class="form-control datepicker" id="input_validade_carteira" placeholder="...">
+                      <input type="text" class="form-control datetimepicker" id="input_validade_carteira" placeholder="...">
                     </div>
                   </div>
                 </div>
@@ -236,6 +236,22 @@
   <script>
     $('#formUser').submit(function(event) {
       event.preventDefault()
+    })
+    
+    $('.datetimepicker').datetimepicker({
+      locale: 'pt-br',
+      format: 'DD-MM-YYYY HH:mm:ss',
+      icons: {
+        time: "fa fa-clock-o",
+        date: "fa fa-calendar",
+        up: "fa fa-chevron-up",
+        down: "fa fa-chevron-down",
+        previous: 'fa fa-chevron-left',
+        next: 'fa fa-chevron-right',
+        today: 'fa fa-screenshot',
+        clear: 'fa fa-trash',
+        close: 'fa fa-remove'
+      }
     })
   </script>
 @endpush
