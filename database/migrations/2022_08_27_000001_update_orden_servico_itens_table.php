@@ -24,7 +24,7 @@ class UpdateOrdenServicoItensTable extends Migration
             $table->date('data_de_fabricacao');
             $table->unsignedBigInteger('nota_fiscal_item_id')->nullable();
             $table->foreign('nota_fiscal_item_id')->references('id')->on('nota_fiscal_itens');
-            $table->text('observacao')->nullable()->change();            
+           // $table->text('observacao')->nullable()->change();            
         });
     }
 

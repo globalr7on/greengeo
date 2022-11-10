@@ -16,7 +16,7 @@
         <div class="col-md-12">
           <div class="card">
             <div class="card-header card-header-primary">
-              <h4 class="card-title">Cadastros</h4>
+              <h4 class="card-title">Registros</h4>
               <p class="card-category">Empresas</p>
             </div>
             <div class="card-body">
@@ -24,14 +24,14 @@
                 <table class="table" id="empresaTbl">
                   <thead>
                     <th class="text-primary font-weight-bold" style="width:12%">CNPJ</th>
-                    <th class="text-primary font-weight-bold" style="width:auto">Razão Social</th>
+                    <th class="text-primary font-weight-bold" style="width:auto">Razón Social</th>
                     <th class="text-primary font-weight-bold" style="width:auto">Email</th>
-                    <th class="text-primary font-weight-bold" style="width:auto">Responsável</th>
+                    <th class="text-primary font-weight-bold" style="width:auto">Responsable</th>
                     <th class="text-primary font-weight-bold" style="width:13%">Celular</th>
-                    <th class="text-primary font-weight-bold" style="width:9%">Fixo</th>
-                    <th class="text-primary font-weight-bold" style="width:13%">Cap. Média Carga</th>
-                    <th class="text-primary font-weight-bold" style="width:5%">Ativo</th>
-                    <th class="text-primary font-weight-bold" style="width:5%">Ação</th>
+                    <th class="text-primary font-weight-bold" style="width:9%">Fijo</th>
+                    <th class="text-primary font-weight-bold" style="width:13%">Capacidad</th>
+                    <th class="text-primary font-weight-bold" style="width:5%">Activo</th>
+                    <th class="text-primary font-weight-bold" style="width:5%">Acción</th>
                   </thead>
                 </table>
               </div>
@@ -80,7 +80,7 @@
         app.stepper()
         delFormValidationErrors()
         $("#modalEmpresa").modal("show")
-        $('#tituloModal').text("Nova Empresa")
+        $('#tituloModal').text("Crear Empresa")
         $('#input_id').val("")
         $('#formEmpresa')[0].reset()
         getTipoEmpresa()
@@ -125,24 +125,24 @@
             if (response && response.status) {
               $("#modalEmpresa").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('Atualizado com sucesso')
+              notifySuccess('Actualizado Correctamente')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao atualizar, tente novamente')
+            notifyDanger('Falla al actualizar, intente nuevamente')
           })
         } else {
           app.api.post('/pessoa_juridica', JSONRequest).then(response => {
             if (response && response.status) {
               $("#modalEmpresa").modal("hide")
               app.datatable.ajax.reload()
-              notifySuccess('Criado com sucesso')
+              notifySuccess('Creado correctamente')
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao criar, tente novamente')
+            notifyDanger('Falla al Crear, intente nuevamente')
           })
         }
       });
@@ -191,40 +191,40 @@
             }
           }
         })
-        .catch(error => notifyDanger('Falha ao obter detalhes. Tente novamente'))
+        .catch(error => notifyDanger('Falla al obtener detalles. intente nuevamente'))
       })
 
       // Excluir
       $('body').on('click', '.deleteAction', function() {
         const id = $(this).attr('data-id')
-        sweetConfirm('Deseja realmente excluir?').then(confirmed => {
+        sweetConfirm('Desea realmente eliminar?').then(confirmed => {
           if (confirmed) {
             app.api.delete(`/pessoa_juridica/${id}`).then(response =>  {
               app.datatable.ajax.reload()
-              notifySuccess('Excluída com sucesso')
+              notifySuccess('Eliminado correctamente')
             })
-            .catch(error => notifyDanger('Falha ao excluir. Tente novamente'))
+            .catch(error => notifyDanger('Fallo en la eliminación. Por favor, inténtelo de nuevo'))
           }
-        }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
+        }).catch(error => notifyDanger('Se ha producido un error, inténtelo de nuevo'))
       });
       
       // Change status
       $('body').on('click', '.changeStatus', function() {
-        sweetConfirm('Deseja realmente atualizar?').then(confirmed => {
+        sweetConfirm('¿Realmente quiere actualizar?').then(confirmed => {
           if (confirmed) {
             const id = $(this).attr('data-id')
             const valueOld = $(this).attr('data-value-old')
             app.api.put(`/pessoa_juridica/${id}/status`, { ativo: parseInt(valueOld) ? 0 : 1 }).then(response =>  {
               if (response && response.status) {
                 app.datatable.ajax.reload()
-                notifySuccess('Atualizada com sucesso')
+                notifySuccess('Actualizado con éxito')
               } else {
-                notifySuccess('Não foi possível atualizar, tente novamente')
+                notifySuccess('No se ha podido actualizar, por favor, inténtelo de nuevo')
               }
             })
-            .catch(error => notifyDanger('Falha ao atualizar. Tente novamente'))
+            .catch(error => notifyDanger('No se ha podido actualizar. Por favor, inténtelo de nuevo'))
           }
-        }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
+        }).catch(error => notifyDanger('Se ha producido un error, inténtelo de nuevo'))
       });
 
       function getTipoEmpresa(value) {
@@ -235,7 +235,7 @@
         })
         .catch(error => {
           console.log('app.api.get error', error)
-          notifyDanger('Falha ao obter dados de tipo empresa, tente novamente')
+          notifyDanger('No se han podido obtener los datos del tipo de empresa, inténtelo de nuevo')
         })
       }
 
@@ -247,7 +247,7 @@
         })
         .catch(error => {
           console.log('app.api.get error', error)
-          notifyDanger('Falha ao obter dados de atividade, tente novamente')
+          notifyDanger('No se han podido obtener los datos de la actividad, inténtelo de nuevo')
         })
       }
 

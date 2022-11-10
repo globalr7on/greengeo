@@ -16,14 +16,22 @@ class ProdutoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $currentUser = auth()->user();
-        if ($currentUser->hasRole('admin')) {
-            $produto = Produto::all();
-        } else {
-            $produto = Produto::where('pessoa_juridica_id', $currentUser->pessoa_juridica_id)->get();
+        if ($request->has('pessoa_juridica_id')) {
+            $produto = Produto::where('pessoa_juridica_id', $request->pessoa_juridica_id)->get();
+        }else{
+            $currentUser = auth()->user();
+            // dd($currentUser);?
+            if ($currentUser->hasRole('admin')) {
+                $produto = Produto::all();
+            } else{
+                $produto = Produto::where('pessoa_juridica_id', $currentUser->pessoa_juridica_id)->get();           
+            }
+           
         }
+      
+       
         return response([
             'data' => ProdutoResource::collection($produto),
             'status' => true

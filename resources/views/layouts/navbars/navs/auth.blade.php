@@ -43,7 +43,7 @@
 <div class="bg-primary pb-5 position-relative">
   <div class="row align-items-center mx-0">
     <h3 class="col col-12 text-white m-0 px-4">
-      <strong>@yield('subheaderTitle', 'Confira seu desempenho nos graficos abaixo')</strong>
+      <strong>@yield('subheaderTitle', 'Comprueba su rendimiento en los siguientes gráficos')</strong>
     </h3>
   </div>
   <div class="row align-items-center mx-0">

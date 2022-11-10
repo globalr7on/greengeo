@@ -4,7 +4,7 @@
       @php $currTipoEmpresa = Auth::user()->pessoa_juridica && Auth::user()->pessoa_juridica->tipo_empresa ? Auth::user()->pessoa_juridica->tipo_empresa->descricao : null; @endphp
       <img src="{{ asset('material') }}/img/{{ $currTipoEmpresa === 'Gerador' ? 'eletroluxBlue' : 'seulogoaqui'}}.png" style="height: 40px;" />
     </a>
-    <div class="text-center text-muted small font-italic">PARA UM CONTROLE INTELIGENTE</div>
+    <div class="text-center text-muted small font-italic">Smart Control</div>
   </div>
   <div class="sidebar-wrapper">
     <ul class="nav">
@@ -47,7 +47,7 @@
             <li class="nav-item ml-4 {{ $activePage == 'produto' ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('cadastros.produto') }}">
                 <i class="fa-solid fa-box-archive"></i>
-                <span class="sidebar-normal">{{ __('Produto') }}</span>
+                <span class="sidebar-normal">{{ __('Producto') }}</span>
               </a>
             </li>
             @endcan
@@ -55,7 +55,7 @@
             <li class="nav-item ml-4 {{ $activePage == 'veiculo' ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('cadastros.veiculo') }}">
                 <i class="fa-solid fa-truck"></i>
-                <span class="sidebar-normal">{{ __('Veículo') }}</span>
+                <span class="sidebar-normal">{{ __('Vehículo') }}</span>
               </a>
             </li>
             @endcan
@@ -91,7 +91,7 @@
             <li class="nav-item ml-4 {{ $activePage == 'acondicionamento' ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('administrativo.acondicionamento') }}">
                 <i class="fa-solid fa-dumpster"></i>
-                <span class="sidebar-normal">{{ __('Acondicionamento') }}</span>
+                <span class="sidebar-normal">{{ __('Tipo de Carga') }}</span>
               </a>  
             </li>
             @endcan
@@ -109,7 +109,7 @@
             <li class="nav-item ml-4 {{ $activePage == 'sucata' ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('administrativo.classeSucata') }}">
                 <i class="fa-solid fa-recycle"></i>
-                <span class="sidebar-normal">{{ __('Classes Sucata') }}</span>
+                <span class="sidebar-normal">{{ __('Clases de Residuos') }}</span>
               </a>
             </li>
             @endcan
@@ -118,7 +118,7 @@
             <li class="nav-item ml-4 {{ $activePage == 'unidade' ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('administrativo.unidad') }}">
                 <i class="fa-solid fa-weight-scale"></i>
-                <span class="sidebar-normal">{{ __('Unidade') }}</span>
+                <span class="sidebar-normal">{{ __('Unidad') }}</span>
               </a>
             </li>
             @endcan
@@ -127,7 +127,7 @@
             <li class="nav-item ml-4 {{ $activePage == 'modelo' ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('administrativo.modelo') }}">
                 <i class="fa-solid fa-shuffle"></i>
-                <span class="sidebar-normal">{{ __('Modelo Veículo') }}</span>
+                <span class="sidebar-normal">{{ __('Modelo Vehículo') }}</span>
               </a>
             </li>
             @endcan
@@ -136,7 +136,7 @@
             <li class="nav-item ml-4 {{ $activePage == 'marca' ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('administrativo.marca') }}">
                 <i class="fa-solid fa-shuffle"></i>
-                <span class="sidebar-normal">{{ __('Marcas Veículo') }}</span>
+                <span class="sidebar-normal">{{ __('Marcas Vehículo') }}</span>
               </a>
             </li>
             @endcan
@@ -145,7 +145,7 @@
             <li class="nav-item ml-4 {{ $activePage == 'estagios' ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('administrativo.estagiosOs') }}">
                 <i class="fa-regular fa-clipboard"></i>
-                <span class="sidebar-normal">{{ __('Estágios OS') }}</span>
+                <span class="sidebar-normal">{{ __('Status OS') }}</span>
               </a>
             </li>
             @endcan
@@ -163,7 +163,7 @@
             <li class="nav-item ml-4 {{ $activePage == 'atividade' ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('administrativo.atividade') }}">
                 <i class="fa-solid fa-square-caret-right"></i>
-                <span class="sidebar-normal">{{ __('Atividade') }}</span>
+                <span class="sidebar-normal">{{ __('Actividad') }}</span>
               </a>
             </li>
             @endcan
@@ -195,7 +195,7 @@
             <li class="nav-item ml-4 {{ $activePage == 'agendamento' ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('rastreamento.agendamento') }}">
                 <i class="fas fa-calendar-alt"></i>
-                <span class="sidebar-normal">{{ __('Agendamento') }}</span>
+                <span class="sidebar-normal">{{ __('Agendamiento') }}</span>
               </a>
             </li>
             @endcan
@@ -204,7 +204,7 @@
             <li class="nav-item ml-4 {{ $activePage == 'os' ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('rastreamento.os') }}">
                 <i class="fa-solid fa-file-lines"></i>
-                <span class="sidebar-normal">{{ __('Ordem de Serviço') }}</span>
+                <span class="sidebar-normal">{{ __('Orden de Servicio') }}</span>
               </a>
             </li>
             @endcan
@@ -222,7 +222,7 @@
             <li class="nav-item ml-4 {{ $activePage == 'rastreamento' ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('rastreamento.rastreamento') }}">
                 <i class="fas fa-map-marker-alt"></i>
-                <span class="sidebar-normal">{{ __('Rastreamento') }}</span>
+                <span class="sidebar-normal">{{ __('Rastreo') }}</span>
               </a>
             </li>
             @endcan
@@ -235,7 +235,7 @@
       <li class="nav-item {{ in_array($activePage, array('profile', 'users', 'funcoes', 'permissions')) ? 'active' : ''}}">
         <a class="nav-link" data-toggle="collapse" href="#settingTab" aria-expanded="{{ in_array($activePage, array('profile', 'users', 'funcoes', 'permissions')) ? 'true' : 'false' }}">
           <i class="fa-solid fa-gear"></i>
-          <p>{{ __('Configurações') }}
+          <p>{{ __('Configuración') }}
             <b class="caret"></b>
           </p>
         </a>
@@ -263,7 +263,7 @@
             <li class="nav-item ml-4 {{ $activePage == 'funcoes' ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('configuracoes.funcoes') }}">
                 <i class="fa-solid fa-user-lock"></i>
-                <span class="sidebar-normal">{{ __('Funções') }}</span>
+                <span class="sidebar-normal">{{ __('Funciones') }}</span>
               </a>
             </li>
             @endcan
@@ -272,7 +272,7 @@
             <li class="nav-item ml-4 {{ $activePage == 'permissions' ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('configuracoes.permissoes') }}">
               <i class="fa-solid fa-user-shield"></i>
-                <span class="sidebar-normal">{{ __('Permissões') }}</span>
+                <span class="sidebar-normal">{{ __('Permisos') }}</span>
               </a>
             </li>
             @endcan
@@ -285,13 +285,11 @@
       <li class="nav-item">
         <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
           <i class="fa-solid fa-right-from-bracket"></i>
-          <p>{{ __('Sair') }}</p>
+          <p>{{ __('Salir') }}</p>
         </a>
       </li>
       @endcan
     </ul>
-    <div class="sidebar-footer-logo">
-      <img src="{{ asset('material') }}/img/greenbeat.png" style="width: 150px;height: 40px;" />
-    </div>
+   
   </div>
 </div>

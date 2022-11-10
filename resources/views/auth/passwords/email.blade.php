@@ -1,4 +1,4 @@
-@extends('layouts.app', ['class' => 'off-canvas-sidebar', 'activePage' => 'email', 'title' => __('Material Dashboard')])
+@extends('layouts.app', ['class' => 'off-canvas-sidebar', 'activePage' => 'email', 'title' => __('Dashboard')])
 
 @section('content')
 <div class="container" style="height: auto;">
@@ -9,7 +9,7 @@
 
         <div class="card card-login card-hidden mb-3">
           <div class="card-header card-header-primary text-center">
-            <h4 class="card-title"><strong>{{ __('Forgot Password') }}</strong></h4>
+            <h4 class="card-title"><strong>{{ __('Olvidé Contraseña') }}</strong></h4>
           </div>
           <div class="card-body">
             @if (session('status'))
@@ -41,7 +41,7 @@
             </div>
           </div>
           <div class="card-footer justify-content-center">
-            <button type="submit" class="btn btn-primary btn-link btn-lg">{{ __('Send Password Reset Link') }}</button>
+            <button type="submit" class="btn btn-primary btn-link btn-xg">{{ __('Enviar enlace de restablecimiento de contraseña') }}</button>
           </div>
         </div>
       </form>

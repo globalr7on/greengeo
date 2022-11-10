@@ -1,23 +1,23 @@
-@extends('layouts.app', ['activePage' => 'material', 'titlePage' => __('Materiais')])
+@extends('layouts.app', ['activePage' => 'material', 'titlePage' => __('Materiles')])
 @section('css')
 @endsection
 @section('subheaderTitle')
-  Cadastros
+  Registros
 @endsection
 @section('content')
    <div class="content mt-0">
     <div class="container-fluid">
       <div class="col-12 text-right">
         <button type="button" class="btn btn-primary" id="novoMaterial">
-         + Novo Material
+         + Nuevo Material
         </button>
       </div>
       <div class="row">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header card-header-primary">
-              <h4 class="card-title">Cadastros</h4>
-              <p class="card-category">Material</p>
+              <h4 class="card-title">Registros</h4>
+              <p class="card-category">Materiales</p>
             </div>
             <div class="card-body">
               <div>
@@ -73,7 +73,7 @@
         app.stepper()
         delFormValidationErrors()
         $("#modalMaterial").modal("show")
-        $('#tituloModal').text("Novo Material")
+        $('#tituloModal').text("Nuevo Material")
         $('#input_id').val("")
         $('#formMaterial')[0].reset()
         getIbama()

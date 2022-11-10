@@ -23,7 +23,7 @@
                 <div class="col-md-6 align-self-center">
                   <div class="form-group">
                     <label for="input_placa">Placa</label>
-                    <input type="text" class="form-control maskplaca" id="input_placa">
+                    <input type="text" class="form-control" id="input_placa">
                   </div>
                 </div>
               </div>

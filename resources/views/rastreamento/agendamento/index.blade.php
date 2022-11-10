@@ -1,21 +1,21 @@
 @extends('layouts.app', ['activePage' => 'agendamento', 'titlePage' => __('Agendamento')])
 @section('subheaderTitle')
-  OS E Rastreamento
+  OS y Rastreo
 @endsection
 @section('content')
   <div class="content">
     <div class="container-fluid">
       <div class="col-12 text-right">
         <button type="button" class="btn btn-primary" id="novoAgendamento">
-          + Novo agendamento
+          + Nueva Agenda
         </button>
       </div>
       <div class="row">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header card-header-primary">
-              <h4 class="card-title">OS E Rastreamento</h4>
-              <p class="card-category">Agendamento</p>
+              <h4 class="card-title">OS y Rastreo</h4>
+              <p class="card-category">Agenda</p>
             </div>
             <div class="card-body">
               <input type="hidden" id="current_tipo_empresa" value="{{ Auth::user()->pessoa_juridica && Auth::user()->pessoa_juridica->tipo_empresa ? Auth::user()->pessoa_juridica->tipo_empresa->descricao : null }}">
@@ -46,7 +46,7 @@
         app.stepper()
         delFormValidationErrors()
         $("#modalAgenda").modal("show")
-        $('#tituloAgenda').text("Novo Agendamento")
+        $('#tituloAgenda').text("Nueva Agenda")
         $('#input_id').val("")
         $('#formAgenda')[0].reset()
         $("#formAgenda input").attr("disabled", false)
@@ -146,25 +146,25 @@
           app.api.put(`/os/${id}`, JSONRequest).then(response => {
             if (response && response.status) {
               $("#modalAgenda").modal("hide")
-              notifySuccess('Atualizada com sucesso')
+              notifySuccess('Actualizado')
               updateEvent(response.data)
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao atualizar, tente novamente')
+            notifyDanger('No se ha podido actualizar, inténtelo de nuevo')
           })
         } else {
           app.api.post('/os', JSONRequest).then(response => {
             if (response && response.status) {
               $("#modalAgenda").modal("hide")
-              notifySuccess('Criado com sucesso')
+              notifySuccess('Creado de correctamente')
               addEventToCalendar(response.data)
             }
           })
           .catch(error => {
             addFormValidationErrors(error?.data)
-            notifyDanger('Falha ao criar, tente novamente')
+            notifyDanger('No se ha podido crear, inténtelo de nuevo')
           })
         }
       })
@@ -172,17 +172,17 @@
        // Excluir
        $('body').on('click', '#cancelarAgenda', function() {
         const id = $('#input_id').val()
-        sweetConfirm('Deseja realmente Cancelar o agendamento?').then(confirmed => {
+        sweetConfirm('¿Realmente quiere cancelar la reserva?').then(confirmed => {
           if (confirmed) {
             app.api.delete(`/os/${id}`).then(response =>  {
               app.datatable.ajax.reload()
-              notifySuccess('Agenda Cancelado com sucesso')
+              notifySuccess('Agenda Anulada con éxito')
               $("#modalAgenda").modal("hide")
               location.reload();
             })
-            .catch(error => notifyDanger('Falha ao excluir. Tente novamente'))
+            .catch(error => notifyDanger('Fallo en la eliminación. Por favor, inténtelo de nuevo'))
           }
-        }).catch(error => notifyDanger('Ocorreu um erro, tente novamente'))
+        }).catch(error => notifyDanger('Se ha producido un error, inténtelo de nuevo'))
       })
 
       function getTransportador(value, disabled) {
@@ -194,11 +194,11 @@
                 loadSelect('#input_transportador_id', responseEmpresa.data, ['id', 'razao_social'], value, disabled)
               }
             })
-            .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
+            .catch(error => notifyDanger('No se han podido obtener los datos, por favor, inténtelo de nuevo'))
           } else {
-            notifyDanger('Falha ao obter dados de empresa, tente novamente')
+            notifyDanger('No se han podido obtener los datos de la empresa, inténtelo de nuevo')
           }
-        }).catch(error => notifyDanger('Falha ao obter dados. Tente novamente'))
+        }).catch(error => notifyDanger('Fallo en la obtención de datos. Por favor, inténtelo de nuevo'))
       }
 
       function getDestinador(value, disabled) {
@@ -210,11 +210,11 @@
                 loadSelect('#input_destinador_id', responseEmpresa.data, ['id', 'razao_social'], value, disabled)
               }
             })
-            .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
+            .catch(error => notifyDanger('No se han podido obtener los datos, por favor, inténtelo de nuevo'))
           } else {
-            notifyDanger('Falha ao obter dados de empresa, tente novamente')
+            notifyDanger('No se han podido obtener los datos de la empresa, inténtelo de nuevo')
           }
-        }).catch(error => notifyDanger('Falha ao obter dados. Tente novamente'))
+        }).catch(error => notifyDanger('Fallo en la obtención de datos. Por favor, inténtelo de nuevo'))
 
 
       }
@@ -225,7 +225,7 @@
             loadSelect('#input_acondicionamento_id', response.data, ['id', 'descricao'], value, disabled)
           }
         })
-        .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
+        .catch(error => notifyDanger('No se han podido obtener los datos, por favor, inténtelo de nuevo'))
       }
 
       function getVeiculo(value, empresaId, disabled) {
@@ -240,7 +240,7 @@
             })
           }
         })
-        .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
+        .catch(error => notifyDanger('No se han podido obtener los datos, por favor, inténtelo de nuevo'))
       }
 
       function getMotorista(value, empresaId, disabled) {
@@ -250,7 +250,7 @@
             loadSelect('#input_motorista_id', response.data, ['id', 'name'], value, disabled)
           }
         })
-        .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
+        .catch(error => notifyDanger('No se han podido obtener los datos, por favor, inténtelo de nuevo'))
       }
 
       function initProdutoDataTable(data = []) {
@@ -314,7 +314,7 @@
             initCalendar(response.data.map(curr => eventObject(curr)))
           }
         })
-        .catch(error => notifyDanger('Falha ao obter dados, tente novamente'))
+        .catch(error => notifyDanger('No se han podido obtener los datos, por favor, inténtelo de nuevo'))
       }
 
       function editAgendamento(event) {
@@ -467,7 +467,7 @@
       function fillProdutosAcabadosSelect(data) {
         $('#produtosAcabados').select2({
           dropdownParent: $('#modalAgenda'),
-          placeholder: 'Pesquisar um produto acabado',
+          placeholder: 'Búsqueda de un producto terminado',
           allowClear: true,
           width: 'resolve',
           data: data,
@@ -494,7 +494,7 @@
             callback()
           })
           .catch(error => {
-            notifyDanger('Falha ao obter produtos acabados, tente novamente')
+            notifyDanger('No se pueden obtener productos terminados, inténtelo de nuevo')
             callback()
           })
         } else {
@@ -511,7 +511,7 @@
       }
 
       $('#produtosAcabados').on('select2:clear', function(e) {
-        $('#addProduto').text('Adicionar')
+        $('#addProduto').text('Añadir')
         clearProduto()
       })
     })

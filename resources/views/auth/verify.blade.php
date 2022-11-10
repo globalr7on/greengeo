@@ -6,14 +6,14 @@
       <div class="col-lg-7 col-md-8">
           <div class="card card-login card-hidden mb-3">
             <div class="card-header card-header-primary text-center">
-              <p class="card-title"><strong>{{ __('Verify Your Email Address') }}</strong></p>
+              <p class="card-title"><strong>{{ __('Verificar tu E-mail') }}</strong></p>
             </div>
             <div class="card-body">
               <p class="card-description text-center"></p>
               <p>
                 @if (session('resent'))
                     <div class="alert alert-success" role="alert">
-                        {{ __('A fresh verification link has been sent to your email address.') }}
+                        {{ __('Se ha enviado un nuevo enlace de verificación a su dirección de correo electrónico.') }}
                     </div>
                 @endif
                 
