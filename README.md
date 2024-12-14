@@ -1,4 +1,25 @@
 # Pasos de Configuración Inicial del Entorno Laravel
+## Actualizar Laravel
+  ```bash
+   composer update
+   ```
+## Crear .env 
+  ```bash
+   cp .env.example .env
+   ```
+## Generar key 
+  ```bash
+   php artisan key:generate
+   ```
+## Añador datps de conexion en el .env
+  ```bash
+  DB_HOST=127.0.0.1
+  DB_PORT=3306
+  DB_DATABASE=
+  DB_USERNAME=
+  DB_PASSWORD=
+   ```
+
 
 Este documento describe los pasos necesarios para inicializar un proyecto Laravel con migraciones, seeders, permisos y la configuración de Passport.
 
